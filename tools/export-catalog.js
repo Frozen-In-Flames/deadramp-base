@@ -1670,7 +1670,308 @@ const BRAND_SEEDS = {
   // / Havelock Blue / Cod Gray; About names CloudLCMS, the registry
   // offering, and the vendor's 8(a)/EDWOSB identity; fallback lettermark
   // icon only.
-  'SRR International,Inc.': { primary: '#0055a4', secondary: '#5aa1e3', accent: '#101010' }
+  'SRR International,Inc.': { primary: '#0055a4', secondary: '#5aa1e3', accent: '#101010' },
+  // Tranche 10 (Nov 15, 2026): the next 60 default-palette vendors in
+  // registry order after SRR International,Inc., from StackArmor through
+  // Vbrick Systems, Inc. 49 moved to researched. Stayed default on the
+  // record: Standard Technology Inc. (company identified, STI of
+  // Bethesda MD, its COMPASS product matches the registry offering
+  // Contract Management Planning and Surveillance System, own domain
+  // stic2.com, but brandfetch.com/stic2.com is 404 and no other citable
+  // hex source found); Syneren Technologies Corporation (its only
+  // listing, brandfetch.com/syneren.com, states exactly two colors,
+  // #ffffff and #1b1b1b; no third value citable, the accent never
+  // invented); Tactical Takedown LLC (company could not be identified to
+  // any citable source; searches for its TNT Business Resilience
+  // Platform surfaced only unrelated TNT entities); Tansi LLC
+  // (identified through its FedRAMP Marketplace entry, website
+  // tansi.app, but brandfetch.com/tansi.app is 404 and no other citable
+  // hex source found); TeleTech (TTEC) Services Corporation
+  // (brandfetch.com/ttec.com exists but states no palette at all, and no
+  // citable guidelines source found); TERIDA (brandfetch.com/terida.com
+  // is 404 and no citable hex source found); TGuardAI Inc. (company
+  // identified, TrustGuard AI at trustguardai.com, but no Brandfetch
+  // page at that domain or at tguardai.com and no other citable hex
+  // source found); ThreatConnect (brandfetch.com/threatconnect.com
+  // rejected: the page now presents acquirer Dataminr, its palette
+  // expressly stated as Dataminr's, while its About still describes
+  // ThreatConnect; Dataminr acquired ThreatConnect in 2025, tranche 8
+  // OnSolve precedent; no citable source for ThreatConnect's own palette
+  // found); TransUnion LLC (brandfetch.com/transunion.com is 404; no
+  // official brand hex is published and only one logo color, turquoise
+  // #00a6ca, is citable anywhere, fewer than the three slots required);
+  // Trustwave Government Solutions (brandfetch.com/trustwave.com
+  // rejected: the page now presents LevelBlue, its palette expressly
+  // stated as LevelBlue's, while its About still describes Trustwave;
+  // LevelBlue acquired Trustwave in 2025, acquirer precedent); Valley IT
+  // Solutions, LLC (brandfetch.com/valleyit.com rejected as internally
+  // contradictory: its header describes the registry vendor, the
+  // Southern Pines NC defense firm that is platform partner for the
+  // KERNOS offering, while its About describes an unrelated Valley IT
+  // Solutions, an IT procurement reseller in Fargo ND, so the palette is
+  // unattributable between the two identities). Judgment calls recorded
+  // in the per-entry comments: StackArmor carries the tranche 1
+  // 'stackArmor' palette to the duplicate registry string, re-verified
+  // at the same page; SuperGov, Inc seeded from the SuperFile product
+  // brand its registry offering carries; Transmittr, Inc. seeded from
+  // the Casco product brand (the company trades as Transmittr, Inc.
+  // d/b/a Casco); United Solutions seeded from the US AI brand the
+  // company operates under (US AI is its registered trademark); Tango
+  // resolved to Tango Analytics, the tangocard.com rewards company
+  // rejected as the wrong company; Tyler Technologies Data & Insights
+  // seeded from the parent Tyler Technologies brand the division
+  // carries; USDA DISC seeded with the USDA department palette, the same
+  // seed as United States Department of Agriculture (agency precedent);
+  // Valimail seeded from its own brand page although the wordmark now
+  // carries a DigiCert tagline; Trenchant Analytics seeded from the
+  // palette stated at its own domain, tacgov.com, whose About text is
+  // stale legacy-services copy for the same named LLC. Seven seeds carry
+  // #000000 as a single fallback-trio member with named, unique,
+  // identity-consistent swatches (StackArmor secondary, Stoke Space
+  // Technologies secondary, Synack accent, ThinkTrends accent, Thread AI
+  // secondary, TimeLooper Xplore accent, TRAPWIRE accent): flagged per
+  // entry, tranche 5 Ex Libris precedent; the fallback trio itself
+  // appears in none. Partial prose tension recorded per entry for Stoke
+  // Space Technologies, Sustainment Technologies and Vanta (tranche 7
+  // Moveworks precedent). Veracode is the 61st vendor in registry order;
+  // it was not researched in this tranche and stands as tranche 11's
+  // first entry.
+  // Source: brandfetch.com/stackarmor.com brand page, named swatches Bay
+  // of Many / Turquoise Blue / Black; re-fetched and confirmed exactly
+  // as recorded for the tranche 1 seed 'stackArmor'. Same company,
+  // duplicate registry string, same seed. Secondary #000000 is a single
+  // fallback-trio member; swatches named, unique, identity-consistent
+  // (Ex Libris precedent).
+  'StackArmor': { primary: '#244d80', secondary: '#000000', accent: '#4aeadc' },
+  // Source: brandfetch.com/steelpatriotpartners.com brand page, named
+  // swatches Persian Green / Ronchi / Blue Zodiac; header names FedRAMP
+  // and CMMC compliance work, registry offering is Federal ZenGRC.
+  'Steel Patriot Partners': { primary: '#01b0a3', secondary: '#e8b84b', accent: '#0d2340' },
+  // Source: brandfetch.com/stell-engineering.com brand page, named
+  // swatches Caribbean Green / Alabaster / Cod Gray; About describes the
+  // specifications and requirements platform, registry offering is the
+  // Stell Requirements Management System (SRMS).
+  'Stell Engineering': { primary: '#00d07b', secondary: '#fafafa', accent: '#0a0a0a' },
+  // Source: brandfetch.com/stokespace.com brand page, named swatches
+  // Polo Blue / Black / Concrete. Secondary #000000 is a single
+  // fallback-trio member; swatches named, unique, identity-consistent
+  // (Ex Libris precedent). Partial prose tension recorded: the branding
+  // prose cites vivid orange accents, none of which appear in the
+  // swatches; seeded on the swatch data (Moveworks precedent).
+  'Stoke Space Technologies, Inc.': { primary: '#93b1cc', secondary: '#000000', accent: '#f2f2f2' },
+  // Source: brandfetch.com/sumologic.com brand page, palette stated in
+  // its FAQ (no color names listed).
+  'Sumo Logic': { primary: '#000099', secondary: '#bae0f0', accent: '#1b5a7d' },
+  // Source: brandfetch.com/sunstonesecure.com brand page, named swatches
+  // Dodger Blue / Athens Gray / Downriver; header names the Artemis
+  // Platform, the registry offering; fallback lettermark icon only.
+  'SunStone Secure, LLC': { primary: '#33ccff', secondary: '#f2f4f6', accent: '#07234a' },
+  // Source: brandfetch.com/superfile.com brand page (SuperFile), named
+  // swatches Electric Lime / White / Abbey. Judgment: the registry
+  // offering is SuperFile and the page's About matches the registry
+  // description in substance (a permission and compliance layer for file
+  // transfers); the vendor operates under the SuperFile product brand
+  // (product-brand precedent); fallback lettermark icon only.
+  'SuperGov, Inc': { primary: '#d1ff00', secondary: '#ffffff', accent: '#4a4a4f' },
+  // Source: brandfetch.com/sustainment.com brand page, named swatches
+  // Monza / Selago / Shark; About describes the manufacturing market
+  // network, the registry offering (Sustainment Digital Manufacturing
+  // Hub). Partial prose tension recorded: the logo prose mentions vivid
+  // electric blue highlights, not among the swatches; seeded on the
+  // swatch data (Moveworks precedent).
+  'Sustainment Technologies Inc.': { primary: '#d00441', secondary: '#f7fbfe', accent: '#181b20' },
+  // Source: brandfetch.com/synack.com brand page, named swatches Blue
+  // Ribbon / White / Black. Accent #000000 is a single fallback-trio
+  // member; swatches named, unique, identity-consistent (Ex Libris
+  // precedent).
+  'Synack': { primary: '#006bff', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/synergetics.com brand page, named swatches
+  // Orient / White / Mine Shaft; About names OpenFLIS, the registry
+  // offering, and the Colorado federal IT company itself.
+  'Synergetics Incorporated': { primary: '#005a87', secondary: '#ffffff', accent: '#313131' },
+  // Source: brandfetch.com/tmetrics.com brand page, palette stated in
+  // its FAQ (no color names listed); About describes contact center
+  // solutions, registry offering is TCCC.
+  'T-Metrics, Inc.': { primary: '#ff2d37', secondary: '#ffb1be', accent: '#7c0025' },
+  // Source: brandfetch.com/tacticaledge.us brand page, named swatches
+  // Pizazz / Cornflower Blue / Biscay; About names Total Visibility
+  // Anywhere (TVA), the registry offering.
+  'Tactical Edge': { primary: '#ff9800', secondary: '#569ff7', accent: '#1b305a' },
+  // Source: brandfetch.com/talatek.com brand page, palette stated in its
+  // FAQ (no color names listed); About names TiGRIS, the registry
+  // offering. The page notes TalaTek sits in the CISO Global family; the
+  // page and palette are TalaTek's own (Huddle precedent).
+  'TalaTek, LLC': { primary: '#507497', secondary: '#ffffff', accent: '#0a0101' },
+  // Source: brandfetch.com/talkdesk.com brand page (claimed brand),
+  // named swatches Purple / Tolopea / White.
+  'Talkdesk': { primary: '#5405bd', secondary: '#1e0044', accent: '#ffffff' },
+  // Source: brandfetch.com/tangoanalytics.com brand page, named swatches
+  // Midnight / Malibu / Monza. Judgment: the registry room description
+  // names Tango Reserve, the workplace and IWMS product of Tango
+  // Analytics; the palette at brandfetch.com/tangocard.com belongs to
+  // the unrelated gift-card rewards company and was rejected as the
+  // wrong company.
+  'Tango': { primary: '#001e36', secondary: '#8ed1fc', accent: '#d80032' },
+  // Source: brandfetch.com/tanium.com brand page, named swatches
+  // Alizarin Crimson / White / Cinder.
+  'Tanium': { primary: '#ec3430', secondary: '#ffffff', accent: '#09080d' },
+  // Source: brandfetch.com/teamviewer.com brand page, palette stated in
+  // its FAQ (no color names listed).
+  'TeamViewer': { primary: '#3056ef', secondary: '#050a52', accent: '#ffffff' },
+  // Source: brandfetch.com/technomile.com brand page, palette stated in
+  // its FAQ (no color names listed).
+  'TechnoMile': { primary: '#4646de', secondary: '#9f8dff', accent: '#1a1a2e' },
+  // Source: brandfetch.com/techtrend.us brand page, named swatches
+  // Meteor / White / Astronaut; header names FedRAMP DevSecOps, the
+  // registry offering area.
+  'TechTrend, Inc.': { primary: '#d97310', secondary: '#ffffff', accent: '#2a276f' },
+  // Source: brandfetch.com/tecsys.com brand page, named swatches Red /
+  // White / Big Stone.
+  'Tecsys, Inc.': { primary: '#ff0000', secondary: '#ffffff', accent: '#152934' },
+  // Source: brandfetch.com/telos.com brand page, named swatches Astral /
+  // Sandy brown / Midnight Blue; About names Xacta, the registry
+  // offering.
+  'Telos Corporation': { primary: '#307cb0', secondary: '#ef9f53', accent: '#002d5d' },
+  // Source: brandfetch.com/coleridgeinitiative.org brand page, named
+  // swatches Spring Green / White / Big Stone; About names the ADRF,
+  // the registry offering.
+  'The Coleridge Initiative, Inc.': { primary: '#00e761', secondary: '#ffffff', accent: '#161d3e' },
+  // Source: brandfetch.com/thinktrends.co brand page (the company's own
+  // domain is .co), palette stated in its FAQ (no color names listed).
+  // Accent #000000 is a single fallback-trio member in an otherwise
+  // unique, identity-consistent palette (Ex Libris precedent).
+  'ThinkTrends LLC': { primary: '#0063be', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/threadai.com brand page, named swatches
+  // Shakespeare / Black / Wild Sand; header names the Lemma
+  // orchestration platform, the registry offering. Secondary #000000 is
+  // a single fallback-trio member; swatches named, unique,
+  // identity-consistent (Ex Libris precedent).
+  'Thread AI, Inc.': { primary: '#4790cd', secondary: '#000000', accent: '#f5f5f5' },
+  // Source: brandfetch.com/timelooper.com brand page, named swatches
+  // Alizarin Crimson / White / Black. Accent #000000 is a single
+  // fallback-trio member; swatches named, unique, identity-consistent
+  // (Ex Libris precedent).
+  'TimeLooper Xplore': { primary: '#d81f27', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/toonimo.com brand page, named swatches
+  // Mountain Meadow / Athens Gray / Pickled Bluewood.
+  'Toonimo Inc.': { primary: '#24c05f', secondary: '#f3f5f7', accent: '#2c3e50' },
+  // Source: brandfetch.com/totara.com brand page, palette stated in its
+  // FAQ listing five values; first three seeded (White #ffffff and Teal
+  // #36bdb1 also listed).
+  'Totara Learning Inc.': { primary: '#0d4b55', secondary: '#007ab8', accent: '#033c65' },
+  // Source: brandfetch.com/trackvia.com brand page, palette stated in
+  // its FAQ (no color names listed).
+  'TrackVia, Inc.': { primary: '#2d76d4', secondary: '#ffffff', accent: '#0a1a37' },
+  // Source: brandfetch.com/casco.com brand page, named swatches Cyan /
+  // Aqua / Old Lace / Swamp. Judgment: the vendor trades as Transmittr,
+  // Inc. d/b/a Casco (its own government page states the legal name) and
+  // the registry offering is Casco for Government; seeded from the Casco
+  // product brand (product-brand precedent).
+  'Transmittr, Inc.': { primary: '#00fff2', secondary: '#fefdf6', accent: '#002626' },
+  // Source: brandfetch.com/trapwire.com brand page, named swatches
+  // Persian Red / White / Black. Accent #000000 is a single fallback-trio
+  // member; swatches named, unique, identity-consistent (Ex Libris
+  // precedent).
+  'TRAPWIRE': { primary: '#cf2e2e', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/tacgov.com brand page (Trenchant Analytics,
+  // LLC), palette stated in its FAQ (no color names listed). Judgment:
+  // tacgov.com is the domain the company's own press releases cite as
+  // its website; the page's About text is stale legacy defense-services
+  // copy but names the same LLC, and the palette is stated for
+  // that brand at its own domain. Flagged for the record.
+  'Trenchant Analytics': { primary: '#22d3ee', secondary: '#6366f1', accent: '#0e0d11' },
+  // Source: Trimble's own Modus design system,
+  // modus-v1.trimble.com/foundations/color-palette, Primary Palette in
+  // listed order: Trimble Blue Dark / Trimble Blue / Trimble Yellow /
+  // Trimble Gray; first three seeded (Trimble Gray #252a2e also listed).
+  // The vendor's own guidelines outrank listings; the Brandfetch page at
+  // trimble.com was rejected because it presents subsidiary
+  // Transporeon's palette expressly under Transporeon's name.
+  'Trimble Inc.': { primary: '#004f83', secondary: '#0063a3', accent: '#fbad26' },
+  // Source: brandfetch.com/trisotech.com brand page, named swatches Deep
+  // Cerulean / Gallery / Blue Stone; About names the Digital Enterprise
+  // Suite, the registry offering.
+  'Trisotech': { primary: '#00889d', secondary: '#f0f0f0', accent: '#005c6a' },
+  // Source: brandfetch.com/trmlabs.com brand page, palette stated in its
+  // FAQ (no color names listed).
+  'TRM Labs, Inc.': { primary: '#fcba04', secondary: '#ffffff', accent: '#071c2d' },
+  // Source: brandfetch.com/tpgsi.com brand page, named swatches Dark
+  // Blue / Pomegranate / Mine Shaft; About names NiOS, the registry
+  // offering.
+  'Turning Point Global Solutions, L.L.C': { primary: '#0102ce', secondary: '#f44336', accent: '#333333' },
+  // Source: brandfetch.com/tylertech.com brand page, palette stated in
+  // its FAQ listing four values; first three seeded (White #ffffff also
+  // listed). Judgment: the Data & Insights division (registry offering
+  // Tyler Data Platform) carries the parent Tyler Technologies brand
+  // (parent-brand precedent). The pre-existing 'Tyler Federal, LLC' seed
+  // came from its own source in a different slot order and is unchanged.
+  'Tyler Technologies Data & Insights': { primary: '#909b48', secondary: '#1278c0', accent: '#045590' },
+  // Source: brandfetch.com/uberether.com brand page, palette stated in
+  // its FAQ (no color names listed); identity management in Sterling VA,
+  // registry offering is IAM Advantage.
+  'UberEther': { primary: '#f57e20', secondary: '#f8f8f8', accent: '#373e46' },
+  // Source: brandfetch.com/ultra.security brand page, named swatches
+  // Mine Shaft / Shamrock / Deep Blush; About describes the agentic
+  // runtime security platform, the registry offering.
+  'Ultra Security, Inc.': { primary: '#323232', secondary: '#4ade80', accent: '#ed6c9d' },
+  // Source: brandfetch.com/usai.io brand page (US AI), named swatches
+  // Razzmatazz / Russet / Vista White. Judgment: United Solutions, LLC
+  // operates as US AI (US AI is its registered trademark, USPTO serial
+  // 98438184) and the registry offering is US AI; seeded from the brand
+  // the company itself trades under.
+  'United Solutions': { primary: '#e40c62', secondary: '#7d3d18', accent: '#fdfcfa' },
+  // Source: brandfetch.com/unqork.com brand page, palette stated in its
+  // FAQ (no color names listed).
+  'Unqork, Inc.': { primary: '#33768e', secondary: '#ffffff', accent: '#092750' },
+  // Source: USDA's official Design and Brand page, "USDA Colors": Dark
+  // Blue #002d72 (PMS 288) and Dark Green #005440 (PMS 343), logo on a
+  // white masthead field:
+  // https://www.usda.gov/digital-strategy/design-and-brand/plays, the
+  // same source as the existing 'United States Department of
+  // Agriculture' seed. Judgment: DISC is a USDA office (Digital
+  // Infrastructure Services Center, registry offering Connect.gov) with
+  // no independent public brand identity; seeded with the department
+  // palette (agency precedent).
+  'USDA DISC': { primary: '#002d72', secondary: '#ffffff', accent: '#005440' },
+  // Source: brandfetch.com/usu.com brand page, named swatches Midnight
+  // Blue / Malibu / Abbey; About names IT asset management, the registry
+  // offering (USU IT Asset Management); the US subsidiary carries the
+  // USU brand.
+  'USU Solutions Inc.': { primary: '#002773', secondary: '#5fc2f6', accent: '#4a494e' },
+  // Source: brandfetch.com/valid8financial.com brand page, named
+  // swatches Jade / White / Aqua Deep.
+  'Valid8 Financial': { primary: '#009e79', secondary: '#ffffff', accent: '#00523f' },
+  // Source: brandfetch.com/valimail.com brand page, palette stated in
+  // its FAQ listing four values; first three seeded (Black Rock #1c0642
+  // also listed). Judgment: the wordmark now carries an "a digicert
+  // company" tagline, but the page presents Valimail's own brand and
+  // palette and its About names Enforce, the registry offering: the
+  // vendor's own brand page at its own domain (own-page precedent);
+  // fallback lettermark icon only.
+  'Valimail': { primary: '#0000ff', secondary: '#29338a', accent: '#d2e8fa' },
+  // Source: brandfetch.com/vanta.com brand page (claimed brand), named
+  // swatches Vanta Purple / Vanta White / Vanta Dark Purple. Partial
+  // prose tension recorded: the logo prose describes a navy and blue
+  // wordmark, while the named proprietary swatches are the purple
+  // family; seeded on the named swatches (Moveworks precedent).
+  'Vanta': { primary: '#ac55ff', secondary: '#f8f4f3', accent: '#240642' },
+  // Source: brandfetch.com/vanta.com brand page (claimed brand), named
+  // swatches Vanta Purple / Vanta White / Vanta Dark Purple; same
+  // company as Vanta, duplicate registry entry, same seed.
+  'Vanta Inc.': { primary: '#ac55ff', secondary: '#f8f4f3', accent: '#240642' },
+  // Source: brandfetch.com/vasion.com brand page, named swatches
+  // International Orange / Tacao / Haiti; header names the FedRAMP High
+  // print platform, registry offering Vasion Automate Fed; fallback
+  // lettermark icon only.
+  'Vasion': { primary: '#ff5100', secondary: '#f4a884', accent: '#201435' },
+  // Source: brandfetch.com/vaultara.com brand page, palette stated in
+  // its FAQ (no color names listed); medical image and file exchange
+  // matches the registry offering, Vaultara Flare Services.
+  'Vaultara, LLC': { primary: '#267f7c', secondary: '#75ffe7', accent: '#092c4a' },
+  // Source: brandfetch.com/vbrick.com brand page, named swatches Picton
+  // Blue / White / Ebony Clay; About describes the enterprise video
+  // platform, the registry offering.
+  'Vbrick Systems, Inc.': { primary: '#35c2f2', secondary: '#ffffff', accent: '#212934' }
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];
