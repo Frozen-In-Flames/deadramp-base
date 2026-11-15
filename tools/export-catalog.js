@@ -1,0 +1,458 @@
+#!/usr/bin/env node
+/*
+ * DeadRamp Base, Phase 0 catalog exporter.
+ *
+ * Reads the DeadRamp registry (forks.json) plus the groups directory tree
+ * from the deadramp repo and emits a self-contained base-catalog.json
+ * snapshot into this repo: offerings, vendors, districts, deterministic
+ * spiral layout coordinates, and road polylines.
+ *
+ * The layout math is original parametric work (Archimedean spiral
+ * arc-length placement, at world and district scale). See LAYOUT.md.
+ *
+ * Usage:
+ *   node tools/export-catalog.js [--forks <path>] [--groups <dir>] [--out <path>]
+ * Defaults:
+ *   --forks  ~/workspace/deadramp/forks.json
+ *   --groups ~/workspace/deadramp/groups
+ *   --out    <repo>/data/base-catalog.json
+ */
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+
+const REPO = path.resolve(__dirname, '..');
+function arg(name, fallback) {
+  const i = process.argv.indexOf('--' + name);
+  return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback;
+}
+const FORKS = arg('forks', path.join(os.homedir(), 'workspace', 'deadramp', 'forks.json'));
+const GROUPS = arg('groups', path.join(os.homedir(), 'workspace', 'deadramp', 'groups'));
+const OUT = arg('out', path.join(REPO, 'data', 'base-catalog.json'));
+
+/* ---------------- layout constants (documented in LAYOUT.md) ---------------- */
+const LAYOUT = {
+  version: 1,
+  // World spiral (districts): r(phi) = worldA + worldB * phi
+  worldA: 120,          // starting radius, leaves room for the central plaza
+  worldB: 90,           // radial growth per radian (turn separation ~565 m)
+  districtGap: 70,      // clear arc between neighbouring district edges
+  // District sub-spiral (buildings): r(phi) = districtB * phi
+  districtB: 9.5,       // radial growth per radian (turn separation ~60 m)
+  buildingArcSpacing: 24, // metres of sub-spiral arc per building
+  roadHalfWidth: 4.5,   // district road half width
+  lotClearance: 1.0,    // gap between road edge and building face
+  roadSampleEvery: 5,   // polyline sampling step, metres of arc
+  spiralStep: 0.002,    // arc-length table integration step, radians
+  goldenAngle: 2.39996322972865332, // district sub-spiral orientation offset step
+};
+
+/* ---------------- naming: category -> function slug ----------------
+ * Matches the groups/ directory names in the deadramp repo. The special
+ * cases below are the names that tree actually uses; everything else goes
+ * through the default slugifier. */
+const SLUG_OVERRIDES = {
+  'Artificial Intelligence (AI)': 'ai',
+  'Content Management System (CMS)': 'cms',
+  'Customer Relations Management (CRM)': 'crm',
+  'Governance, Risk, and Compliance (GRC)': 'grc',
+  'Cybersecurity & Risk Management': 'cybersecurity',
+  'Mobile Device Management (MDM)': 'mobile-device-management',
+  'Uncategorized (none in source)': 'uncategorized',
+};
+function slugifyCategory(cat) {
+  if (SLUG_OVERRIDES[cat]) return SLUG_OVERRIDES[cat];
+  return cat
+    .toLowerCase()
+    .replace(/&/g, ' ')
+    .replace(/\([^)]*\)/g, ' ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+function tierKeyOf(cmmcTier) {
+  if (cmmcTier === null || cmmcTier === undefined) return 'untiered';
+  if (cmmcTier === 'L3-adjacent') return 'l3';
+  return cmmcTier.toLowerCase(); // L1 -> l1, L2 -> l2
+}
+const TIER_RANK = { l1: 0, l2: 1, l3: 2, untiered: 3 };
+const TIER_LABEL = { l1: 'L1', l2: 'L2', l3: 'L3', untiered: 'Untiered' };
+
+/* District colour family per function (hex). Tier is carried by trim
+ * colour in the client, function by body colour family. */
+const FUNCTION_COLORS = {
+  'accounting': '#8ac926',
+  'ai': '#b388ff',
+  'analytics': '#4cc9f0',
+  'collaboration': '#ffd166',
+  'communication': '#06d6a0',
+  'construction': '#ef8354',
+  'contact-center': '#f4a261',
+  'cms': '#e76f51',
+  'crm': '#2a9d8f',
+  'customer-service': '#e9c46a',
+  'cybersecurity': '#ef476f',
+  'data-management': '#118ab2',
+  'development-tools': '#73d2de',
+  'education-training': '#a7c957',
+  'finance': '#bc6c25',
+  'fleet-management': '#a3b18a',
+  'grc': '#9d4edd',
+  'grant-management': '#43aa8b',
+  'health-wellness': '#f28482',
+  'human-resources': '#84a98c',
+  'law-enforcement': '#577590',
+  'learning-management': '#90be6d',
+  'legal-policy': '#b56576',
+  'mobile-device-management': '#355070',
+  'network-management': '#00b4d8',
+  'operations-management': '#fb8500',
+  'research': '#c77dff',
+  'system-administration': '#3a86ff',
+  'talent-development': '#ff70a6',
+  'travel-management': '#ffd60a',
+  'uncategorized': '#6c757d',
+};
+function functionColor(slug) {
+  if (FUNCTION_COLORS[slug]) return FUNCTION_COLORS[slug];
+  // Deterministic fallback for any future function: stable hue from the slug.
+  let h = 0;
+  for (const c of slug) h = (h * 31 + c.charCodeAt(0)) % 360;
+  return `hsl(${h}, 55%, 60%)`;
+}
+
+
+/* ---------------- brand palettes (evocation only) ----------------
+ * The Base's rendition principle: recognizability comes from a few
+ * identity cues rendered in the Base's own federal architectural style:
+ * the vendor's name (nominative, from Marketplace data) plus its public
+ * color palette. Never logos, logotypes, wordmarks, brand fonts,
+ * mascots, or trade dress. Colors are a palette, not their artwork.
+ *
+ * Integrity rule: a palette is marked "researched" only when the
+ * vendor's brand colors are unambiguous public knowledge, seeded below
+ * by exact registry vendor string. Every other vendor gets the neutral
+ * federal finish and is marked "default": honest, not a gap to hide.
+ * The full brand research pass is a later, unhurried phase. */
+const FEDERAL_FINISH = { primary: '#cfc9b8', secondary: '#4c5257', accent: '#8c6a2f' };
+const BRAND_SEEDS = {
+  'Microsoft': { primary: '#0078d4', secondary: '#f3f3f3', accent: '#ffb900' },
+  'Amazon Web Services, Inc.': { primary: '#232f3e', secondary: '#ffffff', accent: '#ff9900' },
+  'Google': { primary: '#4285f4', secondary: '#ffffff', accent: '#34a853' },
+  'Salesforce': { primary: '#00a1e0', secondary: '#ffffff', accent: '#1798c1' },
+  'Oracle': { primary: '#c74634', secondary: '#ffffff', accent: '#312d2a' },
+  'Oracle Corporation': { primary: '#c74634', secondary: '#ffffff', accent: '#312d2a' },
+  'IBM': { primary: '#0f62fe', secondary: '#ffffff', accent: '#78a9ff' },
+  'Apptio an IBM company': { primary: '#0f62fe', secondary: '#ffffff', accent: '#78a9ff' },
+  'Adobe': { primary: '#eb1000', secondary: '#ffffff', accent: '#1e1e1e' },
+  'Cisco': { primary: '#1ba0d7', secondary: '#0d274d', accent: '#ffffff' },
+  'Cisco Systems Inc.': { primary: '#1ba0d7', secondary: '#0d274d', accent: '#ffffff' },
+  'Cisco Systems, Inc.': { primary: '#1ba0d7', secondary: '#0d274d', accent: '#ffffff' },
+  'Cisco AppDynamics': { primary: '#1ba0d7', secondary: '#0d274d', accent: '#ffffff' },
+  'Duo Security (a Cisco Company)': { primary: '#1ba0d7', secondary: '#0d274d', accent: '#ffffff' },
+  'ServiceNow': { primary: '#032d42', secondary: '#ffffff', accent: '#62d84e' },
+  'SAP National Security Services Inc. (SAP NS2)': { primary: '#0a6ed1', secondary: '#ffffff', accent: '#00b0d9' },
+  'Red Hat': { primary: '#ee0000', secondary: '#151515', accent: '#ffffff' },
+  'Atlassian': { primary: '#0052cc', secondary: '#ffffff', accent: '#2684ff' },
+  'Workday Inc.': { primary: '#0875c1', secondary: '#ffffff', accent: '#f38b00' },
+  'Snowflake Inc.': { primary: '#29b5e8', secondary: '#0f2a44', accent: '#ffffff' },
+  'Palantir Technologies': { primary: '#111111', secondary: '#ffffff', accent: '#6b7280' },
+  'Palantir Technologies Inc.': { primary: '#111111', secondary: '#ffffff', accent: '#6b7280' },
+  'Accenture Federal Services': { primary: '#a100ff', secondary: '#ffffff', accent: '#460073' },
+  'Deloitte': { primary: '#101820', secondary: '#ffffff', accent: '#86bc25' },
+  'Ernst & Young LLP': { primary: '#1a1a24', secondary: '#ffffff', accent: '#ffe600' },
+  'Booz Allen Hamilton': { primary: '#002244', secondary: '#ffffff', accent: '#00a9ce' },
+  'Leidos Digital Solutions, Inc.': { primary: '#61269e', secondary: '#ffffff', accent: '#9b7ede' },
+  'Broadcom': { primary: '#cc092f', secondary: '#ffffff', accent: '#231f20' },
+  'Citrix': { primary: '#0077c8', secondary: '#0c1e3c', accent: '#ffffff' },
+  'Citrix Systems, Inc.': { primary: '#0077c8', secondary: '#0c1e3c', accent: '#ffffff' },
+  'OpenText': { primary: '#002856', secondary: '#ffffff', accent: '#00a3e0' },
+  'Elastic': { primary: '#00bfb3', secondary: '#14181b', accent: '#fec514' },
+  'Elastic Cloud Hosted': { primary: '#00bfb3', secondary: '#14181b', accent: '#fec514' },
+  'MongoDB': { primary: '#001e2b', secondary: '#ffffff', accent: '#00ed64' },
+  'GitHub': { primary: '#171515', secondary: '#ffffff', accent: '#2f81f7' },
+  'GitLab': { primary: '#fc6d26', secondary: '#171321', accent: '#fca326' },
+  'Box Inc.': { primary: '#0061d5', secondary: '#ffffff', accent: '#003087' },
+  'Zoom Video Communications, LLC': { primary: '#2d8cff', secondary: '#ffffff', accent: '#0b5cff' },
+  'Okta': { primary: '#00297a', secondary: '#ffffff', accent: '#007dc1' },
+  'CrowdStrike, Inc.': { primary: '#e01f26', secondary: '#111111', accent: '#ffffff' },
+  'Palo Alto Networks, Inc.': { primary: '#fa582d', secondary: '#101418', accent: '#ff8a00' },
+  'Splunk': { primary: '#0c1724', secondary: '#ffffff', accent: '#f26d21' },
+  'Databricks, Inc.': { primary: '#ff3621', secondary: '#1b3139', accent: '#ffffff' },
+  'Cloudflare': { primary: '#f48120', secondary: '#ffffff', accent: '#faad3f' },
+  'Cloudflare, Inc.': { primary: '#f48120', secondary: '#ffffff', accent: '#faad3f' },
+  'Akamai': { primary: '#0096d6', secondary: '#ffffff', accent: '#ff9933' },
+  'Zscaler, Inc.': { primary: '#0091da', secondary: '#003a70', accent: '#ffffff' },
+  'Tenable': { primary: '#00a5b5', secondary: '#00263a', accent: '#ffffff' },
+  'Tenable Public Sector (TPS)': { primary: '#00a5b5', secondary: '#00263a', accent: '#ffffff' },
+  'Qualys': { primary: '#ed2e26', secondary: '#ffffff', accent: '#1a1a1a' },
+  'Qualys, Inc.': { primary: '#ed2e26', secondary: '#ffffff', accent: '#1a1a1a' },
+  'SailPoint Technologies, Inc.': { primary: '#0071ce', secondary: '#011e41', accent: '#54c8e8' },
+  'SailPoint Technologies, Inc. (Pre SCR review)': { primary: '#0071ce', secondary: '#011e41', accent: '#54c8e8' },
+  'SentinelOne': { primary: '#2a0a5e', secondary: '#ffffff', accent: '#7c5cff' },
+  'F5, Inc.': { primary: '#e4002b', secondary: '#ffffff', accent: '#1a1a1a' },
+  'Proofpoint, Inc.': { primary: '#0072ce', secondary: '#001b41', accent: '#00a9ce' },
+  'Mimecast': { primary: '#0090d4', secondary: '#0a1e3c', accent: '#e03c31' },
+  'BMC Helix, Inc.': { primary: '#005eb8', secondary: '#ffffff', accent: '#f26522' },
+  'Boomi, Inc.': { primary: '#0072ce', secondary: '#033b6b', accent: '#00b0b9' },
+  'MuleSoft': { primary: '#00a0df', secondary: '#032d60', accent: '#ffffff' },
+  'Appian': { primary: '#0f1e46', secondary: '#ffffff', accent: '#0066f5' },
+  'UiPath': { primary: '#fa4616', secondary: '#1f1f1f', accent: '#ffffff' },
+  'Scale AI, Inc': { primary: '#000000', secondary: '#ffffff', accent: '#6b7280' },
+  'BlackBerry': { primary: '#000000', secondary: '#ffffff', accent: '#8a8d8f' },
+  'Motorola Solutions': { primary: '#005eb8', secondary: '#ffffff', accent: '#00a9e0' },
+  'ESRI': { primary: '#0079c1', secondary: '#ffffff', accent: '#56b4e7' },
+  'Autodesk': { primary: '#111111', secondary: '#ffffff', accent: '#0696d7' },
+  'Siemens AG': { primary: '#009e9e', secondary: '#000028', accent: '#00e5a0' },
+  'Genesys': { primary: '#ff4f1f', secondary: '#1b1b1b', accent: '#ffffff' },
+  'Zendesk': { primary: '#03363d', secondary: '#ffffff', accent: '#cecece' },
+  'UKG Inc.': { primary: '#005151', secondary: '#ffffff', accent: '#00a19a' },
+  'Cloudera Government Solutions, Inc': { primary: '#f96702', secondary: '#1f1f1f', accent: '#ffffff' },
+  'LexisNexis Legal and Professional': { primary: '#ed1c24', secondary: '#1a1a1a', accent: '#ffffff' },
+  'LexisNexis Risk Solutions': { primary: '#ed1c24', secondary: '#1a1a1a', accent: '#ffffff' },
+  'Thomson Reuters': { primary: '#ff8000', secondary: '#1a1a1a', accent: '#ffffff' },
+  'Axon': { primary: '#111111', secondary: '#ffffff', accent: '#ffd500' },
+  'Qlik Technologies Inc.': { primary: '#009845', secondary: '#1a1a1a', accent: '#ffffff' },
+};
+function brandFor(vendorName) {
+  const seed = BRAND_SEEDS[vendorName];
+  if (seed) return { primary: seed.primary, secondary: seed.secondary, accent: seed.accent, source: 'researched' };
+  return { primary: FEDERAL_FINISH.primary, secondary: FEDERAL_FINISH.secondary, accent: FEDERAL_FINISH.accent, source: 'default' };
+}
+
+/* The two offerings the DeadRamp build record holds as honestly
+ * unclassified (see deadramp MAP.md / BASE-PLAN.md ground truth):
+ * TERIDA CLASsoft (FR1901852210) and USDA vGov (AGENCYNITCIAAS).
+ * Matched on the marketplace product id inside source_url. */
+const UNCLASSIFIED_IDS = ['FR1901852210', 'AGENCYNITCIAAS'];
+function isUnclassified(offering) {
+  return UNCLASSIFIED_IDS.some((id) => (offering.source_url || '').includes(id));
+}
+
+/* ---------------- spiral arc-length walker ----------------
+ * Archimedean spiral r(phi) = a + b*phi. Builds a fixed-step arc-length
+ * table once (deterministic), then answers point/tangent queries by
+ * binary search plus linear interpolation. */
+function makeSpiralWalker(a, b, maxArc) {
+  const pts = [{ phi: 0, x: a, z: 0, s: 0 }];
+  let phi = 0;
+  let px = a, pz = 0, s = 0;
+  const step = LAYOUT.spiralStep;
+  while (s < maxArc) {
+    phi += step;
+    const r = a + b * phi;
+    const x = r * Math.cos(phi), z = r * Math.sin(phi);
+    s += Math.hypot(x - px, z - pz);
+    pts.push({ phi, x, z, s });
+    px = x; pz = z;
+  }
+  function pointAt(target) {
+    if (target <= 0) return { x: pts[0].x, z: pts[0].z, tx: 0, tz: 1, phi: 0 };
+    let lo = 0, hi = pts.length - 1;
+    if (target >= pts[hi].s) { const p = pts[hi]; const q = pts[hi - 1]; const dx = p.x - q.x, dz = p.z - q.z; const m = Math.hypot(dx, dz) || 1; return { x: p.x, z: p.z, tx: dx / m, tz: dz / m, phi: p.phi }; }
+    while (lo + 1 < hi) { const mid = (lo + hi) >> 1; if (pts[mid].s < target) lo = mid; else hi = mid; }
+    const p0 = pts[lo], p1 = pts[hi];
+    const f = (target - p0.s) / ((p1.s - p0.s) || 1);
+    const x = p0.x + (p1.x - p0.x) * f, z = p0.z + (p1.z - p0.z) * f;
+    const dx = p1.x - p0.x, dz = p1.z - p0.z, m = Math.hypot(dx, dz) || 1;
+    return { x, z, tx: dx / m, tz: dz / m, phi: p0.phi + (p1.phi - p0.phi) * f };
+  }
+  return { pointAt, totalArc: s };
+}
+const r3 = (n) => Math.round(n * 1000) / 1000;
+
+/* Building size from offering count (documented in LAYOUT.md). */
+function buildingSize(n) {
+  return {
+    w: Math.min(18, 10 + 2 * (n - 1)),
+    d: Math.min(26, 12 + 3 * (n - 1)),
+    h: Math.min(60, 9 + 6 * (n - 1) + (n >= 5 ? 6 : 0)),
+  };
+}
+
+function main() {
+  const forks = JSON.parse(fs.readFileSync(FORKS, 'utf8'));
+  const groupDirs = new Set(fs.readdirSync(GROUPS).filter((d) => fs.statSync(path.join(GROUPS, d)).isDirectory()));
+
+  /* ---- offerings with district assignment ---- */
+  const offerings = forks.map((f, idx) => {
+    const fn = slugifyCategory(f.category);
+    const tk = tierKeyOf(f.cmmc_tier);
+    return {
+      registryIndex: idx,
+      vendor: f.vendor,
+      product: f.product,
+      service_model: f.service_model,
+      fedramp_impact_level: f.fedramp_impact_level,
+      authorization_status: f.authorization_status,
+      category: f.category,
+      cmmc_tier: f.cmmc_tier,
+      source_url: f.source_url,
+      function: fn,
+      tier: TIER_LABEL[tk],
+      tierKey: tk,
+      district: `${fn}-${tk}`,
+      unclassified: isUnclassified(f),
+    };
+  });
+
+  /* ---- districts (function x tier), deterministic order ---- */
+  const districtMap = new Map();
+  for (const o of offerings) {
+    if (!districtMap.has(o.district)) {
+      districtMap.set(o.district, {
+        id: o.district,
+        function: o.function,
+        functionName: o.category,
+        tier: o.tier,
+        tierKey: o.tierKey,
+        color: functionColor(o.function),
+        inGroupsTree: groupDirs.has(o.district),
+        offeringIndexes: [],
+      });
+    }
+    districtMap.get(o.district).offeringIndexes.push(o.registryIndex);
+  }
+  const districts = [...districtMap.values()].sort((a, b) =>
+    a.function.localeCompare(b.function) || (TIER_RANK[a.tierKey] - TIER_RANK[b.tierKey]));
+
+  /* ---- vendors ---- */
+  const vendorMap = new Map();
+  for (const o of offerings) {
+    if (!vendorMap.has(o.vendor)) vendorMap.set(o.vendor, []);
+    vendorMap.get(o.vendor).push(o);
+  }
+  const vendorNames = [...vendorMap.keys()]; // registry order of first appearance
+
+  // Home district: plurality of the vendor's offerings; ties broken by the
+  // district of the vendor's earliest offering, then district id.
+  function homeDistrict(list) {
+    const counts = new Map();
+    for (const o of list) counts.set(o.district, (counts.get(o.district) || 0) + 1);
+    let best = null;
+    for (const [d, c] of counts) {
+      const earliest = Math.min(...list.filter((o) => o.district === d).map((o) => o.registryIndex));
+      if (!best || c > best.c || (c === best.c && (earliest < best.earliest || (earliest === best.earliest && d < best.d)))) {
+        best = { d, c, earliest };
+      }
+    }
+    return best.d;
+  }
+
+  const vendors = vendorNames.map((name, i) => {
+    const list = vendorMap.get(name);
+    const certified = list.filter((o) => o.authorization_status === 'FedRAMP Certified').length;
+    const allUnclassified = list.every((o) => o.unclassified);
+    return {
+      id: 'v' + String(i + 1).padStart(4, '0'),
+      name,
+      district: homeDistrict(list),
+      districts: [...new Set(list.map((o) => o.district))].sort(),
+      offeringCount: list.length,
+      statusClass: certified === list.length ? 'certified' : certified === 0 ? 'pipeline' : 'mixed',
+      brand: brandFor(name),
+      kind: allUnclassified ? 'lot' : 'building',
+      offerings: list,
+      _firstIndex: list[0].registryIndex,
+    };
+  });
+
+  /* ---- layout: district sizes first ---- */
+  for (const d of districts) {
+    d.vendors = vendors.filter((v) => v.district === d.id)
+      .sort((a, b) => a._firstIndex - b._firstIndex)
+      .map((v) => v.id);
+    d.vendorCount = d.vendors.length;
+    d.offeringCount = d.offeringIndexes.length;
+    d.arcNeeded = d.vendorCount * LAYOUT.buildingArcSpacing;
+    // Radius of the sub-spiral that holds this many buildings.
+    const walker = makeSpiralWalker(0, LAYOUT.districtB, Math.max(d.arcNeeded, 1));
+    const end = walker.pointAt(d.arcNeeded);
+    d.radius = r3(Math.hypot(end.x, end.z) + LAYOUT.roadHalfWidth + 26 + 8);
+  }
+
+  /* ---- layout: world spiral placement of district centres ---- */
+  const totalWorldArc = districts.reduce((sum, d) => sum + 2 * d.radius + LAYOUT.districtGap, 0) + 400;
+  const world = makeSpiralWalker(LAYOUT.worldA, LAYOUT.worldB, totalWorldArc);
+  let cursor = 0;
+  const boulevardPts = [];
+  districts.forEach((d, di) => {
+    const centreArc = cursor + d.radius;
+    const c = world.pointAt(centreArc);
+    d.center = { x: r3(c.x), z: r3(c.z) };
+    d.centreArc = r3(centreArc);
+    d.orientation = r3(di * LAYOUT.goldenAngle);
+    cursor += 2 * d.radius + LAYOUT.districtGap;
+    d._walker = makeSpiralWalker(0, LAYOUT.districtB, Math.max(d.arcNeeded, 1));
+  });
+  for (let s = 0; s <= cursor; s += LAYOUT.roadSampleEvery) {
+    const p = world.pointAt(s);
+    boulevardPts.push([r3(p.x), r3(p.z)]);
+  }
+  const worldExtent = Math.max(...districts.map((d) => Math.hypot(d.center.x, d.center.z) + d.radius));
+
+  /* ---- layout: buildings on each district sub-spiral ---- */
+  const cosO = (d) => Math.cos(d.orientation), sinO = (d) => Math.sin(d.orientation);
+  for (const d of districts) {
+    const road = [];
+    for (let s = 0; s <= d.arcNeeded; s += LAYOUT.roadSampleEvery) {
+      const p = d._walker.pointAt(s);
+      const wx = d.center.x + p.x * cosO(d) - p.z * sinO(d);
+      const wz = d.center.z + p.x * sinO(d) + p.z * cosO(d);
+      road.push([r3(wx), r3(wz)]);
+    }
+    d.road = road;
+    d.gate = road.length ? { x: road[0][0], z: road[0][1] } : { x: d.center.x, z: d.center.z };
+    d.vendors.map((vid) => vendors.find((v) => v.id === vid)).forEach((v, j) => {
+      const s = (j + 0.5) * LAYOUT.buildingArcSpacing;
+      const p = d._walker.pointAt(s);
+      // Local tangent and left-hand normal.
+      let nx = -p.tz, nz = p.tx;
+      const side = j % 2 === 0 ? 1 : -1;
+      const size = buildingSize(v.offeringCount);
+      const off = LAYOUT.roadHalfWidth + size.d / 2 + LAYOUT.lotClearance;
+      const lx = p.x + nx * side * off, lz = p.z + nz * side * off;
+      const wx = d.center.x + lx * cosO(d) - lz * sinO(d);
+      const wz = d.center.z + lx * sinO(d) + lz * cosO(d);
+      // Facing: from the building back toward the road, rotated to world space.
+      const fLocal = { x: -nx * side, z: -nz * side };
+      const fwx = fLocal.x * cosO(d) - fLocal.z * sinO(d);
+      const fwz = fLocal.x * sinO(d) + fLocal.z * cosO(d);
+      v.position = { x: r3(wx), z: r3(wz) };
+      v.rotationY = r3(Math.atan2(fwx, fwz));
+      v.size = size;
+    });
+    delete d._walker;
+    delete d.offeringIndexes;
+  }
+  for (const v of vendors) delete v._firstIndex;
+
+  const catalog = {
+    meta: {
+      snapshotOf: 'forks.json',
+      layoutVersion: LAYOUT.version,
+      offerings: offerings.length,
+      vendors: vendors.length,
+      districts: districts.length,
+      worldRadius: r3(worldExtent),
+      constants: LAYOUT,
+    },
+    spawn: { x: 24, z: 0, lookAt: { x: 160, z: 0 } },
+    roads: { boulevard: boulevardPts },
+    districts,
+    vendors,
+  };
+  fs.mkdirSync(path.dirname(OUT), { recursive: true });
+  fs.writeFileSync(OUT, JSON.stringify(catalog, null, 1) + '\n');
+  console.log(`wrote ${OUT}`);
+  console.log(`offerings=${catalog.meta.offerings} vendors=${catalog.meta.vendors} districts=${catalog.meta.districts} worldRadius=${catalog.meta.worldRadius}`);
+  const researched = vendors.filter((v) => v.brand.source === 'researched').length;
+  console.log(`brand palettes: researched=${researched} default=${vendors.length - researched}`);
+  const lots = vendors.filter((v) => v.kind === 'lot');
+  console.log(`empty lots=${lots.length} (${lots.map((v) => v.name).join(', ')})`);
+  const notInTree = districts.filter((d) => !d.inGroupsTree).map((d) => d.id);
+  console.log(`districts not in groups tree=${notInTree.length} (${notInTree.join(', ')})`);
+}
+
+if (require.main === module) main();
+module.exports = { BRAND_SEEDS, FEDERAL_FINISH, slugifyCategory, tierKeyOf };

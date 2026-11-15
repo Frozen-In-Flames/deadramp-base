@@ -1,0 +1,71 @@
+{
+ "stats": {
+  "vendorsRendered": 674,
+  "buildingsInstanced": 673,
+  "lots": 1,
+  "offeringsIndexed": 781,
+  "districts": 81,
+  "litWindowInstances": 471,
+  "brandResearched": 77,
+  "brandDefault": 597,
+  "drawCalls": 18,
+  "triangles": 48242,
+  "fps": 25,
+  "camera": {
+   "x": 24,
+   "z": 0
+  }
+ },
+ "spawnPixels": {
+  "nonBgFraction": 0.5370008680555556,
+  "brightFraction": 0.024956597222222224,
+  "distinctColors": 73,
+  "bg": [
+   27,
+   36,
+   54
+  ]
+ },
+ "movement": {
+  "before": {
+   "x": 24,
+   "z": 0,
+   "y": 1.7,
+   "yaw": -1.5707963267948966,
+   "pitch": 0
+  },
+  "after": {
+   "x": 29.590199999997388,
+   "z": -3.4230102682951706e-16,
+   "y": 1.7,
+   "yaw": -1.5707963267948966,
+   "pitch": 0
+  },
+  "moved": 5.590199999997388
+ },
+ "districtView": {
+  "camIdx": 53,
+  "clearance": 10.5
+ },
+ "districtPixels": {
+  "nonBgFraction": 0.5919053819444444,
+  "brightFraction": 0.5516493055555556,
+  "distinctColors": 90,
+  "bg": [
+   27,
+   36,
+   54
+  ]
+ },
+ "overviewPixels": {
+  "nonBgFraction": 0.6359592013888888,
+  "brightFraction": 0.012478298611111112,
+  "distinctColors": 52,
+  "bg": [
+   27,
+   36,
+   54
+  ]
+ },
+ "failures": 0
+}
