@@ -21,6 +21,7 @@
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const crypto = require('crypto');
 
 const REPO = path.resolve(__dirname, '..');
 function arg(name, fallback) {
@@ -229,6 +230,251 @@ function isUnclassified(offering) {
   return UNCLASSIFIED_IDS.some((id) => (offering.source_url || '').includes(id));
 }
 
+/* ---------------- Phase 2: room records and build records ----------------
+ * Every offering gets a room, generated from what the DeadRamp source
+ * repo actually holds for it:
+ *
+ *   - Its Marketplace spec entry in groups/<group>/specs/specs.json,
+ *     joined by fork_id (the product id inside source_url). The spec
+ *     carries the offering's own description, deployment model, and
+ *     claimed functions. Exactly two offerings have no spec entry: the
+ *     two the build holds as unclassified (TERIDA CLASsoft, USDA
+ *     vGov). Their rooms record that plainly (buildGroup null).
+ *
+ *   - The group's merged clean-room reference build under
+ *     groups/<group>/ (README label, src modules, CLI surface, HTTP
+ *     surface, control catalog where the build carries one, test
+ *     counts, and a SHA-256 file manifest for provenance). Build data
+ *     is stored once per group in the catalog's `builds` map; rooms
+ *     reference it by group name. Nothing is paraphrased into facts
+ *     the source does not hold: extraction is verbatim strings, names,
+ *     and counts from the source files.
+ *
+ * Room archetypes follow the offering's own function (LAYOUT.md):
+ * the archetype is the room's shape; the data on its walls is the
+ * offering's own record. The generic federal office is the fallback.
+ */
+const ARCHETYPE_BY_FUNCTION = {
+  'cybersecurity': 'ops-center', 'grc': 'ops-center', 'law-enforcement': 'ops-center',
+  'network-management': 'ops-center', 'system-administration': 'ops-center',
+  'operations-management': 'ops-center',
+  'cloud-infrastructure-hosting': 'server-hall', 'data-management': 'server-hall',
+  'mobile-device-management': 'server-hall',
+  'ai': 'lab', 'analytics': 'lab', 'research': 'lab', 'development-tools': 'lab',
+  'collaboration': 'meeting-space', 'communication': 'meeting-space',
+  'contact-center': 'meeting-space', 'crm': 'meeting-space', 'customer-service': 'meeting-space',
+  'accounting': 'ledger-office', 'finance': 'ledger-office', 'grant-management': 'ledger-office',
+};
+function archetypeFor(fn) { return ARCHETYPE_BY_FUNCTION[fn] || 'federal-office'; }
+
+function forkIdOf(sourceUrl) {
+  const m = /\/products\/([^/]+)\//.exec(sourceUrl || '');
+  return m ? m[1] : null;
+}
+function sha256(buf) { return crypto.createHash('sha256').update(buf).digest('hex'); }
+function walkFiles(dir, suffix) {
+  const out = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const name of fs.readdirSync(dir).sort()) {
+    if (name === '__pycache__') continue;
+    const p = path.join(dir, name);
+    if (fs.statSync(p).isDirectory()) out.push(...walkFiles(p, suffix));
+    else if (name.endsWith(suffix)) out.push(p);
+  }
+  return out;
+}
+function plainText(md) {
+  return md
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]*)\]\[[^\]]*\]/g, '$1')
+    .replace(/[*_`]+/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+/* First module docstring's first line, verbatim (trimmed). */
+function moduleDoc(text) {
+  const m = /^\s*(?:"""|''')([\s\S]*?)(?:"""|''')/.exec(text);
+  if (!m) return '';
+  const line = m[1].split('\n').map((s) => s.trim()).find((s) => s.length > 0);
+  return line || '';
+}
+/* CLI surface: argparse subcommands from __main__.py, verbatim names
+ * and help strings. */
+function extractCli(text) {
+  const byName = new Map();
+  const re = /add_parser\(\s*["']([^"']+)["']/g;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    if (byName.has(m[1])) continue;
+    const tail = text.slice(m.index, m.index + 500);
+    const hm = /help\s*=\s*"([^"]*)"/.exec(tail) || /help\s*=\s*'([^']*)'/.exec(tail);
+    byName.set(m[1], hm ? hm[1] : '');
+  }
+  return [...byName.entries()].sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([name, help]) => ({ name, help }));
+}
+/* HTTP surface of the group's service module, extracted only where the
+ * source states it literally: full routes stated as method + literal
+ * path segment lists, the router's operation names (first element of
+ * the returned route tuples), and the resource roots it dispatches on.
+ * Nothing is inferred beyond those literals. */
+function extractHttp(text) {
+  const routes = new Set();
+  const segList = (raw) => {
+    const segs = [];
+    for (const part of raw.split(',')) {
+      const t = part.trim();
+      if (!t) continue;
+      const q = /^"([^"]*)"$/.exec(t) || /^'([^']*)'$/.exec(t);
+      if (!q) return null;
+      segs.push(q[1]);
+    }
+    return segs;
+  };
+  const reA = /method\s*==\s*"(GET|POST|PUT|PATCH|DELETE)"\s*and\s*parts\s*==\s*\[([^\]]*)\]/g;
+  const reB = /parts\s*==\s*\[([^\]]*)\]\s*and\s*method\s*==\s*"(GET|POST|PUT|PATCH|DELETE)"/g;
+  let m;
+  while ((m = reA.exec(text)) !== null) { const s = segList(m[2]); if (s) routes.add(`${m[1]} /${s.join('/')}`); }
+  while ((m = reB.exec(text)) !== null) { const s = segList(m[1]); if (s) routes.add(`${m[2]} /${s.join('/')}`); }
+  /* Second router style: a declarative ROUTES table of
+   * ("METHOD", ("seg", "{id}"), permission, "_handler") tuples. */
+  const reTable = /\("(GET|POST|PUT|PATCH|DELETE)",\s*\(([^)]*)\)/g;
+  while ((m = reTable.exec(text)) !== null) {
+    const segs = [];
+    let ok = true;
+    for (const part of m[2].split(',')) {
+      const t = part.trim();
+      if (!t) continue;
+      const q = /^"([^"]*)"$/.exec(t) || /^'([^']*)'$/.exec(t);
+      if (!q) { ok = false; break; }
+      segs.push(q[1]);
+    }
+    if (ok && segs.length) routes.add(`${m[1]} /${segs.join('/')}`);
+  }
+  const operations = new Set();
+  const reOp = /return\s*\(\s*"([a-z][a-z0-9_]*)"\s*,/g;
+  while ((m = reOp.exec(text)) !== null) operations.add(m[1]);
+  const reHandler = /\("(?:GET|POST|PUT|PATCH|DELETE)",\s*\([^)]*\)\s*,\s*(?:"[^"]*"|None)\s*,\s*"(_[a-z][a-z0-9_]*)"/g;
+  while ((m = reHandler.exec(text)) !== null) operations.add(m[1].slice(1));
+  /* Third router style: the router dispatches inline and invokes the
+   * store's operations directly (store.create_organization(...)). The
+   * operation names are those invoked store methods, verbatim. */
+  const reStore = /\bstore\.([a-z][a-z0-9_]*)\s*\(/g;
+  while ((m = reStore.exec(text)) !== null) operations.add(m[1]);
+  const resources = new Set();
+  const reRes = /parts\[0\]\s*==\s*"([^"]+)"/g;
+  while ((m = reRes.exec(text)) !== null) resources.add(m[1]);
+  const cap = (set, n) => [...set].sort().slice(0, n);
+  return {
+    routes: cap(routes, 48), routesTotal: routes.size,
+    operations: cap(operations, 64), operationsTotal: operations.size,
+    resources: cap(resources, 32), resourcesTotal: resources.size,
+  };
+}
+/* NIST SP 800-53 control tuples ("AC-2", "Account Management") where a
+ * build carries a control catalog table. Verbatim pairs. */
+function extractControls(text) {
+  const byId = new Map();
+  const re = /\("([A-Z]{2}-\d+)",\s*"([^"]{3,90})"\)/g;
+  let m;
+  while ((m = re.exec(text)) !== null) if (!byId.has(m[1])) byId.set(m[1], m[2]);
+  return [...byId.entries()].sort((a, b) => a[0].localeCompare(b[0], undefined, { numeric: true }))
+    .map(([id, title]) => ({ id, title }));
+}
+function extractBuild(groupDir, root) {
+  const gdir = path.join(root, 'groups', groupDir);
+  const rel = (p) => path.relative(root, p).split(path.sep).join('/');
+  const readmePath = path.join(gdir, 'README.md');
+  let title = '', summary = '';
+  if (fs.existsSync(readmePath)) {
+    const md = fs.readFileSync(readmePath, 'utf8');
+    const lines = md.split('\n');
+    const tIdx = lines.findIndex((l) => l.startsWith('# '));
+    if (tIdx >= 0) title = lines[tIdx].slice(2).trim();
+    const para = [];
+    for (let i = tIdx + 1; i < lines.length; i++) {
+      const l = lines[i].trim();
+      if (!l) { if (para.length) break; else continue; }
+      if (l.startsWith('#')) break;
+      para.push(l);
+    }
+    summary = plainText(para.join(' '));
+    if (summary.length > 800) summary = summary.slice(0, 800).replace(/\s+\S*$/, '') + '…';
+  }
+  const srcFiles = walkFiles(path.join(gdir, 'src'), '.py');
+  const modules = [], manifest = [];
+  let cliText = '', http = { routes: [], routesTotal: 0, operations: [], operationsTotal: 0, resources: [], resourcesTotal: 0 };
+  let controls = [], controlsSource = null;
+  for (const f of srcFiles) {
+    const buf = fs.readFileSync(f);
+    const text = buf.toString('utf8');
+    modules.push({ path: rel(f), doc: moduleDoc(text) });
+    manifest.push({ path: rel(f), bytes: buf.length, sha256: sha256(buf) });
+    if (path.basename(f) === '__main__.py') cliText += text + '\n';
+    if (path.basename(f) === 'service.py') http = extractHttp(text);
+    if (!controls.length) {
+      const c = extractControls(text);
+      if (c.length) { controls = c; controlsSource = rel(f); }
+    }
+  }
+  const testFiles = walkFiles(path.join(gdir, 'tests'), '.py')
+    .filter((f) => path.basename(f).startsWith('test_'));
+  let testCount = 0;
+  for (const f of testFiles) {
+    testCount += (fs.readFileSync(f, 'utf8').match(/^\s*def test_/gm) || []).length;
+  }
+  const srcDir = path.join(gdir, 'src');
+  const pkgDirs = fs.existsSync(srcDir)
+    ? fs.readdirSync(srcDir).filter((d) => fs.statSync(path.join(srcDir, d)).isDirectory() && d !== '__pycache__').sort()
+    : [];
+  return {
+    groupDir,
+    title, summary,
+    package: pkgDirs.length === 1 ? pkgDirs[0] : (pkgDirs[0] || null),
+    modules, manifest,
+    cli: extractCli(cliText),
+    http, controls, controlsSource,
+    testFiles: testFiles.length, testCount,
+    specCount: 0, // filled in by the caller once the spec join is known
+  };
+}
+/* Index every spec entry by fork_id, and extract every group's build. */
+function loadBuildData(root, groupDirs) {
+  const specIndex = new Map();
+  for (const g of [...groupDirs].sort()) {
+    const sp = path.join(root, 'groups', g, 'specs', 'specs.json');
+    if (!fs.existsSync(sp)) continue;
+    for (const entry of JSON.parse(fs.readFileSync(sp, 'utf8'))) {
+      if (entry && entry.fork_id && !specIndex.has(entry.fork_id)) {
+        specIndex.set(entry.fork_id, { group: g, entry });
+      }
+    }
+  }
+  const builds = {};
+  for (const g of [...groupDirs].sort()) {
+    if (!fs.existsSync(path.join(root, 'groups', g, 'specs', 'specs.json'))) continue;
+    builds[g] = extractBuild(g, root);
+  }
+  for (const hit of specIndex.values()) {
+    if (builds[hit.group]) builds[hit.group].specCount++;
+  }
+  return { specIndex, builds };
+}
+function roomFor(offering, specHit) {
+  const e = specHit ? specHit.entry : null;
+  return {
+    archetype: archetypeFor(offering.function),
+    buildGroup: specHit ? specHit.group : null,
+    specPath: specHit ? `groups/${specHit.group}/specs/specs.json` : null,
+    forkId: forkIdOf(offering.source_url),
+    deploymentModel: e ? (e.deployment_model ?? null) : null,
+    description: e ? (e.description ?? null) : null,
+    functions: e && Array.isArray(e.functions_claimed)
+      ? e.functions_claimed.map((f) => ({ id: f.function_id, name: f.function })) : [],
+    specSource: e ? (e.source ?? null) : null,
+  };
+}
+
 /* ---------------- spiral arc-length walker ----------------
  * Archimedean spiral r(phi) = a + b*phi. Builds a fixed-step arc-length
  * table once (deterministic), then answers point/tangent queries by
@@ -273,12 +519,15 @@ function buildingSize(n) {
 function main() {
   const forks = JSON.parse(fs.readFileSync(FORKS, 'utf8'));
   const groupDirs = new Set(fs.readdirSync(GROUPS).filter((d) => fs.statSync(path.join(GROUPS, d)).isDirectory()));
+  // The DeadRamp repo root is the parent of the groups tree.
+  const ROOT = path.dirname(GROUPS);
+  const { specIndex, builds } = loadBuildData(ROOT, groupDirs);
 
   /* ---- offerings with district assignment ---- */
   const offerings = forks.map((f, idx) => {
     const fn = slugifyCategory(f.category);
     const tk = tierKeyOf(f.cmmc_tier);
-    return {
+    const o = {
       registryIndex: idx,
       vendor: f.vendor,
       product: f.product,
@@ -294,6 +543,8 @@ function main() {
       district: `${fn}-${tk}`,
       unclassified: isUnclassified(f),
     };
+    o.room = roomFor(o, specIndex.get(forkIdOf(f.source_url)));
+    return o;
   });
 
   /* ---- districts (function x tier), deterministic order ---- */
@@ -434,6 +685,8 @@ function main() {
       offerings: offerings.length,
       vendors: vendors.length,
       districts: districts.length,
+      rooms: offerings.length,
+      builds: Object.keys(builds).length,
       worldRadius: r3(worldExtent),
       constants: LAYOUT,
     },
@@ -441,6 +694,7 @@ function main() {
     roads: { boulevard: boulevardPts },
     districts,
     vendors,
+    builds,
   };
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify(catalog, null, 1) + '\n');
@@ -452,7 +706,10 @@ function main() {
   console.log(`empty lots=${lots.length} (${lots.map((v) => v.name).join(', ')})`);
   const notInTree = districts.filter((d) => !d.inGroupsTree).map((d) => d.id);
   console.log(`districts not in groups tree=${notInTree.length} (${notInTree.join(', ')})`);
+  const roomsWithBuild = offerings.filter((o) => o.room.buildGroup).length;
+  console.log(`rooms=${offerings.length} rooms with a source build=${roomsWithBuild} rooms without (unclassified)=${offerings.length - roomsWithBuild}`);
+  console.log(`build records=${Object.keys(builds).length}`);
 }
 
 if (require.main === module) main();
-module.exports = { BRAND_SEEDS, FEDERAL_FINISH, slugifyCategory, tierKeyOf };
+module.exports = { BRAND_SEEDS, FEDERAL_FINISH, slugifyCategory, tierKeyOf, archetypeFor, forkIdOf, extractCli, extractHttp, extractControls };

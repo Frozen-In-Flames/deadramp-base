@@ -162,6 +162,9 @@ const state = {
   catalog: null, buildings: [], lots: [], districts: [],
   bodyMesh: null, lotMeshes: [], ready: false, frames: 0, fps: 0,
   selected: null,
+  interior: null,          // Phase 2: active interior record, or null outside
+  doorVendor: null,        // building whose door zone the player is in
+  exteriorDrawCalls: 0,    // last exterior frame's draw calls (regression watch)
 };
 
 const TIER_TRIM = { l1: new THREE.Color(0xcd7f32), l2: new THREE.Color(0xcfd8dc), l3: new THREE.Color(0xffd700), untiered: new THREE.Color(0x546e7a) };
@@ -364,6 +367,11 @@ function placeLabel(el, x, y, z, text, opacity) {
   if (el.textContent !== text) el.textContent = text;
 }
 function updateLabels() {
+  if (state.interior) {
+    for (const el of vendorLabels) el.style.display = 'none';
+    for (const el of districtLabels) el.style.display = 'none';
+    return;
+  }
   const px = player.x, pz = player.z;
   const cand = [];
   for (const v of state.buildings) {
@@ -419,9 +427,17 @@ function showCard(v) {
     brandLine +
     lotNote + `<ul>${rows}</ul>` +
     `<div class="framing">${FRAMING}</div>`;
+  if (v.kind === 'building') {
+    const btn = document.createElement('button');
+    btn.className = 'enterBtn';
+    btn.textContent = `Enter ${v.name}`;
+    btn.addEventListener('click', () => { card.style.display = 'none'; enterBuilding(v); });
+    cardBody.appendChild(btn);
+  }
   card.style.display = 'block';
 }
 function pickAt(clientX, clientY) {
+  if (state.interior) return false;
   const nx = (clientX / window.innerWidth) * 2 - 1;
   const ny = -(clientY / window.innerHeight) * 2 + 1;
   raycaster.setFromCamera({ x: nx, y: ny }, camera);
@@ -434,9 +450,605 @@ function pickAt(clientX, clientY) {
   return false;
 }
 
+/* ---------------- Phase 2: interiors ----------------
+ * One building at a time is built, on entry, from the catalog: a
+ * federal lobby, then the building-scale spiral (a ramp winding
+ * around a solid core, one offering room per floor, each floor's
+ * door rotated by DOOR_STEP so the coil reads as you climb), and it
+ * is disposed on exit. Rooms are archetypes by function, filled with
+ * the offering's own record and its group's reference-build data.
+ *
+ * Brand treatment (Aries, Nov 14, 2026): the lobby is the building's
+ * shared federal space with brand accents; in the offering rooms the
+ * vendor's own colour scheme leads (wall treatment, trim, glass,
+ * signage, accent light), inside the federal grammar's structure and
+ * materials discipline. Researched palettes only; a default-palette
+ * vendor's rooms wear the federal finish, never invented colours.
+ *
+ * Collision is bounds only, documented in LAYOUT.md: the walkable
+ * region is the ring (between the core railing and the outer wall)
+ * plus the chamber of the floor you are on; height comes from the
+ * nearest candidate surface (ring floor, ramp flight, landing, or
+ * chamber floor) to your current height, which is what makes the
+ * stacked floors unambiguous. */
+const INT_Y = -2000;         // interior origin: far below the exterior world
+const FH = 3.4;              // floor height
+const R_CORE = 3;            // central column radius
+const R_WELL = 5.6;          // core railing: inner walk boundary
+const R_OUT = 15;            // ring outer wall radius
+const CH_IN = 14.2;          // chamber inner face radius
+const CH_OUT = 23.4;         // chamber outer wall radius
+const CH_HALF_W = 5.0;       // chamber half width (tangential)
+const DOOR_STEP = 1.35;      // radians of coil per floor
+const EXIT_ANGLE = -0.9;
+const SPAWN_ANGLE = 2.4;
+const doorAngle = (j) => 0.9 + j * DOOR_STEP;
+const angNorm = (a) => { a %= Math.PI * 2; return a < 0 ? a + Math.PI * 2 : a; };
+const angDiff = (a, b) => Math.abs(angNorm(a - b + Math.PI) - Math.PI);
+const FED = {
+  limestone: new THREE.Color(0xb8b2a2), wall: new THREE.Color(0x9d978a),
+  granite: new THREE.Color(0x4c5257), bronze: new THREE.Color(0x8c6a2f),
+  floor: new THREE.Color(0x59616c), dark: new THREE.Color(0x20242c),
+};
+const STATUS_COLORS = { certified: '#58b368', other: '#e0a458' };
+const ARCHETYPE_LABEL = {
+  'ops-center': 'Operations center', 'server-hall': 'Server hall', 'lab': 'Laboratory',
+  'meeting-space': 'Meeting space', 'ledger-office': 'Ledger office', 'federal-office': 'Federal office',
+};
+
+function wrapText(text, width) {
+  const out = [];
+  for (const raw of String(text).split('\n')) {
+    let line = '';
+    for (const word of raw.split(/\s+/)) {
+      if (!word) continue;
+      if (line && line.length + 1 + word.length > width) { out.push(line); line = word; }
+      else line = line ? line + ' ' + word : word;
+      while (line.length > width) { out.push(line.slice(0, width)); line = line.slice(width); }
+    }
+    out.push(line);
+  }
+  return out;
+}
+function capLines(lines, max) {
+  if (lines.length <= max) return lines;
+  const kept = lines.slice(0, max - 1);
+  kept.push(`… (+${lines.length - (max - 1)} more in the source record)`);
+  return kept;
+}
+/* A wall panel: canvas texture with a title bar in the accent colour
+ * and wrapped body lines. Wrapping and the line cap are derived from
+ * the panel's own pixel height, so text never overflows the panel;
+ * overflow is acknowledged on the panel itself ("+N more in the
+ * source record"). redraw(marker) re-renders with one body line
+ * highlighted (used by the ops-center board). */
+function makePanel(w, h, title, rawLines, accentCss) {
+  const cw = 1024, chh = Math.round(1024 * h / w);
+  const capacity = Math.max(4, Math.floor((chh - 100) / 33));
+  const lines = capLines(rawLines.flatMap((l) => wrapText(l, 70)), capacity);
+  const canvas = document.createElement('canvas'); canvas.width = cw; canvas.height = chh;
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
+    new THREE.MeshBasicMaterial({ map: tex }));
+  function draw(marker = -1) {
+    const x = canvas.getContext('2d');
+    x.fillStyle = '#10141d'; x.fillRect(0, 0, cw, chh);
+    x.fillStyle = accentCss; x.fillRect(0, 0, cw, 60);
+    x.fillStyle = '#0d1017'; x.font = '700 28px sans-serif'; x.textAlign = 'left'; x.textBaseline = 'middle';
+    x.fillText(title, 26, 32);
+    x.font = '22px ui-monospace, Menlo, monospace';
+    lines.forEach((ln, i) => {
+      x.fillStyle = i === marker ? '#ffd9a0' : '#c8cfda';
+      x.fillText((i === marker ? '▸ ' : '') + ln, 26, 98 + i * 33);
+    });
+    tex.needsUpdate = true;
+  }
+  draw();
+  mesh.userData.redrawPanel = draw;
+  mesh.userData.panelLines = lines;
+  return mesh;
+}
+
+/* ---- the words on the walls: all from the catalog record ---- */
+function districtNameOf(o) {
+  const d = state.districts.find((x) => x.id === o.district);
+  return d ? `${d.functionName} · ${d.tier}` : o.district;
+}
+function recordLines(o, v) {
+  const lines = [
+    o.product,
+    v.name,
+    `${o.service_model || 'Service model not stated'} · ${o.fedramp_impact_level} · ${o.authorization_status}`,
+    `Tier ${o.tier} · ${districtNameOf(o)} district`,
+    o.room.deploymentModel ? `Deployment: ${o.room.deploymentModel}` : 'Deployment model: not stated in the source record',
+    `Fork ${o.room.forkId || 'id not in source'}`,
+    `Marketplace record: ${o.source_url}`,
+    o.room.specPath ? `Build source: ${o.room.specPath}` : 'Build source: none (unclassified in the DeadRamp build)',
+  ];
+  if (o.room.description) lines.push('', 'From the Marketplace record:', o.room.description.slice(0, 300));
+  return lines;
+}
+function functionsLines(o, build) {
+  const lines = ['CLAIMED FUNCTIONS — from the Marketplace record'];
+  if (o.room.functions.length) for (const f of o.room.functions) lines.push('· ' + f.name);
+  else lines.push('The Marketplace record claims no specific functions for this offering.');
+  lines.push('');
+  if (build && build.controls.length) {
+    lines.push(`BUILD CONTROL CATALOG — NIST SP 800-53, from ${build.controlsSource}`);
+    for (const c of build.controls) lines.push(`${c.id}  ${c.title}`);
+  } else if (build) {
+    lines.push('This build carries no control-catalog table. Its anatomy:');
+    for (const m of build.modules) lines.push(`${m.path.split('/').pop()} — ${m.doc || 'module'}`);
+  }
+  return lines;
+}
+function terminalLines(o, build) {
+  if (!build) {
+    return [
+      'NO REFERENCE BUILD',
+      'This offering is one of the two the DeadRamp build holds as',
+      'honestly unclassified. There is no clean-room build for it,',
+      'so this room shows the Marketplace record only.',
+      'Nothing here is invented to fill the space.',
+    ];
+  }
+  const lines = [
+    `REFERENCE BUILD — groups/${build.groupDir}`,
+    build.title,
+    `Merged clean-room build · ${build.specCount} offerings · ${build.testCount} tests · ${build.modules.length} modules`,
+    '',
+    'CLI surface (from __main__.py):',
+  ];
+  for (const c of build.cli) lines.push(`  ${c.name}${c.help ? ' — ' + c.help : ''}`);
+  lines.push('', `HTTP operations (extracted verbatim from the service source, ${build.http.operationsTotal} total):`);
+  lines.push('  ' + build.http.operations.join(', '));
+  if (build.http.routes.length) {
+    lines.push('', `Literal routes (${build.http.routesTotal} total):`);
+    lines.push('  ' + build.http.routes.join('   '));
+  }
+  if (build.http.resources.length) lines.push('', 'Resource roots: ' + build.http.resources.join(', '));
+  lines.push('', 'This surface is the reference build\'s own, extracted from the',
+    'source above. It is not the vendor\'s API, and no endorsement is implied.');
+  return lines;
+}
+
+/* ---- interior layout math (shared by the builder and the hooks) ---- */
+function interiorLayout(vendor) {
+  return {
+    vendor,
+    levels: vendor.offerings.length,
+    rooms: vendor.offerings.map((o, j) => ({
+      index: j, level: j + 1, angle: doorAngle(j), floorY: (j + 1) * FH,
+      archetype: o.room.archetype, offering: o,
+    })),
+  };
+}
+function chamberAtH(layout, lx, lz, curFloor) {
+  for (const room of layout.rooms) {
+    if (Math.abs(room.floorY - curFloor) > FH * 0.75) continue;
+    const ca = Math.cos(room.angle), sa = Math.sin(room.angle);
+    const u = lx * ca + lz * sa, w = -lx * sa + lz * ca;
+    if (u >= CH_IN - 0.7 && u <= CH_OUT + 0.5 && Math.abs(w) <= CH_HALF_W + 0.7) return room.index;
+  }
+  return -1;
+}
+function interiorHeightAt(layout, lx, lz, curFloor) {
+  const r = Math.hypot(lx, lz), th = angNorm(Math.atan2(lz, lx));
+  const cand = [];
+  if (chamberAtH(layout, lx, lz, curFloor) >= 0) {
+    cand.push((chamberAtH(layout, lx, lz, curFloor) + 1) * FH);
+  }
+  for (let j = 0; j < layout.levels; j++) {
+    const a0 = j === 0 ? 0.2 : doorAngle(j - 1), a1 = doorAngle(j);
+    const span = angNorm(a1 - a0), rel = angNorm(th - a0);
+    if (rel <= span && r >= R_OUT - 4.9 && r <= R_OUT - 0.5) cand.push(j * FH + (rel / span) * FH);
+    if (angDiff(th, a1) <= 0.18 && r >= R_OUT - 5.2 && r <= R_OUT + 0.6) cand.push((j + 1) * FH);
+  }
+  if (angDiff(th, EXIT_ANGLE) <= 0.3 && r >= R_OUT - 5.2) cand.push(0);
+  if (r >= R_WELL - 0.3 && r <= R_OUT + 0.3) cand.push(Math.round(curFloor / FH) * FH);
+  if (curFloor < 0.01 && r <= R_OUT + 0.3) cand.push(0);
+  if (!cand.length) return curFloor;
+  let best = cand[0], bd = Math.abs(cand[0] - curFloor);
+  for (const c of cand) { const d = Math.abs(c - curFloor); if (d < bd) { bd = d; best = c; } }
+  return best;
+}
+function interiorAllowedAt(layout, lx, lz, curFloor) {
+  if (chamberAtH(layout, lx, lz, curFloor) >= 0) return true;
+  const r = Math.hypot(lx, lz);
+  return r >= R_WELL + 0.35 && r <= R_OUT - 0.35;
+}
+
+/* ---- geometry helpers for interiors ---- */
+function xg(geom, x, y, z, rotY) {
+  const g = geom;
+  g.applyMatrix4(new THREE.Matrix4().compose(
+    new THREE.Vector3(x, y, z),
+    new THREE.Quaternion().setFromEuler(new THREE.Euler(0, rotY || 0, 0)),
+    new THREE.Vector3(1, 1, 1)));
+  return g;
+}
+function cbox(w, h, d, x, y, z, rotY, color) {
+  return coloredGeom(xg(new THREE.BoxGeometry(w, h, d), x, y, z, rotY), color);
+}
+/* Chamber-frame point: px tangential, pz radial offset from rMid. */
+function chPoint(A, rMid, px, py, pz) {
+  return new THREE.Vector3(
+    rMid * Math.cos(A) + px * Math.sin(A) + pz * Math.cos(A), py,
+    rMid * Math.sin(A) - px * Math.cos(A) + pz * Math.sin(A));
+}
+/* Helical ramp ribbon between angles a0..a1, heights y0..y1. */
+function rampGeom(a0, a1, y0, y1, rIn, rOut, color, yOff = 0) {
+  const steps = Math.max(4, Math.ceil(Math.abs(a1 - a0) / 0.1));
+  const pos = [], nor = [];
+  const pt = (i, r) => {
+    const t = i / steps, a = a0 + (a1 - a0) * t, y = y0 + (y1 - y0) * t + yOff;
+    return [Math.cos(a) * r, y, Math.sin(a) * r];
+  };
+  for (let i = 0; i < steps; i++) {
+    const A = pt(i, rIn), B = pt(i, rOut), C = pt(i + 1, rIn), D = pt(i + 1, rOut);
+    pos.push(...A, ...B, ...C, ...B, ...D, ...C);
+    for (let k = 0; k < 6; k++) nor.push(0, 1, 0);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pos), 3));
+  g.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(nor), 3));
+  return coloredGeom(g, color);
+}
+
+/* ---- build one building's interior ---- */
+const interiorLight = new THREE.PointLight(0xffd9a0, 0, 60, 1.5);
+scene.add(interiorLight);
+
+function buildInterior(vendor) {
+  const layout = interiorLayout(vendor);
+  const brand = vendor.brand || { primary: '#cfc9b8', secondary: '#4c5257', accent: '#8c6a2f', source: 'default' };
+  const researched = brand.source === 'researched';
+  const bPri = hexColor(brand.primary), bAcc = hexColor(brand.accent), bSec = hexColor(brand.secondary);
+  const accentCss = researched ? brand.accent : '#ffb36b';
+  // Room scheme (researched vendors): the palette leads the room.
+  const roomWall = researched ? mixColor(bPri, FED.limestone, 0.42) : FED.limestone.clone();
+  const roomWallSide = researched ? mixColor(bPri, FED.limestone, 0.55) : FED.wall.clone();
+  const roomTrim = researched ? bAcc.clone() : FED.bronze.clone();
+  const signBg = researched ? mixColor(bPri, new THREE.Color(0x10141d), 0.5) : new THREE.Color(0x10141d);
+  const totalH = (layout.levels + 1) * FH;
+  const group = new THREE.Group();
+  group.position.set(0, INT_Y, 0);
+  const statics = [], strips = [], bars = [], panels = [];
+  const rMid = (CH_IN + CH_OUT) / 2, chDepth = CH_OUT - CH_IN;
+
+  /* shell, core, floors, walls */
+  statics.push(coloredGeom(xg(new THREE.CylinderGeometry(CH_OUT + 0.7, CH_OUT + 0.7, totalH + FH, 40, 1, true), 0, (totalH + FH) / 2 - FH, 0, 0), FED.dark));
+  statics.push(coloredGeom(xg(new THREE.CylinderGeometry(R_CORE, R_CORE, totalH, 20, 1, true), 0, totalH / 2, 0, 0), FED.wall));
+  statics.push(coloredGeom(xg(new THREE.CircleGeometry(CH_OUT + 0.7, 40).rotateX(-Math.PI / 2), 0, totalH, 0, 0), FED.dark));
+  statics.push(coloredGeom(xg(new THREE.CircleGeometry(R_OUT + 0.4, 40).rotateX(-Math.PI / 2), 0, 0.02, 0, 0), FED.floor));
+  for (let L = 1; L <= layout.levels; L++) {
+    statics.push(coloredGeom(xg(new THREE.RingGeometry(R_CORE, R_OUT, 40).rotateX(-Math.PI / 2), 0, L * FH, 0, 0), FED.floor));
+  }
+  statics.push(coloredGeom(xg(new THREE.RingGeometry(R_CORE, R_OUT, 40).rotateX(-Math.PI / 2), 0, totalH, 0, 0), FED.floor));
+  for (let L = 0; L <= layout.levels; L++) {
+    const gapA = L === 0 ? EXIT_ANGLE : doorAngle(L - 1);
+    const gap = 0.085;
+    const thetaStart = Math.PI / 2 - (gapA + Math.PI * 2 - gap);
+    const seg = new THREE.CylinderGeometry(R_OUT, R_OUT, FH, 40, 1, true, thetaStart, Math.PI * 2 - gap * 2);
+    statics.push(coloredGeom(xg(seg, 0, L * FH + FH / 2, 0, 0), FED.wall));
+  }
+  /* the coil: one ramp flight per floor, accent edge in the brand accent */
+  for (let j = 0; j < layout.levels; j++) {
+    const a0 = j === 0 ? 0.2 : doorAngle(j - 1), a1 = doorAngle(j);
+    statics.push(rampGeom(a0, a1, j * FH, (j + 1) * FH, R_OUT - 4.6, R_OUT - 1.4, FED.granite));
+    statics.push(rampGeom(a0, a1, j * FH, (j + 1) * FH, R_OUT - 1.72, R_OUT - 1.42, roomTrim, 0.035));
+  }
+  /* lobby furnishing: federal, brand accents */
+  statics.push(cbox(4.6, 1.05, 1.4, Math.cos(SPAWN_ANGLE) * 11.4, 0.53, Math.sin(SPAWN_ANGLE) * 11.4, Math.PI / 2 - SPAWN_ANGLE, FED.granite));
+  statics.push(cbox(3.2, 0.5, 1.0, Math.cos(SPAWN_ANGLE + 0.8) * 11.8, 0.25, Math.sin(SPAWN_ANGLE + 0.8) * 11.8, Math.PI / 2 - (SPAWN_ANGLE + 0.8), FED.granite));
+  statics.push(coloredGeom(xg(new THREE.CylinderGeometry(2.1, 2.1, 0.06, 28).rotateX(0), 0, 0.05, 0, 0), roomTrim));
+  // exit door frame at EXIT_ANGLE
+  {
+    const A = EXIT_ANGLE, rot = Math.PI / 2 - A;
+    const fx = Math.cos(A) * (R_OUT - 0.1), fz = Math.sin(A) * (R_OUT - 0.1);
+    const tx = -Math.sin(A), tz = Math.cos(A); // tangential direction
+    statics.push(cbox(0.28, 2.5, 0.28, fx + tx * 1.25, 1.25, fz + tz * 1.25, rot, roomTrim));
+    statics.push(cbox(0.28, 2.5, 0.28, fx - tx * 1.25, 1.25, fz - tz * 1.25, rot, roomTrim));
+    statics.push(cbox(2.9, 0.3, 0.3, fx, 2.55, fz, rot, roomTrim));
+  }
+
+  /* lobby panels: the vendor record, the directory, the framing */
+  const wallPanel = (angle, y, w, h, title, lines, accent) => {
+    const mesh = makePanel(w, h, title, lines, accent);
+    mesh.position.set(Math.cos(angle) * (R_OUT - 0.4), y, Math.sin(angle) * (R_OUT - 0.4));
+    group.add(mesh);
+    mesh.lookAt(0, INT_Y + y, 0);
+    panels.push(mesh);
+    return mesh;
+  };
+  const d0 = state.districts.find((x) => x.id === vendor.district);
+  wallPanel(SPAWN_ANGLE, 1.72, 6.4, 3.0, vendor.name.toUpperCase().slice(0, 34), [
+    `${d0 ? d0.functionName + ' · ' + d0.tier : ''} district · ${vendor.offeringCount} offering${vendor.offeringCount > 1 ? 's' : ''}`,
+    `Status: ${STATUS_TEXT[vendor.statusClass]}`,
+    researched
+      ? 'Brand palette: researched from this vendor\'s public brand identity.'
+      : 'Brand palette: not yet researched; this building wears the federal finish.',
+    'Colours only, as evocation: no logo, wordmark, or trade dress is reproduced.',
+    '',
+    'Rooms: one per offering, up the spiral ramp, one floor per room.',
+    'The lobby door marked EXIT returns you to the boulevard.',
+  ], accentCss);
+  wallPanel(SPAWN_ANGLE - 0.66, 1.72, 5.4, 3.0, 'DIRECTORY', [
+    ...vendor.offerings.map((o, j) => `L${j + 1}  ${o.product}`),
+  ], accentCss);
+  wallPanel(EXIT_ANGLE + 0.62, 1.7, 5.6, 2.9, 'ABOUT THIS MODEL', [FRAMING], accentCss);
+  {
+    const exitSign = makePanel(3.4, 0.9, 'EXIT — BOULEVARD', [], '#ffd9a0');
+    exitSign.position.set(Math.cos(EXIT_ANGLE) * (R_OUT - 0.4), 2.82, Math.sin(EXIT_ANGLE) * (R_OUT - 0.4));
+    group.add(exitSign); exitSign.lookAt(0, INT_Y + 2.82, 0);
+    panels.push(exitSign);
+  }
+  /* column name band: the vendor's name, nominative, around the core */
+  {
+    const c = document.createElement('canvas'); c.width = 2048; c.height = 128;
+    const x = c.getContext('2d');
+    x.fillStyle = '#141a26'; x.fillRect(0, 0, 2048, 128);
+    x.fillStyle = researched ? brand.accent : '#ffb36b';
+    x.font = '700 64px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.fillText(vendor.name.toUpperCase().slice(0, 42), 1024, 66);
+    const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+    t.wrapS = THREE.RepeatWrapping; t.repeat.x = 2;
+    const band = new THREE.Mesh(new THREE.CylinderGeometry(R_CORE + 0.06, R_CORE + 0.06, 1.05, 24, 1, true),
+      new THREE.MeshBasicMaterial({ map: t }));
+    band.position.y = 1.75;
+    group.add(band); panels.push(band);
+  }
+
+  /* rooms */
+  const roomRecs = [];
+  for (const room of layout.rooms) {
+    const o = room.offering, A = room.angle, rot = Math.PI / 2 - A, fy = room.floorY;
+    const build = o.room.buildGroup ? state.catalog.builds[o.room.buildGroup] : null;
+    const cen = chPoint(A, rMid, 0, 0, 0);
+    // chamber shell: floor, ceiling, outer wall, side walls, inner wall with door gap
+    statics.push(cbox(CH_HALF_W * 2 + 1.2, 0.16, chDepth + 1.2, cen.x, fy - 0.06, cen.z, rot, FED.floor));
+    statics.push(cbox(CH_HALF_W * 2 + 1.2, 0.16, chDepth + 1.2, cen.x, fy + FH - 0.02, cen.z, rot, roomWallSide));
+    statics.push(cbox(CH_HALF_W * 2 + 1.2, FH, 0.3, chPoint(A, rMid, 0, 0, chDepth / 2 + 0.45).x, fy + FH / 2, chPoint(A, rMid, 0, 0, chDepth / 2 + 0.45).z, rot, roomWall));
+    for (const s of [-1, 1]) {
+      const sp = chPoint(A, rMid, s * (CH_HALF_W + 0.5), 0, 0);
+      statics.push(cbox(0.3, FH, chDepth + 1.2, sp.x, fy + FH / 2, sp.z, rot, roomWallSide));
+      const ip = chPoint(A, rMid, s * (CH_HALF_W + 0.5), 0, -chDepth / 2 - 0.45);
+      statics.push(cbox(0.3, FH, 0.3, ip.x, fy + FH / 2, ip.z, rot, roomWallSide));
+    }
+    for (const s of [-1, 1]) {
+      const segW = CH_HALF_W + 0.6 - 1.2;
+      const ip = chPoint(A, rMid, s * (1.2 + segW / 2), 0, -chDepth / 2 - 0.45);
+      statics.push(cbox(segW, FH, 0.3, ip.x, fy + FH / 2, ip.z, rot, roomWall));
+    }
+    const lp = chPoint(A, rMid, 0, 0, -chDepth / 2 - 0.45);
+    statics.push(cbox(2.4, FH - 2.3, 0.3, lp.x, fy + 2.3 + (FH - 2.3) / 2, lp.z, rot, roomWall));
+    // door frame in the room trim (the scheme's accent)
+    for (const s of [-1, 1]) {
+      const fp = chPoint(A, rMid, s * 1.28, 0, -chDepth / 2 - 0.3);
+      statics.push(cbox(0.24, 2.3, 0.5, fp.x, fy + 1.15, fp.z, rot, roomTrim));
+    }
+    statics.push(cbox(2.8, 0.26, 0.5, lp.x, fy + 2.42, lp.z, rot, roomTrim));
+    /* furniture by archetype (federal pieces, cheap boxes) */
+    const F = (w, h, d, px, pz, col, py) => {
+      const p = chPoint(A, rMid, px, 0, pz);
+      statics.push(cbox(w, h, d, p.x, fy + (py !== undefined ? py : h / 2), p.z, rot, col));
+    };
+    const deskC = new THREE.Color(0x5a4632), metalC = new THREE.Color(0x6a7076), rackC = new THREE.Color(0x22262e);
+    if (room.archetype === 'ops-center') {
+      F(3.6, 0.75, 1.1, -2.0, -0.6, deskC); F(3.6, 0.75, 1.1, 2.0, -0.6, deskC);
+      F(0.95, 0.55, 0.08, -2.6, -0.6, FED.dark, 1.05); F(0.95, 0.55, 0.08, -1.4, -0.6, FED.dark, 1.05);
+      F(0.95, 0.55, 0.08, 1.4, -0.6, FED.dark, 1.05); F(0.95, 0.55, 0.08, 2.6, -0.6, FED.dark, 1.05);
+      F(5.6, 0.9, 0.7, 0, -3.6, FED.granite);
+    } else if (room.archetype === 'server-hall') {
+      for (const sx of [-2.3, 2.3]) for (const sz of [-2.5, 0, 2.5]) {
+        F(0.95, 2.2, 0.85, sx, sz, rackC);
+        const sp = chPoint(A, rMid, sx + (sx < 0 ? 0.52 : -0.52), 0, sz);
+        const sg = coloredGeom(xg(new THREE.BoxGeometry(0.05, 0.07, 0.6), sp.x, fy + 1.55, sp.z, rot), new THREE.Color(0x7ee2a8));
+        strips.push(sg);
+        const sg2 = coloredGeom(xg(new THREE.BoxGeometry(0.05, 0.07, 0.6), sp.x, fy + 1.05, sp.z, rot), new THREE.Color(0x7ee2a8));
+        strips.push(sg2);
+      }
+    } else if (room.archetype === 'lab') {
+      F(3.4, 0.9, 1.2, -1.9, -0.6, metalC); F(3.4, 0.9, 1.2, 1.9, -0.6, metalC);
+      for (const sx of [-3.6, 3.6]) {
+        const pp = chPoint(A, rMid, sx, 0, 2.3);
+        statics.push(coloredGeom(xg(new THREE.CylinderGeometry(0.26, 0.32, 2.3, 10), pp.x, fy + 1.15, pp.z, 0), FED.granite));
+        const pivot = new THREE.Group();
+        pivot.position.set(pp.x, fy + 2.35, pp.z);
+        const bar = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.07, 0.07),
+          new THREE.MeshBasicMaterial({ color: researched ? bAcc.getHex() : 0xffb36b }));
+        bar.position.x = 0.85;
+        pivot.add(bar); group.add(pivot); bars.push(pivot);
+      }
+    } else if (room.archetype === 'meeting-space') {
+      F(3.8, 0.14, 1.7, 0, -0.2, FED.granite, 0.78);
+      F(0.5, 0.75, 1.5, 0, -0.2, deskC, 0.37);
+      for (const cx of [-1.5, 0, 1.5]) { F(0.52, 0.95, 0.52, cx, -1.45, deskC); F(0.52, 0.95, 0.52, cx, 1.05, deskC); }
+    } else if (room.archetype === 'ledger-office') {
+      F(2.6, 0.8, 1.1, 0, -1.0, deskC);
+      for (const sx of [-3.1, 0, 3.1]) {
+        F(2.7, 2.3, 0.5, sx, -4.15, new THREE.Color(0x54432c));
+        F(2.5, 0.1, 0.06, sx, -3.87, FED.limestone, 1.5);
+        F(2.5, 0.1, 0.06, sx, -3.87, FED.limestone, 0.8);
+      }
+    } else {
+      F(2.6, 0.8, 1.1, 0, -1.0, deskC);
+      F(0.85, 1.85, 0.6, -4.5, -2.2, FED.granite); F(0.85, 1.85, 0.6, 4.5, -2.2, FED.granite);
+    }
+    /* wall panels: record (outer wall), functions/controls (left), terminal (right) */
+    const mkP = (px, pz, w, h, title, lines, tx, tz) => {
+      const mesh = makePanel(w, h, title, lines, accentCss);
+      const pos = chPoint(A, rMid, px, fy + 1.68, pz);
+      mesh.position.copy(pos);
+      group.add(mesh);
+      const tgt = chPoint(A, rMid, tx, fy + 1.68, tz);
+      mesh.lookAt(tgt.x, INT_Y + fy + 1.68, tgt.z);
+      panels.push(mesh);
+      return mesh;
+    };
+    mkP(0, chDepth / 2 + 0.22, 6.6, 3.0, 'SERVICE RECORD', recordLines(o, vendor), 0, -1);
+    mkP(-(CH_HALF_W + 0.28), 0.4, 4.7, 2.9, 'FUNCTIONS & CONTROLS', functionsLines(o, build), 0, 0.4);
+    const term = mkP(CH_HALF_W + 0.28, 0.4, 4.7, 2.9, 'TERMINAL — REFERENCE BUILD', terminalLines(o, build), 0, 0.4);
+    /* door sign + status plaque, in the ring */
+    {
+      const lines = capLines(wrapText(o.product, 30), 2);
+      const c = document.createElement('canvas'); c.width = 1024; c.height = 448;
+      const x = c.getContext('2d');
+      x.fillStyle = '#' + signBg.getHexString(); x.fillRect(0, 0, 1024, 448);
+      x.fillStyle = '#' + roomTrim.getHexString(); x.fillRect(0, 0, 1024, 26);
+      x.fillStyle = '#eef3fa'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.font = '700 62px sans-serif';
+      lines.forEach((ln, i) => x.fillText(ln, 512, 130 + i * 78 - (lines.length - 1) * 39));
+      x.font = '34px sans-serif'; x.fillStyle = o.authorization_status === 'FedRAMP Certified' ? STATUS_COLORS.certified : STATUS_COLORS.other;
+      x.fillText(`${o.tier} · ${o.authorization_status}`, 512, 330);
+      x.font = '28px sans-serif'; x.fillStyle = '#9fb0c3';
+      x.fillText(ARCHETYPE_LABEL[room.archetype], 512, 385);
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+      const sign = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 1.58), new THREE.MeshBasicMaterial({ map: t }));
+      sign.position.set(Math.cos(A) * (R_OUT - 0.42), fy + 2.5, Math.sin(A) * (R_OUT - 0.42));
+      group.add(sign); sign.lookAt(0, INT_Y + fy + 2.5, 0);
+      panels.push(sign);
+      const plaque = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.2, 0.1),
+        new THREE.MeshBasicMaterial({ color: o.authorization_status === 'FedRAMP Certified' ? 0x58b368 : 0xe0a458 }));
+      const pp = chPoint(A, rMid, 1.75, fy + 1.45, -chDepth / 2 - 0.32);
+      plaque.position.copy(pp); plaque.rotation.y = rot;
+      group.add(plaque); panels.push(plaque);
+    }
+    roomRecs.push({ room, build, termPanel: term, termLines: term.userData.panelLines });
+  }
+
+  const staticMesh = new THREE.Mesh(mergeGeoms(statics),
+    new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide }));
+  group.add(staticMesh);
+  statics.forEach((g) => g.dispose());
+  let stripMesh = null;
+  if (strips.length) {
+    stripMesh = new THREE.Mesh(mergeGeoms(strips), new THREE.MeshBasicMaterial({ vertexColors: true }));
+    group.add(stripMesh);
+    strips.forEach((g) => g.dispose());
+  }
+  scene.add(group);
+  interiorLight.color.copy(mixColor(new THREE.Color(0xffd9a0), researched ? bPri : new THREE.Color(0xffd9a0), researched ? 0.35 : 0));
+  interiorLight.intensity = 60;
+  return {
+    vendor, layout, group, floorY: 0, atExit: false,
+    rooms: roomRecs, stripMat: stripMesh ? stripMesh.material : null, bars,
+    boardTimer: 0, boardIdx: 0, hudSub: document.getElementById('hudSub').textContent,
+    saved: null,
+  };
+}
+
+function enterBuilding(vendor) {
+  if (state.interior || !vendor || vendor.kind !== 'building') return;
+  const rec = buildInterior(vendor);
+  rec.saved = { x: player.x, z: player.z, yaw: player.yaw, pitch: player.pitch };
+  state.interior = rec;
+  worldGroup.visible = false;
+  player.x = Math.cos(SPAWN_ANGLE) * 8.8;
+  player.z = Math.sin(SPAWN_ANGLE) * 8.8;
+  player.y = INT_Y + EYE;
+  player.pitch = 0;
+  const tx = Math.cos(SPAWN_ANGLE) * R_OUT, tz = Math.sin(SPAWN_ANGLE) * R_OUT;
+  player.yaw = Math.atan2(-(tx - player.x), -(tz - player.z));
+  document.getElementById('hudSub').textContent = `${vendor.name} — inside · ${vendor.offeringCount} rooms up the spiral`;
+}
+function exitBuilding() {
+  const rec = state.interior;
+  if (!rec) return;
+  rec.group.traverse((obj) => {
+    if (obj.geometry) obj.geometry.dispose();
+    if (obj.material) {
+      const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+      for (const m of mats) { if (m.map) m.map.dispose(); m.dispose(); }
+    }
+  });
+  scene.remove(rec.group);
+  interiorLight.intensity = 0;
+  player.x = rec.saved.x; player.z = rec.saved.z;
+  player.yaw = rec.saved.yaw; player.pitch = rec.saved.pitch;
+  player.y = EYE;
+  worldGroup.visible = true;
+  document.getElementById('hudSub').textContent = rec.hudSub;
+  state.interior = null;
+}
+function resolveInteriorMove(prevX, prevZ) {
+  const rec = state.interior, layout = rec.layout;
+  let lx = player.x, lz = player.z;
+  const cur = rec.floorY;
+  if (!interiorAllowedAt(layout, lx, lz, cur)) {
+    if (interiorAllowedAt(layout, lx, prevZ, cur)) lz = prevZ;
+    else if (interiorAllowedAt(layout, prevX, lz, cur)) lx = prevX;
+    else { lx = prevX; lz = prevZ; }
+  }
+  player.x = lx; player.z = lz;
+  rec.floorY = interiorHeightAt(layout, lx, lz, cur);
+  player.y = INT_Y + rec.floorY + EYE;
+  rec.atExit = rec.floorY < 0.01 &&
+    angDiff(angNorm(Math.atan2(lz, lx)), EXIT_ANGLE) <= 0.35 && Math.hypot(lx, lz) >= R_OUT - 4.5;
+  interiorLight.position.set(lx, INT_Y + rec.floorY + 3.1, lz);
+  rec.currentRoom = chamberAtH(layout, lx, lz, rec.floorY);
+}
+function animateInterior(dt) {
+  const rec = state.interior;
+  if (!rec) return;
+  const t = performance.now() / 1000;
+  if (rec.stripMat) {
+    const s = 0.72 + 0.28 * Math.sin(t * 2.6);
+    rec.stripMat.color.setScalar(s);
+  }
+  for (const b of rec.bars) b.rotation.y += dt * 0.9;
+  rec.boardTimer += dt;
+  if (rec.boardTimer > 0.9) {
+    rec.boardTimer = 0;
+    if (rec.currentRoom !== undefined && rec.currentRoom >= 0) {
+      const rr = rec.rooms[rec.currentRoom];
+      if (rr && rr.room.archetype === 'ops-center' && rr.termPanel) {
+        rec.boardIdx = (rec.boardIdx + 1) % Math.max(rr.termLines.length, 1);
+        rr.termPanel.userData.redrawPanel(rec.boardIdx);
+      }
+    }
+  }
+}
+/* door prompts, refreshed on the stats timer */
+const promptEl = document.getElementById('prompt');
+function updatePrompt() {
+  if (state.interior) {
+    if (state.interior.atExit) {
+      promptEl.innerHTML = '<b>E</b> — Exit to the boulevard';
+      promptEl.style.display = 'block';
+    } else promptEl.style.display = 'none';
+    state.doorVendor = null;
+    return;
+  }
+  let best = null, bd = 49;
+  for (const v of state.buildings) {
+    const fx = Math.sin(v.rotationY), fz = Math.cos(v.rotationY);
+    const dx = v.position.x + fx * (v.size.d / 2 + 1.5) - player.x;
+    const dz = v.position.z + fz * (v.size.d / 2 + 1.5) - player.z;
+    const d2 = dx * dx + dz * dz;
+    if (d2 < bd) { bd = d2; best = v; }
+  }
+  state.doorVendor = best;
+  if (best) {
+    promptEl.innerHTML = `<b>E</b> — Enter ${best.name}`;
+    promptEl.style.display = 'block';
+  } else promptEl.style.display = 'none';
+}
+
 /* ---------------- controls: keyboard, pointer lock, touch ---------------- */
 const keys = {};
-window.addEventListener('keydown', (ev) => { keys[ev.code] = true; });
+window.addEventListener('keydown', (ev) => {
+  keys[ev.code] = true;
+  if (ev.code === 'KeyE' && !ev.repeat) {
+    if (state.interior) { if (state.interior.atExit) exitBuilding(); }
+    else if (state.doorVendor) {
+      const v = state.doorVendor;
+      card.style.display = 'none';
+      enterBuilding(v);
+    }
+  }
+});
 window.addEventListener('keyup', (ev) => { keys[ev.code] = false; });
 const debugMove = { f: 0, b: 0, l: 0, r: 0 };
 const stick = { active: false, id: -1, ox: 0, oy: 0, mx: 0, mz: 0 };
@@ -541,6 +1153,15 @@ function currentStats() {
     triangles: info.triangles,
     fps: state.fps,
     camera: { x: Math.round(player.x * 10) / 10, z: Math.round(player.z * 10) / 10 },
+    exteriorDrawCalls: state.exteriorDrawCalls,
+    interior: state.interior ? {
+      vendor: state.interior.vendor.name,
+      roomsBuilt: state.interior.rooms.length,
+      floor: Math.round(state.interior.floorY / FH),
+      levels: state.interior.layout.levels,
+      drawCalls: info.calls,
+      triangles: info.triangles,
+    } : null,
   };
 }
 window.__BASE_STATS__ = () => currentStats();
@@ -557,6 +1178,73 @@ window.__BASE__ = {
   lookAt: (x, z) => {
     const dx = x - player.x, dz = z - player.z;
     player.yaw = Math.atan2(-dx, -dz);
+  },
+  lookAtPoint: (x, y, z) => {
+    const dx = x - player.x, dy = y - player.y, dz = z - player.z;
+    player.yaw = Math.atan2(-dx, -dz);
+    player.pitch = Math.atan2(dy, Math.hypot(dx, dz));
+  },
+  /* Phase 2 hooks */
+  enterBuilding: (nameOrId) => {
+    const v = state.catalog.vendors.find((x) => x.id === nameOrId || x.name === nameOrId);
+    if (v) enterBuilding(v);
+    return !!state.interior;
+  },
+  exitBuilding: () => { exitBuilding(); return !state.interior; },
+  interiorState: () => state.interior ? {
+    vendor: state.interior.vendor.name,
+    roomsBuilt: state.interior.rooms.length,
+    floor: Math.round(state.interior.floorY / FH),
+    levels: state.interior.layout.levels,
+    floorY: state.interior.floorY,
+    atExit: state.interior.atExit,
+    currentRoom: state.interior.currentRoom === undefined ? -1 : state.interior.currentRoom,
+  } : null,
+  interiorTeleport: ({ x, z, floorY }) => {
+    if (!state.interior) return false;
+    state.interior.floorY = floorY;
+    player.x = x; player.z = z;
+    player.y = INT_Y + floorY + EYE;
+    return true;
+  },
+  interiorPoints: () => {
+    if (!state.interior) return null;
+    const layout = state.interior.layout;
+    const P = (lx, y, lz) => ({ x: lx, y: INT_Y + y, z: lz });
+    const lobbyPos = { x: Math.cos(SPAWN_ANGLE) * 8.8, z: Math.sin(SPAWN_ANGLE) * 8.8 };
+    const fj = Math.min(1, Math.max(layout.levels - 1, 0));
+    const fa0 = fj === 0 ? 0.2 : doorAngle(fj - 1), fa1 = doorAngle(fj);
+    const fam = fa0 + (fa1 - fa0) / 2;
+    return {
+      lobby: {
+        floorY: 0,
+        pos: P(lobbyPos.x, EYE, lobbyPos.z),
+        look: P(Math.cos(SPAWN_ANGLE) * R_OUT, EYE + 0.3, Math.sin(SPAWN_ANGLE) * R_OUT),
+      },
+      spiral: {
+        floorY: fj * FH + FH / 2,
+        pos: P(Math.cos(fam) * (R_OUT - 2.9), fj * FH + EYE + 0.6, Math.sin(fam) * (R_OUT - 2.9)),
+        look: P(Math.cos(fa1) * (R_OUT - 1.2), (fj + 1) * FH + EYE + 0.4, Math.sin(fa1) * (R_OUT - 1.2)),
+      },
+      rooms: layout.rooms.map((room) => {
+        const A = room.angle, rMid = (CH_IN + CH_OUT) / 2;
+        const posL = chPoint(A, rMid, 0, 0, -1.6), lookL = chPoint(A, rMid, 0, 0, (CH_OUT - CH_IN) / 2);
+        return {
+          product: room.offering.product, archetype: room.archetype, floorY: room.floorY,
+          pos: P(posL.x, room.floorY + EYE, posL.z),
+          look: P(lookL.x, room.floorY + EYE + 0.2, lookL.z),
+        };
+      }),
+    };
+  },
+  roomData: (nameOrId) => {
+    const v = state.catalog.vendors.find((x) => x.id === nameOrId || x.name === nameOrId);
+    if (!v) return null;
+    return v.offerings.map((o) => ({
+      product: o.product,
+      room: o.room,
+      build: o.room.buildGroup ? state.catalog.builds[o.room.buildGroup] : null,
+    }));
   },
   setMove: ({ forward = 0, back = 0, left = 0, right = 0 }) => {
     debugMove.f = forward; debugMove.b = back; debugMove.l = left; debugMove.r = right;
@@ -597,11 +1285,17 @@ function nearestDistrictName() {
 function loop() {
   requestAnimationFrame(loop);
   const dt = Math.min(clock.getDelta(), 0.1);
+  const prevX = player.x, prevZ = player.z;
   stepMovement(dt);
+  if (state.interior) {
+    resolveInteriorMove(prevX, prevZ);
+    animateInterior(dt);
+  }
   camera.position.set(player.x, player.y, player.z);
   camera.rotation.set(player.pitch, player.yaw, 0);
   renderer.render(scene, camera);
   state.frames++;
+  if (!state.interior && state.ready) state.exteriorDrawCalls = renderer.info.render.calls;
   fpsAccum += dt; fpsCount++; fpsTimer += dt; labelTimer += dt; statsTimer += dt;
   if (fpsTimer > 0.5) { state.fps = Math.round(fpsCount / Math.max(fpsAccum, 0.001)); fpsAccum = 0; fpsCount = 0; fpsTimer = 0; }
   if (labelTimer > 0.12) { labelTimer = 0; if (state.ready) updateLabels(); }
@@ -609,7 +1303,12 @@ function loop() {
     statsTimer = 0;
     if (state.ready) {
       const s = currentStats();
-      statsbar.textContent = `${nearestDistrictName()} · ${s.drawCalls} draw calls · ${Math.round(s.triangles / 1000)}k triangles · ${s.fps} fps`;
+      if (state.interior) {
+        statsbar.textContent = `${state.interior.vendor.name} — interior · floor ${Math.round(state.interior.floorY / FH)} of ${state.interior.layout.levels} · ${s.drawCalls} draw calls · ${Math.round(s.triangles / 1000)}k triangles · ${s.fps} fps`;
+      } else {
+        statsbar.textContent = `${nearestDistrictName()} · ${s.drawCalls} draw calls · ${Math.round(s.triangles / 1000)}k triangles · ${s.fps} fps`;
+      }
+      updatePrompt();
     }
   }
 }

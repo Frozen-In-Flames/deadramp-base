@@ -138,3 +138,41 @@ Status is architecture, readable before any sign:
   roof trims, signage bands, and gate pylons are one InstancedMesh
   each. Measured at spawn: 18 draw calls, 48,242 triangles for the
   whole visible world (see README verification results).
+
+## The building-scale spiral (interiors, Phase 2)
+
+The spiral law recurses into every building. An interior is a
+cylindrical tower built on entry for one building and disposed on
+exit, placed far below the exterior world so the two never interact.
+
+- Floor height 3.4 m. Level 0 is the lobby; offering j (registry
+  order) occupies level j+1, so a building's height is its offering
+  count, the same read as its exterior massing.
+- A solid core column (radius 3 m) carries the vendor's name band.
+  The walkable ring runs from the core railing (5.6 m) to the outer
+  wall (15 m). Chambers protrude outward from radius 14.2 m to
+  23.4 m, 10 m wide, one per floor.
+- The coil: door j sits at angle 0.9 + 1.35j radians. One ramp flight
+  per floor winds from the previous door's landing to the next door
+  along the ring's outer band (radius 10.4 to 13.6 m), so the climb
+  is a single continuous spiral, never a stairwell switchback.
+- Height rule: the floor under the player is the candidate surface
+  (ring floor, ramp flight, door landing, chamber floor) nearest to
+  the player's current height. Stacked floors share the same plan
+  coordinates, and the nearest-candidate rule is what makes the
+  stack unambiguous without collision geometry.
+- Collision is bounds only, stated plainly: the walkable region is
+  the ring plus the chamber of the floor the player is on (with a
+  height tolerance of three quarters of a floor). Walls are bounds,
+  not meshes; partition-level collision is not modeled.
+- Brand: the lobby is federal with brand accents (trim, medallion,
+  column band, panel title bars). In the rooms the vendor's scheme
+  leads: wall treatment mixed from the researched primary, trim and
+  door frames in the accent, signage band and accent light tinted by
+  the palette. Default-palette vendors get the federal finish in
+  their rooms too.
+- Performance: one merged static mesh per interior (shell, floors,
+  ramps, chamber shells, furniture), one merged mesh for animated
+  server strips, panels and signs as individual textured planes.
+  Measured on the largest building (IBM, 10 rooms): 19 draw calls in
+  the spiral view, 5 to 6 in lobby and room views.

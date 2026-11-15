@@ -12,6 +12,7 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 
 const REPO = path.resolve(__dirname, '..');
@@ -25,8 +26,8 @@ function check(name, cond, detail) {
   if (cond) { console.log(`PASS ${name}${detail ? ' (' + detail + ')' : ''}`); }
   else { failures++; console.log(`FAIL ${name}${detail ? ' (' + detail + ')' : ''}`); }
 }
-function runExporter(forksPath, outPath) {
-  execFileSync('node', [EXPORTER, '--forks', forksPath, '--groups', GROUPS, '--out', outPath], { stdio: 'pipe' });
+function runExporter(forksPath, outPath, groupsPath) {
+  execFileSync('node', [EXPORTER, '--forks', forksPath, '--groups', groupsPath || GROUPS, '--out', outPath], { stdio: 'pipe' });
   return fs.readFileSync(outPath, 'utf8');
 }
 
@@ -106,6 +107,148 @@ check('researched palette count equals seed table size', researchedCount === Obj
 const ms = cat.vendors.find((v) => v.name === 'Microsoft');
 check('spot check: Microsoft palette is the seeded public brand palette',
   !!ms && ms.brand.source === 'researched' && ms.brand.primary === '#0078d4', ms ? ms.brand.primary : 'missing');
+
+/* ---- Phase 2: rooms and build records ----
+ * Rooms are generated from the DeadRamp source repo: each offering's
+ * spec entry in groups/<group>/specs/specs.json (joined by fork_id)
+ * plus the group's merged build record. These tests re-read the
+ * source tree independently and assert exact matches. */
+const DEADRAMP_ROOT = path.dirname(GROUPS);
+const { archetypeFor, forkIdOf } = require(EXPORTER);
+const specIndexT = new Map();
+for (const g of fs.readdirSync(GROUPS).sort()) {
+  const sp = path.join(GROUPS, g, 'specs', 'specs.json');
+  if (!fs.existsSync(sp)) continue;
+  for (const e of JSON.parse(fs.readFileSync(sp, 'utf8'))) {
+    if (e && e.fork_id && !specIndexT.has(e.fork_id)) specIndexT.set(e.fork_id, { group: g, entry: e });
+  }
+}
+check('source tree holds 779 spec entries (781 offerings minus the 2 unclassified)',
+  specIndexT.size === 779, `specs=${specIndexT.size}`);
+let roomCount = 0, roomsWithBuild = 0, roomFieldBad = 0, noBuildIds = [];
+const ARCHETYPES = ['ops-center', 'server-hall', 'lab', 'meeting-space', 'ledger-office', 'federal-office'];
+let archetypeBad = 0;
+for (const v of cat.vendors) for (const o of v.offerings) {
+  if (!o.room) { roomFieldBad++; continue; }
+  roomCount++;
+  if (!ARCHETYPES.includes(o.room.archetype) || o.room.archetype !== archetypeFor(o.function)) archetypeBad++;
+  const hit = specIndexT.get(forkIdOf(o.source_url));
+  if (!hit) {
+    if (o.room.buildGroup !== null || o.room.specPath !== null || o.room.description !== null) roomFieldBad++;
+    noBuildIds.push(o.room.forkId);
+    continue;
+  }
+  roomsWithBuild++;
+  const e = hit.entry;
+  if (o.room.buildGroup !== hit.group) roomFieldBad++;
+  if (o.room.specPath !== `groups/${hit.group}/specs/specs.json`) roomFieldBad++;
+  if (o.room.description !== (e.description ?? null)) roomFieldBad++;
+  if (o.room.deploymentModel !== (e.deployment_model ?? null)) roomFieldBad++;
+  if (o.room.specSource !== (e.source ?? null)) roomFieldBad++;
+  const srcFns = (e.functions_claimed || []).map((f) => ({ id: f.function_id, name: f.function }));
+  if (JSON.stringify(o.room.functions) !== JSON.stringify(srcFns)) roomFieldBad++;
+}
+check('room count equals offering count (781)', roomCount === 781 && cat.meta.rooms === 781, `rooms=${roomCount}`);
+check('every room traces exactly to its source spec entry (description, deployment, functions, paths)',
+  roomFieldBad === 0, `bad=${roomFieldBad}`);
+check('rooms with a source build number 779', roomsWithBuild === 779, `withBuild=${roomsWithBuild}`);
+check('the only rooms without a build are the two unclassified offerings',
+  noBuildIds.length === 2 && noBuildIds.includes('FR1901852210') && noBuildIds.includes('AGENCYNITCIAAS'),
+  noBuildIds.join(', '));
+check('every room archetype is in the documented set and follows the offering function', archetypeBad === 0, `bad=${archetypeBad}`);
+
+/* ---- build records: provenance against the source tree ---- */
+const buildKeys = Object.keys(cat.builds || {});
+check('one build record per group in the source tree (101)', buildKeys.length === 101 && cat.meta.builds === 101, `builds=${buildKeys.length}`);
+let specCountSum = 0, manifestBad = 0, manifestFiles = 0, titleBad = 0, summaryBad = 0;
+const stripMd = (s) => s.replace(/\[([^\]]*)\]\([^)]*\)/g, '$1').replace(/\[([^\]]*)\]\[[^\]]*\]/g, '$1').replace(/[*_`]+/g, '').replace(/\s+/g, ' ');
+for (const g of buildKeys) {
+  const b = cat.builds[g];
+  specCountSum += b.specCount;
+  const readme = fs.readFileSync(path.join(DEADRAMP_ROOT, 'groups', g, 'README.md'), 'utf8');
+  const titleLine = readme.split('\n').find((l) => l.startsWith('# '));
+  if (!titleLine || b.title !== titleLine.slice(2).trim()) titleBad++;
+  const core = b.summary.endsWith('…') ? b.summary.slice(0, -1) : b.summary;
+  if (!core || !stripMd(readme).includes(core)) summaryBad++;
+  for (const mf of b.manifest) {
+    manifestFiles++;
+    const p = path.join(DEADRAMP_ROOT, mf.path);
+    if (!fs.existsSync(p)) { manifestBad++; continue; }
+    const buf = fs.readFileSync(p);
+    if (buf.length !== mf.bytes || crypto.createHash('sha256').update(buf).digest('hex') !== mf.sha256) manifestBad++;
+  }
+}
+check('build spec counts sum to the 779 spec entries', specCountSum === 779, `sum=${specCountSum}`);
+check('every build title is the verbatim first heading of its group README', titleBad === 0, `bad=${titleBad}`);
+check('every build summary is verbatim text from its group README', summaryBad === 0, `bad=${summaryBad}`);
+check('every manifest entry matches its source file (path, size, SHA-256)',
+  manifestBad === 0, `files=${manifestFiles} bad=${manifestBad}`);
+/* independent recount of the builds' test suites */
+let recountedTests = 0;
+for (const g of buildKeys) {
+  const tdir = path.join(DEADRAMP_ROOT, 'groups', g, 'tests');
+  if (!fs.existsSync(tdir)) continue;
+  for (const f of fs.readdirSync(tdir)) {
+    if (/^test_.*\.py$/.test(f)) {
+      recountedTests += (fs.readFileSync(path.join(tdir, f), 'utf8').match(/^\s*def test_/gm) || []).length;
+    }
+  }
+}
+const catalogTests = buildKeys.reduce((s, g) => s + cat.builds[g].testCount, 0);
+check('build test counts match an independent recount of the source tests',
+  catalogTests === recountedTests, `catalog=${catalogTests} recounted=${recountedTests}`);
+/* sampled surface checks against source text */
+for (const g of ['cybersecurity-l3', 'storage-l2', 'analytics-l2']) {
+  const b = cat.builds[g];
+  const mainPy = fs.readFileSync(path.join(DEADRAMP_ROOT, 'groups', g, 'src', b.package, '__main__.py'), 'utf8');
+  const cliOk = b.cli.every((c) => mainPy.includes(`add_parser("${c.name}"`) || mainPy.includes(`add_parser('${c.name}'`))
+    && b.cli.length === (mainPy.match(/add_parser\(/g) || []).length;
+  check(`build surface: ${g} CLI commands are verbatim from its __main__.py`, cliOk, `cli=${b.cli.map((c) => c.name).join(',')}`);
+}
+const cyber = cat.builds['cybersecurity-l3'];
+check('spot check: cybersecurity-l3 carries its 34-control NIST SP 800-53 catalog, AC-2 first',
+  cyber.controls.length === 34 && cyber.controls[0].id === 'AC-2' && cyber.controlsSource.endsWith('catalog.py'),
+  `controls=${cyber.controls.length}`);
+check('spot check: cybersecurity-l3 literal routes include GET /health and operations include asset_list',
+  cyber.http.routes.includes('GET /health') && cyber.http.operations.includes('asset_list'));
+const ctrlGroups = buildKeys.filter((g) => cat.builds[g].controls.length > 0);
+check('exactly the 8 cybersecurity and GRC builds carry a control catalog', ctrlGroups.length === 8, ctrlGroups.join(', '));
+
+/* ---- Phase 2 mutation control: one changed spec field changes
+ * exactly one room. Sparse groups tree (specs only) with one
+ * description flipped; rooms are compared per registry index. ---- */
+const sparseRoot = path.join(tmp, 'sparse');
+for (const g of fs.readdirSync(GROUPS)) {
+  const sp = path.join(GROUPS, g, 'specs', 'specs.json');
+  if (!fs.existsSync(sp)) continue;
+  const dest = path.join(sparseRoot, 'groups', g, 'specs');
+  fs.mkdirSync(dest, { recursive: true });
+  fs.copyFileSync(sp, path.join(dest, 'specs.json'));
+}
+const targetFork = forkIdOf(forks[0].source_url);
+const targetGroup = specIndexT.get(targetFork).group;
+const mutSpecPath = path.join(sparseRoot, 'groups', targetGroup, 'specs', 'specs.json');
+const mutSpecs = JSON.parse(fs.readFileSync(mutSpecPath, 'utf8'));
+const mutEntry = mutSpecs.find((e) => e.fork_id === targetFork);
+mutEntry.description = (mutEntry.description || '') + ' MUTATED';
+fs.writeFileSync(mutSpecPath, JSON.stringify(mutSpecs));
+const mutCat2 = JSON.parse(runExporter(FORKS, path.join(tmp, 'mut2.json'), path.join(sparseRoot, 'groups')));
+const roomsOf = (c) => {
+  const map = new Map();
+  for (const v of c.vendors) for (const o of v.offerings) map.set(o.registryIndex, JSON.stringify(o.room));
+  return map;
+};
+const baseRooms = roomsOf(cat), mutRooms = roomsOf(mutCat2);
+const changedRooms = [...baseRooms.keys()].filter((k) => baseRooms.get(k) !== mutRooms.get(k));
+check('spec mutation: exactly one room changes', changedRooms.length === 1 && changedRooms[0] === 0, `changed=${changedRooms.join(',')}`);
+if (changedRooms.length === 1) {
+  const a = JSON.parse(baseRooms.get(0)), b2 = JSON.parse(mutRooms.get(0));
+  const keys = new Set([...Object.keys(a), ...Object.keys(b2)]);
+  const diffKeys = [...keys].filter((k) => JSON.stringify(a[k]) !== JSON.stringify(b2[k]));
+  check('spec mutation: the only changed room field is the description', diffKeys.length === 1 && diffKeys[0] === 'description', `diffs=${diffKeys.join(',')}`);
+  check('spec mutation: build records and districts are untouched by a spec text change',
+    JSON.stringify(Object.keys(mutCat2.builds).sort()) === JSON.stringify(buildKeys.sort()));
+}
 
 /* ---- determinism: byte-identical re-export ---- */
 const againText = runExporter(FORKS, path.join(tmp, 'again.json'));
