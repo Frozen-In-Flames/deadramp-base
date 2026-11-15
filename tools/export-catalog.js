@@ -1144,6 +1144,271 @@ const BRAND_SEEDS = {
   'Nuance': { primary: '#285ce6', secondary: '#b6c8f7', accent: '#141380' },
   // Brandfetch brand page (Blue Ribbon, Anakiwa, Ebony Clay): https://brandfetch.com/nucleussec.com
   'Nucleus Security, Inc': { primary: '#1070ff', secondary: '#9fc6ff', accent: '#1e2330' },
+  // Tranche 8 (Nov 15, 2026): the next 60 default-palette vendors in registry
+  // order after Ocasio Convergence Holdings LLC, from Ocient Inc. through
+  // Quzara, LLC. 54 moved to researched. OneSpan Inc. leads the block: it was
+  // fully verified in tranche 7 but sat one position past that tranche's
+  // boundary, so it was left unseeded on the record there; its listing was
+  // re-fetched and re-confirmed for this tranche before seeding. Stayed
+  // default on the record: OnSolve LLC (its brandfetch.com/onsolve.com page
+  // now presents acquirer Crisis24's brand: page titled Crisis24, palette
+  // expressly 'The Crisis24 color palette' #ff4712/#d29350/#191919, About
+  // says OnSolve is 'now part of the Crisis24 portfolio'; OnSolve's own
+  // colors are not citable there); OpenAI (its claimed brandfetch.com/
+  // openai.com listing states exactly two colors, #ffffff and #080808; no
+  // third value citable and the accent is never invented); Optimal Labs
+  // (company confirmed on the FedRAMP Marketplace, offering '9line', but no
+  // company website or domain and no citable hex source found after targeted
+  // searches); Power Settlements Consulting and Software, LLC (PSCS), a
+  // subsidiary of Yes Energy, LLC (brandfetch.com/powersettlements.com is
+  // titled 'Yes Energy' and its palette is expressly 'The Yes Energy color
+  // palette' #68aec7/#ffffff/#3a3a3a under the parent's name and logos,
+  // though the page's header and About describe Power Settlements itself;
+  // the only citable palette at the vendor's own domain is the parent's,
+  // presented as the parent's: tranche 6 Kovr.ai precedent); Pincus
+  // Technologies Inc (company could not be identified to any citable source
+  // after repeated targeted searches; registry offering 'Tarly Cowork' has
+  // no public trace); PTC (brandfetch.com/ptc.com was fetched in full but
+  // states no hex palette at all, and no other citable source for PTC Inc.'s
+  // colors was found). Judgment calls recorded in the per-entry comments:
+  // Ontario Systems seeded from Finvi, the vendor's own current brand (the
+  // registry name itself carries 'd/b/a Finvi'); OwnBackup seeded from a
+  // listing presenting 'Own', the company's own renamed identity, whose
+  // About is about OwnBackup itself; Optum Serve seeded from the Optum
+  // parent brand it carries as Optum's federal division; Pearson VUE seeded
+  // from a listing titled for parent Pearson whose About describes Pearson
+  // VUE itself, VUE carrying the parent brand. Perceptyx and Qualtrics were
+  // seeded on their named/listed swatch data despite FAQ prose tension,
+  // recorded per entry (tranche 7 Moveworks precedent). Six seeds carry
+  // #000000 as a single fallback-trio member with named, unique,
+  // identity-consistent swatches (Ocient accent, Onspring accent, Open
+  // Access Technology International accent, OpenWater accent, Phenom accent,
+  // PTFS/Liblime accent): flagged per entry, tranche 5 Ex Libris precedent;
+  // the fallback trio itself appears in none.
+  // Source: brandfetch.com/onespan.com brand page, named swatches Turquoise /
+  // Black Haze / Blue Lagoon; page identity matches (digital security and
+  // e-signature; registry offering is the OneSpan Sign service). Verified in
+  // tranche 7 and re-fetched and re-confirmed for tranche 8.
+  'OneSpan Inc.': { primary: '#4cdbcb', secondary: '#f0f2f2', accent: '#00788c' },
+  // Source: brandfetch.com/ocient.com brand page, named swatches Conifer /
+  // Picton Blue / Black; header names OcientAIQ, the registry offering.
+  // Accent #000000 is a single fallback-trio member; swatches named, unique,
+  // identity-consistent (Ex Libris precedent).
+  'Ocient Inc.': { primary: '#a2da59', secondary: '#1ab7ea', accent: '#000000' },
+  // Source: brandfetch.com/oclc.org brand page, named swatches Matisse /
+  // Black Haze / Limed Spruce; About names WorldShare Management Services,
+  // the registry offering.
+  'OCLC Incorporated': { primary: '#2178b4', secondary: '#f6f7f7', accent: '#333f48' },
+  // Source: brandfetch.com/omnissa.com brand page (claimed brand), named
+  // swatches Navy / Light cool grey / White; fallback lettermark icon only.
+  'Omnissa': { primary: '#001e60', secondary: '#f5f6fb', accent: '#ffffff' },
+  // Source: brandfetch.com/onestream.com brand page, named swatches Purple
+  // Heart / Green Haze / Chilean Fire (Pink Salmon #ff8fb4 and Dodger Blue
+  // #5564ff also listed).
+  'OneStream Software': { primary: '#6e26c1', secondary: '#00985b', accent: '#f67d02' },
+  // Source: brandfetch.com/onspring.com brand page, named swatches Blue Whale
+  // / Portage / Black. Accent #000000 is a single fallback-trio member;
+  // swatches named, unique, identity-consistent (Ex Libris precedent).
+  'Onspring Technologies, LLC': { primary: '#05254a', secondary: '#9896f0', accent: '#000000' },
+  // Source: brandfetch.com/finvi.com brand page, named swatches Atlantis /
+  // Malibu / Mine Shaft. Judgment: the registry name itself carries 'd/b/a
+  // Finvi'; Finvi is the vendor's own current brand at its own domain (page
+  // founded 1980, Ontario Systems' founding; collections and revenue-cycle
+  // business matches). Fallback lettermark icon only.
+  'Ontario Systems, LLC d/b/a Finvi': { primary: '#99ca3c', secondary: '#8ed1fc', accent: '#202020' },
+  // Source: brandfetch.com/ontic.co brand page, named swatches Tango / Zircon
+  // / Deep Sapphire.
+  'Ontic Technologies': { primary: '#e96822', secondary: '#f1f7ff', accent: '#0a376d' },
+  // Source: brandfetch.com/oati.com brand page, palette stated in its FAQ (no
+  // color names listed). Accent #000000 is a single fallback-trio member;
+  // values unique and identity-consistent (Ex Libris precedent).
+  'Open Access Technology International, Inc.': { primary: '#cf3339', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/openclinica.com brand page, palette stated in its
+  // FAQ (no color names listed).
+  'OpenClinica LLC': { primary: '#cf6261', secondary: '#eef6fd', accent: '#112337' },
+  // Source: brandfetch.com/getopenwater.com brand page, palette stated in its
+  // FAQ (no color names listed). Accent #000000 is a single fallback-trio
+  // member; values unique and identity-consistent (Ex Libris precedent).
+  'OpenWater Software LLC': { primary: '#a1e1fb', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/orbussoftware.com brand page, named swatches San
+  // Juan / Viking / Bunting; About names OrbusInfinity, the registry
+  // offering family.
+  'Orbus Software': { primary: '#2e4674', secondary: '#5edac3', accent: '#151e47' },
+  // Source: brandfetch.com/orca.security brand page, named swatches Stratos /
+  // Crusta / Congress Blue.
+  'Orca Security': { primary: '#020445', secondary: '#ff7f2b', accent: '#004085' },
+  // Source: brandfetch.com/ownbackup.com brand page, named swatches Yellow
+  // Orange / Alice Blue / Shark. Judgment: the page presents 'Own', the
+  // company's own renamed identity (OwnBackup renamed itself Own); the About
+  // section is about OwnBackup itself and the registry offering is 'Own
+  // Government Cloud'. Renamed-vendor retained-identity precedent (tranche 6
+  // Itamar Medical, tranche 7 MediaLab/Vastian), not an acquirer.
+  'OwnBackup': { primary: '#ffbe42', secondary: '#f0f7ff', accent: '#1d2327' },
+  // Source: brandfetch.com/pagefreezer.com brand page, named swatches Sunglow
+  // / Goldenrod / Genoa.
+  'Pagefreezer Software Inc.': { primary: '#ffc72c', secondary: '#ffcb70', accent: '#115e67' },
+  // Source: brandfetch.com/optum.com brand page (claimed brand), named
+  // swatches Outrageous Orange / Resolution Blue / Humming Bird (Scorpion
+  // #5a5a5a and Merino #fbf9f4 also listed). Judgment: Optum Serve is Optum's
+  // federal division and carries the Optum brand; registry offering is
+  // 'Optum Serve Federal Platform' (parent-brand precedents: tranche 2 Ipsos
+  // America, USDA; tranche 5 NICE CXone).
+  'Optum Serve': { primary: '#ff612b', secondary: '#002677', accent: '#d9f6fa' },
+  // Source: brandfetch.com/pagerduty.com brand page, palette stated in its
+  // FAQ (no color names listed); five values listed (#000000 and #ffffff
+  // also), first three in listed order seeded. About names the PagerDuty
+  // Operations Cloud, the registry offering.
+  'PagerDuty': { primary: '#048a24', secondary: '#171817', accent: '#005a2f' },
+  // Source: brandfetch.com/paperless-innovations.com brand page (the
+  // hyphenated domain is the company's real one; brandfetch.com/
+  // paperlessinnovations.com returns 404), palette stated in its FAQ (no
+  // color names listed); About matches the GPC compliance automation
+  // business behind the registry offering 'Actus'.
+  'Paperless Innovations, Inc.': { primary: '#3ed8c6', secondary: '#ffffff', accent: '#49576d' },
+  // Source: brandfetch.com/partos.ai brand page, named swatches Cod Gray /
+  // Milano Red / Porcelain; About (aerospace and defense supply-chain AI,
+  // Stanford Research Park, Palo Alto) matches the registry vendor,
+  // identified independently through its USPTO trademark filing.
+  'Partos Inc.': { primary: '#0e0e0e', secondary: '#d81703', accent: '#fcfdfd' },
+  // Source: brandfetch.com/patlytics.com brand page, named swatches Lima /
+  // Ecru White / Celtic.
+  'Patlytics, Inc.': { primary: '#57dc2f', secondary: '#f5f0e7', accent: '#133020' },
+  // Source: brandfetch.com/pdq.com brand page, named swatches Tall Poppy /
+  // White / Tundora; fallback lettermark icon only.
+  'PDQ': { primary: '#bd2426', secondary: '#ffffff', accent: '#404040' },
+  // Source: brandfetch.com/pdri.com brand page, named swatches Blue Chill /
+  // Mantis / Midnight; header and About name Palladium, the registry
+  // offering; PDRI carries its own brand at its own domain.
+  'PDRI by Pearson': { primary: '#0a80a3', secondary: '#8cc65e', accent: '#00233e' },
+  // Source: brandfetch.com/pearsonvue.com brand page, palette stated in its
+  // FAQ (no color names listed). Judgment: the page is titled 'Pearson' but
+  // its About describes Pearson VUE itself; Pearson VUE carries the parent
+  // Pearson brand.
+  'Pearson VUE': { primary: '#007fa3', secondary: '#ffffff', accent: '#003057' },
+  // Source: brandfetch.com/pega.com brand page, palette stated in its FAQ (no
+  // color names listed).
+  'Pegasystems': { primary: '#5f67b9', secondary: '#001f5f', accent: '#ffffff' },
+  // Source: brandfetch.com/penielsolutions.com brand page, named swatches
+  // Java / White / Cod Gray; About includes Records Management (registry
+  // offering 'TransAccess GovCloud Records').
+  'Peniel Solutions, LLC': { primary: '#1cc0c6', secondary: '#ffffff', accent: '#1c1c1c' },
+  // Source: brandfetch.com/pepelwerk.com brand page, palette stated in its
+  // FAQ (no color names listed).
+  'Pepelwerk LLC': { primary: '#15d7d7', secondary: '#f8fdfd', accent: '#001725' },
+  // Source: brandfetch.com/peraton.com brand page, palette stated in its FAQ
+  // (no color names listed).
+  'Peraton Corporation': { primary: '#325fac', secondary: '#fefefe', accent: '#0c3d5d' },
+  // Source: brandfetch.com/perceptyx.com brand page, named swatches
+  // Razzmatazz / White / Black Pearl. Tension recorded: the page's FAQ prose
+  // describes a turquoise speech-bubble emblem on a navy-and-white
+  // foundation with turquoise/aqua accents, but the named swatches lead with
+  // vivid pink #ed2174 and contain no turquoise; navy (Black Pearl) and
+  // white are present, so this is not a wholly-disjoint contradiction of the
+  // tranche 4 Cyera type; seeded on the named swatch data (tranche 7
+  // Moveworks precedent).
+  'Perceptyx': { primary: '#ed2174', secondary: '#ffffff', accent: '#040725' },
+  // Source: brandfetch.com/perplexity.ai brand page, palette stated in its
+  // FAQ (no color names listed).
+  'Perplexity AI': { primary: '#20808d', secondary: '#091717', accent: '#fbfaf4' },
+  // Source: brandfetch.com/withpersona.com brand page, named swatches
+  // Cornflower Blue / Periwinkle / Stratos (Aquamarine #68f0fd and Onahau
+  // #cdfaff also listed).
+  'Persona Identities, LLC': { primary: '#7379fd', secondary: '#c8cbfe', accent: '#010334' },
+  // Source: brandfetch.com/pexip.com brand page, named swatches Blue Zodiac /
+  // White / Blue Zodiac; primary and accent are near-identical navies
+  // exactly as listed.
+  'Pexip Inc.': { primary: '#0a2136', secondary: '#ffffff', accent: '#0b2036' },
+  // Source: brandfetch.com/phenom.com brand page (claimed brand), named
+  // swatches Royal Blue / Persian Blue / Black (White also listed). Accent
+  // #000000 is a single fallback-trio member; swatches named, unique,
+  // identity-consistent (Ex Libris precedent).
+  'Phenom People, Inc. (Phenom)': { primary: '#4543d9', secondary: '#1f2aac', accent: '#000000' },
+  // Source: brandfetch.com/pinecone.io brand page, palette stated in its FAQ
+  // (no color names listed; #1f1f33 also listed).
+  'Pinecone Systems, Inc.': { primary: '#1c17ff', secondary: '#f1f5f8', accent: '#ffffff' },
+  // Source: brandfetch.com/pitneybowes.com brand page, named swatches Red
+  // Violet / White / Chambray.
+  'Pitney Bowes': { primary: '#cf0989', secondary: '#ffffff', accent: '#314183' },
+  // Source: brandfetch.com/platformoneinc.com brand page, named swatches
+  // Amethyst / Biloba Flower / Black Russian; About explicitly names
+  // PlatformOne Group Inc. and its ComplianceONE software, the registry
+  // offering.
+  'PlatformOne Group Inc': { primary: '#8a51ce', secondary: '#b6aae8', accent: '#000313' },
+  // Source: brandfetch.com/pointblue.org brand page, named swatches
+  // Shakespeare / Cornflower / Endeavour.
+  'Point Blue Conservation Science': { primary: '#4392ce', secondary: '#8ebee2', accent: '#065ba7' },
+  // Source: brandfetch.com/portal26.ai brand page, named swatches Red / White
+  // / Charade; About describes the AI security and governance platform that
+  // is the registry offering.
+  'Portal26, Inc.': { primary: '#ff0000', secondary: '#ffffff', accent: '#2c303c' },
+  // Source: brandfetch.com/powertrain.com brand page, named swatches Polo
+  // Blue / Cold Purple / Bay of Many; About (training, LMS, founded 1994)
+  // matches the registry vendor and its Government Learning Enclave
+  // offering.
+  'PowerTrain Inc.': { primary: '#93a5cf', secondary: '#a2b6df', accent: '#274c80' },
+  // Source: brandfetch.com/praxonlabs.com brand page, named swatches
+  // Buttercup / Vesuvius / Catskill White; fallback lettermark icon only.
+  'Praxon Labs Inc.': { primary: '#f59e0b', secondary: '#b45309', accent: '#e6edf3' },
+  // Source: brandfetch.com/precisely.com brand page, named swatches Electric
+  // Violet / White / Windsor.
+  'Precisely Software': { primary: '#8017e1', secondary: '#ffffff', accent: '#4f0b8e' },
+  // Source: brandfetch.com/privoro.com brand page, named swatches Jumbo /
+  // Sail / Blue Lagoon; About names the Fulcrum Platform (registry offering
+  // 'Privoro Fulcrum Cloud').
+  'Privoro LLC': { primary: '#8a8a8b', secondary: '#a3dffa', accent: '#00778b' },
+  // Source: brandfetch.com/procore.com brand page, palette stated in its FAQ
+  // (no color names listed; #f5f1ed also listed).
+  'Procore Technologies, Inc': { primary: '#ff5201', secondary: '#27455c', accent: '#1a202c' },
+  // Source: brandfetch.com/pecinc.com brand page, palette stated in its FAQ
+  // (no color names listed); page describes PEC's virtual training and
+  // collaborative learning business at the vendor's own domain (registry
+  // offering 'Collaborative Learning Environment').
+  'Progressive Expert Consulting': { primary: '#00a2ff', secondary: '#8bdfff', accent: '#121936' },
+  // Source: brandfetch.com/projectteam.com brand page, palette stated in its
+  // FAQ (no color names listed); page describes the construction management
+  // platform that is the registry offering.
+  'ProjectTeam, Inc.': { primary: '#3b5872', secondary: '#5bb1c6', accent: '#333333' },
+  // Source: brandfetch.com/prymeinfil.com brand page, named swatches Yellow
+  // Metal / White / Black.
+  'Pryme Infil, Inc.': { primary: '#797e42', secondary: '#ffffff', accent: '#030303' },
+  // Source: brandfetch.com/psiexams.com brand page, named swatches Parchment
+  // / White / Mirage.
+  'PSI Services LLC': { primary: '#f2e9d8', secondary: '#ffffff', accent: '#1a212b' },
+  // Source: brandfetch.com/ptfs.com brand page, palette stated in its FAQ (no
+  // color names listed); About names PTFS (Progressive Technology Federal
+  // Systems), Knowvation, and the LibLime division's Bibliovation (registry
+  // offering 'Bibliovation/Knowvation'). Accent #000000 is a single
+  // fallback-trio member; values unique and identity-consistent (Ex Libris
+  // precedent).
+  'PTFS/Liblime': { primary: '#26a69a', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/phf.org brand page, named swatches Lynch /
+  // Cherokee / Biscay; About names the TRAIN Learning Network, the registry
+  // offering.
+  'Public Health Foundation': { primary: '#677a9e', secondary: '#fdd79a', accent: '#192f59' },
+  // Source: brandfetch.com/qgenda.com brand page, named swatches Eastern Blue
+  // / Malibu / Midnight Blue.
+  'Qgenda, LLC': { primary: '#1f7bb6', secondary: '#8ed1fc', accent: '#002e61' },
+  // Source: brandfetch.com/quadient.com brand page, palette stated in its FAQ
+  // (no color names listed).
+  'Quadient inc.': { primary: '#ff4200', secondary: '#ffffff', accent: '#252f3f' },
+  // Source: brandfetch.com/qualtrics.com brand page, palette stated in its
+  // FAQ (no color names listed); five values listed (#232827 and #ffffff
+  // also), first three in listed order seeded. Tension recorded: the FAQ
+  // prose calls Qualtrics' signature blue the primary canvas with a purple
+  // CTA accent, while the listed order leads with mint #20ffc1; blue
+  // (#0668dd) and purple (#601ae5) are both present in the seeded three.
+  'Qualtrics, LLC': { primary: '#20ffc1', secondary: '#601ae5', accent: '#0668dd' },
+  // Source: brandfetch.com/questionmark.com brand page, named swatches
+  // Cinnabar / Hit Pink / Cyprus; About states the platform is FedRAMP
+  // authorized.
+  'QuestionMark': { primary: '#eb3c3f', secondary: '#fdba8c', accent: '#00313d' },
+  // Source: brandfetch.com/questionpro.com brand page, named swatches Orange
+  // Peel / Curious Blue / White (Jacksons Purple #1b3380 also listed).
+  'QuestionPro, Inc.': { primary: '#ff9f00', secondary: '#1b87e6', accent: '#ffffff' },
+  // Source: brandfetch.com/quzara.com brand page, palette stated in its FAQ
+  // (no color names listed); About names Quzara Cybertorch, the registry
+  // offering.
+  'Quzara, LLC.': { primary: '#fab734', secondary: '#63bdf2', accent: '#1a4268' }
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];
