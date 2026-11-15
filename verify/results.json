@@ -6,11 +6,11 @@
   "offeringsIndexed": 781,
   "districts": 81,
   "litWindowInstances": 471,
-  "brandResearched": 310,
-  "brandDefault": 364,
+  "brandResearched": 363,
+  "brandDefault": 311,
   "drawCalls": 18,
   "triangles": 48242,
-  "fps": 32,
+  "fps": 31,
   "camera": {
    "x": 24,
    "z": 0
@@ -37,13 +37,13 @@
    "pitch": 0
   },
   "after": {
-   "x": 29.57340000000782,
-   "z": -3.41272323518872e-16,
+   "x": 28.199999999999996,
+   "z": -2.571758278209442e-16,
    "y": 1.7,
    "yaw": -1.5707963267948966,
    "pitch": 0
   },
-  "moved": 5.573400000007819
+  "moved": 4.199999999999996
  },
  "districtView": {
   "camIdx": 53,
@@ -51,8 +51,8 @@
  },
  "districtPixels": {
   "nonBgFraction": 0.5926649305555556,
-  "brightFraction": 0.5521918402777778,
-  "distinctColors": 95,
+  "brightFraction": 0.55078125,
+  "distinctColors": 94,
   "bg": [
    27,
    36,
@@ -60,7 +60,7 @@
   ]
  },
  "overviewPixels": {
-  "nonBgFraction": 0.6360677083333334,
+  "nonBgFraction": 0.6361762152777778,
   "brightFraction": 0.015842013888888888,
   "distinctColors": 62,
   "bg": [
@@ -129,7 +129,7 @@
    },
    "IBM Data Services for Government": {
     "archetype": "lab",
-    "nonBg": 0.9069444444444444
+    "nonBg": 0.9071180555555556
    },
    "IBM Envizi ESG Reporting": {
     "archetype": "lab",
@@ -137,7 +137,7 @@
    },
    "IBM Federal ATOM": {
     "archetype": "lab",
-    "nonBg": 0.9006944444444445
+    "nonBg": 0.9005208333333333
    },
    "IBM Federal HR Cloud": {
     "archetype": "lab",

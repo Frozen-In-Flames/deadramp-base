@@ -833,6 +833,157 @@ const BRAND_SEEDS = {
   // platform); Brandfetch brand page, claimed brand (Halo Blue, Navy,
   // Midnight; White and Teal also listed): https://brandfetch.com/usehalo.com
   'Halo': { primary: '#00ceff', secondary: '#002d5b', accent: '#051830' },
+  /* ---- Phase 4 brand research, tranche 6 (Nov 15, 2026) ----
+   * The next 60 default vendors in registry order after Halo,
+   * researched one by one (Knox Systems, Inc. sits in this
+   * registry range but was already decided in tranche 2 and is
+   * not counted again). 53 were established from a citable
+   * public source (recorded per entry below) and are seeded
+   * here; the other 7 stay on the federal default: Human
+   * Resources Technologies (HRTec) has no citable source
+   * stating hex values (no Brandfetch page for its own domain
+   * or its SurveyQwik product domain); the only ID.me and
+   * Keyfactor listings' hex codes contradict their own
+   * branding text (a stated navy-and-white foundation with
+   * green highlights against listed mid-blue, gold and
+   * charcoal; two greens and a violet against stated deep
+   * indigo and navy with white); the only Innovest Systems
+   * listing, at its own domain, now presents its acquirer
+   * SS&C's Advent brand, and the only Innovative Discovery
+   * listing, at its own former domain, now describes
+   * Innovative Driven, the successor brand from its 2021
+   * merger with Driven, so neither palette is the vendor's
+   * own; the only Kovr.ai listing presents the parent
+   * Fortreum's brand identity and palette under Fortreum's
+   * name, not Kovr.ai's own; and the only Linear Orbit
+   * listing (Linear) states exactly two colors, so no third
+   * value is citable. Every value below appears in its cited
+   * source, verified against the fetched page. */
+  // Brandfetch brand page, claimed brand (Lochmara, Foam, Black Pearl): https://brandfetch.com/harness.io
+  'Harness, Inc.': { primary: '#0677d4', secondary: '#effbfe', accent: '#07182b' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/hbhealthcaresafety.org
+  'HB Healthcare Safety, SBC': { primary: '#b79a75', secondary: '#ffffff', accent: '#374a5e' },
+  // Brandfetch brand page (Persian Green, White, Dove Gray): https://brandfetch.com/healthedge.com
+  'HealthEdge Software, Inc.': { primary: '#02a990', secondary: '#ffffff', accent: '#666666' },
+  // Brandfetch brand page (Chelsea Cucumber, White, Chathams Blue): https://brandfetch.com/healthverity.com
+  'HealthVerity': { primary: '#72b456', secondary: '#ffffff', accent: '#144a65' },
+  // Brandfetch brand page, palette stated in its FAQ (#f4f6f7 and #2b2d36 also
+  // listed; no color names listed): https://brandfetch.com/hirevue.com
+  'HireVue': { primary: '#e3203b', secondary: '#273553', accent: '#84b7ec' },
+  // Brandfetch brand page, palette stated in its FAQ (White also listed;
+  // no color names listed): https://brandfetch.com/hootsuite.com
+  'Hootsuite': { primary: '#ff4c46', secondary: '#1e60c9', accent: '#012b3a' },
+  // Huddle is offered by Ideagen, but the page is Huddle's own brand page at
+  // its own domain; palette stated in its FAQ (#005784 also listed; no color
+  // names listed): https://brandfetch.com/huddle.com
+  'Huddle US': { primary: '#0089d0', secondary: '#7cc695', accent: '#f8f8f8' },
+  // Brandfetch brand page (Flamingo, Danube, Mine Shaft): https://brandfetch.com/hypori.com
+  'Hypori, Inc.': { primary: '#eb5f2a', secondary: '#6696d8', accent: '#333333' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/iboss.com
+  'iBoss': { primary: '#059669', secondary: '#f2b756', accent: '#07090c' },
+  // Brandfetch brand page (Copper Rust, White, Night Rider): https://brandfetch.com/icertis.com
+  'Icertis Inc.': { primary: '#874451', secondary: '#ffffff', accent: '#221410' },
+  // Brandfetch brand page (Shakespeare, Aquamarine, Blue Dianne): https://brandfetch.com/ideagen.com
+  'Ideagen': { primary: '#45bbce', secondary: '#47fdfe', accent: '#22565e' },
+  // Brandfetch brand page (Governor Bay, Goldenrod, Mine Shaft): https://brandfetch.com/ideascale.com
+  'IdeaScale': { primary: '#384ec1', secondary: '#ffcb70', accent: '#333333' },
+  // Brandfetch brand page (Orange, Black, White): https://brandfetch.com/illumio.com
+  'Illumio, Inc.': { primary: '#fa6624', secondary: '#000000', accent: '#ffffff' },
+  // Brandfetch brand page, claimed brand (Matisse, White, Vulcan): https://brandfetch.com/immuta.com
+  'Immuta': { primary: '#e4b667', secondary: '#ffffff', accent: '#13151e' },
+  // Brandfetch brand page (Blue Ribbon, White, Black): https://brandfetch.com/incode.com
+  'Incode Technologies Inc.': { primary: '#006aff', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page (Azure Radiance, Downriver, Gull Gray): https://brandfetch.com/indirecttek.com
+  'IndirectTek LLC': { primary: '#0084ff', secondary: '#0a1a3f', accent: '#94a3b8' },
+  // Brandfetch brand page (Orange, Indigo, Blue Charcoal; White also listed): https://brandfetch.com/ineight.com
+  'InEight, Inc.': { primary: '#ff651f', secondary: '#3860be', accent: '#000d1f' },
+  // The page centers on the company's NetSfere platform; Brandfetch brand page
+  // (Lochmara, White, Eastern Blue): https://brandfetch.com/infinite-convergence.com
+  'Infinite Convergence Solutions, Inc.': { primary: '#008cd0', secondary: '#ffffff', accent: '#269abc' },
+  // Brandfetch brand page, claimed brand (Lima, White, Regal Blue): https://brandfetch.com/infoblox.com
+  'Infoblox': { primary: '#8cd21e', secondary: '#ffffff', accent: '#014369' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/infor.com
+  'Infor': { primary: '#d20021', secondary: '#ffffff', accent: '#85702c' },
+  // Brandfetch brand page, palette stated in its FAQ (White also listed;
+  // no color names listed): https://brandfetch.com/informatica.com
+  'Informatica LLC': { primary: '#e23500', secondary: '#00b4ff', accent: '#011e5b' },
+  // Brandfetch brand page (Astral, Casper, Fiery Orange): https://brandfetch.com/infusionpoints.com
+  'InfusionPoints': { primary: '#2f859b', secondary: '#b1c4d3', accent: '#b94a17' },
+  // Brandfetch brand page (Anzac, Perano, Mariner): https://brandfetch.com/inteum.com
+  'Inteum Company': { primary: '#e3ae4f', secondary: '#b0c8f6', accent: '#1e73be' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/intelliworxit.com
+  'Intelliworx': { primary: '#00beff', secondary: '#ffffff', accent: '#001740' },
+  // International Vending Management is IVM, Inc.; Brandfetch brand page,
+  // palette stated in its FAQ (no color names listed): https://brandfetch.com/ivminc.com
+  'International Vending Management, Inc.': { primary: '#ff6c2f', secondary: '#ffffff', accent: '#526271' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names
+  // listed): https://brandfetch.com/intrepid-networks.com
+  'Intrepid Networks LLC': { primary: '#ff652f', secondary: '#ffffff', accent: '#292929' },
+  // Ipsos America carries the parent Ipsos brand; Brandfetch brand page,
+  // palette stated in its FAQ (no color names listed): https://brandfetch.com/ipsos.com
+  'Ipsos America, Inc.': { primary: '#14a19e', secondary: '#121b5a', accent: '#ffffff' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/ironcladapp.com
+  'Ironclad Inc.': { primary: '#43d7a7', secondary: '#ffffff', accent: '#215d63' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/ironwifi.com
+  'IronWiFi, LLC': { primary: '#004d99', secondary: '#0c2d4a', accent: '#ffffff' },
+  // Brandfetch brand page, claimed brand (Green/1010, Brown/200, Green/400;
+  // Green/800 also listed): https://brandfetch.com/island.io
+  'Island': { primary: '#0a332c', secondary: '#f2ede8', accent: '#50e8a8' },
+  // Brandfetch brand page (Alizarin Crimson, Jagged Ice, Outer Space): https://brandfetch.com/issio.com
+  'Issio Solutions, Inc.': { primary: '#e41d3f', secondary: '#b6e3d4', accent: '#32373c' },
+  // Brandfetch brand page for IT-CNP at its it-cnp.com domain (Endeavour,
+  // Sandy brown, Big Stone): https://brandfetch.com/it-cnp.com
+  'IT-CNP': { primary: '#0053a0', secondary: '#f4a45b', accent: '#152944' },
+  // Itamar Medical now operates as ZOLL Itamar, its own name retained in the
+  // lockup at its own domain; Brandfetch brand page (Persian Green, Havelock
+  // Blue, Ebony): https://brandfetch.com/itamar-medical.com
+  'Itamar Medical': { primary: '#00a099', secondary: '#4f9fd9', accent: '#111827' },
+  // The page is titled for the parent Joint Commission, but its About
+  // describes Joint Commission Resources (JCR) itself; Brandfetch brand page
+  // (Saffron Mango, White, Biscay): https://brandfetch.com/jcrinc.com
+  'Joint Commission Resources': { primary: '#fbc24f', secondary: '#ffffff', accent: '#1f336b' },
+  // Brandfetch brand page (Allports, Stratos, White): https://brandfetch.com/judi.health
+  'Judi Health™': { primary: '#026aa2', secondary: '#00003f', accent: '#ffffff' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/juniper.net
+  'Juniper Networks': { primary: '#448500', secondary: '#000000', accent: '#ffffff' },
+  // Brandfetch brand page (Bright Turquoise, White, Tangaroa): https://brandfetch.com/jupiterone.com
+  'JupiterOne, Inc.': { primary: '#03e7bb', secondary: '#ffffff', accent: '#041e42' },
+  // Brandfetch brand page (Crimson, White, Woodsmoke): https://brandfetch.com/juvare.com
+  'Juvare, LLC': { primary: '#ce0e2e', secondary: '#ffffff', accent: '#101214' },
+  // Brandfetch brand page (Red Ribbon, Danube, Shark): https://brandfetch.com/kahua.com
+  'Kahua, Inc.': { primary: '#e70033', secondary: '#4d8dcf', accent: '#232328' },
+  // Brandfetch brand page (Saffron, Danube, Blue Zodiac): https://brandfetch.com/kaseware.com
+  'Kaseware, Inc': { primary: '#f2af35', secondary: '#769fd6', accent: '#0c1f39' },
+  // Brandfetch brand page (Casal, White, Prussian Blue): https://brandfetch.com/koniag-gs.com
+  'Koniag Government Services': { primary: '#275766', secondary: '#ffffff', accent: '#003057' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/labarchives.com
+  'LabArchives': { primary: '#2ec99b', secondary: '#ffffff', accent: '#152430' },
+  // Laerdal Labs D.C. carries the parent Laerdal Medical brand; Brandfetch
+  // brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/laerdal.com
+  'Laerdal Labs D.C.': { primary: '#2e7fa1', secondary: '#353535', accent: '#ffffff' },
+  // Brandfetch brand page (Blue Lagoon, Alabaster, Teal): https://brandfetch.com/lastwall.com
+  'Lastwall Corp': { primary: '#007681', secondary: '#fcfcfc', accent: '#007680' },
+  // Brandfetch brand page, claimed brand (Dodger Blue, Cod Gray, White): https://brandfetch.com/launchdarkly.com
+  'LaunchDarkly': { primary: '#405bff', secondary: '#191919', accent: '#ffffff' },
+  // Brandfetch brand page (Cobalt, White, Outer Space): https://brandfetch.com/lcptracker.com
+  'LCptracker Inc': { primary: '#024dad', secondary: '#ffffff', accent: '#32373c' },
+  // Brandfetch brand page (Congress Blue, Mine Shaft, Tango; Catskill White
+  // also listed): https://brandfetch.com/leadershipconnect.io
+  'Leadership Connect, Inc.': { primary: '#00468b', secondary: '#333333', accent: '#f47920' },
+  // Brandfetch brand page, claimed brand (Azure, Plum, Midnight; Bright Sky
+  // also listed): https://brandfetch.com/levelaccess.com
+  'Level Access': { primary: '#1f2df5', secondary: '#7a34f2', accent: '#1a073c' },
+  // Brandfetch brand page (Azure Radiance, Sulu, Navy Blue): https://brandfetch.com/levelblue.com
+  'LevelBlue': { primary: '#00aaff', secondary: '#9cef69', accent: '#00007b' },
+  // Brandfetch brand page (Royal Blue, Dodger Blue, Woodsmoke): https://brandfetch.com/lifebit.ai
+  'Lifebit Biotech': { primary: '#1a6fe8', secondary: '#3791f5', accent: '#07080a' },
+  // Brandfetch brand page (Blue Ribbon, White, Downriver): https://brandfetch.com/liferay.com
+  'Liferay, Inc.': { primary: '#0b5fff', secondary: '#ffffff', accent: '#072252' },
+  // Litmas, Inc. is the legal name behind Litmas AI, per the company's own
+  // privacy policy; Brandfetch brand page (Black Rock, Gray, White): https://brandfetch.com/litmas.ai
+  'Litmas, Inc.': { primary: '#100429', secondary: '#888888', accent: '#ffffff' },
+  // Brandfetch brand page (Flamingo, White, Eden): https://brandfetch.com/lmi.org
+  'LMI Solutions': { primary: '#f7612b', secondary: '#ffffff', accent: '#104e55' },
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];
