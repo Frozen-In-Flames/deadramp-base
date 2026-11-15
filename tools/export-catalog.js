@@ -1408,7 +1408,269 @@ const BRAND_SEEDS = {
   // Source: brandfetch.com/quzara.com brand page, palette stated in its FAQ
   // (no color names listed); About names Quzara Cybertorch, the registry
   // offering.
-  'Quzara, LLC.': { primary: '#fab734', secondary: '#63bdf2', accent: '#1a4268' }
+  'Quzara, LLC.': { primary: '#fab734', secondary: '#63bdf2', accent: '#1a4268' },
+  // Tranche 9 (Nov 15, 2026): the next 60 default-palette vendors in registry
+  // order after Quzara, LLC, from R&K Solutions, Inc through SRR
+  // International,Inc. Specset sits inside this registry range but was
+  // already decided on the record in tranche 2 (its listing states exactly
+  // two colors), so it was skipped and not counted again; the counted 60 run
+  // R&K Solutions, Inc through Somnoware Healthcare Systems plus Spectro
+  // Cloud, Spider Strategies, Sprinklr, Inc. and SRR International,Inc. 52
+  // moved to researched. StackArmor (capital S) is the 61st counted vendor,
+  // a distinct registry string from the tranche 1 seed 'stackArmor'; it was
+  // not seeded here and is recorded as tranche 10's first entry, which can
+  // carry the same verified palette to the duplicate string. Stayed default
+  // on the record: Red Rock Group Holdings (company identified, flagship
+  // platform Ekko at getekko.io, registry offering GetEKKO, but
+  // brandfetch.com/getekko.io is 404 and no other citable hex source found);
+  // RegDOX Solutions (domain regdox.com confirmed as its own site, but
+  // brandfetch.com/regdox.com is 404 and no guidelines or listing stating
+  // hex values found); Relocation Management Worldwide (RMW) (domain
+  // relomw.com confirmed, registry offering VEN, but brandfetch.com/
+  // relomw.com is 404 and no other citable source found); RSA Security LLC
+  // (brandfetch.com/rsa.com rejected as internally contradictory: its About
+  // describes RSA Insurance Group, the London insurer, while its logo prose
+  // describes the security company, so its FAQ palette is unattributable
+  // between the two identities; the vendor's own published identity
+  // standards give exactly two colors, Pantone 485 red and black, and no
+  // third value is citable, the accent never invented); Secunetics, Inc.
+  // (domain secunetics.com confirmed, registry offering Gobo Framework, but
+  // brandfetch.com/secunetics.com is 404 and no citable hex source found);
+  // Security Control LLC (an ISI Company) (company identified as ISI
+  // Enterprises' Security Control platform; the only Brandfetch page,
+  // brandfetch.com/isidefense.com, presents parent ISI's own brand and
+  // lists exactly two colors, #d6f7a3 and #344f5d: the parent's palette is
+  // not seedable as the vendor's, and two colors would not suffice in any
+  // case); SMX and SMX (Formerly Smartronix) (same company, same page:
+  // brandfetch.com/smxtech.com carries the exact Brandfetch fallback trio
+  // #d6964a/#6bbaef/#000000 with a fallback lettermark icon, non-citable on
+  // sight, tranche 3 precedent; its prose colors also contradict the trio).
+  // Judgment calls recorded in the per-entry comments: Rackspace Government
+  // Solutions and SAS Institute seeded on their pages' stated palettes
+  // despite partial prose tension (tranche 7 Moveworks precedent); Rave
+  // Mobile Safety seeded as the vendor's own palette expressly stated at
+  // its own domain; Software AG Government Solutions seeded from the parent
+  // Software AG brand the subsidiary carries (parent-brand precedent);
+  // Seven Bridges seeded from a page presenting Seven Bridges' own brand,
+  // not its Velsera successor. Eight seeds carry #000000 as a single
+  // fallback-trio member with named, unique, identity-consistent swatches
+  // (RegScale accent, RegScale, Inc. accent, RingMD accent, Ripcord accent,
+  // Secureframe accent, Seven Bridges accent, Repario accent, Sprinklr
+  // secondary): flagged per entry, tranche 5 Ex Libris precedent; the
+  // fallback trio itself appears in none.
+  // Source: brandfetch.com/rksolutions.com brand page, palette stated in
+  // its FAQ (no color names listed); page names GoRPM, the registry
+  // offering.
+  'R&K Solutions, Inc': { primary: '#ba2a24', secondary: '#ffffff', accent: '#15202d' },
+  // Source: brandfetch.com/rackspace.com brand page (Rackspace Technology),
+  // palette stated in its FAQ (no color names listed). Partial prose
+  // tension recorded: the branding prose mentions deep navy panels and a
+  // black logotype, neither in the hex list; the bright red leads both.
+  // Seeded on the stated palette (tranche 7 Moveworks precedent); the
+  // government division carries the parent brand.
+  'Rackspace Government Solutions': { primary: '#eb0000', secondary: '#e6a65a', accent: '#bd6d21' },
+  // Source: brandfetch.com/rapid7.com brand page, named swatches Flamingo /
+  // Outer Space / White; registry offering is InsightGovCloud.
+  'Rapid7': { primary: '#e85e26', secondary: '#242b2e', accent: '#ffffff' },
+  // Source: brandfetch.com/ravemobilesafety.com brand page, named swatches
+  // Pomegranate / White / Cello. Judgment: the page's logo prose notes Rave
+  // appears within parent Motorola Solutions' identity, but the colors
+  // section and palette FAQ expressly state Rave Mobile Safety's own
+  // palette and the About describes Rave's own products (registry offering
+  // Rave Safety Platform): the vendor's own brand page at its own domain.
+  'Rave Mobile Safety': { primary: '#ee3a24', secondary: '#ffffff', accent: '#1d2d5c' },
+  // Source: brandfetch.com/recaccess.com brand page, palette stated in its
+  // FAQ (no color names listed); recreation access management matches the
+  // registry offering.
+  'RecAccess': { primary: '#e85d00', secondary: '#f9d196', accent: '#010a1b' },
+  // Source: brandfetch.com/regscale.com brand page, named swatches Curious
+  // Blue / White / Black. Accent #000000 is a single fallback-trio member;
+  // swatches named, unique, identity-consistent (Ex Libris precedent).
+  'RegScale': { primary: '#2aa4ca', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/regscale.com brand page, named swatches Curious
+  // Blue / White / Black; same company as RegScale, duplicate registry
+  // entry, same seed. Accent #000000 single fallback-trio member (Ex Libris
+  // precedent).
+  'RegScale, Inc.': { primary: '#2aa4ca', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/relativity.com brand page, named swatches
+  // Christine / Cod Gray / White; About names RelativityOne (registry
+  // offering RelativityOne Government).
+  'Relativity ODA LLC': { primary: '#ef5f11', secondary: '#111111', accent: '#ffffff' },
+  // Source: brandfetch.com/reliaquest.com brand page, named swatches
+  // Persian Green / Alabaster / Viridian; header names GreyMatter, the
+  // registry offering (GreyMatter for Government).
+  'ReliaQuest': { primary: '#00afab', secondary: '#fcfcfc', accent: '#41947f' },
+  // Source: brandfetch.com/remedio.io brand page, named swatches Royal Blue
+  // / Stratos / Picton Blue.
+  'Remedio Technologies Inc': { primary: '#593de8', secondary: '#000333', accent: '#4ca3f4' },
+  // Source: brandfetch.com/repariodata.com brand page, named swatches
+  // Milano Red / White / Black; the company's own domain is repariodata.com
+  // (Repario Data, LLC). Accent #000000 is a single fallback-trio member;
+  // swatches named, unique, identity-consistent (Ex Libris precedent).
+  'Repario': { primary: '#ab0f03', secondary: '#ffffff', accent: '#000000' },
+  // Source: brandfetch.com/replit.com brand page, palette stated in its FAQ
+  // (no color names listed); prose consistent (orange mark, charcoal,
+  // off-white).
+  'Replit, Inc.': { primary: '#ff3c00', secondary: '#1e1e1f', accent: '#fbf6f1' },
+  // Source: brandfetch.com/rescale.com brand page, named swatches Boston
+  // Blue / Firefly / Spray.
+  'Rescale': { primary: '#3399bb', secondary: '#051016', accent: '#7af0f5' },
+  // Source: brandfetch.com/irbnet.org brand page (IRBNet), palette stated
+  // in its FAQ (no color names listed); the page's own footer reads
+  // Research Dataware, LLC, the vendor itself; registry offering is IRBNet
+  // on GovCloud (product-brand precedent).
+  'Research Dataware LLC': { primary: '#00b4ed', secondary: '#9cbed9', accent: '#19315f' },
+  // Source: brandfetch.com/ring.md brand page, named swatches Sunset Orange
+  // / Froly / Black; header describes turnkey telemedicine for governments.
+  // Accent #000000 is a single fallback-trio member; fallback lettermark
+  // icon only, swatches named, unique, identity-consistent (Ex Libris
+  // precedent).
+  'RingMD USA Inc.': { primary: '#fd4b38', secondary: '#f58e83', accent: '#000000' },
+  // Source: brandfetch.com/ripcord.com brand page, named swatches Hippie
+  // Blue / Sandy brown / Black; registry offering is Canopy. Accent
+  // #000000 is a single fallback-trio member; swatches named, unique,
+  // identity-consistent (Ex Libris precedent).
+  'Ripcord': { primary: '#50a0aa', secondary: '#f49c6c', accent: '#000000' },
+  // Source: brandfetch.com/riverbed.com brand page, palette stated in its
+  // FAQ (no color names listed); prose consistent.
+  'Riverbed Technology': { primary: '#7648c6', secondary: '#e771e4', accent: '#272855' },
+  // Source: brandfetch.com/rohirrim.ai brand page, named swatches Cerulean
+  // / White / Big Stone; header matches the Unified Acquisition Platform
+  // registry offering.
+  'Rohirrim, Inc.': { primary: '#00acd8', secondary: '#ffffff', accent: '#111d2a' },
+  // Source: brandfetch.com/rosalind.bio brand page, palette stated in its
+  // FAQ (no color names listed); the ROSALIND genomics platform.
+  'Rosalind, Inc.': { primary: '#00a4bd', secondary: '#9fc5e8', accent: '#19406b' },
+  // Source: brandfetch.com/rqipartners.com brand page, named swatches
+  // Cardinal / Mine Shaft / Roman; the AHA/Laerdal joint venture; registry
+  // offering is RQI1Stop.
+  'RQI Partners LLC': { primary: '#ce232b', secondary: '#212121', accent: '#da5b5f' },
+  // Source: brandfetch.com/rubrik.com brand page, palette stated in its FAQ
+  // listing four values; first three seeded (White #ffffff also listed).
+  'Rubrik': { primary: '#0ac9bb', secondary: '#005781', accent: '#022125' },
+  // Source: brandfetch.com/sandboxaq.com brand page, named swatches Anzac /
+  // White / Asphalt.
+  'SandboxAQ': { primary: '#e2b147', secondary: '#ffffff', accent: '#060203' },
+  // Source: brandfetch.com/sas.com brand page, palette stated in its FAQ
+  // (no color names listed). Partial prose tension recorded: the prose
+  // describes a blue wordmark and a deep navy and bright blue palette while
+  // the listed palette leads with orange; navy and white appear in both.
+  // Seeded on the page's stated palette (tranche 7 Moveworks precedent).
+  'SAS Institute, Inc.': { primary: '#ff8224', secondary: '#ffffff', accent: '#02183b' },
+  // Source: brandfetch.com/saviynt.com brand page, named swatches Electric
+  // Violet / Tango / Ebony.
+  'Saviynt': { primary: '#6d28fe', secondary: '#f5822a', accent: '#0f172a' },
+  // Source: brandfetch.com/saviynt.com brand page, named swatches Electric
+  // Violet / Tango / Ebony; same company as Saviynt, duplicate registry
+  // entry, same seed.
+  'Saviynt, Inc.': { primary: '#6d28fe', secondary: '#f5822a', accent: '#0f172a' },
+  // Source: brandfetch.com/sciencelogic.com brand page, named swatches
+  // Apple / Downriver / Bittersweet.
+  'ScienceLogic, Inc.': { primary: '#52b748', secondary: '#0a214d', accent: '#fb6962' },
+  // Source: brandfetch.com/secondfront.com brand page, named swatches Blue
+  // Ribbon / White / Bunker; registry offering is 2F Game Warden.
+  'Second Front Systems': { primary: '#0047ff', secondary: '#ffffff', accent: '#05070a' },
+  // Source: brandfetch.com/secureframe.com brand page, named swatches
+  // Firefly / Anakiwa / Black. Accent #000000 is a single fallback-trio
+  // member; swatches named, unique, identity-consistent (Ex Libris
+  // precedent).
+  'Secureframe': { primary: '#091922', secondary: '#b1e3ff', accent: '#000000' },
+  // Source: brandfetch.com/securin.io brand page, named swatches Heliotrope
+  // / White / Ebony; header names the Preemptive Exposure Management
+  // registry offering.
+  'Securin, Inc.': { primary: '#9c66ff', secondary: '#ffffff', accent: '#07060d' },
+  // Source: brandfetch.com/securityscorecard.com brand page, named swatches
+  // Royal Blue / Cod Gray / Fog (White #ffffff also listed).
+  'SecurityScorecard, LLC': { primary: '#673ef3', secondary: '#060606', accent: '#d8cdff' },
+  // Source: brandfetch.com/sentilink.com brand page, named swatches Crimson
+  // / Dull Lavender / Cloud Burst.
+  'SentiLink Corp': { primary: '#ed1c24', secondary: '#8d8de5', accent: '#232d47' },
+  // Source: brandfetch.com/sevenbridges.com brand page, named swatches
+  // Tarawera / Portage / Black; the page presents Seven Bridges' own brand
+  // and About, not its Velsera successor. Accent #000000 is a single
+  // fallback-trio member; swatches named, unique, identity-consistent (Ex
+  // Libris precedent).
+  'Seven Bridges Genomics, Inc': { primary: '#083050', secondary: '#9896f0', accent: '#000000' },
+  // Source: brandfetch.com/signatureperformance.com brand page, palette
+  // stated in its FAQ (no color names listed); About names ClaimsXM, the
+  // registry offering.
+  'Signature Performance, Inc.': { primary: '#e00838', secondary: '#685bc7', accent: '#830029' },
+  // Source: brandfetch.com/signifisolutions.com brand page, named swatches
+  // Amaranth / Mine Shaft / White; About names SignifiVISION, the registry
+  // offering; fallback lettermark icon only.
+  'Signifi Solutions Inc.': { primary: '#e22f4a', secondary: '#1f1f1f', accent: '#ffffff' },
+  // Source: brandfetch.com/silkline.ai brand page, named swatches Pastel
+  // Green / Merino / Mirage.
+  'Silkline, Inc.': { primary: '#82eb71', secondary: '#f7f2e8', accent: '#16152b' },
+  // Source: brandfetch.com/simu.health brand page, named swatches Ebony
+  // Clay / White / Shuttle Gray; About describes the healthcare simulation
+  // management platform, matching the vendor (Simuhealth Technologies).
+  'Simuhealth Technologies Inc.': { primary: '#202532', secondary: '#ffffff', accent: '#5d6c7b' },
+  // Source: brandfetch.com/sirsidynix.com brand page (SirsiDynix), named
+  // swatches Congress Blue / Regent St Blue / Elephant; About names
+  // EOS.Web, the registry offering.
+  'Sirsi Corporation (SirsiDynix)': { primary: '#004b8d', secondary: '#aad2e4', accent: '#123d5d' },
+  // Source: brandfetch.com/siteimprove.com brand page, named swatches Denim
+  // / Bright Turquoise / Black Squeeze (White #ffffff and Blue Zodiac
+  // #141155 also listed).
+  'Siteimprove Inc': { primary: '#0e4cd3', secondary: '#23e8e8', accent: '#eaf3f7' },
+  // Source: brandfetch.com/sixtyfour.ai brand page, palette stated in its
+  // FAQ (no color names listed); page describes the identity intelligence
+  // company behind the Sixtyfour Identity Intelligence Platform offering.
+  'Sixtyfourai': { primary: '#8c8c8c', secondary: '#f5f5f5', accent: '#0a0a0a' },
+  // Source: brandfetch.com/skyhighsecurity.com brand page, named swatches
+  // Royal Blue / Portage / Violet; About names the SSE platform registry
+  // offering.
+  'Skyhigh Security': { primary: '#3664f4', secondary: '#9896f0', accent: '#0a103d' },
+  // Source: brandfetch.com/skywarditsolutions.com brand page, palette
+  // stated in its FAQ (no color names listed); page describes the vendor
+  // itself.
+  'Skyward IT Solutions': { primary: '#f7e124', secondary: '#ffffff', accent: '#111111' },
+  // Source: brandfetch.com/smartsheet.com brand page, named swatches Denim
+  // / Pine Green / Midnight (White #ffffff also listed).
+  'Smartsheet': { primary: '#1957de', secondary: '#00796f', accent: '#001033' },
+  // Source: brandfetch.com/snyk.io brand page, named swatches Denim /
+  // Whisper / Blue Charcoal.
+  'Snyk': { primary: '#145deb', secondary: '#f6f4fa', accent: '#01011e' },
+  // Source: brandfetch.com/socure.com brand page (claimed brand), named
+  // swatches Blaze Orange / White / Cod Gray.
+  'Socure, Inc.': { primary: '#ff6900', secondary: '#ffffff', accent: '#0d0d0d' },
+  // Source: brandfetch.com/softwareag.com brand page (parent Software AG),
+  // palette stated in its FAQ listing four values; first three seeded
+  // (#011f3d also listed). Judgment: the government subsidiary's own domain
+  // has no Brandfetch page; the subsidiary carries the parent Software AG
+  // brand and the registry offering is ARIS Government Cloud, Software AG's
+  // own product (parent-brand precedent: Ipsos America, Optum Serve, NICE
+  // CXone).
+  'Software AG Government Solutions': { primary: '#8e3cf7', secondary: '#058192', accent: '#ffffff' },
+  // Source: brandfetch.com/sofwarellc.com brand page, named swatches Apple
+  // / Malibu / Salem; About describes FORGE, the registry offering,
+  // developed by Naval Special Warfare operators.
+  'SOFware LLC': { primary: '#6fb344', secondary: '#8acaf9', accent: '#16a34a' },
+  // Source: brandfetch.com/solventum.com brand page, named swatches
+  // Malachite / Equator / Deep Teal.
+  'Solventum': { primary: '#05dd4d', secondary: '#e0c266', accent: '#01332b' },
+  // Source: brandfetch.com/somnoware.com brand page, named swatches
+  // Downriver / White / Downriver (two navy values exactly as listed).
+  'Somnoware Healthcare Systems': { primary: '#091e42', secondary: '#ffffff', accent: '#102661' },
+  // Source: brandfetch.com/spectrocloud.com brand page, named swatches Elm
+  // / Dawn Pink / Cape Cod; About names Palette, the registry offering
+  // (Palette VerteX).
+  'Spectro Cloud': { primary: '#1f7a78', secondary: '#f7f1ed', accent: '#3c4949' },
+  // Source: brandfetch.com/spiderstrategies.com brand page, palette stated
+  // in its FAQ (no color names listed); page names Spider Impact, the
+  // registry offering (Spider Impact for Government).
+  'Spider Strategies': { primary: '#04b1e4', secondary: '#eef5ff', accent: '#003583' },
+  // Source: brandfetch.com/sprinklr.com brand page, palette stated in its
+  // FAQ (no color names listed). Secondary #000000 is a single fallback-trio
+  // member in an otherwise unique, identity-consistent palette (Ex Libris
+  // precedent).
+  'Sprinklr, Inc.': { primary: '#107eff', secondary: '#000000', accent: '#ffffff' },
+  // Source: brandfetch.com/srrintl.com brand page, named swatches Endeavour
+  // / Havelock Blue / Cod Gray; About names CloudLCMS, the registry
+  // offering, and the vendor's 8(a)/EDWOSB identity; fallback lettermark
+  // icon only.
+  'SRR International,Inc.': { primary: '#0055a4', secondary: '#5aa1e3', accent: '#101010' }
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];
