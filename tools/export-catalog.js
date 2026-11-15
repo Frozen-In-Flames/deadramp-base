@@ -984,6 +984,166 @@ const BRAND_SEEDS = {
   'Litmas, Inc.': { primary: '#100429', secondary: '#888888', accent: '#ffffff' },
   // Brandfetch brand page (Flamingo, White, Eden): https://brandfetch.com/lmi.org
   'LMI Solutions': { primary: '#f7612b', secondary: '#ffffff', accent: '#104e55' },
+  /* ---- Phase 4 brand research, tranche 7 (Nov 15, 2026) ----
+   * The next 60 default vendors in registry order after LMI
+   * Solutions, researched one by one. 53 were established
+   * from a citable public source (recorded per entry below)
+   * and are seeded here; the other 7 stay on the federal
+   * default: Magenta (an AI platform for regulated
+   * manufacturing per the registry) could not be identified
+   * as a company after repeated targeted searches, so no
+   * citable source exists; Meterbox Inc. is confirmed at
+   * meterbox.ai but has no Brandfetch page and no other
+   * source stating hex values; the only MicroStrategy
+   * listing is internally contradictory (its FAQ branding
+   * text describes the successor Strategy identity, a black
+   * logotype with an orange emblem, while its listed hexes
+   * are the legacy MicroStrategy palette with no orange or
+   * black) and the vendor now trades as Strategy, its name
+   * not retained; mLINQS and Movius Interactive Corporation
+   * have no Brandfetch page for their own domains and no
+   * other citable hex source; and Neuramill, Inc. and
+   * Ocasio Convergence Holdings LLC could not be identified
+   * as companies after targeted searches (search results
+   * return unrelated entities), so no citable source exists.
+   * Every value below appears in its cited source, verified
+   * against the fetched page. */
+  // Brandfetch brand page (Deep Cove, Golden Fizz, Comet): https://brandfetch.com/logicmonitor.com
+  'LogicMonitor': { primary: '#060f4b', secondary: '#e8ff26', accent: '#525c75' },
+  // Brandfetch brand page (Sushi, Malibu, Deep Cove): https://brandfetch.com/longevityconsulting.com
+  'Longevity Consulting': { primary: '#8bc53f', secondary: '#4cc6ff', accent: '#071f40' },
+  // Brandfetch brand page (Electric Lime, Porcelain, Te Papa Green): https://brandfetch.com/lookout.com
+  'Lookout, Inc.': { primary: '#c8ff00', secondary: '#f5f6f7', accent: '#1e3239' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/lspedia.com
+  'LSPedia': { primary: '#bb3b9e', secondary: '#ffffff', accent: '#0d1c3f' },
+  // Brandfetch brand page, claimed brand (Shark, Denim, Red Violet;
+  // Cornflower Blue #635dff and White also listed): https://brandfetch.com/lucid.co
+  'Lucid Software, Inc.': { primary: '#282c33', secondary: '#1071e5', accent: '#d916a8' },
+  // Brandfetch brand page (Carnation, White, Firefly): https://brandfetch.com/lumen.com
+  'Lumen': { primary: '#f95e4a', secondary: '#ffffff', accent: '#0f3133' },
+  // Brandfetch brand page (Emperor, Prussian Blue, White): https://brandfetch.com/mcdean.com
+  'M.C. Dean, Inc.': { primary: '#525252', secondary: '#001e54', accent: '#ffffff' },
+  // Brandfetch brand page (Blue Ribbon, White, Resolution Blue): https://brandfetch.com/magnetforensics.com
+  'Magnet Forensics': { primary: '#0050f0', secondary: '#ffffff', accent: '#001b78' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/maintainx.com
+  'MaintainX': { primary: '#246cff', secondary: '#043fba', accent: '#68c1fd' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/manh.com
+  'Manhattan Associates, Inc.': { primary: '#0fe677', secondary: '#ffffff', accent: '#083332' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/maplarge.com
+  'MapLarge Inc.': { primary: '#0c73a3', secondary: '#ffffff', accent: '#2c3034' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/mari.com
+  'MARi, LLC': { primary: '#4a3b96', secondary: '#5d5fef', accent: '#0f0f2e' },
+  // Brandfetch brand page (Torea Bay, Steel Blue, Blue Charcoal): https://brandfetch.com/mark43.com
+  'Mark43, Inc.': { primary: '#15378e', secondary: '#4680c2', accent: '#000a12' },
+  // Brandfetch brand page (Boston Blue, Gull Gray, Daintree): https://brandfetch.com/mastercontrol.com
+  'MasterControl': { primary: '#3b94a3', secondary: '#97a8af', accent: '#002a3a' },
+  // Brandfetch brand page (Watercourse, White, Watercourse): https://brandfetch.com/mathematica.org
+  'Mathematica Inc.': { primary: '#046b5c', secondary: '#ffffff', accent: '#055c59' },
+  // Brandfetch brand page (Danube, Olive, White): https://brandfetch.com/mcgenergy.com
+  'MCG Energy Solutions, LLC': { primary: '#7ea6d7', secondary: '#999700', accent: '#ffffff' },
+  // Brandfetch brand page (Manatee, Malibu, Orient): https://brandfetch.com/mdrc.org
+  'MDRC': { primary: '#949598', secondary: '#6fd4fb', accent: '#00558c' },
+  // Medallia's own published brand guidelines (Slate 950, Frost, Flash 400;
+  // Indigo also listed). The Brandfetch listing's codes match nothing in
+  // Medallia's own palette and were rejected: https://www.medallia.com/brand/
+  'Medallia Inc.': { primary: '#0d0f10', secondary: '#ffffff', accent: '#c8ff00' },
+  // Same company and brand as Medallia Inc. above (duplicate registry
+  // entry); Medallia's own published brand guidelines: https://www.medallia.com/brand/
+  'Medallia, Inc.': { primary: '#0d0f10', secondary: '#ffffff', accent: '#c8ff00' },
+  // MediaLab Solutions now trades as Vastian; the palette is Vastian's at
+  // the vendor's own medialab.com domain and its registry offering is
+  // "Vastian (MediaLab by Vastian)"; Brandfetch brand page (Coconut Cream,
+  // Mandys Pink, Rose Bud Cherry): https://brandfetch.com/medialab.com
+  'MediaLab Solutions LLC': { primary: '#f8edd4', secondary: '#f4bfad', accent: '#6f0a4b' },
+  // Same company and domain family as MediaLab Solutions LLC above;
+  // Vastian palette at the vendor's own domain: https://brandfetch.com/medialab.com
+  'MediaLab, Inc.': { primary: '#f8edd4', secondary: '#f4bfad', accent: '#6f0a4b' },
+  // Brandfetch brand page (Curious Blue, White, Orient): https://brandfetch.com/melissa.com
+  'Melissa': { primary: '#1da5de', secondary: '#ffffff', accent: '#026780' },
+  // Brandfetch brand page (Pumpkin, White, Honey Flower): https://brandfetch.com/menlosecurity.com
+  'Menlo Security': { primary: '#ff6f15', secondary: '#ffffff', accent: '#4a1a65' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names
+  // listed). The accent #000000 is a single value shared with the Brandfetch
+  // fallback palette, but the fallback trio itself is absent and the page
+  // describes this vendor's own LMS company: https://brandfetch.com/meridianks.com
+  'Meridian Knowledge Solutions, LLC': { primary: '#0693e3', secondary: '#5eabea', accent: '#000000' },
+  // The page presents Merlin Cyber, the vendor's own current brand at its
+  // own domain; Brandfetch brand page (Neon Carrot, White, Midnight
+  // Blue): https://brandfetch.com/merlin-intl.com
+  'Merlin International': { primary: '#ff9933', secondary: '#ffffff', accent: '#00326d' },
+  // Brandfetch brand page (Sorrell Brown, Cararra, Cod Gray): https://brandfetch.com/mimic.com
+  'Mimic Networks, Inc.': { primary: '#d1b792', secondary: '#fafaf8', accent: '#141414' },
+  // Brandfetch brand page (East Bay, Dodger Blue, Mine Shaft); the page
+  // header names GovPoint Cloud Services, the registry offering: https://brandfetch.com/mis-sciences.com
+  'MIS Sciences Corporation': { primary: '#3d5975', secondary: '#597dff', accent: '#333333' },
+  // Moodle US LLC carries the parent Moodle brand; Moodle's own Global
+  // Brand Guidelines, Colours page (Moodle Orange, Moodle Blue, Moodle
+  // Black). The Brandfetch listing omits orange, the brand's identity
+  // color, entirely and was rejected: https://moodle.com/wp-content/uploads/2025/07/Moodle-Global-Brand-Guidelines.pdf
+  'Moodle US LLC': { primary: '#f98012', secondary: '#194866', accent: '#282828' },
+  // Brandfetch brand page (Electric Violet, Dodger Blue, Gallery; Cod Gray
+  // #0a0a0a also listed): https://brandfetch.com/moveworks.com
+  'Moveworks': { primary: '#8300e6', secondary: '#2e9bff', accent: '#eeeeee' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/msmgroupinc.com
+  'MSM Group, Inc.': { primary: '#00529b', secondary: '#ffffff', accent: '#96999b' },
+  // Brandfetch brand page (Zest, Peach Orange, Vesuvius): https://brandfetch.com/mybusinessmatches.com
+  'My Business Matches': { primary: '#de7718', secondary: '#fecf9b', accent: '#af510b' },
+  // Brandfetch brand page (Deep Teal, Algae Green, Firefly); the page
+  // header and tags are the GRC company's own (its About text is generic
+  // boilerplate): https://brandfetch.com/mycroft.io
+  'Mycroft Technologies Inc': { primary: '#002b2a', secondary: '#88e2b5', accent: '#0f2d2c' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/myevaluations.com
+  'MyEvaluations.com Inc.': { primary: '#087fb3', secondary: '#e1f4ff', accent: '#003c70' },
+  // BitRip is Nastro Technologies' own product brand (the registry
+  // offering) at its own domain; Brandfetch brand page (Outer Space,
+  // Olivine, Biscay): https://brandfetch.com/bitrip.com
+  'Nastro Technologies, Inc.': { primary: '#32373c', secondary: '#97b766', accent: '#183964' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/navigatorcre.com
+  'NavigatorCRE': { primary: '#fe0000', secondary: '#ffffff', accent: '#93552c' },
+  // NCR Government is NCR Voyix's government arm and its registry offering
+  // is "NCR VOYIX GOVERNMENT CLOUD"; NCR Voyix Brandfetch brand page,
+  // palette stated in its FAQ (no color names listed): https://brandfetch.com/ncrvoyix.com
+  'NCR Government, LLC': { primary: '#b280ff', secondary: '#000000', accent: '#ffffff' },
+  // Brandfetch brand page (Shakespeare, Black White, Oracle): https://brandfetch.com/neogov.com
+  'NEOGOV': { primary: '#3aaecd', secondary: '#fffffe', accent: '#3b6379' },
+  // Brandfetch brand page (Tory Blue, Cinnabar, Salem): https://brandfetch.com/net-inspect.com
+  'Net-Inspect LLC': { primary: '#1361ab', secondary: '#e43b3b', accent: '#089e4b' },
+  // Brandfetch brand page, palette stated in its FAQ (five values listed;
+  // Black and White also listed; no color names listed): https://brandfetch.com/netapp.com
+  'NetApp': { primary: '#831784', secondary: '#351f9c', accent: '#00ddf4' },
+  // Brandfetch brand page (Abbey, Danube, Sherpa Blue); the page describes
+  // NetComm's own Beacon platform, the registry offering: https://brandfetch.com/netcomm.net
+  'NetComm': { primary: '#4d5154', secondary: '#5e9ed6', accent: '#003d4d' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/netdocuments.com
+  'NetDocuments Software, Inc.': { primary: '#276de7', secondary: '#9896f0', accent: '#000acf' },
+  // Brandfetch brand page (Flush Orange, Bubbles, Downriver): https://brandfetch.com/netskope.com
+  'Netskope, Inc.': { primary: '#ff8200', secondary: '#e8fcff', accent: '#081a59' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/newrelic.com
+  'New Relic': { primary: '#1ce783', secondary: '#1d252c', accent: '#ffffff' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/nexgenam.com
+  'NEXGEN Asset Management': { primary: '#5b5e66', secondary: '#f6f6f6', accent: '#302020' },
+  // Brandfetch brand page (Denim, Periwinkle Gray, Mule Fawn): https://brandfetch.com/nextgenid.com
+  'NextgenID, Inc.': { primary: '#1468ea', secondary: '#bccbe1', accent: '#8e572e' },
+  // Brandfetch brand page (Tory Blue, Dodger Blue, Midnight): https://brandfetch.com/nexthink.com
+  'Nexthink': { primary: '#1046a8', secondary: '#3194f7', accent: '#011130' },
+  // NICE CXone carries the NiCE brand (CXone is its product); NiCE
+  // Brandfetch brand page, palette stated in its FAQ (White also listed;
+  // no color names listed): https://brandfetch.com/nice.com
+  'NICE CXone': { primary: '#3694fd', secondary: '#f2f0eb', accent: '#22212b' },
+  // Brandfetch brand page (San Juan, Ziggurat, Black Russian): https://brandfetch.com/noblis.org
+  'Noblis': { primary: '#2e5b78', secondary: '#b0cede', accent: '#000522' },
+  // Brandfetch brand page (Tango, White, Jacarta): https://brandfetch.com/norc.org
+  'NORC': { primary: '#ec712e', secondary: '#ffffff', accent: '#29246a' },
+  // NormShield does business as Black Kite and its registry offering is
+  // the Black Kite product; Black Kite Brandfetch brand page, claimed
+  // brand (Emerald, White, Japanese Laurel): https://brandfetch.com/blackkite.com
+  'NormShield, Inc. DBA Black Kite': { primary: '#3dcc77', secondary: '#ffffff', accent: '#007e0b' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/nozominetworks.com
+  'Nozomi Networks Inc.': { primary: '#0093d2', secondary: '#ffffff', accent: '#494957' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/nuance.com
+  'Nuance': { primary: '#285ce6', secondary: '#b6c8f7', accent: '#141380' },
+  // Brandfetch brand page (Blue Ribbon, Anakiwa, Ebony Clay): https://brandfetch.com/nucleussec.com
+  'Nucleus Security, Inc': { primary: '#1070ff', secondary: '#9fc6ff', accent: '#1e2330' },
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];
