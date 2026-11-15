@@ -175,6 +175,23 @@ exit, placed far below the exterior world so the two never interact.
   the lobby floor still holds while walking under the coil where
   it passes metres overhead, and stepping off a landing into a
   room is unchanged.
+- The well: each floor's ring is whole across the inner annulus
+  and the outer strip, but in the ramp band (radius 10.1 to
+  14.5 m) it is cut over the arriving and departing flights' spans
+  (the well sector), so the coil is one continuous open spiral:
+  climbing, the next flight reads ahead; descending, the ramp and
+  the lobby below are visible; no slab caps the ramp and the ramp
+  never pierces a floor. Before the cut, a full ring at every
+  level did all three wrong (Aries's playtest, Nov 15, 2026: "it
+  just looks like flat floor"). Geometry and the height rule cut
+  the same sector: the flat candidate is withheld in the band over
+  the well sector of the floor being stood on, so stepping into
+  the well from a landing or the ring puts the visitor on the
+  ramp surface below or above, never on air. Nothing else about
+  the height rule changed; the walked door readings are the
+  v0.2.2 readings. verify/verify-walk.js leg 3 walks the well
+  (ring, then out over flight 2's span) and verify/verify.js
+  measures the downward views from the landings.
 - Collision is bounds only, stated plainly: the walkable region is
   the ring plus the chamber of the floor the player is on (with a
   height tolerance of three quarters of a floor). Walls are bounds,
@@ -231,12 +248,27 @@ The help block is an in-game tutorial, not a permanent overlay:
 - A small persistent "?" button in the federal grammar (granite
   disc, bronze ring), touch-sized, recalls the help for the space
   the visitor is currently in, outdoors or indoors.
-- The header title and the clean-room framing note are not tutorial
-  text; they never fade.
+- The header title is not tutorial text; it never fades.
 - In WebXR the same lifecycle drives an in-world panel on the same
   schedule (show on arrival and on context switches, fade after the
   same dwell), recalled by a controller grip squeeze, since the DOM
   block and the "?" button are invisible inside a headset.
+
+## The Settings panel (the disclaimer's one home)
+
+The standing framing text (clean-room model, not affiliated, not
+endorsed) lives in exactly one place inside the experience: the
+Settings panel, under "About this model" (Aries, Nov 15, 2026: a
+disclaimer is not an immersive feature, so it is not repeated in
+every building). It was removed from the lobby framing plaques,
+the lobby record panel's own lines, the persistent HUD note, the
+info-card footers (flat and in-world), the spawn kiosk plaque, and
+the platform deck plaque. The README keeps the text as repository
+documentation. The Settings button is a persistent affordance
+beside the "?" button in the same style; the panel is not tutorial
+text and follows no fade lifecycle. In WebXR the same content
+rides the in-world panel system: the grip squeeze cycle runs help,
+then Settings, then closed.
 
 ## Phase 3: the WebXR control layer
 

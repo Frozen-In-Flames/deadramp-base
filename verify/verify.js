@@ -290,6 +290,104 @@ function serve() {
     }
     phase2.archetypesCovered = [...covered];
     check('at least three archetypes screenshotted', covered.size >= 3, [...covered].join(', '));
+
+    /* ============ the open well + the disclaimer's one home ============
+     * Nov 15, 2026, from Aries's playtest of the shipped build: the
+     * full ring floor at every level capped the ramp (from every
+     * landing it read as flat floor, up and down), and the framing
+     * text was repeated in every building. The well checks measure
+     * screenshot bitmaps (the established method): from a landing,
+     * the descending coil must cross the frame's centre column in
+     * several distinct surfaces and carry real colour variety,
+     * where the capped view was one slab (measured on the pre-fix
+     * tree: 2 centre transitions on both viewpoints, 50 distinct
+     * colours on the floor-3 view). The disclaimer checks pin the
+     * consolidation: the framing string's only occurrence in the
+     * client is the Settings content, the HUD note element is gone,
+     * an interior builds zero framing plaques, and the lobby panel
+     * keeps its record lines only. */
+    const FRAMING_EXACT = 'Clean-room model built from public FedRAMP Marketplace information, inspired by the vendor\'s public brand identity. Not affiliated with or endorsed by the vendor.';
+    const countOcc = (s, sub) => s.split(sub).length - 1;
+    const mainSrc = fs.readFileSync(path.join(REPO, 'js', 'main.js'), 'utf8');
+    const htmlSrc = fs.readFileSync(path.join(REPO, 'index.html'), 'utf8');
+    const readmeFlat = fs.readFileSync(path.join(REPO, 'README.md'), 'utf8').replace(/>/g, ' ').replace(/\s+/g, ' ');
+    check('framing text occurs exactly once in the client script (the Settings content)',
+      countOcc(mainSrc, 'Not affiliated with or endorsed by the vendor') === 1,
+      `occurrences=${countOcc(mainSrc, 'Not affiliated with or endorsed by the vendor')}`);
+    check('framing text and the HUD framing element are gone from the page markup',
+      countOcc(htmlSrc, 'Not affiliated with or endorsed by the vendor') === 0 && !htmlSrc.includes('framingNote'),
+      `occurrences=${countOcc(htmlSrc, 'Not affiliated with or endorsed by the vendor')}`);
+    check('no info-card framing footer remains in the client script',
+      !mainSrc.includes('class="framing"'));
+    check('README keeps the framing text (repository documentation)',
+      readmeFlat.includes(FRAMING_EXACT));
+    const hasSettingsBtn = await page.evaluate(`!!document.getElementById('settingsBtn')`);
+    if (hasSettingsBtn) { await page.click('#settingsBtn'); await new Promise((r) => setTimeout(r, 300)); }
+    const set1 = await page.evaluate(`window.__BASE__.settings ? window.__BASE__.settings() : null`);
+    check('Settings button exists and the HUD framing note element is gone',
+      hasSettingsBtn && !!set1 && set1.hudFramingNote === false);
+    check('Settings panel opens carrying the exact framing text',
+      !!set1 && set1.open === true && set1.panelVisible === true && set1.aboutText === FRAMING_EXACT,
+      set1 ? `open=${set1.open} panelVisible=${set1.panelVisible}` : 'no settings hook');
+    if (hasSettingsBtn) { await page.click('#settingsBtn'); await new Promise((r) => setTimeout(r, 200)); }
+    const set2 = await page.evaluate(`window.__BASE__.settings ? window.__BASE__.settings() : null`);
+    check('Settings button toggles the panel closed',
+      !!set2 && set2.open === false && set2.panelVisible === false);
+
+    async function wellPixels(buf) {
+      const b64 = buf.toString('base64');
+      return page.evaluate(`(async () => {
+        const img = new Image();
+        await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = 'data:image/png;base64,${b64}'; });
+        const w = 96, h = 60;
+        const c = document.createElement('canvas'); c.width = w; c.height = h;
+        const x = c.getContext('2d'); x.drawImage(img, 0, 0, w, h);
+        const data = x.getImageData(0, 0, w, h).data;
+        const colors = new Set();
+        for (let i = 0; i < data.length; i += 4) {
+          colors.add((data[i] >> 4) + ',' + (data[i + 1] >> 4) + ',' + (data[i + 2] >> 4));
+        }
+        let transitions = 0, prev = null;
+        for (let row = 0; row < h; row++) {
+          let r = 0, g = 0, b = 0, n = 0;
+          for (let col = 45; col < 51; col++) { const i = (row * w + col) * 4; r += data[i]; g += data[i + 1]; b += data[i + 2]; n++; }
+          const cur = [r / n, g / n, b / n];
+          if (prev && Math.abs(cur[0] - prev[0]) + Math.abs(cur[1] - prev[1]) + Math.abs(cur[2] - prev[2]) > 36) transitions++;
+          prev = cur;
+        }
+        return { distinctColors: colors.size, centerTransitions: transitions };
+      })()`);
+    }
+    const W_INT_Y = -2000, W_EYE = 1.7, W_FH = 3.4;
+    const WP = (ang, r, hgt) => ({ x: Math.cos(ang) * r, y: W_INT_Y + hgt, z: Math.sin(ang) * r });
+    async function wellShot(pos, look, floorY, file) {
+      await page.evaluate(`window.__BASE__.interiorTeleport(${JSON.stringify({ x: pos.x, z: pos.z, floorY })})`);
+      await page.evaluate(`window.__BASE__.setCamera({ x: ${pos.x}, z: ${pos.z}, y: ${pos.y} })`);
+      await page.evaluate(`window.__BASE__.lookAtPoint(${look.x}, ${look.y}, ${look.z})`);
+      await new Promise((r) => setTimeout(r, 800));
+      const buf = await page.screenshot({ path: path.join(__dirname, file) });
+      return wellPixels(buf);
+    }
+    await page.evaluate(`window.__BASE__.enterBuilding(${JSON.stringify(largest.name)})`);
+    const ip = await page.evaluate(`window.__BASE__.interiorPanels ? window.__BASE__.interiorPanels() : null`);
+    check('interior build produces zero framing plaques',
+      !!ip && !ip.titles.includes('ABOUT THIS MODEL'),
+      ip ? `${ip.titles.length} panels titled` : 'no interiorPanels hook');
+    check('lobby panel keeps its record lines and carries no disclaimer lines',
+      !!ip && ip.lobbyLines.some((l) => /district/.test(l)) && ip.lobbyLines.some((l) => /^Rooms:/.test(l)) &&
+        !ip.lobbyLines.some((l) => /evocation|Not affiliated|public brand identity/.test(l)),
+      ip ? ip.lobbyLines.join(' / ') : 'no interiorPanels hook');
+    const w1 = await wellShot(WP(0.9, 12.3, W_FH + W_EYE), WP(0.42, 12.3, 0.7), W_FH, 'interior-well-floor1.png');
+    results.wellFloor1 = w1;
+    check('well: from the floor-1 landing the descending ramp crosses the view (not flat floor)',
+      w1.centerTransitions >= 3, `transitions=${w1.centerTransitions} (capped view measured 2)`);
+    const w3 = await wellShot(WP(3.6, 12.3, 3 * W_FH + W_EYE), WP(2.55, 12.3, 4.6), 3 * W_FH, 'interior-well-floor3.png');
+    results.wellFloor3 = w3;
+    check('well: from the floor-3 landing the descending coil crosses the view (not flat floor)',
+      w3.centerTransitions >= 3, `transitions=${w3.centerTransitions} (capped view measured 2)`);
+    check('well: the floor-3 downward view carries the coil, not one slab (colour variety)',
+      w3.distinctColors >= 70, `distinct=${w3.distinctColors} (capped view measured 50)`);
+    await page.evaluate('window.__BASE__.exitBuilding()');
     check('zero JS page errors across the whole run (including interiors)', pageErrors.length === 0, pageErrors.join(' | '));
   } finally {
     await browser.close();

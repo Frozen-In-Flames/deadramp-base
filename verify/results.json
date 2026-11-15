@@ -6,22 +6,32 @@
   "offeringsIndexed": 781,
   "districts": 81,
   "litWindowInstances": 471,
-  "brandResearched": 363,
-  "brandDefault": 311,
-  "drawCalls": 18,
-  "triangles": 48242,
-  "fps": 31,
+  "brandResearched": 600,
+  "brandDefault": 74,
+  "drawCalls": 21,
+  "triangles": 125674,
+  "fps": 25,
   "camera": {
    "x": 24,
    "z": 0
   },
-  "exteriorDrawCalls": 18,
+  "exteriorDrawCalls": 21,
+  "phase4": {
+   "bridges": 19,
+   "bridgeSegments": 412,
+   "deckDecisions": 6,
+   "deckEntries": 40,
+   "constructionVendors": 227,
+   "siteworkInstances": 5351,
+   "cranes": 17,
+   "netting": 202
+  },
   "interior": null
  },
  "spawnPixels": {
-  "nonBgFraction": 0.5367838541666666,
-  "brightFraction": 0.025065104166666668,
-  "distinctColors": 65,
+  "nonBgFraction": 0.5407986111111112,
+  "brightFraction": 0.025282118055555556,
+  "distinctColors": 71,
   "bg": [
    27,
    36,
@@ -50,9 +60,9 @@
   "clearance": 10.5
  },
  "districtPixels": {
-  "nonBgFraction": 0.5926649305555556,
-  "brightFraction": 0.55078125,
-  "distinctColors": 94,
+  "nonBgFraction": 0.5425347222222222,
+  "brightFraction": 0.023980034722222224,
+  "distinctColors": 74,
   "bg": [
    27,
    36,
@@ -60,9 +70,9 @@
   ]
  },
  "overviewPixels": {
-  "nonBgFraction": 0.6361762152777778,
-  "brightFraction": 0.015842013888888888,
-  "distinctColors": 62,
+  "nonBgFraction": 0.6021050347222222,
+  "brightFraction": 0.5531684027777778,
+  "distinctColors": 110,
   "bg": [
    27,
    36,
@@ -70,7 +80,7 @@
   ]
  },
  "phase2": {
-  "exteriorDrawCallsBefore": 9,
+  "exteriorDrawCallsBefore": 15,
   "buildings": {
    "largest": {
     "name": "IBM",
@@ -87,87 +97,87 @@
   },
   "largestInterior": {
    "drawCalls": 6,
-   "triangles": 4886,
+   "triangles": 6448,
    "view": "room: IBM Data Services for Government"
   },
-  "exteriorDrawCallsAfter": 9,
+  "exteriorDrawCallsAfter": 15,
   "sampledRoom": {
    "vendor": "IBM",
    "product": "GO.gov",
    "buildGroup": "travel-management-l2"
   },
   "lobbyPixels": {
-   "nonBgFraction": 0.8680555555555556,
-   "distinctColors": 61,
+   "nonBgFraction": 0.8411458333333334,
+   "distinctColors": 65,
    "bg": [
-    36,
-    34,
-    42
+    120,
+    109,
+    111
    ]
   },
   "spiralPixels": {
-   "nonBgFraction": 0.9663194444444444,
-   "distinctColors": 114,
+   "nonBgFraction": 0.9682291666666667,
+   "distinctColors": 139,
    "bg": [
-    178,
-    155,
-    154
+    179,
+    156,
+    156
    ]
   },
   "largestRoomPixels": {
    "GO.gov": {
     "archetype": "federal-office",
-    "nonBg": 0.9119791666666667
+    "nonBg": 0.9098958333333333
    },
    "IBM Automation Services for Government": {
     "archetype": "federal-office",
-    "nonBg": 0.9118055555555555
+    "nonBg": 0.9095486111111111
    },
    "IBM Cloud for Government": {
     "archetype": "federal-office",
-    "nonBg": 0.9086805555555556
+    "nonBg": 0.90625
    },
    "IBM Data Services for Government": {
     "archetype": "lab",
-    "nonBg": 0.9071180555555556
+    "nonBg": 0.9048611111111111
    },
    "IBM Envizi ESG Reporting": {
     "archetype": "lab",
-    "nonBg": 0.9036458333333334
+    "nonBg": 0.9020833333333333
    },
    "IBM Federal ATOM": {
     "archetype": "lab",
-    "nonBg": 0.9005208333333333
+    "nonBg": 0.8979166666666667
    },
    "IBM Federal HR Cloud": {
     "archetype": "lab",
-    "nonBg": 0.9003472222222222
+    "nonBg": 0.8987847222222223
    },
    "IBM Platform Services for Government": {
     "archetype": "federal-office",
-    "nonBg": 0.9126736111111111
+    "nonBg": 0.9105902777777778
    },
    "SmartCloud for Government": {
     "archetype": "federal-office",
-    "nonBg": 0.9088541666666666
+    "nonBg": 0.9069444444444444
    }
   },
   "archetypeShots": {
    "ops-center": {
     "vendor": "38North Security, LLC",
-    "nonBg": 0.8626736111111111
+    "nonBg": 0.8690972222222222
    },
    "server-hall": {
     "vendor": "Ardoq Inc",
-    "nonBg": 0.8130208333333333
+    "nonBg": 0.8262152777777778
    },
    "meeting-space": {
     "vendor": "911inform",
-    "nonBg": 0.9043402777777778
+    "nonBg": 0.9041666666666667
    },
    "ledger-office": {
     "vendor": "Amazon Web Services, Inc.",
-    "nonBg": 0.8871527777777778
+    "nonBg": 0.8868055555555555
    },
    "lab": "largest building",
    "federal-office": "largest building"
@@ -180,6 +190,14 @@
    "meeting-space",
    "ledger-office"
   ]
+ },
+ "wellFloor1": {
+  "distinctColors": 103,
+  "centerTransitions": 4
+ },
+ "wellFloor3": {
+  "distinctColors": 92,
+  "centerTransitions": 3
  },
  "failures": 0
 }

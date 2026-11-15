@@ -12,10 +12,11 @@ what state) before any sign is read.
 > inspired by the vendor's public brand identity. Not affiliated with
 > or endorsed by the vendor.
 
-That framing is the label, and it is carried wherever a vendor is
-named: on the spawn kiosk, on every building info card, in the page
-itself, and here. DeadRamp Base is a clean-room rebuild by Frozen In
-Flames. Vendor names are used nominatively and factually, from the
+That framing is the label. Inside the experience it lives in one
+place only: the Settings panel (the button beside the help button),
+under "About this model"; it is not repeated on walls, panels,
+cards, or signs. It is carried here as repository documentation.
+DeadRamp Base is a clean-room rebuild by Frozen In Flames. Vendor names are used nominatively and factually, from the
 public Marketplace record, to identify whose services are modeled.
 Colour schemes are evocation only: no logos, logotypes, wordmarks,
 brand fonts, mascots, or trade dress elements are reproduced.
@@ -49,8 +50,8 @@ phase; see Brand palettes below for the current seeding state.
 
 Every building can be entered: from its record card, or by walking to
 its door and pressing E. Inside is the building-scale spiral from the
-plan: a federal lobby (the vendor's record, a room directory, and the
-clean-room framing plaque), then a ramp winding around a central core,
+plan: a federal lobby (the vendor's record and a room directory),
+then a ramp winding around a central core,
 one offering room per floor, each floor's door rotated along the coil.
 The lobby's EXIT door returns you to the boulevard at the building's
 door. A single-offering building is a single coil: lobby plus one room.

@@ -19,6 +19,7 @@
   },
   "panels": {
    "help": false,
+   "settings": false,
    "card": false,
    "prompt": false,
    "reticle": false
@@ -45,6 +46,7 @@
    },
    "panels": {
     "help": false,
+    "settings": false,
     "card": false,
     "prompt": false,
     "reticle": false
@@ -74,6 +76,7 @@
    },
    "panels": {
     "help": false,
+    "settings": false,
     "card": false,
     "prompt": false,
     "reticle": false

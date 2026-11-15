@@ -222,8 +222,12 @@ const TIER_TRIM = { l1: new THREE.Color(0xcd7f32), l2: new THREE.Color(0xcfd8dc)
 const GRAY = new THREE.Color(0x8a8d90);
 const LIMESTONE = new THREE.Color(0xcfc9b8);
 const WARM_GLASS = new THREE.Color(0xfff4e0);
-/* The label, carried wherever a vendor is named (kiosk, info cards):
- * our rendition, their identity, endorsement never implied. */
+/* The standing framing text: our rendition, their identity,
+ * endorsement never implied. Since Nov 15, 2026 (Aries's
+ * directive) it lives in exactly one place inside the experience,
+ * the Settings panel under "About this model"; it is not repeated
+ * on walls, panels, cards, or signs. The README keeps it as
+ * repository documentation. */
 const FRAMING = "Clean-room model built from public FedRAMP Marketplace information, inspired by the vendor's public brand identity. Not affiliated with or endorsed by the vendor.";
 
 async function boot() {
@@ -295,13 +299,7 @@ function buildWorld(catalog) {
   sign.position.set(0, 4.6, 0.2);
   const legL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.1, 0.3), kioskMat); legL.position.set(-3.4, 4.05, 0);
   const legR = legL.clone(); legR.position.x = 3.4;
-  const plaque = new THREE.Mesh(new THREE.PlaneGeometry(9.6, 1.8),
-    new THREE.MeshBasicMaterial({ map: textTexture([
-      'Clean-room model built from public FedRAMP Marketplace information,',
-      'inspired by the vendor\'s public brand identity.',
-      'Not affiliated with or endorsed by the vendor.'], { w: 1024, h: 192, fg: '#c8cfda', sub: '#c8cfda' }) }));
-  plaque.position.set(0, 1.75, 0.72);
-  kiosk.add(base, roof, sign, legL, legR, plaque);
+  kiosk.add(base, roof, sign, legL, legR);
   kiosk.position.set(64, 0, 0);
   kiosk.rotation.y = -Math.PI / 2;
   worldGroup.add(kiosk);
@@ -634,7 +632,6 @@ function buildPlatformDeck(catalog, byId) {
   });
   postAt(-4.9, -10.6, 6.4); postAt(4.9, -10.6, 6.4);       // directory board
   postAt(-5.2, -10.6, 8.6); postAt(5.2, -10.6, 8.6);       // header sign
-  postAt(-4.6, 12.9, 2.9); postAt(4.6, 12.9, 2.9);         // framing plaque
   deck.add(new THREE.Mesh(mergeGeoms(geoms), new THREE.MeshLambertMaterial({ vertexColors: true })));
 
   pl.decisions.forEach((d, i) => {
@@ -683,18 +680,6 @@ function buildPlatformDeck(catalog, byId) {
     }));
   sign.position.set(0, 7.7, -10.6);
   deck.add(sign);
-
-  const plaque = new THREE.Mesh(new THREE.PlaneGeometry(11, 1.7),
-    new THREE.MeshBasicMaterial({
-      map: textTexture([
-        'Clean-room model built from public FedRAMP Marketplace information,',
-        "inspired by the vendor's public brand identity.",
-        'Not affiliated with or endorsed by the vendor.',
-      ], { w: 1024, h: 160, bg: '#141a26', fg: '#cfe0f4', sub: '#9fb0c3' }),
-      side: THREE.DoubleSide,
-    }));
-  plaque.position.set(0, 2.35, 12.9);
-  deck.add(plaque);
 
   const hit = new THREE.Mesh(new THREE.BoxGeometry(46, 7, 26),
     new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
@@ -828,8 +813,7 @@ function showCard(v) {
     `<div class="meta">${d ? d.functionName + ' · ' + d.tier : ''} district · ${v.offeringCount} offering${v.offeringCount > 1 ? 's' : ''} · ` +
     `<span class="status-${v.statusClass}">${STATUS_TEXT[v.statusClass]}</span></div>` +
     brandLine +
-    lotNote + `<ul>${rows}</ul>` +
-    `<div class="framing">${FRAMING}</div>`;
+    lotNote + `<ul>${rows}</ul>`;
   if (v.kind === 'building') {
     const btn = document.createElement('button');
     btn.className = 'enterBtn';
@@ -911,8 +895,7 @@ function showBridgeCard(e) {
     `<ul><li>Union of the parent baselines, never the intersection</li>` +
     `<li>The highest parent tier is inherited in full</li>` +
     `<li>Every merge carries a control traceability record</li>` +
-    `<li>Process per NIST SP 800-218 (SSDF): provenance, review, verification</li></ul>` +
-    `<div class="framing">${FRAMING}</div>`;
+    `<li>Process per NIST SP 800-218 (SSDF): provenance, review, verification</li></ul>`;
   card.style.display = 'block';
   if (renderer.xr.isPresenting) drawXRCard(rec);
 }
@@ -934,8 +917,7 @@ function showDeckCard() {
     `<div class="meta">${pl.rescoped.length} re-scoped entries · ${pl.decisions.length} standing decisions · one shared deck</div>` +
     `<div class="note">These catalogue entries belong to no vendor and no offering. They are properties of the platform every service is deployed on, so DeadRamp decided them once, in writing, instead of building them per group. The Base gives them this deck, not buildings.</div>` +
     `<div class="meta">The six decisions (PLATFORM-LAYER.md):</div><ul>${decisions}</ul>` +
-    `<div class="meta">The entries, by the GAPS section that closed them:</div><ul>${sections}</ul>` +
-    `<div class="framing">${FRAMING}</div>`;
+    `<div class="meta">The entries, by the GAPS section that closed them:</div><ul>${sections}</ul>`;
   card.style.display = 'block';
   if (renderer.xr.isPresenting) drawXRCard(rec);
 }
@@ -961,6 +943,10 @@ function showDeckCard() {
  * candidate surfaces (ring floor, ramp flight, landing, or chamber
  * floor) nearest to your current height, which is what makes the
  * stacked floors unambiguous, with one exception: the coil rule.
+ * The floors are cut over the coil (the well sector, wellSector):
+ * each level's ring stops over the arriving and departing flights,
+ * so the spiral is open to look up and down, and the flat-floor
+ * candidate is withheld over exactly the cut sector.
  * A ramp surface within a step of the current height takes over,
  * and a flight the player is already on keeps its surface, because
  * the flat floor at exactly the current height would otherwise win
@@ -971,6 +957,8 @@ const FH = 3.4;              // floor height
 const R_CORE = 3;            // central column radius
 const R_WELL = 5.6;          // core railing: inner walk boundary
 const R_OUT = 15;            // ring outer wall radius
+const BAND_IN = R_OUT - 4.9;   // ramp band inner edge (interiorHeightAt's ramp band)
+const BAND_OUT = R_OUT - 0.5;  // ramp band outer edge
 const CH_IN = 14.2;          // chamber inner face radius
 const CH_OUT = 23.4;         // chamber outer wall radius
 const CH_HALF_W = 5.0;       // chamber half width (tangential)
@@ -1109,6 +1097,28 @@ function terminalLines(o, build) {
 }
 
 /* ---- interior layout math (shared by the builder and the hooks) ---- */
+/* The well: the sector of floor L's ramp band that is NOT floor.
+ * Flight L-1 arrives at floor L and flight L departs from it, and
+ * over both spans the band is open, so the coil reads as one
+ * continuous spiral: no slab caps the ramp from above, no slab
+ * hides it from the landing, and the ramp never pierces a floor.
+ * The geometry cuts exactly this sector out of each floor's band
+ * (buildInterior) and the height function withholds its flat
+ * candidate over exactly the same sector (interiorHeightAt), so
+ * the visitor stands only where floor visibly exists. Returns the
+ * unwrapped [start, end] angles, or null outside 1..levels (the
+ * lobby's ground disc is whole and is never cut). */
+function wellSector(layout, L) {
+  if (L < 1 || L > layout.levels) return null;
+  const start = (L - 1) === 0 ? 0.2 : doorAngle(L - 2);
+  const end = L < layout.levels ? doorAngle(L) : doorAngle(L - 1);
+  return { start, end };
+}
+function inWell(layout, L, th) {
+  const w = wellSector(layout, L);
+  if (!w) return false;
+  return angNorm(th - w.start) < (w.end - w.start);
+}
 function interiorLayout(vendor) {
   return {
     vendor,
@@ -1136,14 +1146,25 @@ function interiorHeightAt(layout, lx, lz, curFloor, onFlight) {
   for (let j = 0; j < layout.levels; j++) {
     const a0 = j === 0 ? 0.2 : doorAngle(j - 1), a1 = doorAngle(j);
     const span = angNorm(a1 - a0), rel = angNorm(th - a0);
-    if (rel <= span && r >= R_OUT - 4.9 && r <= R_OUT - 0.5) {
+    if (rel <= span && r >= BAND_IN && r <= BAND_OUT) {
       const h = j * FH + (rel / span) * FH;
       cand.push(h); rampCand.push({ h, j });
     }
     if (angDiff(th, a1) <= 0.18 && r >= R_OUT - 5.2 && r <= R_OUT + 0.6) cand.push((j + 1) * FH);
   }
   if (angDiff(th, EXIT_ANGLE) <= 0.3 && r >= R_OUT - 5.2) cand.push(0);
-  if (r >= R_WELL - 0.3 && r <= R_OUT + 0.3) cand.push(Math.round(curFloor / FH) * FH);
+  /* The flat ring floor is a candidate only where the floor
+   * physically is: everywhere outside the ramp band, and in the
+   * band only outside the well sector of the floor being stood on
+   * (the geometry cuts the same sector; see buildInterior). Inside
+   * the well the ramp surfaces and the landing govern, so stepping
+   * into the open well follows the coil down or up instead of
+   * walking on air over it. Everywhere else the candidate is the
+   * same value it has always been. */
+  if (r >= R_WELL - 0.3 && r <= R_OUT + 0.3) {
+    const L = Math.round(curFloor / FH);
+    if (!(r >= BAND_IN && r <= BAND_OUT && inWell(layout, L, th))) cand.push(L * FH);
+  }
   if (curFloor < 0.01 && r <= R_OUT + 0.3) cand.push(0);
   if (!cand.length) return { y: curFloor, flight: -1 };
   /* The coil rule, in two parts. The flat ring floor is generated at
@@ -1241,6 +1262,30 @@ function rampGeom(a0, a1, y0, y1, rIn, rOut, color, yOff = 0) {
   g.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(nor), 3));
   return coloredGeom(g, color);
 }
+/* Flat annulus sector at height y between world angles a0..a1,
+ * wound front-face-up with true up normals: the same construction
+ * discipline as the ramp ribbons (the v0.3.13 lesson: a floor whose
+ * front face points down is a floor no light can reach). Angles are
+ * unwrapped; the trig wraps on its own. Used for the part of a
+ * floor's ramp band that remains floor once the well sector is cut
+ * (wellSector). */
+function floorSectorGeom(a0, a1, y, rIn, rOut, color) {
+  const steps = Math.max(4, Math.ceil(Math.abs(a1 - a0) / 0.1));
+  const pos = [], nor = [];
+  const pt = (i, r) => {
+    const a = a0 + (a1 - a0) * (i / steps);
+    return [Math.cos(a) * r, y, Math.sin(a) * r];
+  };
+  for (let i = 0; i < steps; i++) {
+    const A = pt(i, rIn), B = pt(i, rOut), C = pt(i + 1, rIn), D = pt(i + 1, rOut);
+    pos.push(...A, ...C, ...B, ...B, ...C, ...D);
+    for (let k = 0; k < 6; k++) nor.push(0, 1, 0);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pos), 3));
+  g.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(nor), 3));
+  return coloredGeom(g, color);
+}
 
 /* ---- build one building's interior ---- */
 const interiorLight = new THREE.PointLight(0xffd9a0, 0, 60, 1.5);
@@ -1268,8 +1313,18 @@ function buildInterior(vendor) {
   statics.push(coloredGeom(xg(new THREE.CylinderGeometry(R_CORE, R_CORE, totalH, 20, 1, true), 0, totalH / 2, 0, 0), FED.wall));
   statics.push(coloredGeom(xg(new THREE.CircleGeometry(CH_OUT + 0.7, 40).rotateX(-Math.PI / 2), 0, totalH, 0, 0), FED.dark));
   statics.push(coloredGeom(xg(new THREE.CircleGeometry(R_OUT + 0.4, 40).rotateX(-Math.PI / 2), 0, 0.02, 0, 0), FED.floor));
+  /* Floors: whole across the inner annulus and the outer strip,
+   * but in the ramp band each floor stops at its well sector (the
+   * arriving and departing flights' spans, wellSector), so the
+   * coil is one open spiral. Before this cut, a full ring at every
+   * level capped the ramp below it and hid it from the landing
+   * above: the visitor climbed under a ceiling and stood on what
+   * read as flat floor (Aries's playtest, Nov 15, 2026). */
   for (let L = 1; L <= layout.levels; L++) {
-    statics.push(coloredGeom(xg(new THREE.RingGeometry(R_CORE, R_OUT, 40).rotateX(-Math.PI / 2), 0, L * FH, 0, 0), FED.floor));
+    const w = wellSector(layout, L);
+    statics.push(coloredGeom(xg(new THREE.RingGeometry(R_CORE, BAND_IN, 40).rotateX(-Math.PI / 2), 0, L * FH, 0, 0), FED.floor));
+    statics.push(floorSectorGeom(w.end, w.start + Math.PI * 2, L * FH, BAND_IN, BAND_OUT, FED.floor));
+    statics.push(coloredGeom(xg(new THREE.RingGeometry(BAND_OUT, R_OUT, 40).rotateX(-Math.PI / 2), 0, L * FH, 0, 0), FED.floor));
   }
   statics.push(coloredGeom(xg(new THREE.RingGeometry(R_CORE, R_OUT, 40).rotateX(-Math.PI / 2), 0, totalH, 0, 0), FED.floor));
   for (let L = 0; L <= layout.levels; L++) {
@@ -1299,31 +1354,31 @@ function buildInterior(vendor) {
     statics.push(cbox(2.9, 0.3, 0.3, fx, 2.55, fz, rot, roomTrim));
   }
 
-  /* lobby panels: the vendor record, the directory, the framing */
+  /* lobby panels: the vendor record and the directory. Record data
+   * only: the standing framing text is not a lobby feature (it
+   * lives in the Settings panel; see the settings block below). */
+  const panelTitles = [];
   const wallPanel = (angle, y, w, h, title, lines, accent) => {
     const mesh = makePanel(w, h, title, lines, accent);
     mesh.position.set(Math.cos(angle) * (R_OUT - 0.4), y, Math.sin(angle) * (R_OUT - 0.4));
     group.add(mesh);
     mesh.lookAt(0, INT_Y + y, 0);
     panels.push(mesh);
+    panelTitles.push(title);
     return mesh;
   };
   const d0 = state.districts.find((x) => x.id === vendor.district);
-  wallPanel(SPAWN_ANGLE, 1.72, 6.4, 3.0, vendor.name.toUpperCase().slice(0, 34), [
+  const lobbyLines = [
     `${d0 ? d0.functionName + ' · ' + d0.tier : ''} district · ${vendor.offeringCount} offering${vendor.offeringCount > 1 ? 's' : ''}`,
     `Status: ${STATUS_TEXT[vendor.statusClass]}`,
-    researched
-      ? 'Brand palette: researched from this vendor\'s public brand identity.'
-      : 'Brand palette: not yet researched; this building wears the federal finish.',
-    'Colours only, as evocation: no logo, wordmark, or trade dress is reproduced.',
     '',
     'Rooms: one per offering, up the spiral ramp, one floor per room.',
     'The lobby door marked EXIT returns you to the boulevard.',
-  ], accentCss);
+  ];
+  wallPanel(SPAWN_ANGLE, 1.72, 6.4, 3.0, vendor.name.toUpperCase().slice(0, 34), lobbyLines, accentCss);
   wallPanel(SPAWN_ANGLE - 0.66, 1.72, 5.4, 3.0, 'DIRECTORY', [
     ...vendor.offerings.map((o, j) => `L${j + 1}  ${o.product}`),
   ], accentCss);
-  wallPanel(EXIT_ANGLE + 0.62, 1.7, 5.6, 2.9, 'ABOUT THIS MODEL', [FRAMING], accentCss);
   {
     const exitSign = makePanel(3.4, 0.9, 'EXIT — BOULEVARD', [], '#ffd9a0');
     exitSign.position.set(Math.cos(EXIT_ANGLE) * (R_OUT - 0.4), 2.82, Math.sin(EXIT_ANGLE) * (R_OUT - 0.4));
@@ -1431,6 +1486,7 @@ function buildInterior(vendor) {
       const tgt = chPoint(A, rMid, tx, fy + 1.68, tz);
       mesh.lookAt(tgt.x, INT_Y + fy + 1.68, tgt.z);
       panels.push(mesh);
+      panelTitles.push(title);
       return mesh;
     };
     mkP(0, chDepth / 2 + 0.22, 6.6, 3.0, 'SERVICE RECORD', recordLines(o, vendor), 0, -1);
@@ -1479,6 +1535,7 @@ function buildInterior(vendor) {
   interiorLight.intensity = 60;
   return {
     vendor, layout, group, floorY: 0, onFlight: -1, atExit: false,
+    panelTitles, lobbyLines,
     rooms: roomRecs, stripMat: stripMesh ? stripMesh.material : null, bars,
     boardTimer: 0, boardIdx: 0, hudSub: document.getElementById('hudSub').textContent,
     saved: null,
@@ -1581,8 +1638,7 @@ function animateInterior(dt) {
  * the space the visitor is in. In VR the same lifecycle drives an
  * in-world panel (the DOM block is invisible in a headset): it shows
  * and fades on the same schedule, and a controller squeeze recalls
- * it. The header title and the clean-room framing note are not
- * tutorial text and never fade. */
+ * it. The header title is not tutorial text and never fades. */
 const IS_TOUCH = !!((window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
   || 'ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0);
 function inputMode() {
@@ -1656,6 +1712,34 @@ function hideHelp() {
   hintEl.classList.add('faded');
 }
 helpBtn.addEventListener('click', () => showHelp(state.interior ? 'in' : 'out'));
+
+/* ---------------- settings: the disclaimer's one home ----------------
+ * Aries, Nov 15, 2026: a disclaimer is not an immersive feature, so
+ * it is not repeated in every building. The framing text lives in
+ * this one panel, under "About this model", and nowhere else in
+ * the experience: no lobby plaque, no HUD note, no card footer, no
+ * kiosk or deck plaque, no line inside the lobby record panel. The
+ * button is a persistent affordance beside "?", in the same style;
+ * it is not tutorial text and follows no fade lifecycle. In XR the
+ * same panel rides the in-world panel system (drawXRSettingsPanel):
+ * a grip squeeze moves help -> Settings -> closed, so the text is
+ * reachable in the headset without a DOM. */
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsPanel = document.getElementById('settingsPanel');
+document.getElementById('settingsAbout').textContent = FRAMING;
+let settingsOpen = false;
+function showSettings() {
+  settingsOpen = true;
+  settingsPanel.style.display = 'block';
+  hideHelp();
+  if (renderer.xr.isPresenting) drawXRSettingsPanel();
+}
+function hideSettings() {
+  settingsOpen = false;
+  settingsPanel.style.display = 'none';
+}
+settingsBtn.addEventListener('click', () => { if (settingsOpen) hideSettings(); else showSettings(); });
+document.getElementById('settingsClose').addEventListener('click', hideSettings);
 
 /* door geometry shared by the prompt, the tap target, and the hooks:
  * the door point is the same point the E-prompt measures from. */
@@ -1797,10 +1881,17 @@ function drawXRPanel(p, title, lines) {
   p.tex.needsUpdate = true;
 }
 const xrHelpPlane = makeXRPlane(1.5, 0.70, 1024, 480, 0, 0.22, -2.0, 998);
+const xrSettingsPlane = makeXRPlane(1.5, 0.70, 1024, 480, 0, 0.22, -2.0, 998);
 const xrCardPlane = makeXRPlane(1.15, 0.76, 1024, 680, 0, -0.30, -1.8, 999);
 const xrPromptPlane = makeXRPlane(1.05, 0.145, 1024, 140, 0, -0.68, -1.7, 1000);
 function drawXRHelpPanel() {
   drawXRPanel(xrHelpPlane, 'DEADRAMP BASE — HELP', XR_HELP_LINES[helpSpace]);
+}
+/* The Settings panel in-world: same plane, same place as help (it
+ * substitutes for it), carrying the framing text under its heading.
+ * Reached by squeezing past the help; see onXRSqueeze. */
+function drawXRSettingsPanel() {
+  drawXRPanel(xrSettingsPlane, 'SETTINGS', ['ABOUT THIS MODEL', '', ...wrapText(FRAMING, 58)]);
 }
 function drawXRCard(v) {
   if (v && v.feature) { drawXRFeatureCard(v); return; }
@@ -1813,7 +1904,6 @@ function drawXRCard(v) {
   if (v.offerings.length > 6) lines.push(`… (+${v.offerings.length - 6} more on the full record)`);
   if (v.kind === 'building') lines.push('', 'Stand at its door and pull the trigger to enter.');
   else lines.push('', ...wrapText('Surveyed empty lot. This offering is one of the two the DeadRamp build holds as honestly unclassified, so the Base shows the lot, not a building.', 58));
-  lines.push('', ...wrapText(FRAMING, 58));
   drawXRPanel(xrCardPlane, v.name.toUpperCase().slice(0, 40), lines);
 }
 /* Phase 4 records on the in-world card: the same facts as the flat
@@ -1828,15 +1918,12 @@ function drawXRFeatureCard(rec) {
       `${e.parent} (${e.parentForks} forks)`,
       '',
       ...wrapText('The union is of the reference builds\u2019 control baselines under the Merge Rule: union, never intersection; the highest tier inherited in full. No vendor merged with another vendor.', 58),
-      '',
-      ...wrapText(FRAMING, 58),
     ];
     drawXRPanel(xrCardPlane, 'SKYBRIDGE — UNION MERGE', lines);
   } else {
     const pl = state.catalog.platformLayer;
     const lines = [`${pl.rescoped.length} entries · ${pl.decisions.length} standing decisions`, ''];
     for (const d of pl.decisions) lines.push('· ' + d.title);
-    lines.push('', ...wrapText(FRAMING, 58));
     drawXRPanel(xrCardPlane, 'THE PLATFORM LAYER', lines);
   }
 }
@@ -1895,7 +1982,12 @@ function onXRSelect(ev) {
 }
 function onXRSqueeze() {
   if (!renderer.xr.isPresenting) return;
-  if (!hintEl.classList.contains('faded')) { hideHelp(); return; }
+  /* the squeeze cycle: Settings closes first; with the help up, a
+   * squeeze moves on to Settings (the disclaimer's one home, in the
+   * headset as on the flat screen); then the record card; then the
+   * help recall, as before */
+  if (settingsOpen) { hideSettings(); return; }
+  if (!hintEl.classList.contains('faded')) { showSettings(); return; }
   if (state.selected) {
     state.selected = null;
     card.style.display = 'none';
@@ -1984,6 +2076,7 @@ renderer.xr.addEventListener('sessionstart', () => {
   vrBtn.textContent = 'Exit VR';
   if (state.selected) drawXRCard(state.selected);
   showHelp(state.interior ? 'in' : 'out');
+  if (settingsOpen) showSettings(); // Settings substitutes for the help panel
 });
 renderer.xr.addEventListener('sessionend', () => {
   vrBtn.textContent = 'Enter VR';
@@ -1994,6 +2087,7 @@ renderer.xr.addEventListener('sessionend', () => {
   xrCardPlane.mesh.visible = false;
   xrPromptPlane.mesh.visible = false;
   xrHelpPlane.mesh.visible = false;
+  xrSettingsPlane.mesh.visible = false;
   gazeReticle.visible = false;
   /* The manager overwrote the camera's projection with the headset's
    * union frustum while presenting; hand the flat view its own back
@@ -2092,6 +2186,7 @@ function updateRig() {
 function updateXRPeripherals(dt) {
   if (!renderer.xr.isPresenting) return; // sessionend hid every panel
   xrHelpPlane.mesh.visible = !hintEl.classList.contains('faded');
+  xrSettingsPlane.mesh.visible = settingsOpen;
   xrCardPlane.mesh.visible = !!state.selected && card.style.display === 'block';
   const ptxt = promptEl.style.display === 'block' ? promptEl.textContent : '';
   xrPromptPlane.mesh.visible = ptxt.length > 0;
@@ -2274,6 +2369,7 @@ window.__BASE__ = {
     rig: { x: rig.position.x, y: rig.position.y, z: rig.position.z, yawDeg: Math.round(player.yaw * 180 / Math.PI) },
     panels: {
       help: xrHelpPlane.mesh.visible,
+      settings: xrSettingsPlane.mesh.visible,
       card: xrCardPlane.mesh.visible,
       prompt: xrPromptPlane.mesh.visible,
       reticle: gazeReticle.visible,
@@ -2301,6 +2397,18 @@ window.__BASE__ = {
     const p = doorPoint(dv);
     return { name: dv.name, world: p, screen: projectToScreen(p.x, p.y, p.z) };
   },
+  /* disclaimer consolidation hooks (Nov 15, 2026) */
+  settings: () => ({
+    open: settingsOpen,
+    buttonExists: !!document.getElementById('settingsBtn'),
+    panelVisible: settingsPanel.style.display === 'block',
+    aboutText: document.getElementById('settingsAbout').textContent,
+    hudFramingNote: !!document.getElementById('framingNote'),
+  }),
+  interiorPanels: () => state.interior ? {
+    titles: state.interior.panelTitles.slice(),
+    lobbyLines: state.interior.lobbyLines.slice(),
+  } : null,
   getCamera: () => ({ x: player.x, z: player.z, y: player.y, yaw: player.yaw, pitch: player.pitch }),
   setCamera: ({ x, z, y, yawDeg, pitchDeg }) => {
     if (x !== undefined) player.x = x;

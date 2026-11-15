@@ -21,6 +21,11 @@
  * multiple of FH is a flat floor / landing; a non-multiple within
  * 0.35 m of a flight's helical height at that angle is the ramp.
  *
+ * A third leg walks the open well: from the floor-3 landing back
+ * along the band over flight 2's span, where the floor is cut and
+ * the flat candidate is withheld, proving the visitor steps down
+ * onto the ramp instead of standing on air over the well.
+ *
  * Usage: node verify/verify-walk.js   (exit code 0 = climb works)
  */
 'use strict';
@@ -227,6 +232,38 @@ function classify(s, levels) {
     check('climb: reaches floor 3 height (10.2 m)', maxFloorY >= 3 * FH - 0.35, `max=${maxFloorY.toFixed(2)} m`);
     check('climb: ends standing at floor 3', !!finalSample && finalSample.floorY >= 3 * FH - 0.35,
       finalSample ? `final=${finalSample.floorY.toFixed(2)} m` : 'no sample');
+
+    /* leg 3: the open well, walked. The route matters: a visitor
+     * who stays on flight 2 is carried by flight continuity on any
+     * tree, so this leg first steps off the coil onto floor 3's
+     * inner ring (which clears the flight state, as stepping onto
+     * any landing does), walks the ring to theta 3.0, then walks
+     * back out into the ramp band over flight 2's span. That sector
+     * of floor 3's band is cut (the well), and the height function
+     * withholds its flat candidate over exactly the cut sector, so
+     * stepping out must put the visitor on flight 2's surface,
+     * tracking its helical height. On the pre-fix tree the flat
+     * candidate held 10.2 m across the whole ring and the outward
+     * step walked on air at floor-3 height over the slab: the final
+     * sample read 10.2 m and both checks below failed. */
+    const wellStart = trace.length;
+    await walkTo(Math.cos(3.6) * 7.5, Math.sin(3.6) * 7.5, 'well', 45000);
+    await walkTo(Math.cos(3.0) * 7.5, Math.sin(3.0) * 7.5, 'well', 45000);
+    await walkTo(Math.cos(3.0) * COIL_R, Math.sin(3.0) * COIL_R, 'well', 45000);
+    await stopWalking();
+    await sleep(600);
+    const wellEnd = await sample('well');
+    const f2Height = (th) => 2 * FH + ((th - doorAngle(1)) / DOOR_STEP) * FH;
+    results.well = {
+      samples: trace.length - wellStart,
+      end: wellEnd ? { theta: wellEnd.theta, floorY: wellEnd.floorY, expected: f2Height(wellEnd.theta), surface: wellEnd.surface } : null,
+    };
+    check('well: stepping into the open well leaves floor-3 height (no standing on air)',
+      !!wellEnd && wellEnd.floorY <= 3 * FH - 1.2,
+      wellEnd ? `floorY=${wellEnd.floorY.toFixed(2)} m` : 'no sample');
+    check('well: the visitor lands on flight 2 and tracks its helical height',
+      !!wellEnd && Math.abs(wellEnd.floorY - f2Height(wellEnd.theta)) <= 0.45 && wellEnd.surface === 'ramp',
+      wellEnd ? `floorY=${wellEnd.floorY.toFixed(2)} expected=${f2Height(wellEnd.theta).toFixed(2)} at theta=${wellEnd.theta.toFixed(2)} surface=${wellEnd.surface}` : 'no sample');
     check('zero JS errors across the walk', pageErrors.length === 0, pageErrors.join(' | '));
 
     /* the trace, decimated for the log */
