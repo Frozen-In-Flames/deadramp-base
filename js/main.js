@@ -469,9 +469,14 @@ function pickAt(clientX, clientY) {
  * Collision is bounds only, documented in LAYOUT.md: the walkable
  * region is the ring (between the core railing and the outer wall)
  * plus the chamber of the floor you are on; height comes from the
- * nearest candidate surface (ring floor, ramp flight, landing, or
- * chamber floor) to your current height, which is what makes the
- * stacked floors unambiguous. */
+ * candidate surfaces (ring floor, ramp flight, landing, or chamber
+ * floor) nearest to your current height, which is what makes the
+ * stacked floors unambiguous, with one exception: the coil rule.
+ * A ramp surface within a step of the current height takes over,
+ * and a flight the player is already on keeps its surface, because
+ * the flat floor at exactly the current height would otherwise win
+ * the nearest contest forever and the coil could not be climbed on
+ * foot (interiorHeightAt; proven by verify/verify-walk.js). */
 const INT_Y = -2000;         // interior origin: far below the exterior world
 const FH = 3.4;              // floor height
 const R_CORE = 3;            // central column radius
@@ -634,25 +639,53 @@ function chamberAtH(layout, lx, lz, curFloor) {
   }
   return -1;
 }
-function interiorHeightAt(layout, lx, lz, curFloor) {
+function interiorHeightAt(layout, lx, lz, curFloor, onFlight) {
   const r = Math.hypot(lx, lz), th = angNorm(Math.atan2(lz, lx));
-  const cand = [];
-  if (chamberAtH(layout, lx, lz, curFloor) >= 0) {
-    cand.push((chamberAtH(layout, lx, lz, curFloor) + 1) * FH);
-  }
+  const cand = [], rampCand = [];
+  const ch = chamberAtH(layout, lx, lz, curFloor);
+  if (ch >= 0) cand.push((ch + 1) * FH);
   for (let j = 0; j < layout.levels; j++) {
     const a0 = j === 0 ? 0.2 : doorAngle(j - 1), a1 = doorAngle(j);
     const span = angNorm(a1 - a0), rel = angNorm(th - a0);
-    if (rel <= span && r >= R_OUT - 4.9 && r <= R_OUT - 0.5) cand.push(j * FH + (rel / span) * FH);
+    if (rel <= span && r >= R_OUT - 4.9 && r <= R_OUT - 0.5) {
+      const h = j * FH + (rel / span) * FH;
+      cand.push(h); rampCand.push({ h, j });
+    }
     if (angDiff(th, a1) <= 0.18 && r >= R_OUT - 5.2 && r <= R_OUT + 0.6) cand.push((j + 1) * FH);
   }
   if (angDiff(th, EXIT_ANGLE) <= 0.3 && r >= R_OUT - 5.2) cand.push(0);
   if (r >= R_WELL - 0.3 && r <= R_OUT + 0.3) cand.push(Math.round(curFloor / FH) * FH);
   if (curFloor < 0.01 && r <= R_OUT + 0.3) cand.push(0);
-  if (!cand.length) return curFloor;
+  if (!cand.length) return { y: curFloor, flight: -1 };
+  /* The coil rule, in two parts. The flat ring floor is generated at
+   * exactly the current height whenever the player stands on a whole
+   * floor, so in a pure nearest-candidate contest it wins with
+   * distance 0 forever and the ramp, which leaves that same height
+   * and rises, can never be entered on foot (measured before this
+   * rule: a full walk of the IBM coil at ramp radius held floorY at
+   * exactly 0 in every one of 368 samples; verify/verify-walk.js).
+   * Part one, continuity: a player already on a flight keeps that
+   * flight's surface for as long as the flight offers one here, at
+   * any speed, until the span or the band ends, where the landing,
+   * the next flight, or the general rule takes over. Part two,
+   * mounting: a ramp surface within a step of the current height
+   * (0.8 m, more than the largest single-frame rise at full walk
+   * speed, 14 m/s times the 0.1 s dt clamp at the band's inner edge
+   * on the steepest flight, about 0.67 m) is the surface being
+   * stepped onto, at the coil's foot or down from a landing. Beyond
+   * a step the flat floor keeps the contest, which is what lets the
+   * lobby floor hold while walking under the coil where it passes
+   * metres overhead. */
+  if (onFlight >= 0) {
+    const on = rampCand.find((c) => c.j === onFlight);
+    if (on) return { y: on.h, flight: on.j };
+  }
+  let rampBest = null, rampBd = Infinity;
+  for (const c of rampCand) { const d = Math.abs(c.h - curFloor); if (d < rampBd) { rampBd = d; rampBest = c; } }
+  if (rampBest && rampBd <= 0.8) return { y: rampBest.h, flight: rampBest.j };
   let best = cand[0], bd = Math.abs(cand[0] - curFloor);
   for (const c of cand) { const d = Math.abs(c - curFloor); if (d < bd) { bd = d; best = c; } }
-  return best;
+  return { y: best, flight: -1 };
 }
 function interiorAllowedAt(layout, lx, lz, curFloor) {
   if (chamberAtH(layout, lx, lz, curFloor) >= 0) return true;
@@ -933,7 +966,7 @@ function buildInterior(vendor) {
   interiorLight.color.copy(mixColor(new THREE.Color(0xffd9a0), researched ? bPri : new THREE.Color(0xffd9a0), researched ? 0.35 : 0));
   interiorLight.intensity = 60;
   return {
-    vendor, layout, group, floorY: 0, atExit: false,
+    vendor, layout, group, floorY: 0, onFlight: -1, atExit: false,
     rooms: roomRecs, stripMat: stripMesh ? stripMesh.material : null, bars,
     boardTimer: 0, boardIdx: 0, hudSub: document.getElementById('hudSub').textContent,
     saved: null,
@@ -989,7 +1022,9 @@ function resolveInteriorMove(prevX, prevZ) {
     else { lx = prevX; lz = prevZ; }
   }
   player.x = lx; player.z = lz;
-  rec.floorY = interiorHeightAt(layout, lx, lz, cur);
+  const hs = interiorHeightAt(layout, lx, lz, cur, typeof rec.onFlight === 'number' ? rec.onFlight : -1);
+  rec.floorY = hs.y;
+  rec.onFlight = hs.flight;
   player.y = INT_Y + rec.floorY + EYE;
   rec.atExit = rec.floorY < 0.01 &&
     angDiff(angNorm(Math.atan2(lz, lx)), EXIT_ANGLE) <= 0.35 && Math.hypot(lx, lz) >= R_OUT - 4.5;
@@ -1331,6 +1366,7 @@ window.__BASE__ = {
   interiorTeleport: ({ x, z, floorY }) => {
     if (!state.interior) return false;
     state.interior.floorY = floorY;
+    state.interior.onFlight = -1; // a teleport breaks surface continuity
     player.x = x; player.z = z;
     player.y = INT_Y + floorY + EYE;
     return true;

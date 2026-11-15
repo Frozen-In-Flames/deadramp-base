@@ -160,7 +160,21 @@ exit, placed far below the exterior world so the two never interact.
   (ring floor, ramp flight, door landing, chamber floor) nearest to
   the player's current height. Stacked floors share the same plan
   coordinates, and the nearest-candidate rule is what makes the
-  stack unambiguous without collision geometry.
+  stack unambiguous without collision geometry. One exception, the
+  coil rule, in two parts: a player already on a ramp flight keeps
+  that flight's surface while it offers one (continuity), and a
+  ramp surface within a step (0.8 m, more than the largest
+  single-frame rise at full walk speed) of the current height is
+  mounted. Without it the coil is unclimbable on foot: the flat
+  ring floor is generated at exactly the player's current height
+  on any whole floor, so it won the nearest contest with distance
+  0 forever and a walked coil held floor height at exactly 0 in
+  every one of 368 samples (measured; verify/verify-walk.js is the
+  walk-only proof, entry through the door and W held, no
+  teleports). Beyond a step the flat floor keeps the contest, so
+  the lobby floor still holds while walking under the coil where
+  it passes metres overhead, and stepping off a landing into a
+  room is unchanged.
 - Collision is bounds only, stated plainly: the walkable region is
   the ring plus the chamber of the floor the player is on (with a
   height tolerance of three quarters of a floor). Walls are bounds,

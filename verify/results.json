@@ -10,7 +10,7 @@
   "brandDefault": 597,
   "drawCalls": 18,
   "triangles": 48242,
-  "fps": 23,
+  "fps": 36,
   "camera": {
    "x": 24,
    "z": 0
@@ -37,22 +37,22 @@
    "pitch": 0
   },
   "after": {
-   "x": 28.078199999997388,
-   "z": -2.497177288139771e-16,
+   "x": 28.199999999999996,
+   "z": -2.571758278209442e-16,
    "y": 1.7,
    "yaw": -1.5707963267948966,
    "pitch": 0
   },
-  "moved": 4.078199999997388
+  "moved": 4.199999999999996
  },
  "districtView": {
   "camIdx": 53,
   "clearance": 10.5
  },
  "districtPixels": {
-  "nonBgFraction": 0.5377604166666666,
-  "brightFraction": 0.022135416666666668,
-  "distinctColors": 67,
+  "nonBgFraction": 0.5388454861111112,
+  "brightFraction": 0.022243923611111112,
+  "distinctColors": 64,
   "bg": [
    27,
    36,
@@ -98,7 +98,7 @@
   },
   "lobbyPixels": {
    "nonBgFraction": 0.8680555555555556,
-   "distinctColors": 62,
+   "distinctColors": 61,
    "bg": [
     36,
     34,
@@ -106,12 +106,12 @@
    ]
   },
   "spiralPixels": {
-   "nonBgFraction": 0.9663194444444444,
-   "distinctColors": 114,
+   "nonBgFraction": 0.9638888888888889,
+   "distinctColors": 115,
    "bg": [
-    178,
-    155,
-    154
+    181,
+    157,
+    156
    ]
   },
   "largestRoomPixels": {
