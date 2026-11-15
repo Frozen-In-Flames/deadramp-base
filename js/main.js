@@ -178,11 +178,11 @@ const rig = new THREE.Group();
 rig.add(camera);
 scene.add(rig);
 
-scene.add(new THREE.HemisphereLight(0x93b8dd, 0x2c241a, 1.15));
+scene.add(new THREE.HemisphereLight(0x93b8dd, 0x2c241a, 1.30));
 const sun = new THREE.DirectionalLight(0xffb36b, 1.8);
 sun.position.set(-0.45, 0.38, 0.25).multiplyScalar(1000);
 scene.add(sun);
-const fill = new THREE.DirectionalLight(0x6f87b8, 0.35);
+const fill = new THREE.DirectionalLight(0x6f87b8, 0.45);
 fill.position.set(0.5, 0.6, -0.4).multiplyScalar(1000);
 scene.add(fill);
 
@@ -245,14 +245,14 @@ function buildWorld(catalog) {
   /* ground */
   const ground = new THREE.Mesh(
     new THREE.CircleGeometry(worldRadius + 260, 72).rotateX(-Math.PI / 2),
-    new THREE.MeshLambertMaterial({ color: 0x2e3a2e }));
+    new THREE.MeshLambertMaterial({ color: 0x39463c }));
   ground.position.y = 0;
   worldGroup.add(ground);
 
   /* district ground discs, one merged geometry */
   const discs = [];
   for (const d of catalog.districts) {
-    const c = hexColor(d.color).multiplyScalar(0.38);
+    const c = hexColor(d.color).multiplyScalar(0.44);
     const g = new THREE.CircleGeometry(d.radius, 40).rotateX(-Math.PI / 2).translate(d.center.x, 0.02, d.center.z);
     discs.push(coloredGeom(g, c));
   }
@@ -267,14 +267,26 @@ function buildWorld(catalog) {
   worldGroup.add(roadMesh);
   ribbons.forEach((g) => g.dispose());
 
-  /* plaza + directory kiosk placeholder at the spiral centre */
-  const plaza = new THREE.Mesh(
-    new THREE.CircleGeometry(112, 56).rotateX(-Math.PI / 2),
-    new THREE.MeshLambertMaterial({ color: 0x50565f }));
-  plaza.position.y = 0.04;
+  /* plaza + directory kiosk placeholder at the spiral centre.
+   * The plaza is paved, not a bare disc: concentric granite inlay
+   * rings at the quarter, half, and three-quarter radii and a
+   * bronze-ringed granite medallion at the spiral centre, all
+   * layout math, merged with the base disc into one mesh so the
+   * arrival view reads as a federal plaza at no extra draw calls. */
+  const PLAZA_R = 112;
+  const paving = [
+    coloredGeom(new THREE.CircleGeometry(PLAZA_R, 56).rotateX(-Math.PI / 2).translate(0, 0.04, 0), new THREE.Color(0x5c636c)),
+    coloredGeom(new THREE.RingGeometry(PLAZA_R * 0.25 - 0.9, PLAZA_R * 0.25 + 0.9, 56).rotateX(-Math.PI / 2).translate(0, 0.052, 0), GRANITE_C),
+    coloredGeom(new THREE.RingGeometry(PLAZA_R * 0.5 - 1.1, PLAZA_R * 0.5 + 1.1, 56).rotateX(-Math.PI / 2).translate(0, 0.052, 0), GRANITE_C),
+    coloredGeom(new THREE.RingGeometry(PLAZA_R * 0.75 - 1.1, PLAZA_R * 0.75 + 1.1, 56).rotateX(-Math.PI / 2).translate(0, 0.052, 0), GRANITE_C),
+    coloredGeom(new THREE.CircleGeometry(6.0, 40).rotateX(-Math.PI / 2).translate(0, 0.052, 0), GRANITE_C),
+    coloredGeom(new THREE.RingGeometry(6.0, 6.9, 40).rotateX(-Math.PI / 2).translate(0, 0.058, 0), new THREE.Color(0x8c6a2f)),
+  ];
+  const plaza = new THREE.Mesh(mergeGeoms(paving), new THREE.MeshLambertMaterial({ vertexColors: true }));
   worldGroup.add(plaza);
+  paving.forEach((g) => g.dispose());
   const kiosk = new THREE.Group();
-  const kioskMat = new THREE.MeshLambertMaterial({ color: 0x2b3444 });
+  const kioskMat = new THREE.MeshLambertMaterial({ color: 0x36415a });
   const kioskAccent = new THREE.MeshLambertMaterial({ color: 0xffb36b });
   const base = new THREE.Mesh(new THREE.BoxGeometry(7, 3.4, 1.4), kioskMat); base.position.y = 1.7;
   const roof = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.35, 2.4), kioskAccent); roof.position.y = 3.6;
@@ -773,7 +785,10 @@ function updateLabels() {
     if (i >= cand.length) { el.style.display = 'none'; continue; }
     const { v, d2 } = cand[i];
     const dist = Math.sqrt(d2);
-    const op = Math.max(0.2, 1 - dist / LABEL_VENDOR_RANGE);
+    /* legibility floor: a name at the edge of label range still
+     * renders at better than half opacity (measured at spawn: every
+     * visible vendor label sat at the old 0.20 floor). */
+    const op = 0.55 + 0.45 * (1 - dist / LABEL_VENDOR_RANGE);
     placeLabel(el, v.position.x, v.size.h + 2.5, v.position.z, v.name, op);
   }
   let di = 0;
@@ -782,7 +797,7 @@ function updateLabels() {
     const dx = d.center.x - px, dz = d.center.z - pz;
     const dist = Math.hypot(dx, dz);
     if (dist < LABEL_DISTRICT_RANGE) {
-      placeLabel(districtLabels[di], d.gate.x, 11, d.gate.z, `${d.functionName} · ${d.tier}`, Math.max(0.3, 1 - dist / LABEL_DISTRICT_RANGE));
+      placeLabel(districtLabels[di], d.gate.x, 11, d.gate.z, `${d.functionName} · ${d.tier}`, 0.6 + 0.4 * (1 - dist / LABEL_DISTRICT_RANGE));
       di++;
     }
   }
@@ -1185,7 +1200,22 @@ function chPoint(A, rMid, px, py, pz) {
     rMid * Math.cos(A) + px * Math.sin(A) + pz * Math.cos(A), py,
     rMid * Math.sin(A) - px * Math.cos(A) + pz * Math.sin(A));
 }
-/* Helical ramp ribbon between angles a0..a1, heights y0..y1. */
+/* Helical ramp ribbon between angles a0..a1, heights y0..y1.
+ * Winding and normals both matter here, and both were wrong in the
+ * first build: the triangles wound so the ribbon's front face
+ * pointed DOWN while the stored normals claimed (0, 1, 0) up. The
+ * interior material is double-sided, and Three flips the shading
+ * normal on back faces, so the walking surface was shaded with a
+ * downward normal: no sun, no sky hemisphere, and no point light
+ * from above could ever reach it, and the coil rendered black at
+ * every height (measured: 70 percent of the lower frame under
+ * luminance 12 at flights 2 through 8, while the flight overhead,
+ * seen from below on its front face, rendered bright: the world
+ * was lit upside down). The fix winds the triangles so the front
+ * face is the top, and stores the ribbon's true normal: for the
+ * surface P(a, r) = (r cos a, y0 + s(a - a0), r sin a) with rise
+ * per radian s, dP/da x dP/dr = (s sin a, r, -s cos a), which
+ * points up and tilts against the slope. */
 function rampGeom(a0, a1, y0, y1, rIn, rOut, color, yOff = 0) {
   const steps = Math.max(4, Math.ceil(Math.abs(a1 - a0) / 0.1));
   const pos = [], nor = [];
@@ -1193,10 +1223,18 @@ function rampGeom(a0, a1, y0, y1, rIn, rOut, color, yOff = 0) {
     const t = i / steps, a = a0 + (a1 - a0) * t, y = y0 + (y1 - y0) * t + yOff;
     return [Math.cos(a) * r, y, Math.sin(a) * r];
   };
+  const s = (y1 - y0) / (a1 - a0);
+  const nrm = (i, r) => {
+    const t = i / steps, a = a0 + (a1 - a0) * t;
+    const vx = s * Math.sin(a), vy = r, vz = -s * Math.cos(a);
+    const il = 1 / Math.hypot(vx, vy, vz);
+    return [vx * il, vy * il, vz * il];
+  };
   for (let i = 0; i < steps; i++) {
     const A = pt(i, rIn), B = pt(i, rOut), C = pt(i + 1, rIn), D = pt(i + 1, rOut);
-    pos.push(...A, ...B, ...C, ...B, ...D, ...C);
-    for (let k = 0; k < 6; k++) nor.push(0, 1, 0);
+    const nA = nrm(i, rIn), nB = nrm(i, rOut), nC = nrm(i + 1, rIn), nD = nrm(i + 1, rOut);
+    pos.push(...A, ...C, ...B, ...B, ...C, ...D);
+    nor.push(...nA, ...nC, ...nB, ...nB, ...nC, ...nD);
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pos), 3));

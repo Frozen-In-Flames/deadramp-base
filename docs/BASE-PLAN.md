@@ -35,7 +35,7 @@ Design reference (Aries, Nov 14, 2026): the worlds of Skyrim, Oblivion, and Drag
 - One room per offering (781). The room is the service: its name, tier badge, status, and its real build data on the walls: the service's own controls, its reference implementation's API surface on a working terminal panel, its source listing one tap away.
 - Rooms are archetypes per function, data-filled per service (hand-building 781 unique rooms is not the path; archetype plus real data is): cybersecurity gets an ops-center archetype (log streams, control-family panels), cloud hosting a server hall, AI a lab, collaboration a meeting space, accounting a ledger office, and so on across the function axis. The animation in a room matches what the service does.
 - Status is architecture, honestly: Certified offerings are finished, lit buildings. Pipeline offerings are under construction: scaffolding, cranes, exposed frame, in proportion to their status. The 2 unclassified offerings are surveyed empty lots with a plaque saying exactly that. Platform-layer entries get a shared platform deck, not fake buildings. The Base never overstates the data.
-- Union merges are skybridges: a merged fork's building connects to its parents with a bridge, and the bridge room shows the merge rule (union of baselines, highest tier inherited) as the exhibit.
+- Union merges are skybridges. As built, the bridges render the merge record DeadRamp actually carries: the UNION-SPEC build lineage, 19 parent edges across 18 builds, because the records contain no vendor-to-vendor merges. Each bridge joins the gates of the two districts where the child and parent builds' offerings live, and the merge rule (union of baselines, highest tier inherited) is the exhibit on the bridge's record card.
 
 ## Stack (quality over ego, per Aries)
 
@@ -60,7 +60,7 @@ Design reference (Aries, Nov 14, 2026): the worlds of Skyrim, Oblivion, and Drag
 - Phase 1: spiral city exterior: districts, buildings, labels, lighting; walkable on desktop and phone; performance budget measured.
 - Phase 2: interiors v1: lobby plus service rooms for the top function archetypes, in-room panels from real build data.
 - Phase 3: WebXR pass: Quest Browser VR, controller locomotion, comfort settings; verified on Aries's own Quest 2.
-- Phase 4: full archetype coverage across all function groups; merge skybridges; platform deck; construction states for pipeline vendors.
+- Phase 4: full archetype coverage across all function groups; merge skybridges; platform deck; construction states for pipeline vendors. As built (Nov 15, 2026): the skybridges render the UNION-SPEC build lineage (19 edges), the records holding no vendor-to-vendor merges; the platform deck presents the 40 re-scoped entries carried in GAPS.md (the gaps batch decision document accounts for 39 closures: 36 platform re-scopes and 3 written re-scopes; the deck follows the fuller record, and the accounting note is kept in LAYOUT.md); construction states scaffold the 227 buildings with pending offerings in proportion to each vendor's uncertified share.
 - Phase 5 (later, optional): guided tours, and multiplayer walkthroughs over WebRTC using the Collaborative MIDI pattern (manual connect codes, no servers).
 
 ## Verification doctrine (same as the rest of the portfolio)

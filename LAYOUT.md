@@ -454,3 +454,45 @@ boards) plus the deck's merged slab and whichever of its panels
 the frustum catches. Triangle growth is the honest cost of real
 geometry for scaffolds and bridges; draw calls, the number that
 gates phone frame rates, grew by single digits.
+
+## Polish pass (Nov 15, 2026)
+
+Three measured fixes; no architecture, interaction, or data
+change.
+
+- Interior coil lighting. The ramp ribbons wound with their
+  front face pointing down while their stored normals pointed
+  up; the interior material is double-sided, and Three flips
+  the shading normal on back faces, so the walking surface was
+  shaded with a downward normal: no sun, no sky hemisphere,
+  and no point light from above could reach it, and the coil
+  rendered black at every height while the flight overhead,
+  seen from below on its front face, rendered bright. The
+  ribbons now wind front-face-up and carry the helix's true
+  normals (for P(a, r) = (r cos a, y0 + s(a − a0), r sin a),
+  dP/da × dP/dr = (s sin a, r, −s cos a)). Measured from
+  screenshot bitmaps inside IBM: the lower-frame mean
+  luminance on the coil went from 25–36 to 78–87 across
+  flights 0 to 8, the near-black fraction of that frame from
+  0.40–0.70 to 0.000, and the lobby is unchanged (mean
+  luminance 70.1 → 70.7, nothing clipped). No light was
+  added; the existing player light and dusk rig were always
+  sufficient once the surface could receive them.
+- Plaza and dusk balance. The plaza is paved: granite inlay
+  rings at the quarter, half, and three-quarter radii and a
+  bronze-ringed granite medallion at the spiral centre, merged
+  into the existing plaza mesh (radii are layout math). The
+  ground disc and district discs are lifted a step, and the
+  hemisphere and fill lights with them (1.15 → 1.30,
+  0.35 → 0.45; the sun is unchanged). Spawn-view mean
+  luminance 45.4 → 49.1, overview 41.8 → 47.1.
+- Label legibility. Vendor labels faded to a 0.20 opacity
+  floor and district labels to 0.30, and at spawn every
+  visible vendor label sat at the floor. The fades now run
+  0.55 → 1.0 (vendor) and 0.60 → 1.0 (district), and labels
+  carry a subtle dark backing. Measured at spawn: vendor
+  labels at 0.56–0.64 opacity, district labels at 0.68–0.71.
+- Cost: draw calls unchanged at every measured viewpoint
+  (22 at spawn, 19 at the overview, 24 at the deck, 12 at the
+  bridge and construction views); triangles 125,220 →
+  125,676, the paving geometry.
