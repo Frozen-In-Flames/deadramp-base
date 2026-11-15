@@ -1971,7 +1971,220 @@ const BRAND_SEEDS = {
   // Source: brandfetch.com/vbrick.com brand page, named swatches Picton
   // Blue / White / Ebony Clay; About describes the enterprise video
   // platform, the registry offering.
-  'Vbrick Systems, Inc.': { primary: '#35c2f2', secondary: '#ffffff', accent: '#212934' }
+  'Vbrick Systems, Inc.': { primary: '#35c2f2', secondary: '#ffffff', accent: '#212934' },
+  // Tranche 11 (Nov 15, 2026): the 33 remaining undecided vendors in
+  // registry order after Vbrick Systems, Inc., from Veracode through
+  // zLink, Inc. Of the 103 vendors on default palettes when this
+  // tranche began, 70 were stayed-default decisions recorded in
+  // tranches 1 to 10; they were skipped and not recounted, per the
+  // standing rule. 29 moved to researched. With this tranche every
+  // vendor in the registry carries a decision and the brand research
+  // pass is complete. Stayed default on the record: Veridix, LLC
+  // (brandfetch.com/veridix.com rejected: the page is titled for Emmes,
+  // its parent group, and its palette is expressly stated as the Emmes
+  // color palette under Emmes's name and icon, although its About
+  // leads with Veridix and the eClinical platform that is the registry
+  // offering; a palette expressly presented as the parent's own is not
+  // seedable even at the vendor's domain, tranche 8 PSCS precedent; no
+  // other citable source for Veridix's own colors found); Visionlink,
+  // Inc. (no Brandfetch page at visionlink.org or visionlink.com, both
+  // 404, and targeted searches surfaced no guidelines or listing
+  // stating its colors as hex values); xAI (its only listing,
+  // brandfetch.com/x.ai, states exactly two colors, #ffffff and
+  // #000000; no third value citable, the accent never invented,
+  // tranche 8 OpenAI precedent); XTec, Incorporated (its only listing,
+  // brandfetch.com/xtec.com, states exactly two colors, #ffffff and
+  // #1a2e43; no third value citable). Judgment calls recorded in the
+  // per-entry comments: Verily Health seeded from the Verily Life
+  // Sciences page at the vendor's own domain (same company); WalkMe,
+  // Inc seeded from its own brand page although its wordmark carries
+  // an 'an SAP company' signature; WidePoint Integrated Solutions
+  // Corp. seeded from the parent WidePoint Corporation brand the
+  // subsidiary carries; Vulcan Technologies, Inc. seeded from the
+  // palette stated at vulcan.ai, the domain anchored by the company's
+  // own trust center, whose About text is generic boilerplate naming
+  // no other company. Seven seeds carry #000000 as a single
+  // fallback-trio member with named, unique, identity-consistent
+  // swatches (Verkada accent, Wallarm accent, Wellspring Worldwide
+  // accent, WidePoint accent, Wraithwatch accent, Xerox secondary,
+  // zLink accent): flagged per entry, tranche 5 Ex Libris precedent;
+  // the fallback trio itself appears in none. Partial prose tension
+  // recorded per entry for Veracode, Veritone, Inc. and Workiva
+  // (tranche 7 Moveworks precedent). Five sources list four or more
+  // colors (Verkada, WalkMe, Wolters Kluwer, Zeta Global, Zimperium):
+  // the first three in listed order are seeded and the remainder noted
+  // per entry.
+  // Source: brandfetch.com/veracode.com brand page, named swatches
+  // Dodger Blue / White / Bossanova; header and About describe the
+  // application security platform, the registry offering (Veracode
+  // Online Security Platform). Partial prose tension recorded: the
+  // logo prose cites a bright yellow call-to-action color and a deep
+  // navy canvas, neither among the stated swatches; seeded on the
+  // stated palette (Moveworks precedent).
+  'Veracode': { primary: '#00b9ff', secondary: '#ffffff', accent: '#613370' },
+  // Source: brandfetch.com/verily.com brand page (Verily Life
+  // Sciences), named swatches Elf Green / Cod Gray / White. Judgment:
+  // the registry vendor Verily Health is the same company; the page at
+  // its own domain presents its own brand, and its governed health
+  // data platform is the registry offering family.
+  'Verily Health': { primary: '#087a6a', secondary: '#1a1a1a', accent: '#ffffff' },
+  // Source: brandfetch.com/veritone.com brand page, palette stated in
+  // its FAQ (no color names listed); About names aiWARE, the registry
+  // offering family. Partial prose tension recorded: the logo prose
+  // cites vivid lime accents, not among the stated hex codes; seeded
+  // on the stated palette (Moveworks precedent).
+  'Veritone, Inc.': { primary: '#335491', secondary: '#f1f8fe', accent: '#0e1932' },
+  // Source: brandfetch.com/verkada.com claimed brand page, named
+  // swatches Chathams Blue / Elephant / Black; White #ffffff also
+  // listed. Accent #000000 is a single fallback-trio member; swatches
+  // named, unique, identity-consistent (Ex Libris precedent). About
+  // describes cloud-managed physical security, the registry offering
+  // (Verkada Command Platform).
+  'Verkada Inc': { primary: '#105274', secondary: '#15374c', accent: '#000000' },
+  // Source: brandfetch.com/vibrenthealth.com brand page, named
+  // swatches Curious Blue / Anakiwa / Tangaroa; header and About
+  // describe the digital health research platform built with the
+  // National Institutes of Health, the registry offering.
+  'Vibrent Health': { primary: '#1e91ca', secondary: '#a5edfc', accent: '#051f48' },
+  // Source: brandfetch.com/virtru.com brand page, named swatches
+  // Cornflower Blue / Heather / Congress Blue; About names the Data
+  // Security Platform and the Trusted Data Format, the registry
+  // offering.
+  'Virtru': { primary: '#6aaae4', secondary: '#adbdcc', accent: '#004987' },
+  // Source: brandfetch.com/virtualdojo.com brand page, palette stated
+  // in its FAQ (no color names listed); About describes the AI
+  // workspace for government contractors that works alongside existing
+  // CRMs, the registry offering (VirtualDojo AI CRM).
+  'VirtualDojo, Inc.': { primary: '#e03939', secondary: '#1f2937', accent: '#ffffff' },
+  // Source: brandfetch.com/visiblethread.com brand page, named
+  // swatches Cornflower Blue / White / Haiti; header names full-
+  // lifecycle RFP intelligence, the registry offering.
+  'VisibleThread': { primary: '#7654f5', secondary: '#ffffff', accent: '#0a0722' },
+  // Source: brandfetch.com/visualvault.com brand page, palette stated
+  // in its FAQ (no color names listed); About describes the cloud
+  // content services platform, the registry offering (VisualVault
+  // Cloud).
+  'VisualVault LLC': { primary: '#55a333', secondary: '#79ace9', accent: '#19247b' },
+  // Source: brandfetch.com/vlogicsystems.com brand page, named
+  // swatches Tango / White / Blue Zodiac; header and About describe
+  // facility management software, the registry offering (VLogicFM).
+  'VLogic Systems, Inc.': { primary: '#f16f23', secondary: '#ffffff', accent: '#12254e' },
+  // Source: brandfetch.com/vulcan.ai brand page, named swatches Tory
+  // Blue / Aqua Island / Abbey. Judgment: vulcan.ai is the vendor's
+  // own domain, anchored by its own trust center
+  // (trust.vulcangov.app names security@vulcan.ai and the VulcanGov
+  // service, the registry offering), and the page header states the
+  // company's frontier-AI-to-government mission; the About text is
+  // generic AI boilerplate that names no other company (tranche 7
+  // Mycroft and tranche 10 Trenchant precedent). The
+  // brandfetch.com/vulcantechnologies.com page is a different company
+  // (fire-rated vents) whose About is boilerplate about a social
+  // network; rejected, not used.
+  'Vulcan Technologies, Inc.': { primary: '#154196', secondary: '#a2c7db', accent: '#4f5156' },
+  // Source: brandfetch.com/walkme.com brand page, palette stated in
+  // its FAQ, listing four values; the first three are seeded and Deep
+  // Koamaru #090b3e is also listed. Judgment: the wordmark carries an
+  // 'an SAP company' signature, but the page presents WalkMe's own
+  // brand and palette at its own domain (tranche 10 Valimail
+  // precedent); About describes the Digital Adoption Platform, the
+  // registry offering (WalkMe DAP).
+  'WalkMe, Inc': { primary: '#3c40fd', secondary: '#1eebb8', accent: '#ffffff' },
+  // Source: brandfetch.com/wallarm.com brand page, named swatches
+  // Chilean Fire / Blue Ribbon / Black. Accent #000000 is a single
+  // fallback-trio member; swatches named, unique, identity-consistent
+  // (Ex Libris precedent); fallback lettermark icon only. About
+  // describes API and AI security, the registry offering (Wallarm
+  // Federal Cloud).
+  'Wallarm, Inc.': { primary: '#fc7303', secondary: '#4842ff', accent: '#000000' },
+  // Source: brandfetch.com/wellspring.com brand page, named swatches
+  // Blaze Orange / Royal Blue / Black. Accent #000000 is a single
+  // fallback-trio member; swatches named, unique, identity-consistent
+  // (Ex Libris precedent). About describes innovation management and
+  // technology transfer software (Accolade, Flintbox), the registry
+  // offering family.
+  'Wellspring Worldwide, Inc.': { primary: '#ff6500', secondary: '#5350f0', accent: '#000000' },
+  // Source: brandfetch.com/widepoint.com brand page (WidePoint
+  // Corporation), named swatches Alizarin Crimson / Heather / Black.
+  // Accent #000000 is a single fallback-trio member; swatches named,
+  // unique, identity-consistent (Ex Libris precedent). Judgment:
+  // parent brand; the registry vendor is the parent's Integrated
+  // Solutions subsidiary and carries the corporate brand (tranche 10
+  // Tyler Technologies Data & Insights precedent).
+  'WidePoint Integrated Solutions Corp.': { primary: '#eb2429', secondary: '#b9c6d3', accent: '#000000' },
+  // Source: brandfetch.com/willcotech.com brand page, named swatches
+  // Dodger Blue / Portage / Governor Bay; header names CyberSTAR and
+  // DoD 8140 compliance, the registry offering; fallback lettermark
+  // icon only.
+  'WillCo Tech': { primary: '#4368f8', secondary: '#9896f0', accent: '#323ea7' },
+  // Source: brandfetch.com/wingswept.com brand page, named swatches
+  // Rolling Stone / White / Orient; tags name investigator case
+  // management software, the registry offering (Case Management &
+  // Tracking System).
+  'WingSwept': { primary: '#747b7f', secondary: '#ffffff', accent: '#005881' },
+  // Source: brandfetch.com/wisedocs.com brand page, named swatches
+  // Dodger Blue / Anakiwa / Ebony; About describes the medical record
+  // review platform, the registry offering (Wisedocs for Government).
+  'Wisedocs USA Inc.': { primary: '#2582ff', secondary: '#93c1ff', accent: '#0e1626' },
+  // Source: brandfetch.com/workiva.com brand page, named swatches
+  // Mantis / Old Lace / Mine Shaft; tags name the governance, risk
+  // and compliance platform, the registry offering (Workiva
+  // Platform). Partial prose tension recorded: the logo prose cites
+  // bright blue accents, not among the stated swatches; seeded on the
+  // stated palette (Moveworks precedent).
+  'Workiva': { primary: '#66cc66', secondary: '#fcf4e7', accent: '#333333' },
+  // Source: brandfetch.com/wolterskluwer.com brand page, palette
+  // stated in its FAQ, listing four values; the first three are
+  // seeded and White #ffffff is also listed. The registry offering
+  // (TeamMate FedRAMP) is the vendor's own product.
+  'Wolters Kluwer': { primary: '#85bc20', secondary: '#007ac3', accent: '#353535' },
+  // Source: brandfetch.com/wraithwatch.com brand page, named swatches
+  // Cerulean Blue / Wild Sand / Black. Accent #000000 is a single
+  // fallback-trio member; swatches named, unique, identity-consistent
+  // (Ex Libris precedent). About describes the adaptive cyber defense
+  // platform and names FedRAMP High authorization in process, the
+  // registry offering family.
+  'Wraithwatch Corporation': { primary: '#2867b2', secondary: '#f5f5f5', accent: '#000000' },
+  // Source: brandfetch.com/xerox.com brand page, palette stated in
+  // its FAQ (no color names listed). Secondary #000000 is a single
+  // fallback-trio member (Ex Libris precedent). About names managed
+  // print services, the registry offering.
+  'Xerox Corporation': { primary: '#d92231', secondary: '#000000', accent: '#ffffff' },
+  // Source: brandfetch.com/xfinion.com brand page, named swatches
+  // Orange Peel / Seagull / Biscay; header and About describe the
+  // federal systems integrator, the registry vendor; fallback
+  // lettermark icon only.
+  'Xfinion Inc.': { primary: '#e5a000', secondary: '#73b3e7', accent: '#1b3a6b' },
+  // Source: brandfetch.com/yello.co brand page, named swatches
+  // Cerulean / Peach Orange / Blue Lagoon; About names government
+  // recruiting and the FedRAMP-authorized platform, the registry
+  // offering (Yello Government).
+  'Yello Dba Recsolu Inc': { primary: '#06afd1', secondary: '#ffd595', accent: '#04718a' },
+  // Source: brandfetch.com/zeroeyes.com brand page, named swatches
+  // Malibu / White / Cod Gray; header and About describe AI gun
+  // detection, the registry offering (ZEF).
+  'ZeroEyes Inc': { primary: '#609fff', secondary: '#ffffff', accent: '#121212' },
+  // Source: brandfetch.com/zetaglobal.com brand page, palette stated
+  // in its FAQ, listing four values; the first three are seeded and
+  // Stratos #00003d is also listed. About describes the data-driven
+  // marketing platform company, the registry offering (Zeta Marketing
+  // Platform).
+  'Zeta Global Corp.': { primary: '#bb2676', secondary: '#035cd4', accent: '#ffffff' },
+  // Source: brandfetch.com/zimperium.com brand page, named swatches
+  // Orange / Big Stone / White; Black Pearl #041423 also listed.
+  // About names Mobile Endpoint Security, the registry offering.
+  'Zimperium': { primary: '#ff5926', secondary: '#1b3247', accent: '#ffffff' },
+  // Source: brandfetch.com/zlti.com brand page (ZL Tech), palette
+  // stated in its FAQ (no color names listed); About names the
+  // unified architecture for information governance, the registry
+  // offering (ZL Unified Archive).
+  'ZL Technologies, Inc.': { primary: '#c52040', secondary: '#abcae7', accent: '#202135' },
+  // Source: brandfetch.com/zlinkcorp.com brand page, named swatches
+  // Blue Ribbon / Wild Sand / Black. Accent #000000 is a single
+  // fallback-trio member; swatches named, unique, identity-consistent
+  // (Ex Libris precedent). Header describes the facilities platform,
+  // the registry offering (zLinkFM); the About section carries
+  // company metadata only (tranche 7 Mycroft precedent).
+  'zLink, Inc.': { primary: '#283fff', secondary: '#f5f5f5', accent: '#000000' }
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];

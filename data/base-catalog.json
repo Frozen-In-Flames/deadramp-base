@@ -78887,10 +78887,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#00b9ff",
+    "secondary": "#ffffff",
+    "accent": "#613370",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79007,10 +79007,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#087a6a",
+    "secondary": "#1a1a1a",
+    "accent": "#ffffff",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79091,10 +79091,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#335491",
+    "secondary": "#f1f8fe",
+    "accent": "#0e1932",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79187,10 +79187,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#105274",
+    "secondary": "#15374c",
+    "accent": "#000000",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79251,10 +79251,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#1e91ca",
+    "secondary": "#a5edfc",
+    "accent": "#051f48",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79319,10 +79319,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#6aaae4",
+    "secondary": "#adbdcc",
+    "accent": "#004987",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79387,10 +79387,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#e03939",
+    "secondary": "#1f2937",
+    "accent": "#ffffff",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79451,10 +79451,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#7654f5",
+    "secondary": "#ffffff",
+    "accent": "#0a0722",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79574,10 +79574,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#55a333",
+    "secondary": "#79ace9",
+    "accent": "#19247b",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79629,10 +79629,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#f16f23",
+    "secondary": "#ffffff",
+    "accent": "#12254e",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79725,10 +79725,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#154196",
+    "secondary": "#a2c7db",
+    "accent": "#4f5156",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79906,10 +79906,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#3c40fd",
+    "secondary": "#1eebb8",
+    "accent": "#ffffff",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -79982,10 +79982,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#fc7303",
+    "secondary": "#4842ff",
+    "accent": "#000000",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80145,10 +80145,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#ff6500",
+    "secondary": "#5350f0",
+    "accent": "#000000",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80200,10 +80200,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#eb2429",
+    "secondary": "#b9c6d3",
+    "accent": "#000000",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80268,10 +80268,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#4368f8",
+    "secondary": "#9896f0",
+    "accent": "#323ea7",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80332,10 +80332,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#747b7f",
+    "secondary": "#ffffff",
+    "accent": "#005881",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80412,10 +80412,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#2582ff",
+    "secondary": "#93c1ff",
+    "accent": "#0e1626",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80588,10 +80588,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#85bc20",
+    "secondary": "#007ac3",
+    "accent": "#353535",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80720,10 +80720,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#66cc66",
+    "secondary": "#fcf4e7",
+    "accent": "#333333",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80784,10 +80784,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#2867b2",
+    "secondary": "#f5f5f5",
+    "accent": "#000000",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80928,10 +80928,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#d92231",
+    "secondary": "#000000",
+    "accent": "#ffffff",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -80988,10 +80988,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#e5a000",
+    "secondary": "#73b3e7",
+    "accent": "#1b3a6b",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -81107,10 +81107,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#06afd1",
+    "secondary": "#ffd595",
+    "accent": "#04718a",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -81250,10 +81250,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#609fff",
+    "secondary": "#ffffff",
+    "accent": "#121212",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -81314,10 +81314,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#bb2676",
+    "secondary": "#035cd4",
+    "accent": "#ffffff",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -81398,10 +81398,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#ff5926",
+    "secondary": "#1b3247",
+    "accent": "#ffffff",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -81458,10 +81458,10 @@
    "offeringCount": 1,
    "statusClass": "pipeline",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#c52040",
+    "secondary": "#abcae7",
+    "accent": "#202135",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
@@ -81534,10 +81534,10 @@
    "offeringCount": 1,
    "statusClass": "certified",
    "brand": {
-    "primary": "#cfc9b8",
-    "secondary": "#4c5257",
-    "accent": "#8c6a2f",
-    "source": "default"
+    "primary": "#283fff",
+    "secondary": "#f5f5f5",
+    "accent": "#000000",
+    "source": "researched"
    },
    "kind": "building",
    "offerings": [
