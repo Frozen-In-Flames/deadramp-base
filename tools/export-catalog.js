@@ -282,6 +282,141 @@ const BRAND_SEEDS = {
   'United States Department of Agriculture': { primary: '#002d72', secondary: '#ffffff', accent: '#005440' },
   // Brandfetch brand page, claimed brand (Royal Blue, Ebony, White): https://brandfetch.com/wiz.io
   'Wiz, Inc.': { primary: '#325fe8', secondary: '#0f172a', accent: '#ffffff' },
+  /* ---- Phase 4 brand research, tranche 2 (Nov 15, 2026) ----
+   * The next 60 default vendors by offering count (the sixteen
+   * 2-offering vendors, then single-offering vendors in registry
+   * order), researched one by one. 52 were established from a citable
+   * public source (recorded per entry below) and are seeded here;
+   * the other 8 stay on the federal default: Advent Business Company
+   * Inc., Aeroplicity Inc., Aequitas Cyber Labs and ArcSuite AI have
+   * no citable source stating hex values; the only Knox Systems
+   * listing contradicts itself (its About section describes Google
+   * Workspace) and the only CLEAR listing likewise (its description
+   * is an automotive-care company); Acuant's listing now describes
+   * its acquirer GBG; Specset's only listing states exactly two
+   * colors, so no third value is citable. Tranche 1's two holdouts
+   * moved: the current Casepoint listing describes the legal
+   * discovery company correctly, and Kiteworks now has a listing
+   * stating hex as text. Every value below appears in its cited
+   * source, verified against the fetched page. */
+  // Brandfetch brand page, palette stated in its FAQ (the page describes the
+  // legal discovery platform; no color names listed): https://brandfetch.com/casepoint.com
+  'Casepoint LLC': { primary: '#ffc83a', secondary: '#ffffff', accent: '#783013' },
+  // Brandfetch brand page (Royal Blue, Malibu, Blue Zodiac): https://brandfetch.com/everbridge.com
+  'Everbridge': { primary: '#3760f3', secondary: '#8ed1fc', accent: '#13284e' },
+  // Brandfetch brand page (Cornflower Blue, White, Martinique): https://brandfetch.com/fmsystems.com
+  'FM:Systems': { primary: '#576efa', secondary: '#ffffff', accent: '#2d3049' },
+  // Brandfetch brand page (Cerulean, White, Black Pearl): https://brandfetch.com/intelligrc.com
+  'IntelliGRC, Inc.': { primary: '#00bbde', secondary: '#ffffff', accent: '#030d28' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/ironmountain.com
+  'Iron Mountain': { primary: '#8c0e70', secondary: '#196db2', accent: '#023459' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/kiteworks.com
+  'Kiteworks USA, LLC': { primary: '#485bbf', secondary: '#ffffff', accent: '#0d0f31' },
+  // Brandfetch brand page (Blue Ribbon, Science Blue, Spring Green; Hot Pink and Mine Shaft also listed): https://brandfetch.com/paramify.com
+  'Paramify': { primary: '#1467ff', secondary: '#004bd6', accent: '#20fc8f' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/samsara.com
+  'Samsara Inc.': { primary: '#ffae10', secondary: '#1b1917', accent: '#ffffff' },
+  // San Luis Aviation, Inc. does business as ESChat, and its registry offerings are the
+  // ESChat services; Brandfetch brand page for ESChat, palette stated in its FAQ
+  // (no color names listed): https://brandfetch.com/eschat.com
+  'San Luis Aviation, Inc.': { primary: '#428bca', secondary: '#ffffff', accent: '#191919' },
+  // Brandfetch brand page for the Treasury Department, palette stated in its FAQ
+  // (no color names listed): https://brandfetch.com/treasury.gov
+  'United States Department of the Treasury': { primary: '#0053a2', secondary: '#9cc3e2', accent: '#00040f' },
+  // Brandfetch brand page (Azure Radiance, Malibu, Ebony): https://brandfetch.com/varonis.com
+  'Varonis': { primary: '#0077ff', secondary: '#7391ff', accent: '#010203' },
+  // Brandfetch brand page (Flame Pea, Viola, Orange Roughy): https://brandfetch.com/vyond.com
+  'Vyond': { primary: '#d95e28', secondary: '#c07c9e', accent: '#c84d16' },
+  // Brandfetch brand page (Wild Strawberry, White, Black): https://brandfetch.com/wellhive.com
+  'WellHive Holdings, LLC': { primary: '#ff4180', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page for cloud.gov, which the page states is built by 18F;
+  // palette stated in its FAQ (no color names listed): https://brandfetch.com/cloud.gov
+  '18F - 18F Cloud.gov': { primary: '#0076d6', secondary: '#ffffff', accent: '#1b1b1b' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/38northsecurity.com
+  '38North Security, LLC': { primary: '#081ebc', secondary: '#ed9466', accent: '#222222' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/3rdeyetechinc.com
+  '3rd Eye Technologies LLC.': { primary: '#e32200', secondary: '#cedddf', accent: '#000000' },
+  // Brandfetch brand page (Blaze Orange, Whiskey, Cello): https://brandfetch.com/86borders.com
+  '86Borders LLC': { primary: '#fe660f', secondary: '#d49c73', accent: '#203c58' },
+  // Brandfetch brand page (Alizarin Crimson, Equator, Tosca): https://brandfetch.com/911inform.com
+  '911inform': { primary: '#d92128', secondary: '#e2a762', accent: '#8d414a' },
+  // Brandfetch brand page (Chartreuse Yellow, White, Firefly): https://brandfetch.com/a-lign.com
+  'A-LIGN': { primary: '#dcff07', secondary: '#ffffff', accent: '#081a21' },
+  // Brandfetch brand page, palette stated in its FAQ (five hex codes listed; the page
+  // describes the identity as deep navy and vivid periwinkle with white): https://brandfetch.com/abbott.com
+  'Abbott, Inc.': { primary: '#2e4aed', secondary: '#ffffff', accent: '#000075' },
+  // Brandfetch brand page (Las Palmas, White, Trendy Green): https://brandfetch.com/abnormal.ai
+  'Abnormal AI': { primary: '#c7e913', secondary: '#ffffff', accent: '#7c8f1f' },
+  // Brandfetch brand page (Lima, Electric Violet, Black): https://brandfetch.com/absolute.com
+  'Absolute Security': { primary: '#78be20', secondary: '#7a3ff1', accent: '#000000' },
+  // Brandfetch brand page (Rajah, Mountain Meadow, White; Bahama Blue also listed): https://brandfetch.com/achieveit.com
+  'AchieveIt Online, LLC': { primary: '#f6b267', secondary: '#1abc9c', accent: '#ffffff' },
+  // Brandfetch brand page (Razzmatazz, White, Big Stone): https://brandfetch.com/acquia.com
+  'Acquia Inc.': { primary: '#e1126e', secondary: '#ffffff', accent: '#141938' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/actsoft.com
+  'Actsoft, Inc': { primary: '#4caf50', secondary: '#ff5d38', accent: '#000000' },
+  // Brandfetch brand page (Science Blue, White, Black): https://brandfetch.com/adaptiva.com
+  'Adaptive Protocols, Inc. (Adaptiva)': { primary: '#0860b8', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/agilefleet.com
+  'Agile Fleet': { primary: '#3a74b7', secondary: '#f2cda0', accent: '#214672' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/agilerank.com
+  'AgileRank': { primary: '#fd6262', secondary: '#ffffff', accent: '#141416' },
+  // AINS does business as OPEXUS (the registry name itself); Brandfetch brand page
+  // for OPEXUS (Cannon Pink, Spindle, Ebony): https://brandfetch.com/opexustech.com
+  'AINS dba OPEXUS': { primary: '#8a4386', secondary: '#b0c6e7', accent: '#010203' },
+  // Brandfetch brand page (Orange Peel, Tamarind, Hot Cinnamon; White also listed): https://brandfetch.com/alation.com
+  'Alation': { primary: '#ff9900', secondary: '#2b0f17', accent: '#e3682a' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/altana.ai
+  'Altana': { primary: '#273da6', secondary: '#96a5ea', accent: '#0b0b0b' },
+  // The association's own Condensed Brand Guidelines, Color Palette section
+  // (White, AHA Red, Deep Red, Gray, Black; AHA Red is the brand color and
+  // Deep Red its stated accent): https://www.heart.org/-/media/Files/Brand/AHA_Masterbrand_Guidelines_Condensed.pdf
+  'American Heart Association, Inc.': { primary: '#cf222b', secondary: '#ffffff', accent: '#990000' },
+  // Brandfetch brand page (Mexican Red, Prelude, Blue Zodiac): https://brandfetch.com/amplifire.com
+  'Amplifire': { primary: '#a82a25', secondary: '#cabbe8', accent: '#0a1835' },
+  // Brandfetch brand page (Di Serria, White, Thunder): https://brandfetch.com/andesite.ai
+  'Andesite AI, Inc.': { primary: '#d1a05a', secondary: '#ffffff', accent: '#2c262c' },
+  // Brandfetch brand page (Bright Turquoise, Wild Strawberry, Black Pearl): https://brandfetch.com/anecdotes.ai
+  'Anecdotes': { primary: '#00dce8', secondary: '#ff3499', accent: '#031926' },
+  // Brandfetch brand page (Denim, Flamingo, Downriver): https://brandfetch.com/anitian.com
+  'Anitian': { primary: '#1870b8', secondary: '#f75227', accent: '#0b3354' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/anomali.com
+  'Anomali Inc': { primary: '#27dab3', secondary: '#6eb8eb', accent: '#0a1736' },
+  // Anthropic's own brand guidelines in its anthropics/skills repository
+  // (Main Colors: Dark, Light, Mid Gray, Light Gray; Accent Colors: Orange is
+  // the primary accent, then Blue and Green): https://www.skills.sh/anthropics/skills/brand-guidelines
+  'Anthropic': { primary: '#141413', secondary: '#faf9f5', accent: '#d97757' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/anyreach.ai
+  'Anyreach, Inc.': { primary: '#6366f1', secondary: '#a4b3fc', accent: '#18181b' },
+  // Anysphere is the company behind Cursor, as the page itself states; Brandfetch
+  // brand page for Cursor, palette stated in its FAQ (no color names listed): https://brandfetch.com/cursor.com
+  'Anysphere, Inc.': { primary: '#f54e00', secondary: '#f7f7f4', accent: '#26251e' },
+  // Brandfetch brand page (Dark Blue, Downriver, Dodger Blue): https://brandfetch.com/applygovernmentsolutions.com
+  'Apply Government Solutions': { primary: '#0030d2', secondary: '#0a1540', accent: '#42b9ff' },
+  // Brandfetch brand page (Viking, Jungle Mist, Chathams Blue): https://brandfetch.com/appomni.com
+  'AppOmni': { primary: '#61b2e1', secondary: '#c1d4d9', accent: '#193c81' },
+  // Brandfetch brand page (Persian Green, Ziggurat, Scarlet Gum): https://brandfetch.com/aprimo.com
+  'Aprimo US, LLC': { primary: '#00a6a1', secondary: '#b5d5e0', accent: '#521163' },
+  // Brandfetch brand page (Supernova, Aquamarine, Torch Red; Resolution Blue and White also listed): https://brandfetch.com/aquasec.com
+  'Aqua Security Software Inc.': { primary: '#ffc900', secondary: '#51f0ff', accent: '#ff0036' },
+  // Brandfetch brand page (Starship, White, Black Pearl): https://brandfetch.com/archive360.com
+  'Archive360 platform': { primary: '#f1dd43', secondary: '#ffffff', accent: '#02020b' },
+  // Brandfetch brand page (Tolopea, White, Pigment Indigo): https://brandfetch.com/ardoq.com
+  'Ardoq Inc': { primary: '#1f003b', secondary: '#ffffff', accent: '#4c008f' },
+  // Brandfetch brand page: two named swatches (Dodger Blue, Pueblo); the third hex
+  // is from the page's own palette sentence, in that order: https://brandfetch.com/armada.ai
+  'Armada': { primary: '#297fff', secondary: '#ffe2a8', accent: '#6f300f' },
+  // Brandfetch brand page (Blumine, White, Tuna): https://brandfetch.com/armedia.com
+  'Armedia, LLC': { primary: '#1f6581', secondary: '#ffffff', accent: '#32323a' },
+  // Armis Federal carries the parent Armis brand; Brandfetch brand page
+  // (Electric Violet, Dodger Blue, White; Baltic Sea also listed): https://brandfetch.com/armis.com
+  'Armis Federal LLC': { primary: '#8017f0', secondary: '#2abaff', accent: '#ffffff' },
+  // Brandfetch brand page (Purple Heart, White, Jambalaya): https://brandfetch.com/artera.io
+  'Artera': { primary: '#9631d8', secondary: '#ffffff', accent: '#562b11' },
+  // Brandfetch brand page (Picton Blue, Cinnabar, Congress Blue): https://brandfetch.com/articulate.com
+  'Articulate Global LLC': { primary: '#4cbcf4', secondary: '#ea4434', accent: '#005492' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/asana.com
+  'Asana Inc.': { primary: '#ff6d92', secondary: '#0d0d0d', accent: '#ffffff' },
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];
