@@ -1,5 +1,6 @@
 /*
- * DeadRamp Base, Phase 1: spiral city exterior.
+ * DeadRamp Base: spiral city exterior (Phase 1), interiors (Phase 2),
+ * WebXR control layer (Phase 3).
  *
  * The whole world is generated at load from data/base-catalog.json
  * (exported from the DeadRamp registry by tools/export-catalog.js).
@@ -8,9 +9,14 @@
  * Rendering discipline for the Quest 2 floor: buildings, lit-window
  * overlays, roof trims and gate pylons are each a single InstancedMesh;
  * ground discs and roads are each one merged geometry. Structure is
- * rig-friendly: the world hangs off `worldGroup`, the player off
- * `player` (position + yaw/pitch), so a WebXR rig can replace the
- * control layer in Phase 3 without touching world generation.
+ * rig-based: the world hangs off `worldGroup`, the visitor off
+ * `player` (position + yaw/pitch), and the camera rides in `rig`,
+ * whose transform the player record drives. Phase 3 only replaced
+ * the control layer, as planned: on flat screens the rig carries the
+ * eye from player pitch/height; in WebXR the headset pose drives the
+ * camera inside the same rig, and thumbstick locomotion feeds the
+ * same movement model, so every behaviour (including the interior
+ * spiral climb) is shared, not reimplemented.
  */
 import * as THREE from 'three';
 
@@ -138,13 +144,39 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 renderer.setSize(window.innerWidth, window.innerHeight);
 app.appendChild(renderer.domElement);
 
+/* Phase 3: WebXR is enabled from the start so a session can begin on
+ * a visitor's gesture without rebuilding the renderer. Fixed
+ * foveation is set to a conservative 0.6 (Three's own default is 1.0,
+ * the maximum: full foveation trades a lot of peripheral resolution
+ * for speed; 0.6 keeps the periphery readable while still easing the
+ * Quest 2's fragment load). The manager applies the stored value to
+ * the session's layer when a session starts. */
+const XR_FOVEATION = 0.6;
+renderer.xr.enabled = true;
+renderer.xr.setReferenceSpaceType('local-floor');
+renderer.xr.setFoveation(XR_FOVEATION);
+
 const scene = new THREE.Scene();
 const SKY = new THREE.Color(0x1b2436);
 scene.background = SKY;
 scene.fog = new THREE.Fog(SKY, 70, 560);
 
-const camera = new THREE.PerspectiveCamera(68, window.innerWidth / window.innerHeight, 0.1, 4000);
+const FLAT_FOV = 68;
+const camera = new THREE.PerspectiveCamera(FLAT_FOV, window.innerWidth / window.innerHeight, 0.1, 4000);
 camera.rotation.order = 'YXZ';
+
+/* The camera rig: the single bridge between the player record and
+ * the view. The rig carries the player's ground position and yaw;
+ * the camera's local transform is the eye. On flat screens the loop
+ * sets the eye from player pitch at standing height. While an XR
+ * session presents, the WebXR manager writes the headset pose into
+ * the camera's local transform (in reference space) and reads the
+ * rig as the pose's parent, so the visitor's physical head motion
+ * and room-scale steps layer onto the same player position, and
+ * entering or leaving VR never moves the visitor. */
+const rig = new THREE.Group();
+rig.add(camera);
+scene.add(rig);
 
 scene.add(new THREE.HemisphereLight(0x93b8dd, 0x2c241a, 1.15));
 const sun = new THREE.DirectionalLight(0xffb36b, 1.8);
@@ -165,6 +197,18 @@ const state = {
   interior: null,          // Phase 2: active interior record, or null outside
   doorVendor: null,        // building whose door zone the player is in
   exteriorDrawCalls: 0,    // last exterior frame's draw calls (regression watch)
+  /* Phase 3: WebXR session state. The player record above stays the
+   * single source of truth for where the visitor is; this record is
+   * only about the session itself. */
+  xr: {
+    supported: false,      // immersive-vr confirmed by feature detection
+    requesting: false,     // a session request is in flight
+    refSpace: null,        // reference space type the live session granted
+    attempts: [],          // negotiation ladder steps tried, in order
+    lastError: null,       // last session-request failure, if any
+    headYaw: null,         // headset world yaw while presenting (movement frame)
+    gazeMode: false,       // presenting with no tracked-pointer source
+  },
 };
 
 const TIER_TRIM = { l1: new THREE.Color(0xcd7f32), l2: new THREE.Color(0xcfd8dc), l3: new THREE.Color(0xffd700), untiered: new THREE.Color(0x546e7a) };
@@ -436,18 +480,30 @@ function showCard(v) {
     cardBody.appendChild(btn);
   }
   card.style.display = 'block';
+  /* In VR the DOM card is not visible inside the headset, so the
+   * same record is drawn onto the in-world card (Phase 3 section). */
+  if (renderer.xr.isPresenting) drawXRCard(v);
+}
+/* One raycast for every pointing device: mouse and touch set the
+ * ray from the camera, the XR controller ray and the gaze ray set it
+ * from their own poses; all of them resolve to the same vendor. */
+function raycastBuildings() {
+  if (state.interior) return null;
+  if (state.bodyMesh) {
+    const hits = raycaster.intersectObject(state.bodyMesh);
+    if (hits.length && hits[0].instanceId !== undefined) return state.buildings[hits[0].instanceId];
+  }
+  const lotHits = raycaster.intersectObjects(state.lotMeshes);
+  if (lotHits.length) return lotHits[0].object.userData.vendor;
+  return null;
 }
 function pickAt(clientX, clientY) {
   if (state.interior) return false;
   const nx = (clientX / window.innerWidth) * 2 - 1;
   const ny = -(clientY / window.innerHeight) * 2 + 1;
   raycaster.setFromCamera({ x: nx, y: ny }, camera);
-  if (state.bodyMesh) {
-    const hits = raycaster.intersectObject(state.bodyMesh);
-    if (hits.length && hits[0].instanceId !== undefined) { showCard(state.buildings[hits[0].instanceId]); return true; }
-  }
-  const lotHits = raycaster.intersectObjects(state.lotMeshes);
-  if (lotHits.length) { showCard(lotHits[0].object.userData.vendor); return true; }
+  const v = raycastBuildings();
+  if (v) { showCard(v); return true; }
   return false;
 }
 
@@ -1056,18 +1112,54 @@ function animateInterior(dt) {
  * Standing rule (Aries, Nov 14, 2026): prompts name only the controls
  * the visitor's device actually has. There is no E key on a cellphone
  * or in VR, so touch visitors get tap language and tappable doors;
- * keyboard visitors keep the WASD / E copy. Phase 3 (WebXR) prompts
- * will speak controller / gaze language under the same rule.
+ * keyboard visitors keep the WASD / E copy; and in WebXR every prompt
+ * speaks controller / gaze language only (Phase 3). One resolver
+ * decides the language, with XR first: a headset browser also reports
+ * touch points, and while presenting the visitor holds controllers,
+ * not a touchscreen.
  *
  * The help block is a tutorial, not a permanent overlay: it shows on
  * arrival outdoors, shows its indoor variant on first entry into a
  * building, fades after a short dwell or once the action it describes
  * is performed, and a persistent "?" button recalls the variant for
- * the space the visitor is in. The header title and the clean-room
- * framing note are not tutorial text and never fade. */
+ * the space the visitor is in. In VR the same lifecycle drives an
+ * in-world panel (the DOM block is invisible in a headset): it shows
+ * and fades on the same schedule, and a controller squeeze recalls
+ * it. The header title and the clean-room framing note are not
+ * tutorial text and never fade. */
 const IS_TOUCH = !!((window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
   || 'ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0);
+function inputMode() {
+  if (renderer.xr.isPresenting) return 'xr';
+  return IS_TOUCH ? 'touch' : 'kb';
+}
 const HELP_DWELL_MS = 7000;
+/* The XR help is written as wrapped lines first: the in-world panel
+ * draws these lines verbatim, and the DOM block joins them, so the
+ * two surfaces can never drift apart. */
+const XR_HELP_LINES = {
+  out: [
+    'Left thumbstick to walk. Turn with the right',
+    'thumbstick, or just turn your head.',
+    'Point at a building and pull the trigger for',
+    'its record. Stand at a door and pull the',
+    'trigger to go in.',
+    'Inside, one spiral ramp climbs past every',
+    'service room. The lobby door marked EXIT',
+    'takes you back to the boulevard.',
+    'Squeeze a grip to recall this help.',
+    'Everything is one spiral away.',
+  ],
+  in: [
+    'Left thumbstick to walk. One spiral ramp',
+    'climbs past every service room; each room',
+    'opens off the coil on its own floor.',
+    'Point and pull the trigger for a record.',
+    'The lobby door marked EXIT, trigger beside',
+    'it, returns you to the boulevard.',
+    'Squeeze a grip to recall this help.',
+  ],
+};
 const HELP_COPY = {
   out: {
     kb: 'WASD / arrows to walk, mouse to look (click the world to lock the mouse), Shift to move fast.<br>' +
@@ -1078,6 +1170,7 @@ const HELP_COPY = {
       'Enter from its record card, or walk to its door and tap the door to go in. ' +
       'Inside, one spiral ramp climbs past every service room; tap the lobby door marked EXIT to return to the boulevard. ' +
       'Everything is one spiral away: follow the boulevard out from the plaza.',
+    xr: XR_HELP_LINES.out.join(' '),
   },
   in: {
     kb: 'WASD / arrows to walk, mouse to look, Shift to move fast.<br>' +
@@ -1086,6 +1179,7 @@ const HELP_COPY = {
     touch: 'Left thumb stick to walk, drag right side to look. ' +
       'One spiral ramp climbs past every service room; each room opens off the coil on its own floor. ' +
       'Tap the lobby door marked EXIT to return to the boulevard.',
+    xr: XR_HELP_LINES.in.join(' '),
   },
 };
 const hintEl = document.getElementById('hint');
@@ -1095,10 +1189,11 @@ let helpSpace = 'out';
 const helpSeen = { indoor: false };
 function showHelp(space) {
   helpSpace = space || (state.interior ? 'in' : 'out');
-  hintEl.innerHTML = HELP_COPY[helpSpace][IS_TOUCH ? 'touch' : 'kb'];
+  hintEl.innerHTML = HELP_COPY[helpSpace][inputMode()];
   hintEl.classList.remove('faded');
   window.clearTimeout(helpTimer);
   helpTimer = window.setTimeout(hideHelp, HELP_DWELL_MS);
+  if (renderer.xr.isPresenting) drawXRHelpPanel();
 }
 function hideHelp() {
   window.clearTimeout(helpTimer);
@@ -1146,9 +1241,11 @@ function handleTap(x, y) {
 /* door prompts, refreshed on the stats timer */
 const promptEl = document.getElementById('prompt');
 function updatePrompt() {
+  const mode = inputMode();
   if (state.interior) {
     if (state.interior.atExit) {
-      promptEl.innerHTML = IS_TOUCH ? 'Tap — Exit to the boulevard' : '<b>E</b> — Exit to the boulevard';
+      promptEl.innerHTML = mode === 'xr' ? 'Trigger — Exit to the boulevard'
+        : mode === 'touch' ? 'Tap — Exit to the boulevard' : '<b>E</b> — Exit to the boulevard';
       promptEl.style.display = 'block';
     } else promptEl.style.display = 'none';
     state.doorVendor = null;
@@ -1164,9 +1261,362 @@ function updatePrompt() {
   }
   state.doorVendor = best;
   if (best) {
-    promptEl.innerHTML = IS_TOUCH ? `Tap the door — Enter ${best.name}` : `<b>E</b> — Enter ${best.name}`;
+    promptEl.innerHTML = mode === 'xr' ? `Trigger — Enter ${best.name}`
+      : mode === 'touch' ? `Tap the door — Enter ${best.name}` : `<b>E</b> — Enter ${best.name}`;
     promptEl.style.display = 'block';
   } else promptEl.style.display = 'none';
+}
+
+/* ---------------- Phase 3: the WebXR control layer ----------------
+ * Everything in this section is additive. The world, the interiors,
+ * the movement model, and the player record are untouched; XR is a
+ * third way of driving them, beside keyboard/mouse and touch:
+ *
+ * - The rig (created with the camera) carries the player's ground
+ *   position and yaw. While presenting, the manager writes the
+ *   headset pose into the camera's local transform, so the visitor
+ *   IS the camera, and physical head turns and room-scale steps
+ *   layer onto the same player position. Sessions begin and end
+ *   without moving the visitor: position, yaw, interior, floor, and
+ *   flight all carry across the boundary because none of them live
+ *   in the session.
+ * - Locomotion: the left thumbstick feeds the same movement
+ *   integrator as every other input, at the same speeds, resolved by
+ *   the same bounds and interiorHeightAt floor logic (the spiral
+ *   climb works in VR exactly as on foot), with one difference of
+ *   frame, not of model: movement is head-directed, resolved against
+ *   the headset's world yaw. The right thumbstick snap-turns the
+ *   player yaw in 45 degree steps (chosen over smooth turning: yaw
+ *   acceleration the visitor did not make with their own head is the
+ *   classic comfort failure, and the plan asks for comfort options).
+ *   A thumbstick click is the fast modifier, Shift's analogue.
+ * - Picking: controller rays (a line per controller, updated by the
+ *   manager from the target-ray pose) with the trigger as select.
+ *   The priority is the tap priority: a building under the ray opens
+ *   its record; otherwise an armed door (door zone outdoors, EXIT
+ *   indoors) activates. Records open on an in-world card, because
+ *   the DOM card is invisible inside a headset. A grip squeeze
+ *   recalls the help, or closes the record when one is open.
+ * - Devices without controllers present a gaze ray from the head
+ *   with a centre reticle: resting the gaze on a building, or
+ *   resting it anywhere while a door prompt is armed, for a 1.2 s
+ *   dwell activates it, with a cooldown so one dwell fires once.
+ *   (Such devices also fire select events of their own where they
+ *   have any button at all; both paths land in the same activation.)
+ * - Prompts and help speak controller / gaze language only while
+ *   presenting (inputMode() puts 'xr' first), and the help lifecycle
+ *   is mirrored on an in-world panel on the same schedule.
+ * - Comfort and performance: fixed foveation 0.6 (set at boot; the
+ *   manager's own default is 1.0, maximum). No per-frame allocation
+ *   in this layer: poses, rays, and dwell state live in module-scope
+ *   temporaries, and panel canvases redraw only when their content
+ *   changes. The merged/instanced draw strategy is untouched. */
+
+/* in-world panels: children of the camera, drawn above the world
+ * (depth test off), visible only while presenting */
+function makeXRPlane(w, h, cw, chh, x, y, z, renderOrder) {
+  const canvas = document.createElement('canvas'); canvas.width = cw; canvas.height = chh;
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(w, h),
+    new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false }));
+  mesh.position.set(x, y, z);
+  mesh.renderOrder = renderOrder;
+  mesh.visible = false;
+  mesh.frustumCulled = false;
+  camera.add(mesh);
+  return { mesh, canvas, tex, lastText: null };
+}
+function drawXRPanel(p, title, lines) {
+  const x = p.canvas.getContext('2d');
+  const cw = p.canvas.width, chh = p.canvas.height;
+  x.clearRect(0, 0, cw, chh);
+  x.fillStyle = 'rgba(13, 17, 25, 0.93)'; x.fillRect(0, 0, cw, chh);
+  x.strokeStyle = '#8c6a2f'; x.lineWidth = 3; x.strokeRect(1.5, 1.5, cw - 3, chh - 3);
+  x.fillStyle = '#ffb36b'; x.fillRect(0, 0, cw, 64);
+  x.fillStyle = '#0d1017'; x.font = '700 30px sans-serif'; x.textAlign = 'left'; x.textBaseline = 'middle';
+  x.fillText(title, 26, 34);
+  x.font = '27px sans-serif'; x.fillStyle = '#dbe4f0';
+  lines.forEach((ln, i) => x.fillText(ln, 26, 108 + i * 38));
+  p.tex.needsUpdate = true;
+}
+const xrHelpPlane = makeXRPlane(1.5, 0.70, 1024, 480, 0, 0.22, -2.0, 998);
+const xrCardPlane = makeXRPlane(1.15, 0.76, 1024, 680, 0, -0.30, -1.8, 999);
+const xrPromptPlane = makeXRPlane(1.05, 0.145, 1024, 140, 0, -0.68, -1.7, 1000);
+function drawXRHelpPanel() {
+  drawXRPanel(xrHelpPlane, 'DEADRAMP BASE — HELP', XR_HELP_LINES[helpSpace]);
+}
+function drawXRCard(v) {
+  const d = state.districts.find((x) => x.id === v.district);
+  const lines = [
+    `${d ? d.functionName + ' · ' + d.tier : ''} district · ${v.offeringCount} offering${v.offeringCount > 1 ? 's' : ''}`,
+    STATUS_TEXT[v.statusClass],
+  ];
+  for (const o of v.offerings.slice(0, 6)) lines.push('· ' + o.product);
+  if (v.offerings.length > 6) lines.push(`… (+${v.offerings.length - 6} more on the full record)`);
+  if (v.kind === 'building') lines.push('', 'Stand at its door and pull the trigger to enter.');
+  else lines.push('', ...wrapText('Surveyed empty lot. This offering is one of the two the DeadRamp build holds as honestly unclassified, so the Base shows the lot, not a building.', 58));
+  lines.push('', ...wrapText(FRAMING, 58));
+  drawXRPanel(xrCardPlane, v.name.toUpperCase().slice(0, 40), lines);
+}
+function drawXRPrompt(text) {
+  const x = xrPromptPlane.canvas.getContext('2d');
+  const cw = xrPromptPlane.canvas.width, chh = xrPromptPlane.canvas.height;
+  x.clearRect(0, 0, cw, chh);
+  x.fillStyle = 'rgba(13, 17, 25, 0.92)'; x.fillRect(0, 0, cw, chh);
+  x.strokeStyle = '#4a6f9f'; x.lineWidth = 3; x.strokeRect(1.5, 1.5, cw - 3, chh - 3);
+  x.fillStyle = '#eaf2ff'; x.font = '700 46px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  x.fillText(text.length > 46 ? text.slice(0, 45) + '…' : text, cw / 2, chh / 2 + 2);
+  xrPromptPlane.tex.needsUpdate = true;
+}
+/* gaze reticle: shown only in gaze mode, bronze while searching,
+ * bright while a dwell is accumulating */
+const gazeReticle = new THREE.Mesh(
+  new THREE.RingGeometry(0.011, 0.017, 32),
+  new THREE.MeshBasicMaterial({ color: 0x8c6a2f, side: THREE.DoubleSide, transparent: true, depthTest: false }));
+gazeReticle.position.set(0, 0, -1.5);
+gazeReticle.renderOrder = 1001;
+gazeReticle.visible = false;
+gazeReticle.frustumCulled = false;
+camera.add(gazeReticle);
+
+/* activation shared by the controller trigger and the gaze dwell:
+ * the tap priority, in controller language */
+const _xrOrigin = new THREE.Vector3();
+const _xrDir = new THREE.Vector3();
+const _xrQuat = new THREE.Quaternion();
+function activateFromRay(origin, dir) {
+  raycaster.set(origin, dir);
+  const v = raycastBuildings();
+  if (v) { showCard(v); return true; }
+  if (state.interior) {
+    if (state.interior.atExit) { exitBuilding(); return true; }
+    return false;
+  }
+  if (state.doorVendor) {
+    const dv = state.doorVendor;
+    card.style.display = 'none';
+    enterBuilding(dv);
+    return true;
+  }
+  return false;
+}
+function onXRSelect(ev) {
+  if (!renderer.xr.isPresenting) return;
+  const c = ev.target;
+  c.updateWorldMatrix(true, false);
+  _xrOrigin.setFromMatrixPosition(c.matrixWorld);
+  c.getWorldQuaternion(_xrQuat);
+  _xrDir.set(0, 0, -1).applyQuaternion(_xrQuat);
+  activateFromRay(_xrOrigin, _xrDir);
+}
+function onXRSqueeze() {
+  if (!renderer.xr.isPresenting) return;
+  if (!hintEl.classList.contains('faded')) { hideHelp(); return; }
+  if (state.selected) {
+    state.selected = null;
+    card.style.display = 'none';
+    xrCardPlane.mesh.visible = false;
+    return;
+  }
+  showHelp(state.interior ? 'in' : 'out');
+}
+const xrControllers = [];
+for (let i = 0; i < 2; i++) {
+  const c = renderer.xr.getController(i);
+  const line = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -30)]),
+    new THREE.LineBasicMaterial({ color: 0xffb36b, transparent: true, opacity: 0.55 }));
+  line.visible = false;
+  c.add(line);
+  c.userData.connected = false;
+  c.addEventListener('connected', (ev) => {
+    c.userData.connected = true; c.userData.inputSource = ev.data; line.visible = true;
+  });
+  c.addEventListener('disconnected', () => {
+    c.userData.connected = false; c.userData.inputSource = null; line.visible = false;
+  });
+  c.addEventListener('select', onXRSelect);
+  c.addEventListener('squeeze', onXRSqueeze);
+  rig.add(c);
+  xrControllers.push(c);
+}
+
+/* the session itself: the button exists only when feature detection
+ * proves immersive-vr is really there (never a dead button), and the
+ * request negotiates the reference space down a ladder: local-floor
+ * first, then local, then viewer, each failure ending the half-made
+ * session cleanly before the next attempt */
+const vrBtn = document.getElementById('vrBtn');
+const XR_REF_LADDER = [
+  { ref: 'local-floor', opts: { requiredFeatures: ['local-floor'] } },
+  { ref: 'local', opts: { optionalFeatures: ['local-floor', 'bounded-floor'] } },
+  { ref: 'viewer', opts: {} },
+];
+async function detectXR() {
+  if (!('xr' in navigator) || !navigator.xr || typeof navigator.xr.isSessionSupported !== 'function') return;
+  try {
+    if (await navigator.xr.isSessionSupported('immersive-vr')) {
+      state.xr.supported = true;
+      vrBtn.style.display = 'block';
+    }
+  } catch (e) { /* no immersive XR here: the button simply never appears */ }
+}
+async function enterVR() {
+  if (state.xr.requesting) return;
+  if (renderer.xr.isPresenting) {
+    const s = renderer.xr.getSession();
+    if (s) { try { await s.end(); } catch (e) { /* already ending */ } }
+    return;
+  }
+  if (!state.xr.supported) return;
+  state.xr.requesting = true;
+  state.xr.attempts = [];
+  vrBtn.disabled = true;
+  let lastErr = null;
+  for (const step of XR_REF_LADDER) {
+    state.xr.attempts.push(step.ref);
+    let session = null;
+    try {
+      session = await navigator.xr.requestSession('immersive-vr', step.opts);
+      renderer.xr.setReferenceSpaceType(step.ref);
+      renderer.xr.setFoveation(XR_FOVEATION);
+      await renderer.xr.setSession(session);
+      state.xr.refSpace = step.ref;
+      state.xr.lastError = null;
+      lastErr = null;
+      break;
+    } catch (e) {
+      lastErr = e;
+      if (session) { try { await session.end(); } catch (e2) { /* best-effort cleanup */ } }
+    }
+  }
+  state.xr.requesting = false;
+  vrBtn.disabled = false;
+  if (lastErr) state.xr.lastError = String((lastErr && lastErr.message) || lastErr);
+}
+vrBtn.addEventListener('click', enterVR);
+detectXR();
+renderer.xr.addEventListener('sessionstart', () => {
+  vrBtn.textContent = 'Exit VR';
+  if (state.selected) drawXRCard(state.selected);
+  showHelp(state.interior ? 'in' : 'out');
+});
+renderer.xr.addEventListener('sessionend', () => {
+  vrBtn.textContent = 'Enter VR';
+  state.xr.refSpace = null;
+  state.xr.gazeMode = false;
+  state.xr.headYaw = null;
+  xrMove.f = 0; xrMove.r = 0; xrMove.fast = false;
+  xrCardPlane.mesh.visible = false;
+  xrPromptPlane.mesh.visible = false;
+  xrHelpPlane.mesh.visible = false;
+  gazeReticle.visible = false;
+  /* The manager overwrote the camera's projection with the headset's
+   * union frustum while presenting; hand the flat view its own back
+   * so leaving VR restores the exact view the visitor left. */
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.fov = FLAT_FOV;
+  camera.updateProjectionMatrix();
+  showHelp(state.interior ? 'in' : 'out');
+});
+
+/* locomotion sampling: fills xrMove for stepMovement, snap-turns the
+ * player yaw, and records the headset's world yaw as the movement
+ * frame. Runs every frame; costs nothing when not presenting. */
+const xrMove = { f: 0, r: 0, fast: false };
+const SNAP_TURN = Math.PI / 4;
+const XR_STICK_DEADZONE = 0.12;
+let xrTurnArmed = true;
+function sampleXRInput() {
+  xrMove.f = 0; xrMove.r = 0; xrMove.fast = false;
+  if (!renderer.xr.isPresenting) { state.xr.headYaw = null; return; }
+  camera.getWorldDirection(_xrDir);
+  state.xr.headYaw = Math.atan2(-_xrDir.x, -_xrDir.z);
+  const session = renderer.xr.getSession();
+  if (!session) { state.xr.gazeMode = true; return; }
+  let trackedPointer = false;
+  for (const src of session.inputSources) {
+    if (src.targetRayMode === 'tracked-pointer') trackedPointer = true;
+    const gp = src.gamepad;
+    if (!gp || !gp.axes) continue;
+    const ax = gp.axes;
+    const sx = ax.length >= 4 ? ax[2] : (ax[0] || 0);
+    const sy = ax.length >= 4 ? ax[3] : (ax[1] || 0);
+    const stickPressed = !!(gp.buttons && gp.buttons[3] && gp.buttons[3].pressed);
+    if (src.handedness === 'right') {
+      if (xrTurnArmed && sx > 0.65) { player.yaw -= SNAP_TURN; xrTurnArmed = false; }
+      else if (xrTurnArmed && sx < -0.65) { player.yaw += SNAP_TURN; xrTurnArmed = false; }
+      else if (Math.abs(sx) < 0.3) xrTurnArmed = true;
+      if (stickPressed) xrMove.fast = true;
+    } else {
+      if (Math.abs(sx) > XR_STICK_DEADZONE) xrMove.r += sx;
+      if (Math.abs(sy) > XR_STICK_DEADZONE) xrMove.f += -sy;
+      if (stickPressed) xrMove.fast = true;
+    }
+  }
+  state.xr.gazeMode = !trackedPointer;
+}
+
+/* gaze dwell: the fallback for devices with no tracked pointer */
+const XR_GAZE_DWELL_S = 1.2;
+let gazeTargetKey = null, gazeDwellS = 0, gazeCooldownUntil = 0;
+const _gazeOrigin = new THREE.Vector3();
+function updateXRGaze(dt) {
+  if (!renderer.xr.isPresenting || !state.xr.gazeMode) {
+    gazeReticle.visible = false;
+    gazeTargetKey = null; gazeDwellS = 0;
+    return;
+  }
+  gazeReticle.visible = true;
+  camera.getWorldPosition(_gazeOrigin);
+  camera.getWorldDirection(_xrDir);
+  raycaster.set(_gazeOrigin, _xrDir);
+  const v = raycastBuildings();
+  let key = null;
+  if (v) key = 'pick:' + v.id;
+  else if (state.interior && state.interior.atExit) key = 'exit';
+  else if (!state.interior && state.doorVendor) key = 'enter:' + state.doorVendor.id;
+  const now = performance.now();
+  if (!key || key !== gazeTargetKey || now < gazeCooldownUntil) {
+    gazeTargetKey = key;
+    gazeDwellS = 0;
+    gazeReticle.material.color.setHex(0x8c6a2f);
+    return;
+  }
+  gazeDwellS += dt;
+  gazeReticle.material.color.setHex(0xffd9a0);
+  if (gazeDwellS >= XR_GAZE_DWELL_S) {
+    gazeDwellS = 0;
+    gazeCooldownUntil = now + 1500;
+    activateFromRay(_gazeOrigin, _xrDir);
+  }
+}
+
+/* per-frame rig + panel sync. The rig is the whole story of how the
+ * visitor's body enters the world: position and yaw from the player
+ * record (player.y is eye height, maintained by the same enter/exit
+ * and floor logic in every mode), the eye set from player pitch on
+ * flat screens, and left to the manager's headset pose in XR. */
+function updateRig() {
+  rig.position.set(player.x, player.y - EYE, player.z);
+  rig.rotation.set(0, player.yaw, 0);
+  if (!renderer.xr.isPresenting) {
+    camera.position.set(0, EYE, 0);
+    camera.rotation.set(player.pitch, 0, 0);
+  }
+}
+function updateXRPeripherals(dt) {
+  if (!renderer.xr.isPresenting) return; // sessionend hid every panel
+  xrHelpPlane.mesh.visible = !hintEl.classList.contains('faded');
+  xrCardPlane.mesh.visible = !!state.selected && card.style.display === 'block';
+  const ptxt = promptEl.style.display === 'block' ? promptEl.textContent : '';
+  xrPromptPlane.mesh.visible = ptxt.length > 0;
+  if (xrPromptPlane.mesh.visible && xrPromptPlane.lastText !== ptxt) {
+    xrPromptPlane.lastText = ptxt;
+    drawXRPrompt(ptxt);
+  }
+  updateXRGaze(dt);
 }
 
 /* ---------------- controls: keyboard, pointer lock, touch ---------------- */
@@ -1267,12 +1717,18 @@ function stepMovement(dt) {
   f += debugMove.f - debugMove.b;
   r += debugMove.r - debugMove.l;
   if (stick.active) { f += -stick.mz; r += stick.mx; }
+  if (xrMove.f || xrMove.r) { f += xrMove.f; r += xrMove.r; }
   const m = Math.hypot(f, r);
   if (m < 0.001) return;
   const s = Math.min(1, 1 / m);
   f *= s; r *= s;
-  const speed = WALK_SPEED * ((keys.ShiftLeft || keys.ShiftRight) ? FAST_MULT : 1);
-  const sin = Math.sin(player.yaw), cos = Math.cos(player.yaw);
+  const speed = WALK_SPEED * (((keys.ShiftLeft || keys.ShiftRight) || xrMove.fast) ? FAST_MULT : 1);
+  /* The movement frame: on flat screens, the player's own yaw. In
+   * VR, the direction the visitor is actually facing (the headset's
+   * world yaw, sampled each frame), so forward walks where they
+   * look; speeds, bounds, and floor logic are unchanged. */
+  const frameYaw = (renderer.xr.isPresenting && state.xr.headYaw !== null) ? state.xr.headYaw : player.yaw;
+  const sin = Math.sin(frameYaw), cos = Math.cos(frameYaw);
   // camera forward on the ground plane is (-sin yaw, -cos yaw); right is (cos yaw, -sin yaw)
   player.x += (-sin * f + cos * r) * speed * dt;
   player.z += (-cos * f - sin * r) * speed * dt;
@@ -1309,9 +1765,31 @@ function currentStats() {
 window.__BASE_STATS__ = () => currentStats();
 window.__BASE__ = {
   stats: () => currentStats(),
+  /* Phase 3: WebXR session state, for verification and debugging */
+  xr: () => ({
+    xrEnabled: renderer.xr.enabled,
+    supported: state.xr.supported,
+    presenting: renderer.xr.isPresenting,
+    requesting: state.xr.requesting,
+    refSpace: state.xr.refSpace,
+    attempts: state.xr.attempts.slice(),
+    lastError: state.xr.lastError,
+    gazeMode: state.xr.gazeMode,
+    headYaw: state.xr.headYaw,
+    buttonVisible: vrBtn.style.display === 'block',
+    buttonText: vrBtn.textContent,
+    rig: { x: rig.position.x, y: rig.position.y, z: rig.position.z, yawDeg: Math.round(player.yaw * 180 / Math.PI) },
+    panels: {
+      help: xrHelpPlane.mesh.visible,
+      card: xrCardPlane.mesh.visible,
+      prompt: xrPromptPlane.mesh.visible,
+      reticle: gazeReticle.visible,
+    },
+  }),
   /* platform-prompt + help-lifecycle hooks */
   help: () => ({
     isTouch: IS_TOUCH,
+    mode: inputMode(),
     space: helpSpace,
     faded: hintEl.classList.contains('faded'),
     visible: !hintEl.classList.contains('faded') && hintEl.textContent.trim().length > 0,
@@ -1447,16 +1925,16 @@ function nearestDistrictName() {
   return 'The Boulevard';
 }
 function loop() {
-  requestAnimationFrame(loop);
   const dt = Math.min(clock.getDelta(), 0.1);
+  sampleXRInput();
   const prevX = player.x, prevZ = player.z;
   stepMovement(dt);
   if (state.interior) {
     resolveInteriorMove(prevX, prevZ);
     animateInterior(dt);
   }
-  camera.position.set(player.x, player.y, player.z);
-  camera.rotation.set(player.pitch, player.yaw, 0);
+  updateRig();
+  updateXRPeripherals(dt);
   renderer.render(scene, camera);
   state.frames++;
   if (!state.interior && state.ready) state.exteriorDrawCalls = renderer.info.render.calls;
@@ -1486,4 +1964,9 @@ boot().catch((err) => {
   document.getElementById('loading').textContent = 'Failed to build the Base: ' + err.message;
   console.error(err);
 });
-loop();
+/* setAnimationLoop, not requestAnimationFrame: it is the one loop
+ * API that follows the visitor into an XR session (the manager
+ * drives it from the session's own frame clock while presenting and
+ * hands it back on session end), and it behaves identically to the
+ * old RAF loop on flat screens. */
+renderer.setAnimationLoop(loop);

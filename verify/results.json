@@ -10,7 +10,7 @@
   "brandDefault": 597,
   "drawCalls": 18,
   "triangles": 48242,
-  "fps": 36,
+  "fps": 23,
   "camera": {
    "x": 24,
    "z": 0
@@ -50,9 +50,9 @@
   "clearance": 10.5
  },
  "districtPixels": {
-  "nonBgFraction": 0.5388454861111112,
-  "brightFraction": 0.022243923611111112,
-  "distinctColors": 64,
+  "nonBgFraction": 0.5919053819444444,
+  "brightFraction": 0.5516493055555556,
+  "distinctColors": 90,
   "bg": [
    27,
    36,
@@ -106,12 +106,12 @@
    ]
   },
   "spiralPixels": {
-   "nonBgFraction": 0.9638888888888889,
-   "distinctColors": 115,
+   "nonBgFraction": 0.9663194444444444,
+   "distinctColors": 114,
    "bg": [
-    181,
-    157,
-    156
+    178,
+    155,
+    154
    ]
   },
   "largestRoomPixels": {
@@ -133,15 +133,15 @@
    },
    "IBM Envizi ESG Reporting": {
     "archetype": "lab",
-    "nonBg": 0.9036458333333334
+    "nonBg": 0.9034722222222222
    },
    "IBM Federal ATOM": {
     "archetype": "lab",
-    "nonBg": 0.9006944444444445
+    "nonBg": 0.9005208333333333
    },
    "IBM Federal HR Cloud": {
     "archetype": "lab",
-    "nonBg": 0.9
+    "nonBg": 0.9003472222222222
    },
    "IBM Platform Services for Government": {
     "archetype": "federal-office",

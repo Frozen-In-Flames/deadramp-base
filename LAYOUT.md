@@ -211,8 +211,12 @@ points) and every instruction follows it:
   long frame between the two handlers must not eat a genuine tap
   (measured under software rendering: a 206 ms tap whose handlers
   ran 2,566 ms apart).
-- Phase 3 (WebXR) inherits the rule: prompts there will speak
-  controller and gaze language, never keyboard language.
+- WebXR (Phase 3) inherits the rule in full: while a session is
+  presenting, every prompt speaks controller / gaze language only
+  ("Trigger — Enter …", "Trigger — Exit to the boulevard"), and the
+  input-mode resolver ranks XR above touch, because a headset
+  browser also reports touch points and the visitor is holding
+  controllers, not a touchscreen. See the Phase 3 section below.
 
 ## The help lifecycle
 
@@ -229,3 +233,117 @@ The help block is an in-game tutorial, not a permanent overlay:
   the visitor is currently in, outdoors or indoors.
 - The header title and the clean-room framing note are not tutorial
   text; they never fade.
+- In WebXR the same lifecycle drives an in-world panel on the same
+  schedule (show on arrival and on context switches, fade after the
+  same dwell), recalled by a controller grip squeeze, since the DOM
+  block and the "?" button are invisible inside a headset.
+
+## Phase 3: the WebXR control layer
+
+Phase 3 replaced only the control layer, as the architecture always
+intended. The world generation, interiors, movement model, and
+player record are unchanged; VR is a third way of driving them.
+
+### The rig
+
+The camera rides in a rig group. The rig carries the player's
+ground position and yaw (`rig.position = (player.x, player.y −
+eye height, player.z)`, `rig.rotation.y = player.yaw`); the
+camera's local transform is the eye. On flat screens the loop sets
+the eye from player pitch at standing height, which composes to
+exactly the pre-Phase-3 view. While an XR session presents, the
+WebXR manager writes the headset pose into the camera's local
+transform in reference space and reads the rig as its parent, so
+physical head motion and room-scale steps layer onto the same
+player position. Sessions therefore begin and end without moving
+the visitor: position, yaw, interior, floor, and ramp flight all
+live in the player record, never in the session, and all carry
+across the boundary. On session end the manager leaves the camera
+holding the headset's union projection, so the client restores the
+flat field of view and aspect explicitly; leaving VR returns the
+exact view the visitor left.
+
+### Sessions
+
+The Enter VR button is rendered only when feature detection
+(`navigator.xr.isSessionSupported('immersive-vr')`) proves support;
+it is never a dead button, and it is absent entirely where WebXR is
+absent. The request runs on the button's click (a user gesture) and
+negotiates the reference space down a ladder, ending any half-made
+session cleanly before the next step:
+
+1. `local-floor`, required: the visitor stands on the real floor.
+2. `local`, with `local-floor` and `bounded-floor` optional.
+3. `viewer`, a plain request: seated/standing height is then the
+   reference origin's own, with no floor guarantee.
+
+The granted type is recorded (`__BASE__.xr().refSpace`). While
+presenting, the button reads Exit VR and ends the session.
+
+### Locomotion
+
+One movement integrator serves every device; XR only adds an input
+source and changes the frame it is resolved in:
+
+- Left thumbstick: move. Right thumbstick: snap turn, 45 degrees
+  per push past the threshold, re-arming near centre. Snap turning
+  is the comfort choice: rotating the world smoothly under a
+  stationary head is the classic simulator-sickness trigger, and
+  the visitor can always turn physically instead. A thumbstick
+  click on either stick is the fast modifier (Shift's analogue).
+- Movement is head-directed: the stick vector is resolved against
+  the headset's world yaw, sampled per frame, so forward walks
+  where the visitor looks. Speeds, the exterior's open bounds, the
+  interior's bounds-only collision, and `interiorHeightAt` (with
+  the coil rule) are literally the same code as on foot in 2D, so
+  the spiral climb behaves identically in VR.
+- Physical room-scale motion inside the guardian is the rig's
+  gift: it moves the camera within the player anchor without
+  touching the player record.
+
+### Picking, records, and doors in VR
+
+- Each controller gets a ray line (bronze, 30 m) parented to its
+  target-ray space in the rig; the manager updates the pose per
+  frame. The trigger (select) activates with the tap priority: a
+  building or lot under the ray opens its record; otherwise an
+  armed door (standing in a door zone outdoors, or at the EXIT door
+  in a lobby) activates. No keyboard key exists in this vocabulary.
+- Records open on an in-world card hung below the centre of view,
+  carrying the same record as the DOM card (name, district, status,
+  offerings, the framing) plus the door instruction in controller
+  language. A grip squeeze closes an open record, dismisses the
+  help while it is showing, or recalls the help otherwise.
+- Door prompts and help appear as in-world panels (door prompt at
+  the bottom of view, help above centre), synchronised with the
+  same state that drives the DOM surfaces, so the mirror view and
+  the headset never disagree. Panels draw above the world (depth
+  test off) and are visible only while presenting.
+- Gaze fallback: with no tracked-pointer source, a centre reticle
+  appears and the gaze ray dwells: 1.2 seconds resting on a
+  building (or resting anywhere while a door prompt is armed)
+  activates it, with a 1.5 second cooldown so one dwell fires once.
+
+### Comfort and performance
+
+- Fixed foveation is set to 0.6 at boot and reasserted at session
+  start. Three's manager defaults to 1.0 (maximum foveation); 0.6
+  keeps peripheral text and signage readable while still easing
+  the fragment load on the Quest 2 floor.
+- No per-frame allocation in the XR layer: pose rays, dwell state,
+  and stick state are module-scope temporaries; panel canvases
+  redraw only when their text changes; the merged/instanced draw
+  strategy is untouched, so exterior and interior draw calls are
+  the Phase 1/2 numbers.
+
+### Verification boundary
+
+`verify/verify-xr.js` proves everything up to the session boundary
+in headless Chrome: zero JS errors with WebXR absent, the
+affordance agreeing with feature detection, the flat loop intact
+under `renderer.setAnimationLoop`, and, against a stubbed
+XRSystem, the affordance appearing and the full negotiation ladder
+running in order and failing cleanly. Headless Chrome has no XR
+runtime, so presentation itself (pose, locomotion feel, in-headset
+legibility, frame rate on device) is verified on Aries's Quest 2;
+the checklist is in the v0.3.0 release notes.

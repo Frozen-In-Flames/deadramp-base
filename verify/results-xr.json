@@ -1,0 +1,114 @@
+{
+ "noXR": {
+  "xrEnabled": true,
+  "supported": false,
+  "presenting": false,
+  "requesting": false,
+  "refSpace": null,
+  "attempts": [],
+  "lastError": null,
+  "gazeMode": false,
+  "headYaw": null,
+  "buttonVisible": false,
+  "buttonText": "Enter VR",
+  "rig": {
+   "x": 24,
+   "y": 0,
+   "z": 0,
+   "yawDeg": -90
+  },
+  "panels": {
+   "help": false,
+   "card": false,
+   "prompt": false,
+   "reticle": false
+  }
+ },
+ "stubXR": {
+  "before": {
+   "xrEnabled": true,
+   "supported": true,
+   "presenting": false,
+   "requesting": false,
+   "refSpace": null,
+   "attempts": [],
+   "lastError": null,
+   "gazeMode": false,
+   "headYaw": null,
+   "buttonVisible": true,
+   "buttonText": "Enter VR",
+   "rig": {
+    "x": 24,
+    "y": 0,
+    "z": 0,
+    "yawDeg": -90
+   },
+   "panels": {
+    "help": false,
+    "card": false,
+    "prompt": false,
+    "reticle": false
+   }
+  },
+  "after": {
+   "xrEnabled": true,
+   "supported": true,
+   "presenting": false,
+   "requesting": false,
+   "refSpace": null,
+   "attempts": [
+    "local-floor",
+    "local",
+    "viewer"
+   ],
+   "lastError": "stub: immersive session unavailable in headless test",
+   "gazeMode": false,
+   "headYaw": null,
+   "buttonVisible": true,
+   "buttonText": "Enter VR",
+   "rig": {
+    "x": 24,
+    "y": 0,
+    "z": 0,
+    "yawDeg": -90
+   },
+   "panels": {
+    "help": false,
+    "card": false,
+    "prompt": false,
+    "reticle": false
+   }
+  },
+  "calls": [
+   {
+    "fn": "isSessionSupported",
+    "mode": "immersive-vr"
+   },
+   {
+    "fn": "requestSession",
+    "mode": "immersive-vr",
+    "opts": {
+     "requiredFeatures": [
+      "local-floor"
+     ]
+    }
+   },
+   {
+    "fn": "requestSession",
+    "mode": "immersive-vr",
+    "opts": {
+     "optionalFeatures": [
+      "local-floor",
+      "bounded-floor"
+     ]
+    }
+   },
+   {
+    "fn": "requestSession",
+    "mode": "immersive-vr",
+    "opts": {}
+   }
+  ]
+ },
+ "failures": 0
+}
