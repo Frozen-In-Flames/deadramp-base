@@ -2409,6 +2409,98 @@ function extractBuild(groupDir, root) {
     specCount: 0, // filled in by the caller once the spec join is known
   };
 }
+/* ---------------- Phase 4 source records: unions + platform layer ----
+ * Two DeadRamp records sit outside forks.json and the spec sheets:
+ *
+ * 1. Union lineage. Some group builds do not start from zero: their
+ *    UNION-SPEC.md carries a "## Lineage" section naming the parent
+ *    build(s) they merge or carry from, under the Merge Rule
+ *    (deadramp crosswalk.md, Merge Governance: union of baselines,
+ *    highest tier inherited, traceability, SSDF process). The parent
+ *    is named in one fixed shape: a bold phrase ending in "build"
+ *    immediately followed by a parenthetical of group links, e.g.
+ *    **Group 9 merged build** (`../ai-l2/`). Later prose mentions of
+ *    other builds (a sibling that carried the same substrate up, a
+ *    group referenced for comparison) never take that shape, and the
+ *    parser takes only the first such parenthetical in the section,
+ *    so mentions are not mistaken for parents. Whitespace is
+ *    collapsed first: two specs wrap the bold phrase or drop the
+ *    link onto the next line. A spec whose build has a parent says
+ *    "does not start from zero"; the fidelity tests assert the set
+ *    of specs saying that equals the set parsed here.
+ *
+ * 2. The platform layer. GAPS.md entries closed with status
+ *    `re-scoped` are requirements DeadRamp decided once, in writing,
+ *    instead of building per group: properties of the deployment
+ *    platform (identity, FIPS-validated cryptography, encryption,
+ *    audit retention, session policy, hosting substrate), governed
+ *    by the six decisions in PLATFORM-LAYER.md, plus a few entries
+ *    bounded by their own text (staffed services, media transport).
+ *    They belong to no vendor and no offering; the Base renders them
+ *    as one shared deck, never as buildings. */
+function parseUnionSpec(root, groupDir) {
+  const p = path.join(root, 'groups', groupDir, 'UNION-SPEC.md');
+  if (!fs.existsSync(p)) return null;
+  const text = fs.readFileSync(p, 'utf8');
+  const lin = text.match(/## Lineage: ([^\n]*)/);
+  if (!lin) return null;
+  let kind = null;
+  if (/carry, downward/.test(lin[1])) kind = 'carry-down';
+  else if (/carry, upward/.test(lin[1])) kind = 'carry-up';
+  else if (/merge/.test(lin[1])) kind = 'merge';
+  const seg = text.slice(text.indexOf('## Lineage')).replace(/\s+/g, ' ');
+  const pm = seg.match(/\*\*[^*]*build\*\*\s*\(([^)]*)\)/);
+  if (!pm || !kind) return null;
+  const parents = [...pm[1].matchAll(/\.\.\/([a-z0-9-]+)\//g)].map((m) => m[1]);
+  if (!parents.length) return null;
+  return { parents, kind, spec: `groups/${groupDir}/UNION-SPEC.md` };
+}
+
+function parsePlatformLayer(root) {
+  const out = { decisions: [], rescoped: [] };
+  const plPath = path.join(root, 'PLATFORM-LAYER.md');
+  if (fs.existsSync(plPath)) {
+    const md = fs.readFileSync(plPath, 'utf8');
+    const seg = md.slice(md.indexOf('## The decisions'), md.indexOf('## What this decision does not do'));
+    /* Items are a numbered list; split on the item markers, then take
+     * the bold heading and the prose after it in each chunk. The
+     * heading's control list is parenthesised and may nest parens
+     * (IA-2(1)/(2)), so the split is first '(' to final ')'. */
+    const chunks = seg.split(/^\d+\.\s+/m).slice(1);
+    chunks.forEach((chunk, i) => {
+      const hm = chunk.match(/^\*\*(.+?)\*\*\s*/);
+      if (!hm) return;
+      const heading = hm[1].replace(/\.\s*$/, '');
+      const cm = heading.match(/\((.*)\)\s*$/);
+      const controls = cm && /[A-Z]{2,}-\d/.test(cm[1]) ? cm[1] : null;
+      let body = plainText(chunk.slice(hm[0].length));
+      if (body.length > 700) body = body.slice(0, 700).replace(/\s+\S*$/, '') + '…';
+      out.decisions.push({
+        n: i + 1,
+        title: controls ? heading.slice(0, heading.length - cm[0].length).trim() : heading,
+        controls,
+        text: body,
+      });
+    });
+  }
+  const gapsPath = path.join(root, 'GAPS.md');
+  if (fs.existsSync(gapsPath)) {
+    const lines = fs.readFileSync(gapsPath, 'utf8').split('\n');
+    let section = null;
+    for (const line of lines) {
+      const sm = line.match(/^## Group (\d+) — (.+?) \((\d+) forks?\)/);
+      if (sm) {
+        const tm = sm[2].match(/^(.*) (L1|L2|L3-adjacent)$/);
+        section = tm ? { group: Number(sm[1]), section: sm[2], category: tm[1], tier: tm[2] } : null;
+        continue;
+      }
+      const em = line.match(/^- \[x\] re-scoped — (.*)$/);
+      if (em && section) out.rescoped.push({ ...section, text: em[1].trim() });
+    }
+  }
+  return out;
+}
+
 /* Index every spec entry by fork_id, and extract every group's build. */
 function loadBuildData(root, groupDirs) {
   const specIndex = new Map();
@@ -2425,6 +2517,7 @@ function loadBuildData(root, groupDirs) {
   for (const g of [...groupDirs].sort()) {
     if (!fs.existsSync(path.join(root, 'groups', g, 'specs', 'specs.json'))) continue;
     builds[g] = extractBuild(g, root);
+    builds[g].union = parseUnionSpec(root, g);
   }
   for (const hit of specIndex.values()) {
     if (builds[hit.group]) builds[hit.group].specCount++;
@@ -2579,6 +2672,91 @@ function main() {
     };
   });
 
+  /* ---- Phase 4: union merges, construction states, platform layer ----
+   * Merges: one edge per (child build, parent build) pair parsed from
+   * the UNION-SPEC lineage records. A bridge needs world anchors, and
+   * anchors are districts: a build's anchor district is the plurality
+   * district of the offerings whose spec sheets live in that build
+   * (the same plurality rule as a vendor's home district; ties broken
+   * by district id). For most builds the anchor is the district named
+   * like the build; the exceptions are builds whose forks the
+   * Marketplace files under another category (several anchor to the
+   * uncategorized districts), which is the record, not an error. */
+  const groupDistricts = new Map();
+  for (const o of offerings) {
+    const g = o.room.buildGroup;
+    if (!g) continue;
+    if (!groupDistricts.has(g)) groupDistricts.set(g, new Map());
+    const counts = groupDistricts.get(g);
+    counts.set(o.district, (counts.get(o.district) || 0) + 1);
+  }
+  function anchorDistrict(g) {
+    const counts = groupDistricts.get(g);
+    if (!counts) return null;
+    let best = null;
+    for (const [d, c] of counts) if (!best || c > best.c || (c === best.c && d < best.d)) best = { d, c };
+    return best ? best.d : null;
+  }
+  const merges = [];
+  for (const g of Object.keys(builds).sort()) {
+    const u = builds[g].union;
+    if (!u) continue;
+    for (const p of u.parents) {
+      merges.push({
+        child: g, parent: p, kind: u.kind,
+        childDistrict: anchorDistrict(g), parentDistrict: anchorDistrict(p),
+        childForks: builds[g].specCount, parentForks: builds[p] ? builds[p].specCount : 0,
+        spec: u.spec,
+      });
+    }
+  }
+  merges.sort((a, b) => a.child.localeCompare(b.child) || a.parent.localeCompare(b.parent));
+
+  /* Construction state per vendor, from its offerings' own statuses:
+   * frac is the share of the vendor's offerings not yet FedRAMP
+   * Certified (1 = fully in the pipeline, 0 = fully certified).
+   * Cranes are district equipment, assigned in the exporter so the
+   * rule lives in exactly one place: in each district with at least
+   * three fully-pipeline buildings, the tallest such building (ties:
+   * earliest in registry order) works under a crane. */
+  for (const v of vendors) {
+    const pending = v.offerings.filter((o) => o.authorization_status !== 'FedRAMP Certified').length;
+    v.construction = { frac: r3(pending / v.offerings.length), crane: false };
+  }
+  const pipelineByDistrict = new Map();
+  for (const v of vendors) {
+    if (v.kind !== 'building' || v.statusClass !== 'pipeline') continue;
+    if (!pipelineByDistrict.has(v.district)) pipelineByDistrict.set(v.district, []);
+    pipelineByDistrict.get(v.district).push(v);
+  }
+  for (const list of pipelineByDistrict.values()) {
+    if (list.length < 3) continue;
+    const tallest = list.slice().sort((a, b) =>
+      buildingSize(b.offeringCount).h - buildingSize(a.offeringCount).h
+      || Math.min(...a.offerings.map((o) => o.registryIndex)) - Math.min(...b.offerings.map((o) => o.registryIndex)))[0];
+    tallest.construction.crane = true;
+  }
+
+  /* Platform layer: the decisions and the re-scoped entries, with
+   * each entry resolved to the district and build its GAPS section
+   * belongs to (section category + tier through the same slug and
+   * tier keys as the registry). The deck stands on the plaza, west
+   * of spawn, facing it: a layout constant of the Base, emitted here
+   * so the client and the verification share one anchor. */
+  const platformRaw = parsePlatformLayer(ROOT);
+  const platformLayer = {
+    decisions: platformRaw.decisions,
+    rescoped: platformRaw.rescoped.map((e) => {
+      const districtId = `${slugifyCategory(e.category)}-${tierKeyOf(e.tier)}`;
+      return {
+        group: e.group, section: e.section, text: e.text,
+        district: districtMap.has(districtId) ? districtId : null,
+        buildGroup: groupDirs.has(districtId) ? districtId : null,
+      };
+    }),
+    deckAnchor: { x: -48, z: 26, rotationY: r3(Math.atan2(24 - (-48), 0 - 26)) },
+  };
+
   /* ---- layout: district sizes first ---- */
   for (const d of districts) {
     d.vendors = vendors.filter((v) => v.district === d.id)
@@ -2658,6 +2836,11 @@ function main() {
       districts: districts.length,
       rooms: offerings.length,
       builds: Object.keys(builds).length,
+      merges: merges.length,
+      platformDecisions: platformLayer.decisions.length,
+      platformRescoped: platformLayer.rescoped.length,
+      constructionVendors: vendors.filter((v) => v.construction && v.construction.frac > 0).length,
+      cranes: vendors.filter((v) => v.construction && v.construction.crane).length,
       worldRadius: r3(worldExtent),
       constants: LAYOUT,
     },
@@ -2666,6 +2849,8 @@ function main() {
     districts,
     vendors,
     builds,
+    merges,
+    platformLayer,
   };
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify(catalog, null, 1) + '\n');
@@ -2680,7 +2865,10 @@ function main() {
   const roomsWithBuild = offerings.filter((o) => o.room.buildGroup).length;
   console.log(`rooms=${offerings.length} rooms with a source build=${roomsWithBuild} rooms without (unclassified)=${offerings.length - roomsWithBuild}`);
   console.log(`build records=${Object.keys(builds).length}`);
+  console.log(`union merges=${merges.length} edges across ${new Set(merges.map((m) => m.child)).size} merged builds`);
+  console.log(`platform layer: decisions=${platformLayer.decisions.length} rescoped entries=${platformLayer.rescoped.length}`);
+  console.log(`construction: vendors with pending offerings=${catalog.meta.constructionVendors} cranes=${catalog.meta.cranes}`);
 }
 
 if (require.main === module) main();
-module.exports = { BRAND_SEEDS, FEDERAL_FINISH, slugifyCategory, tierKeyOf, archetypeFor, forkIdOf, extractCli, extractHttp, extractControls };
+module.exports = { BRAND_SEEDS, FEDERAL_FINISH, slugifyCategory, tierKeyOf, archetypeFor, forkIdOf, extractCli, extractHttp, extractControls, parseUnionSpec, parsePlatformLayer, buildingSize };

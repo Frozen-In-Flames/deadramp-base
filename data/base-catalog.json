@@ -7,6 +7,11 @@
   "districts": 81,
   "rooms": 781,
   "builds": 101,
+  "merges": 19,
+  "platformDecisions": 6,
+  "platformRescoped": 40,
+  "constructionVendors": 228,
+  "cranes": 17,
   "worldRadius": 2032.732,
   "constants": {
    "version": 1,
@@ -31119,6 +31124,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1740.319,
     "z": -440.954
@@ -31187,6 +31196,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": -1512.818,
     "z": 128.218
@@ -31271,6 +31284,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 463.675,
     "z": -415.082
@@ -31331,6 +31348,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": -1469.405,
     "z": -518.201
@@ -31415,6 +31436,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": -510.965,
     "z": 721.298
@@ -31479,6 +31504,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -190.016,
     "z": 817.748
@@ -31543,6 +31572,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1542.395,
     "z": -112.803
@@ -31615,6 +31648,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -977.064,
     "z": -121.544
@@ -31683,6 +31720,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1074.044,
     "z": -547.996
@@ -31782,6 +31823,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1049.241,
     "z": -558.284
@@ -31850,6 +31895,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 27.81,
     "z": -555.569
@@ -31922,6 +31971,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 343.596,
     "z": 698.494
@@ -32006,6 +32059,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -846.757,
     "z": -579.117
@@ -32078,6 +32135,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1757.135,
     "z": -421.943
@@ -32142,6 +32203,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 488.94,
     "z": -412.66
@@ -32530,6 +32595,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -481.264,
     "z": 733.916
@@ -32645,6 +32714,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 1247.125,
     "z": 104.631
@@ -32721,6 +32794,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 420.425,
     "z": 1303.07
@@ -32789,6 +32866,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -392.546,
     "z": 57.13
@@ -32873,6 +32954,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -941.978,
     "z": 1103.066
@@ -32933,6 +33018,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 10.816,
     "z": -574.421
@@ -32988,6 +33077,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1727.209,
     "z": -430.94
@@ -33091,6 +33184,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": -924.059,
     "z": -363.728
@@ -33163,6 +33260,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 460.925,
     "z": -398.816
@@ -33223,6 +33324,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 446.181,
     "z": -370.878
@@ -33287,6 +33392,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 681.263,
     "z": 32.96
@@ -33374,6 +33483,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -608.336,
     "z": 1291.511
@@ -33438,6 +33551,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 40.825,
     "z": -565.706
@@ -33493,6 +33610,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 214.314,
     "z": 1363.407
@@ -33548,6 +33669,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 660.997,
     "z": 48.24
@@ -33620,6 +33745,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1697.368,
     "z": -420.578
@@ -33684,6 +33813,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 867.634,
     "z": -798.288
@@ -33772,6 +33905,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1081.607,
     "z": -562.657
@@ -33836,6 +33973,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -263.955,
     "z": -411.087
@@ -33904,6 +34045,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -264.157,
     "z": -385.707
@@ -33964,6 +34109,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -280.399,
     "z": -412.403
@@ -34046,6 +34195,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 673.795,
     "z": 19.272
@@ -34158,6 +34311,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1402.467,
     "z": -739.058
@@ -34234,6 +34391,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1104.142,
     "z": -584.794
@@ -34289,6 +34450,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1705.643,
     "z": -451.832
@@ -34353,6 +34518,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -199.529,
     "z": 794.217
@@ -34429,6 +34598,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 664.305,
     "z": -11.451
@@ -34517,6 +34690,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -997.717,
     "z": -136.296
@@ -34593,6 +34770,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -519.118,
     "z": 735.639
@@ -34657,6 +34838,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 942.346,
     "z": 928.353
@@ -34717,6 +34902,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1085.838,
     "z": 985.377
@@ -34781,6 +34970,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 430.904,
     "z": -399.371
@@ -34893,6 +35086,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1685.797,
     "z": -477.407
@@ -34961,6 +35158,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -899.399,
     "z": -368.202
@@ -35021,6 +35222,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 767.529,
     "z": 1101.725
@@ -35085,6 +35290,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -542.535,
     "z": 756.841
@@ -35165,6 +35374,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": -417.847,
     "z": 59.149
@@ -35241,6 +35454,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 694.816,
     "z": -0.76
@@ -35309,6 +35526,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1110.039,
     "z": -553.006
@@ -35373,6 +35594,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -547.134,
     "z": 724.839
@@ -35428,6 +35653,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 668.95,
     "z": -1572.36
@@ -35492,6 +35721,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 1138.921,
     "z": -538.384
@@ -35572,6 +35805,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 132.283,
     "z": 129.344
@@ -35632,6 +35869,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1717.733,
     "z": -484.163
@@ -35708,6 +35949,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -575.397,
     "z": 709.054
@@ -35780,6 +36025,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 398.944,
     "z": -404.526
@@ -35844,6 +36093,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 589.038,
     "z": 1207.424
@@ -35928,6 +36181,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1427.838,
     "z": -738.334
@@ -36016,6 +36273,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -548.642,
     "z": 690.354
@@ -36140,6 +36401,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": -552.154,
     "z": 656.63
@@ -36204,6 +36469,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1112.949,
     "z": -518.611
@@ -36272,6 +36541,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1052.016,
     "z": 764.116
@@ -36344,6 +36617,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 417.68,
     "z": -431.256
@@ -36404,6 +36681,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 404.113,
     "z": -460.955
@@ -36464,6 +36745,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1165.958,
     "z": 573.32
@@ -36524,6 +36809,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -309.519,
     "z": -424.645
@@ -36584,6 +36873,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -282.472,
     "z": -442.357
@@ -36644,6 +36937,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -519.838,
     "z": 667.388
@@ -36708,6 +37005,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1817.338,
     "z": 266.546
@@ -36788,6 +37089,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -550.441,
     "z": -896.568
@@ -36848,6 +37153,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1728.081,
     "z": -515.131
@@ -36916,6 +37225,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 436.881,
     "z": -462.696
@@ -37055,6 +37368,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.667,
+    "crane": false
+   },
    "position": {
     "x": 1839.755,
     "z": 249.229
@@ -37123,6 +37440,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -4.643,
     "z": 1385.337
@@ -37183,6 +37504,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 118.494,
     "z": 150.652
@@ -37259,6 +37584,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -966.536,
     "z": -134.244
@@ -37314,6 +37643,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -280.134,
     "z": -474.645
@@ -37398,6 +37731,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -497.29,
     "z": 643.579
@@ -37462,6 +37799,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 449.913,
     "z": -492.786
@@ -37530,6 +37871,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -481.936,
     "z": 672.663
@@ -37594,6 +37939,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1187.195,
     "z": 587.22
@@ -37697,6 +38046,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 120.57,
     "z": 119.051
@@ -37761,6 +38114,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1236.59,
     "z": 127.372
@@ -37849,6 +38206,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -798.626,
     "z": 470.523
@@ -37921,6 +38282,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 70.567,
     "z": -576.349
@@ -37981,6 +38346,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1155.956,
     "z": 586.438
@@ -38041,6 +38410,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1753.222,
     "z": -494.044
@@ -38156,6 +38529,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 1824.677,
     "z": 280.304
@@ -38216,6 +38593,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 474.297,
     "z": -470.717
@@ -38276,6 +38657,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 445.805,
     "z": 1303.379
@@ -38348,6 +38733,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 504.317,
     "z": -484.143
@@ -38408,6 +38797,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -392.674,
     "z": 40.634
@@ -38468,6 +38861,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1487.962,
     "z": 123.082
@@ -38528,6 +38925,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -251.867,
     "z": -458.32
@@ -38583,6 +38984,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1783.282,
     "z": -507.147
@@ -38686,6 +39091,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 722.503,
     "z": -19.904
@@ -38746,6 +39155,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1226.267,
     "z": -207.992
@@ -38801,6 +39214,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -908.105,
     "z": -1334.569
@@ -38893,6 +39310,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 898.168,
     "z": -1480.54
@@ -38948,6 +39369,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1516.867,
     "z": -333.954
@@ -39003,6 +39428,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1510.649,
     "z": 144.571
@@ -39106,6 +39535,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1784.86,
     "z": -473.459
@@ -39166,6 +39599,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 101.109,
     "z": 93.454
@@ -39242,6 +39679,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -953.395,
     "z": 1080.398
@@ -39306,6 +39747,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 62.587,
     "z": -545.019
@@ -39390,6 +39835,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1116.851,
     "z": -486.193
@@ -39466,6 +39915,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1085.103,
     "z": -494.492
@@ -39526,6 +39979,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -449.135,
     "z": 670.326
@@ -39598,6 +40055,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 769.417,
     "z": 1127.036
@@ -39653,6 +40114,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1817.153,
     "z": -463.706
@@ -39713,6 +40178,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 508.555,
     "z": -451.458
@@ -39781,6 +40250,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 540.456,
     "z": -443.246
@@ -40183,6 +40656,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.167,
+    "crane": false
+   },
    "position": {
     "x": 1790.952,
     "z": -437.136
@@ -40287,6 +40764,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1063.394,
     "z": -468.292
@@ -40347,6 +40828,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1815.665,
     "z": -409.15
@@ -40402,6 +40887,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -60.127,
     "z": 266.372
@@ -40470,6 +40959,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 524.144,
     "z": -414.552
@@ -40542,6 +41035,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 545.366,
     "z": -389.294
@@ -40606,6 +41103,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 1250.218,
     "z": -216.391
@@ -40661,6 +41162,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -456.343,
     "z": 702.487
@@ -40741,6 +41246,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 726.104,
     "z": 13.819
@@ -40821,6 +41330,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1833.878,
     "z": 311.115
@@ -40889,6 +41402,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 515.697,
     "z": -374.788
@@ -40944,6 +41461,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1234.635,
     "z": 96.184
@@ -40999,6 +41520,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1803.468,
     "z": 300.137
@@ -41067,6 +41592,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 756.169,
     "z": 26.556
@@ -41159,6 +41688,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -863.26,
     "z": -559.834
@@ -41214,6 +41747,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1291.018,
     "z": -920.343
@@ -41286,6 +41823,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1047.019,
     "z": -498.22
@@ -41350,6 +41891,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": -395.356,
     "z": -183.938
@@ -41414,6 +41959,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1014.339,
     "z": -494.55
@@ -41469,6 +42018,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -822.899,
     "z": 477.94
@@ -41545,6 +42098,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1129.906,
     "z": 604.308
@@ -41605,6 +42162,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1784.161,
     "z": -399.304
@@ -41692,6 +42253,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 1806.116,
     "z": -47.912
@@ -41747,6 +42312,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1782.44,
     "z": -366.36
@@ -41807,6 +42376,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -223.469,
     "z": -474.434
@@ -41862,6 +42435,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 644.329,
     "z": -1566.193
@@ -41954,6 +42531,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 133.436,
     "z": 93.02
@@ -42009,6 +42590,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 519.703,
     "z": -342.023
@@ -42069,6 +42654,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1214.555,
     "z": 71.799
@@ -42133,6 +42722,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -923.778,
     "z": -348.653
@@ -42217,6 +42810,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -383.027,
     "z": 10.554
@@ -42272,6 +42869,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1750.853,
     "z": -376
@@ -42340,6 +42941,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -802.301,
     "z": 454.441
@@ -42416,6 +43021,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1020.233,
     "z": -526.977
@@ -42484,6 +43093,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1731.423,
     "z": -349.316
@@ -42556,6 +43169,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 486.833,
     "z": -345.498
@@ -42636,6 +43253,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 733.182,
     "z": 49.972
@@ -42700,6 +43321,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 473.307,
     "z": -315.348
@@ -42772,6 +43397,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 743.897,
     "z": 80.964
@@ -42844,6 +43473,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 446.667,
     "z": -334.938
@@ -42899,6 +43532,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1413.882,
     "z": -1034.056
@@ -42963,6 +43600,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 420.031,
     "z": -315.328
@@ -43023,6 +43664,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1709.766,
     "z": -374.285
@@ -43105,6 +43750,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 406.81,
     "z": -346.648
@@ -43197,6 +43846,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -429.181,
     "z": 721.124
@@ -43289,6 +43942,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 373.371,
     "z": -340.52
@@ -43349,6 +44006,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 992.335,
     "z": -544.494
@@ -43444,6 +44105,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 710.188,
     "z": 79.905
@@ -43520,6 +44185,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1557.254,
     "z": -92.226
@@ -43592,6 +44261,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1230.593,
     "z": -192.073
@@ -43652,6 +44325,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -799.354,
     "z": 422.989
@@ -43724,6 +44401,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -443.16,
     "z": 1348.272
@@ -43788,6 +44469,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 697.942,
     "z": 111.338
@@ -43848,6 +44533,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1016.595,
     "z": -566.875
@@ -44019,6 +44708,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 673.066,
     "z": 87.116
@@ -44119,6 +44812,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 643.669,
     "z": 105.592
@@ -44179,6 +44876,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -378.063,
     "z": -202.517
@@ -44263,6 +44964,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1129.641,
     "z": 571.979
@@ -44339,6 +45044,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 637.428,
     "z": 360.485
@@ -44394,6 +45103,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 374.798,
     "z": -373.601
@@ -44482,6 +45195,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -454.331,
     "z": 742.499
@@ -44537,6 +45254,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -443.04,
     "z": 773.496
@@ -44592,6 +45313,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1679.305,
     "z": -361.475
@@ -44704,6 +45429,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 152.867,
     "z": 65.534
@@ -44784,6 +45513,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 167.828,
     "z": 95.971
@@ -44856,6 +45589,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1776.254,
     "z": 317.669
@@ -44911,6 +45648,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1563.846,
     "z": -845.608
@@ -44983,6 +45724,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1555.04,
     "z": -123.397
@@ -45055,6 +45800,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1246.737,
     "z": 68.705
@@ -45110,6 +45859,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -174.317,
     "z": 812.68
@@ -45170,6 +45923,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 343.408,
     "z": -384.066
@@ -45262,6 +46019,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 359.332,
     "z": -413.099
@@ -45330,6 +46091,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1263.83,
     "z": 41.213
@@ -45390,6 +46155,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1281.255,
     "z": 68.816
@@ -45470,6 +46239,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 335.579,
     "z": -436.144
@@ -45525,6 +46298,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1673.199,
     "z": -393.974
@@ -45589,6 +46366,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 362.365,
     "z": -455.624
@@ -45649,6 +46430,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1640.346,
     "z": -397.815
@@ -45709,6 +46494,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 350.445,
     "z": -486.527
@@ -45781,6 +46570,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 382.892,
     "z": -493.255
@@ -45877,6 +46670,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 636.315,
     "z": 73.415
@@ -45958,6 +46755,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1652.054,
     "z": -429.731
@@ -46050,6 +46851,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -236.13,
     "z": 1394.765
@@ -46126,6 +46931,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 878.097,
     "z": -775.163
@@ -46190,6 +46999,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1004.051,
     "z": -597.387
@@ -46262,6 +47075,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1036.725,
     "z": -602.192
@@ -46322,6 +47139,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1623.427,
     "z": -448.07
@@ -46404,6 +47225,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 1648.527,
     "z": -471.055
@@ -46504,6 +47329,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1401.752,
     "z": -755.54
@@ -46576,6 +47405,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 384.486,
     "z": -526.327
@@ -46644,6 +47477,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -475.882,
     "z": 776.968
@@ -46724,6 +47561,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1390.58,
     "z": -785.088
@@ -46800,6 +47641,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1631.238,
     "z": -500.348
@@ -46888,6 +47733,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 603.606,
     "z": 69.125
@@ -46956,6 +47805,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1571.695,
     "z": -150.239
@@ -47020,6 +47873,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -218.868,
     "z": -441.944
@@ -47075,6 +47932,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1450.208,
     "z": -501.598
@@ -47135,6 +47996,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -784.7,
     "z": 1221.442
@@ -47199,6 +48064,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 416.938,
     "z": -519.564
@@ -47291,6 +48160,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1564.287,
     "z": -870.986
@@ -47351,6 +48224,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 82.672,
     "z": -519.631
@@ -47431,6 +48308,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -483.337,
     "z": 809.124
@@ -47515,6 +48396,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -2.114,
     "z": 1360.082
@@ -47575,6 +48460,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 431.388,
     "z": -549.365
@@ -47630,6 +48519,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1228.928,
     "z": -160.528
@@ -47754,6 +48647,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1227.09,
     "z": 839.119
@@ -47853,6 +48750,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 458.789,
     "z": -529.075
@@ -47917,6 +48818,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -932.163,
     "z": -318.197
@@ -48053,6 +48958,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 617.141,
     "z": 38.027
@@ -48121,6 +49030,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1042.865,
     "z": -634.625
@@ -48189,6 +49102,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 483.422,
     "z": -552.624
@@ -48244,6 +49161,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1580.277,
     "z": -844.138
@@ -48308,6 +49229,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1609.281,
     "z": -831.622
@@ -48380,6 +49305,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -513.03,
     "z": 794.606
@@ -48448,6 +49377,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 501.668,
     "z": -524.941
@@ -48512,6 +49445,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 532.82,
     "z": -536.257
@@ -48580,6 +49517,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1073.125,
     "z": -621.327
@@ -48660,6 +49601,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -713.725,
     "z": -764.369
@@ -48756,6 +49701,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -536.061,
     "z": 818.302
@@ -48811,6 +49760,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -554.384,
     "z": 790.775
@@ -48866,6 +49819,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 958.051,
     "z": 908.414
@@ -48942,6 +49899,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -586.125,
     "z": 800.081
@@ -48997,6 +49958,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1196.229,
     "z": -1056.822
@@ -49084,6 +50049,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1580.797,
     "z": -814.96
@@ -49176,6 +50145,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 590.6,
     "z": 16.932
@@ -49240,6 +50213,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1772.319,
     "z": 285.265
@@ -49295,6 +50272,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 666.101,
     "z": -1588.609
@@ -49350,6 +50331,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -187.752,
     "z": -431.594
@@ -49405,6 +50390,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -588.945,
     "z": 767.121
@@ -49497,6 +50486,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1662.69,
     "z": -510.705
@@ -49552,6 +50545,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1661.052,
     "z": -543.759
@@ -49640,6 +50637,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -363.016,
     "z": 35.947
@@ -49695,6 +50696,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1742.375,
     "z": 272.246
@@ -49755,6 +50760,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1693.925,
     "z": -539.721
@@ -49835,6 +50844,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 539.663,
     "z": -503.82
@@ -49911,6 +50924,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1539.388,
     "z": -149.02
@@ -49983,6 +51000,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 751.033,
     "z": 1101.767
@@ -50055,6 +51076,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -621.34,
     "z": 760.436
@@ -50119,6 +51144,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 572.799,
     "z": -503.137
@@ -50174,6 +51203,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1706.299,
     "z": -570.445
@@ -50229,6 +51262,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -207.604,
     "z": -405.373
@@ -50284,6 +51321,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 567.636,
     "z": -470.377
@@ -50416,6 +51457,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 48.805,
     "z": -514.815
@@ -50484,6 +51529,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -858.488,
     "z": -590.716
@@ -50556,6 +51605,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -608.672,
     "z": 729.843
@@ -50616,6 +51669,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1734.609,
     "z": -553.223
@@ -50676,6 +51733,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 617.185,
     "z": -2.708
@@ -50736,6 +51797,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1758.341,
     "z": -576.311
@@ -50800,6 +51865,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -330.647,
     "z": 35.451
@@ -50872,6 +51941,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -468.097,
     "z": 1343.543
@@ -50956,6 +52029,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 606.794,
     "z": -34.076
@@ -51011,6 +52088,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1579.427,
     "z": -781.901
@@ -51091,6 +52172,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1765.581,
     "z": 249.047
@@ -51175,6 +52260,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1095.172,
     "z": -645.941
@@ -51239,6 +52328,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1777.449,
     "z": -549.223
@@ -51303,6 +52396,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1755.158,
     "z": 217.956
@@ -51358,6 +52455,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 598.415,
     "z": -458.072
@@ -51413,6 +52514,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1481.065,
     "z": -506.531
@@ -51481,6 +52586,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 582.173,
     "z": -429.16
@@ -51561,6 +52670,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1808.348,
     "z": -561.148
@@ -51633,6 +52746,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 40.745,
     "z": -481.511
@@ -51737,6 +52854,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -636.082,
     "z": 709.297
@@ -51809,6 +52930,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1815.486,
     "z": -528.777
@@ -51864,6 +52989,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 533.368,
     "z": -1016.84
@@ -51932,6 +53061,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -953.215,
     "z": -342.734
@@ -52403,6 +53536,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.1,
+    "crane": false
+   },
    "position": {
     "x": 1774.113,
     "z": -48.416
@@ -52511,6 +53648,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1114.6,
     "z": -619.182
@@ -52583,6 +53724,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -609.681,
     "z": 687.437
@@ -52659,6 +53804,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1848.609,
     "z": -528.024
@@ -52714,6 +53863,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 606.853,
     "z": -407.03
@@ -52769,6 +53922,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1843.057,
     "z": -495.337
@@ -52841,6 +53998,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1145.936,
     "z": -629.772
@@ -52901,6 +54062,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 954.539,
     "z": 939.465
@@ -52961,6 +54126,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 581.751,
     "z": -385.354
@@ -53016,6 +54185,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1788.046,
     "z": 218.068
@@ -53080,6 +54253,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -902.461,
     "z": 250.02
@@ -53140,6 +54317,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -624.108,
     "z": 657.652
@@ -53216,6 +54397,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1150.095,
     "z": -596.955
@@ -53368,6 +54553,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1873.55,
     "z": -482.352
@@ -53436,6 +54625,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1856.419,
     "z": -453.971
@@ -53540,6 +54733,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1409.001,
     "z": 527.754
@@ -53595,6 +54792,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1880.176,
     "z": -430.861
@@ -53650,6 +54851,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1854.047,
     "z": -410.435
@@ -53750,6 +54955,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 852.641,
     "z": -794.003
@@ -53826,6 +55035,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1103.75,
     "z": 552.546
@@ -53886,6 +55099,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 670.651,
     "z": -1619.869
@@ -53941,6 +55158,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 597.557,
     "z": -356.196
@@ -54005,6 +55226,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -774.347,
     "z": 443.481
@@ -54060,6 +55285,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1868.15,
     "z": -380.438
@@ -54142,6 +55371,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1835.301,
     "z": -371.217
@@ -54202,6 +55435,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -592.271,
     "z": 648.52
@@ -54262,6 +55499,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1313.89,
     "z": 67.766
@@ -54330,6 +55571,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 639.67,
     "z": -37.625
@@ -54394,6 +55639,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 566.67,
     "z": -344.09
@@ -54462,6 +55711,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1809.225,
     "z": -62.666
@@ -54517,6 +55770,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1551.315,
     "z": -798.491
@@ -54603,6 +55860,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1840.576,
     "z": -336.335
@@ -54683,6 +55944,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 572.019,
     "z": -311.364
@@ -54751,6 +56016,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 538.871,
     "z": -309.968
@@ -54827,6 +56096,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 533.409,
     "z": -277.265
@@ -54911,6 +56184,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1302.845,
     "z": 98.665
@@ -55003,6 +56280,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 646.066,
     "z": -70.078
@@ -55063,6 +56344,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 501.542,
     "z": -286.506
@@ -55127,6 +56412,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 676.606,
     "z": -57.367
@@ -55251,6 +56540,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 1203.412,
     "z": -181.454
@@ -55323,6 +56616,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -939.781,
     "z": -151.039
@@ -55455,6 +56752,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 1805.455,
     "z": -339.857
@@ -55591,6 +56892,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 1184.031,
     "z": -592.348
@@ -55807,6 +57112,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 486.393,
     "z": -255.736
@@ -55862,6 +57171,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -742.844,
     "z": 436.029
@@ -55934,6 +57247,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1798.006,
     "z": -306.551
@@ -55994,6 +57311,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -592.89,
     "z": 615.404
@@ -56066,6 +57387,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 11.612,
     "z": 1388.155
@@ -56126,6 +57451,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1171.323,
     "z": -560.51
@@ -56190,6 +57519,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 570.549,
     "z": 1190.034
@@ -56270,6 +57603,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -872.877,
     "z": -618.838
@@ -56325,6 +57662,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 642.052,
     "z": 335.529
@@ -56417,6 +57758,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -940.831,
     "z": -118.725
@@ -56477,6 +57822,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 15.406,
     "z": -502.361
@@ -56537,6 +57886,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1198.049,
     "z": -541.001
@@ -56613,6 +57966,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1069.419,
     "z": -1213.632
@@ -56668,6 +58025,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 458.658,
     "z": -275.934
@@ -56756,6 +58117,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 434.826,
     "z": -252.857
@@ -56816,6 +58181,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -889.572,
     "z": 228.155
@@ -56888,6 +58257,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 694.578,
     "z": -1598.127
@@ -56943,6 +58316,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -260.398,
     "z": -1646.313
@@ -56998,6 +58375,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 414.505,
     "z": -279.095
@@ -57074,6 +58455,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -532.675,
     "z": -878.441
@@ -57134,6 +58519,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 160.583,
     "z": -1118.426
@@ -57194,6 +58583,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1174.056,
     "z": -518.18
@@ -57254,6 +58647,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 384.799,
     "z": -264.345
@@ -57318,6 +58715,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -560.101,
     "z": 620.191
@@ -57386,6 +58787,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -547.281,
     "z": 589.664
@@ -57441,6 +58846,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1767.167,
     "z": -318.778
@@ -57509,6 +58918,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -344.436,
     "z": 65.038
@@ -57564,6 +58977,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -882.997,
     "z": -1330.859
@@ -57619,6 +59036,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1801.397,
     "z": 188.016
@@ -57674,6 +59095,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1748.746,
     "z": -291.205
@@ -57734,6 +59159,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 820.585,
     "z": -791.483
@@ -57806,6 +59235,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 373.327,
     "z": -295.485
@@ -57902,6 +59335,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 697.489,
     "z": -83.018
@@ -57974,6 +59411,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 340.552,
     "z": -290.285
@@ -58058,6 +59499,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 447.029,
     "z": -1634.819
@@ -58210,6 +59655,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -518.944,
     "z": 608.62
@@ -58298,6 +59747,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 200.438,
     "z": 97.612
@@ -58362,6 +59815,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 338.82,
     "z": -323.417
@@ -58434,6 +59891,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -563.022,
     "z": -885.897
@@ -58498,6 +59959,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1824.23,
     "z": -90.463
@@ -58553,6 +60018,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 19.37,
     "z": 830.344
@@ -58613,6 +60082,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1723.562,
     "z": -312.803
@@ -58668,6 +60141,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -14.529,
     "z": -488.976
@@ -58748,6 +60225,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1189.683,
     "z": -489.007
@@ -58812,6 +60293,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 305.968,
     "z": -328.047
@@ -58876,6 +60361,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1401.71,
     "z": 552.065
@@ -58944,6 +60433,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -238.367,
     "z": 236.339
@@ -59154,6 +60647,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.2,
+    "crane": false
+   },
    "position": {
     "x": 717.431,
     "z": -51.814
@@ -59226,6 +60723,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 313.937,
     "z": -360.274
@@ -59286,6 +60787,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 283.814,
     "z": -374.192
@@ -59354,6 +60859,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1826.399,
     "z": 209.491
@@ -59434,6 +60943,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1132.771,
     "z": 537.603
@@ -59489,6 +61002,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1697.253,
     "z": -292.624
@@ -59557,6 +61074,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 300.678,
     "z": -402.776
@@ -59633,6 +61154,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 275.744,
     "z": -424.675
@@ -59693,6 +61218,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -985.535,
     "z": -340.888
@@ -59761,6 +61290,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 299.976,
     "z": -447.344
@@ -59825,6 +61358,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 282.15,
     "z": -475.332
@@ -59880,6 +61417,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1680.264,
     "z": -321.125
@@ -59952,6 +61493,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -495.325,
     "z": 584.076
@@ -60040,6 +61585,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1522.766,
     "z": -782.645
@@ -60116,6 +61665,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1325.571,
     "z": 122.304
@@ -60196,6 +61749,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 653.391,
     "z": 364.648
@@ -60251,6 +61808,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1855.613,
     "z": 194.272
@@ -60306,6 +61867,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 970.061,
     "z": 966.978
@@ -60361,6 +61926,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 367.809,
     "z": -1076.065
@@ -60437,6 +62006,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 39.487,
     "z": 1403.016
@@ -60509,6 +62082,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 311.72,
     "z": -490.395
@@ -60564,6 +62141,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1862.664,
     "z": 226.516
@@ -60628,6 +62209,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1648.925,
     "z": -310.279
@@ -60692,6 +62277,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 302.294,
     "z": -522.23
@@ -60772,6 +62361,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 748.997,
     "z": -71.146
@@ -60844,6 +62437,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1895.332,
     "z": 231.114
@@ -60912,6 +62509,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 334.856,
     "z": -528.639
@@ -60967,6 +62568,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 726.421,
     "z": -1603.959
@@ -61031,6 +62636,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1295.799,
     "z": 136.278
@@ -61095,6 +62704,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1158.245,
     "z": -478.587
@@ -61179,6 +62792,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 334.404,
     "z": -561.825
@@ -61295,6 +62912,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 1161.246,
     "z": -444.438
@@ -61386,6 +63007,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": -476.527,
     "z": 612.522
@@ -61454,6 +63079,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 367.504,
     "z": -559.241
@@ -61530,6 +63159,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 375.923,
     "z": -591.331
@@ -61590,6 +63223,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 407.15,
     "z": -580.051
@@ -61678,6 +63315,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 423.752,
     "z": -608.794
@@ -61746,6 +63387,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -445.32,
     "z": 598.829
@@ -61830,6 +63475,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1127.254,
     "z": -448.973
@@ -61885,6 +63534,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -191.602,
     "z": -376.644
@@ -61949,6 +63602,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 679.932,
     "z": 381.779
@@ -62009,6 +63666,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 513.373,
     "z": 570.877
@@ -62109,6 +63770,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -751.379,
     "z": 468.321
@@ -62169,6 +63834,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 756.866,
     "z": -38.981
@@ -62241,6 +63910,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 186.887,
     "z": 127.497
@@ -62305,6 +63978,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1839.239,
     "z": -61.828
@@ -62369,6 +64046,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -437.655,
     "z": 631.087
@@ -62445,6 +64126,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 450.918,
     "z": -589.728
@@ -62505,6 +64190,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 474.439,
     "z": -613.164
@@ -62573,6 +64262,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 495.749,
     "z": -587.725
@@ -62628,6 +64321,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -223.791,
     "z": -369.562
@@ -62696,6 +64393,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 524.5,
     "z": -604.34
@@ -62751,6 +64452,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1509.261,
     "z": -492.288
@@ -62885,6 +64590,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1643.559,
     "z": -345.015
@@ -62940,6 +64649,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 252.417,
     "z": -1677.598
@@ -63008,6 +64721,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1296.595,
     "z": 169.153
@@ -63076,6 +64793,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1171.934,
     "z": -171.258
@@ -63341,6 +65062,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 214.338,
     "z": 154.791
@@ -63425,6 +65150,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 176.769,
     "z": 164.402
@@ -63517,6 +65246,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 538.622,
     "z": -574.304
@@ -63581,6 +65314,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1608.533,
     "z": -342.052
@@ -63645,6 +65382,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1115.686,
     "z": -417.949
@@ -63700,6 +65441,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1226.153,
     "z": 347.114
@@ -63784,6 +65529,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 146.25,
     "z": -1139.373
@@ -63839,6 +65588,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 789.947,
     "z": -38.032
@@ -63911,6 +65664,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 783.353,
     "z": -5.575
@@ -64206,6 +65963,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1181.984,
     "z": -204.847
@@ -64322,6 +66083,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 174.857,
     "z": 197.231
@@ -64430,6 +66195,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": -724.573,
     "z": 490.387
@@ -64485,6 +66254,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -229.18,
     "z": -337.065
@@ -64557,6 +66330,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 570.635,
     "z": -583.098
@@ -64612,6 +66389,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1264.808,
     "z": 160.445
@@ -64680,6 +66461,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": 10.93,
     "z": 1418.173
@@ -64752,6 +66537,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1611.582,
     "z": -375.099
@@ -64807,6 +66596,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -197.73,
     "z": -1076.404
@@ -64915,6 +66708,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 576.754,
     "z": -550.46
@@ -65015,6 +66812,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 5.642,
     "z": 1450.111
@@ -65079,6 +66880,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -21.01,
     "z": 1431.263
@@ -65139,6 +66944,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1579.802,
     "z": -384.587
@@ -65223,6 +67032,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -17.602,
     "z": -521.72
@@ -65291,6 +67104,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 609.945,
     "z": -550.968
@@ -65363,6 +67180,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -404.512,
     "z": 631.12
@@ -65431,6 +67252,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 607.749,
     "z": -517.837
@@ -65486,6 +67311,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -259.191,
     "z": -350.803
@@ -65550,6 +67379,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -282.495,
     "z": -327.452
@@ -65605,6 +67438,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1592.665,
     "z": -415.178
@@ -65669,6 +67506,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1516.498,
     "z": 175.614
@@ -65729,6 +67570,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -142.728,
     "z": 812.864
@@ -65793,6 +67638,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -299.542,
     "z": -355.738
@@ -65877,6 +67726,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 143.894,
     "z": 185.935
@@ -66037,6 +67890,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -593.43,
     "z": -1536.039
@@ -66129,6 +67986,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -325.899,
     "z": 91.918
@@ -66201,6 +68062,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 640.034,
     "z": -510.127
@@ -66261,6 +68126,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1086.824,
     "z": -434.253
@@ -66345,6 +68214,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 121.91,
     "z": 210.467
@@ -66400,6 +68273,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -220.936,
     "z": 1415.096
@@ -66595,6 +68472,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.333,
+    "crane": false
+   },
    "position": {
     "x": -758.184,
     "z": 502.646
@@ -66659,6 +68540,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 629.761,
     "z": -478.558
@@ -66847,6 +68732,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.25,
+    "crane": false
+   },
    "position": {
     "x": 1560.701,
     "z": -433.121
@@ -66902,6 +68791,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -765.39,
     "z": -1442.463
@@ -66990,6 +68883,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -50.766,
     "z": 1444.705
@@ -67045,6 +68942,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1586.5,
     "z": -459.143
@@ -67137,6 +69038,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 319.14,
     "z": 691.704
@@ -67192,6 +69097,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1518.471,
     "z": -815.176
@@ -67252,6 +69161,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1487.454,
     "z": -825.819
@@ -67316,6 +69229,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 659.192,
     "z": -463.178
@@ -67388,6 +69305,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 103.956,
     "z": 182.77
@@ -67452,6 +69373,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 813.016,
     "z": 9.161
@@ -67507,6 +69432,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1565.644,
     "z": -484.945
@@ -67583,6 +69512,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1152.956,
     "z": -224.651
@@ -67651,6 +69584,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 641.558,
     "z": -435.054
@@ -67711,6 +69648,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 666.405,
     "z": -413.03
@@ -67787,6 +69728,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 793.635,
     "z": 36.039
@@ -67842,6 +69787,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1593.46,
     "z": -503.065
@@ -67934,6 +69883,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1580.937,
     "z": -533.794
@@ -67998,6 +69951,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1064.001,
     "z": -410.251
@@ -68066,6 +70023,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -409.187,
     "z": 663.94
@@ -68150,6 +70111,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -915.753,
     "z": -98.255
@@ -68210,6 +70175,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1871.149,
     "z": -56.374
@@ -68282,6 +70251,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -945.358,
     "z": -84.506
@@ -68362,6 +70335,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -378.288,
     "z": 675.926
@@ -68426,6 +70403,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -756.213,
     "z": 537.069
@@ -68481,6 +70462,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1539.498,
     "z": 152.893
@@ -68536,6 +70521,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1612.77,
     "z": -543.182
@@ -68604,6 +70593,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1043.695,
     "z": -436.453
@@ -68664,6 +70657,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 392.527,
     "z": -1070.301
@@ -68744,6 +70741,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1244.918,
     "z": 186.703
@@ -68816,6 +70817,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 642.532,
     "z": -389.941
@@ -68876,6 +70881,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -331.831,
     "z": -348.881
@@ -68944,6 +70953,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 661.405,
     "z": -362.633
@@ -69036,6 +71049,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -394.355,
     "z": 704.939
@@ -69104,6 +71121,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 632.739,
     "z": -345.89
@@ -69168,6 +71189,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -384.119,
     "z": -171.86
@@ -69252,6 +71277,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 814.798,
     "z": 61.502
@@ -69307,6 +71336,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -331.246,
     "z": -381.929
@@ -69367,6 +71400,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1609.485,
     "z": -576.205
@@ -69427,6 +71464,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 195.39,
     "z": 1380.322
@@ -69487,6 +71528,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -369.649,
     "z": 727.038
@@ -69567,6 +71612,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 644.623,
     "z": -314.872
@@ -69627,6 +71676,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 612.819,
     "z": -305.319
@@ -69691,6 +71744,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1882.964,
     "z": 261.736
@@ -69746,6 +71803,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -787.18,
     "z": 525.994
@@ -69845,6 +71906,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1060.627,
     "z": 994.622
@@ -69945,6 +72010,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": -396.282,
     "z": 748.365
@@ -70005,6 +72074,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 617.147,
     "z": -272.405
@@ -70100,6 +72173,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1643.628,
     "z": -575.087
@@ -70180,6 +72257,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 583.996,
     "z": -270.501
@@ -70240,6 +72321,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1181.972,
     "z": -239.976
@@ -70304,6 +72389,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1648.735,
     "z": -608.864
@@ -70384,6 +72473,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 786.3,
     "z": 78.436
@@ -70468,6 +72561,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 580.597,
     "z": -237.472
@@ -70588,6 +72685,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 795.775,
     "z": 110.172
@@ -70652,6 +72753,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1680.63,
     "z": -599.698
@@ -70712,6 +72817,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1013.437,
     "z": -422.957
@@ -70780,6 +72889,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1224.745,
     "z": 160.578
@@ -70844,6 +72957,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -592.295,
     "z": -874.024
@@ -70928,6 +73045,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 547.886,
     "z": -243.234
@@ -70996,6 +73117,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1004.466,
     "z": -454.876
@@ -71128,6 +73253,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 761.864,
     "z": 113.719
@@ -71183,6 +73312,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -809.79,
     "z": 549.873
@@ -71238,6 +73371,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1695.463,
     "z": -629.402
@@ -71293,6 +73430,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1907.847,
     "z": 283.427
@@ -71369,6 +73510,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -585.627,
     "z": -905.659
@@ -71424,6 +73569,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 717.705,
     "z": -1572.501
@@ -71479,6 +73628,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 740.424,
     "z": -1549.05
@@ -71555,6 +73708,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 650.211,
     "z": 394.505
@@ -71627,6 +73784,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1507.551,
     "z": -851.852
@@ -71703,6 +73864,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 537.029,
     "z": -211.859
@@ -71758,6 +73923,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -362.463,
     "z": -392.765
@@ -71839,6 +74008,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1723.846,
     "z": -610.382
@@ -71939,6 +74112,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 759.606,
     "z": 147.722
@@ -71994,6 +74171,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 642.28,
     "z": 425.891
@@ -72090,6 +74271,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1850.672,
     "z": -29.986
@@ -72145,6 +74330,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1745.953,
     "z": -636.435
@@ -72225,6 +74414,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 727.453,
     "z": 139.633
@@ -72280,6 +74473,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1768.387,
     "z": -611.959
@@ -72407,6 +74604,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 712.818,
     "z": 171.938
@@ -72471,6 +74672,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 971.349,
     "z": -453.561
@@ -72543,6 +74748,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 974.685,
     "z": -486.544
@@ -72598,6 +74807,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1796.438,
     "z": -629.672
@@ -72666,6 +74879,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1186.612,
     "z": -1278.616
@@ -72721,6 +74938,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1811.569,
     "z": -600.119
@@ -72776,6 +74997,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1843.318,
     "z": -609.802
@@ -72907,6 +75132,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": true
+   },
    "position": {
     "x": -343.785,
     "z": -421.145
@@ -72967,6 +75196,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1134.581,
     "z": 505.001
@@ -73047,6 +75280,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 506.508,
     "z": -224.918
@@ -73163,6 +75400,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 685.094,
     "z": 148.225
@@ -73223,6 +75464,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1491.821,
     "z": -880.731
@@ -73283,6 +75528,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1524.075,
     "z": -887.509
@@ -73434,6 +75683,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1848.313,
     "z": -574.967
@@ -73489,6 +75742,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1883.353,
     "z": -578.409
@@ -73544,6 +75801,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1881.078,
     "z": 302.816
@@ -73616,6 +75877,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 488.829,
     "z": -196.81
@@ -73676,6 +75941,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -357.862,
     "z": 99.344
@@ -73736,6 +76005,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 710.126,
     "z": -1536.45
@@ -73816,6 +76089,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 462.016,
     "z": -216.404
@@ -73871,6 +76148,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1571.557,
     "z": 157.393
@@ -73935,6 +76216,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -367.145,
     "z": -445.835
@@ -73990,6 +76275,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 707.908,
     "z": -1503.734
@@ -74066,6 +76355,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 943.324,
     "z": -497.262
@@ -74138,6 +76431,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -48.807,
     "z": -532.097
@@ -74198,6 +76495,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1881.572,
     "z": -545.272
@@ -74266,6 +76567,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 438.478,
     "z": -192.972
@@ -74338,6 +76643,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 71.762,
     "z": 189.971
@@ -74430,6 +76739,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1193.253,
     "z": 170.404
@@ -74494,6 +76807,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 416.723,
     "z": -218.051
@@ -74558,6 +76875,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -379.197,
     "z": 777.884
@@ -74618,6 +76939,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1529.769,
     "z": -919.955
@@ -74678,6 +77003,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1913.927,
     "z": -537.799
@@ -74733,6 +77062,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 677.547,
     "z": -1516.376
@@ -74788,6 +77121,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1903.754,
     "z": -506.206
@@ -74843,6 +77180,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 388.578,
     "z": -200.422
@@ -74911,6 +77252,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1933.157,
     "z": -490.79
@@ -74979,6 +77324,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 72.554,
     "z": 156.955
@@ -75079,6 +77428,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -410.203,
     "z": 789.656
@@ -75159,6 +77512,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1181.181,
     "z": -272.758
@@ -75219,6 +77576,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 958.196,
     "z": -526.905
@@ -75295,6 +77656,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 932.612,
     "z": -547.981
@@ -75350,6 +77715,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1891.174,
     "z": 334.28
@@ -75418,6 +77787,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1191.325,
     "z": 137.435
@@ -75478,6 +77851,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 372.871,
     "z": -229.695
@@ -75546,6 +77923,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 617.292,
     "z": 404.888
@@ -75661,6 +78042,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1086.587,
     "z": -1234.279
@@ -75716,6 +78101,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -338.478,
     "z": -462.342
@@ -75776,6 +78165,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 341.543,
     "z": -218.682
@@ -75831,6 +78224,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 526.82,
     "z": 592.403
@@ -75895,6 +78292,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 705.458,
     "z": -940.388
@@ -75975,6 +78376,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -405.335,
     "z": 822.463
@@ -76083,6 +78488,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 469.35,
     "z": -1622.737
@@ -76155,6 +78564,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1159.553,
     "z": 128.48
@@ -76223,6 +78636,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1858.265,
     "z": 337.52
@@ -76278,6 +78695,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1865.45,
     "z": 0.005
@@ -76466,6 +78887,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.333,
+    "crane": false
+   },
    "position": {
     "x": -947.065,
     "z": -49.366
@@ -76530,6 +78955,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -64.352,
     "z": 241.345
@@ -76653,6 +79082,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 958.355,
     "z": -570.373
@@ -76729,6 +79162,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -714.581,
     "z": -789.736
@@ -76793,6 +79230,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 721.003,
     "z": 1091.963
@@ -76848,6 +79289,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1175.448,
     "z": 99.5
@@ -76912,6 +79357,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 940.083,
     "z": -599.173
@@ -77032,6 +79481,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -66.824,
     "z": -1670.54
@@ -77127,6 +79580,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 349.917,
     "z": 684.24
@@ -77182,6 +79639,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 332.637,
     "z": -250.672
@@ -77250,6 +79711,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 660.274,
     "z": 171.601
@@ -77310,6 +79775,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1915.359,
     "z": -462.755
@@ -77378,6 +79847,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 299.662,
     "z": -246.741
@@ -77442,6 +79915,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1152.858,
     "z": 75.384
@@ -77669,6 +80146,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1942.967,
     "z": -440.504
@@ -77733,6 +80214,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1479.962,
     "z": 334.812
@@ -77848,6 +80333,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1044.69,
     "z": -1372.963
@@ -78020,6 +80509,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1831.829,
     "z": 0.193
@@ -78075,6 +80568,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1915.755,
     "z": -417.757
@@ -78130,6 +80627,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 297.899,
     "z": -279.9
@@ -78185,6 +80686,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1851.565,
     "z": 369.911
@@ -78269,6 +80774,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 41.628,
     "z": 145.415
@@ -78337,6 +80846,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 837.708,
     "z": -818.906
@@ -78413,6 +80926,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -438.5,
     "z": 823.262
@@ -78481,6 +80998,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 970.584,
     "z": -612.196
@@ -78553,6 +81074,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -1316.291,
     "z": 683.037
@@ -78696,6 +81221,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 963.2,
     "z": -645.698
@@ -78756,6 +81285,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 641.952,
     "z": 143.957
@@ -78811,6 +81344,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1934.095,
     "z": -390.092
@@ -78866,6 +81403,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -160.953,
     "z": 839.568
@@ -78926,6 +81467,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 997.49,
     "z": -646.927
@@ -78986,6 +81531,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 264.851,
     "z": -283.172
@@ -79070,6 +81619,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 270.247,
     "z": -315.937
@@ -79166,6 +81719,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 238.66,
     "z": -326.196
@@ -79230,6 +81787,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 250.896,
     "z": -357.084
@@ -79298,6 +81859,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 368.528,
     "z": 658.017
@@ -79366,6 +81931,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -444.679,
     "z": 855.842
@@ -79430,6 +81999,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -30.572,
     "z": -1099.696
@@ -79498,6 +82071,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 222.205,
     "z": -373.778
@@ -79553,6 +82130,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -476.301,
     "z": 845.805
@@ -79608,6 +82189,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -1561.537,
     "z": 126.326
@@ -79704,6 +82289,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -29.855,
     "z": -559.061
@@ -79804,6 +82393,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -426.809,
     "z": -1587.034
@@ -79885,6 +82478,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -149.628,
     "z": 871.266
@@ -79961,6 +82558,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": -382.409,
     "z": -1012.952
@@ -80029,6 +82630,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1002.338,
     "z": -679.731
@@ -80124,6 +82729,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 610.238,
     "z": 156.996
@@ -80179,6 +82788,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1905.044,
     "z": -374.024
@@ -80247,6 +82860,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 240.678,
     "z": -401.394
@@ -80311,6 +82928,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -492.63,
     "z": 874.662
@@ -80391,6 +83012,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 216.13,
     "z": -423.759
@@ -80451,6 +83076,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 937.832,
     "z": 964.413
@@ -80567,6 +83196,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0.5,
+    "crane": false
+   },
    "position": {
     "x": 604.319,
     "z": 122.203
@@ -80639,6 +83272,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 59.854,
     "z": 117.842
@@ -80699,6 +83336,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 239.968,
     "z": -446.885
@@ -80763,6 +83404,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1916.063,
     "z": -342.699
@@ -80831,6 +83476,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1212.573,
     "z": -262.952
@@ -80907,6 +83556,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 570.246,
     "z": 123.734
@@ -80967,6 +83620,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1883.981,
     "z": -334.173
@@ -81022,6 +83679,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 653.747,
     "z": -1493.683
@@ -81086,6 +83747,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1819.352,
     "z": 31.404
@@ -81174,6 +83839,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1887.116,
     "z": -301.118
@@ -81229,6 +83898,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1559.65,
     "z": -905.935
@@ -81293,6 +83966,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 220.611,
     "z": -473.863
@@ -81377,6 +84054,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 586.519,
     "z": 415.805
@@ -81437,6 +84118,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1853.91,
     "z": -300.529
@@ -81513,6 +84198,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 1,
+    "crane": false
+   },
    "position": {
     "x": 1821.145,
     "z": 356.913
@@ -81568,6 +84257,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -47.832,
     "z": -586.664
@@ -81652,6 +84345,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": -519.408,
     "z": 855.068
@@ -81882,6 +84579,10 @@
      }
     }
    ],
+   "construction": {
+    "frac": 0,
+    "crane": false
+   },
    "position": {
     "x": 1036.158,
     "z": -666.872
@@ -82064,7 +84765,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 246,
-   "specCount": 21
+   "specCount": 21,
+   "union": null
   },
   "accounting-l3": {
    "groupDir": "accounting-l3",
@@ -82236,7 +84938,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 327,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "accounting-untiered": {
    "groupDir": "accounting-untiered",
@@ -82398,7 +85101,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 225,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "ai-l2": {
    "groupDir": "ai-l2",
@@ -82570,7 +85274,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 210,
-   "specCount": 12
+   "specCount": 12,
+   "union": null
   },
   "ai-l3": {
    "groupDir": "ai-l3",
@@ -82735,7 +85440,14 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 223,
-   "specCount": 3
+   "specCount": 3,
+   "union": {
+    "parents": [
+     "ai-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/ai-l3/UNION-SPEC.md"
+   }
   },
   "ai-untiered": {
    "groupDir": "ai-untiered",
@@ -82898,7 +85610,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 199,
-   "specCount": 9
+   "specCount": 9,
+   "union": null
   },
   "analytics-l1": {
    "groupDir": "analytics-l1",
@@ -83050,7 +85763,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 190,
-   "specCount": 17
+   "specCount": 17,
+   "union": null
   },
   "analytics-l2": {
    "groupDir": "analytics-l2",
@@ -83202,7 +85916,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 196,
-   "specCount": 129
+   "specCount": 129,
+   "union": null
   },
   "analytics-l3": {
    "groupDir": "analytics-l3",
@@ -83346,7 +86061,14 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 206,
-   "specCount": 54
+   "specCount": 54,
+   "union": {
+    "parents": [
+     "analytics-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/analytics-l3/UNION-SPEC.md"
+   }
   },
   "cloud-infrastructure-hosting-l2": {
    "groupDir": "cloud-infrastructure-hosting-l2",
@@ -83504,7 +86226,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 150,
-   "specCount": 6
+   "specCount": 6,
+   "union": null
   },
   "cloud-infrastructure-hosting-l3": {
    "groupDir": "cloud-infrastructure-hosting-l3",
@@ -83654,7 +86377,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 166,
-   "specCount": 6
+   "specCount": 6,
+   "union": null
   },
   "cloud-infrastructure-hosting-untiered": {
    "groupDir": "cloud-infrastructure-hosting-untiered",
@@ -83803,7 +86527,8 @@
    "controlsSource": null,
    "testFiles": 12,
    "testCount": 119,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "cms-l1": {
    "groupDir": "cms-l1",
@@ -83972,7 +86697,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 142,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "cms-l2": {
    "groupDir": "cms-l2",
@@ -84150,7 +86876,8 @@
    "controlsSource": null,
    "testFiles": 17,
    "testCount": 168,
-   "specCount": 5
+   "specCount": 5,
+   "union": null
   },
   "cms-l3": {
    "groupDir": "cms-l3",
@@ -84321,7 +87048,14 @@
    "controlsSource": null,
    "testFiles": 19,
    "testCount": 176,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "cms-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/cms-l3/UNION-SPEC.md"
+   }
   },
   "cms-untiered": {
    "groupDir": "cms-untiered",
@@ -84490,7 +87224,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 135,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "collaboration-l1": {
    "groupDir": "collaboration-l1",
@@ -84647,7 +87382,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 230,
-   "specCount": 10
+   "specCount": 10,
+   "union": null
   },
   "collaboration-l2": {
    "groupDir": "collaboration-l2",
@@ -84813,7 +87549,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 280,
-   "specCount": 60
+   "specCount": 60,
+   "union": null
   },
   "collaboration-l3": {
    "groupDir": "collaboration-l3",
@@ -84981,7 +87718,14 @@
    "controlsSource": null,
    "testFiles": 20,
    "testCount": 310,
-   "specCount": 18
+   "specCount": 18,
+   "union": {
+    "parents": [
+     "collaboration-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/collaboration-l3/UNION-SPEC.md"
+   }
   },
   "communication-l1": {
    "groupDir": "communication-l1",
@@ -85141,7 +87885,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 115,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "communication-l2": {
    "groupDir": "communication-l2",
@@ -85310,7 +88055,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 126,
-   "specCount": 11
+   "specCount": 11,
+   "union": null
   },
   "communication-l3": {
    "groupDir": "communication-l3",
@@ -85481,7 +88227,14 @@
    "controlsSource": null,
    "testFiles": 22,
    "testCount": 207,
-   "specCount": 7
+   "specCount": 7,
+   "union": {
+    "parents": [
+     "communication-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/communication-l3/UNION-SPEC.md"
+   }
   },
   "communication-untiered": {
    "groupDir": "communication-untiered",
@@ -85641,7 +88394,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 140,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "construction-l2": {
    "groupDir": "construction-l2",
@@ -85830,7 +88584,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 177,
-   "specCount": 4
+   "specCount": 4,
+   "union": null
   },
   "construction-untiered": {
    "groupDir": "construction-untiered",
@@ -86019,7 +88774,8 @@
    "controlsSource": null,
    "testFiles": 17,
    "testCount": 185,
-   "specCount": 6
+   "specCount": 6,
+   "union": null
   },
   "contact-center-l2": {
    "groupDir": "contact-center-l2",
@@ -86199,7 +88955,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 155,
-   "specCount": 5
+   "specCount": 5,
+   "union": null
   },
   "contract-management-l2": {
    "groupDir": "contract-management-l2",
@@ -86352,7 +89109,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 147,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "crm-l1": {
    "groupDir": "crm-l1",
@@ -86523,7 +89281,14 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 144,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "crm-l2"
+    ],
+    "kind": "carry-down",
+    "spec": "groups/crm-l1/UNION-SPEC.md"
+   }
   },
   "crm-l2": {
    "groupDir": "crm-l2",
@@ -86694,7 +89459,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 134,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "crm-l3": {
    "groupDir": "crm-l3",
@@ -86867,7 +89633,14 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 185,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "crm-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/crm-l3/UNION-SPEC.md"
+   }
   },
   "crm-untiered": {
    "groupDir": "crm-untiered",
@@ -87038,7 +89811,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 133,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "customer-service-l1": {
    "groupDir": "customer-service-l1",
@@ -87208,7 +89982,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 154,
-   "specCount": 3
+   "specCount": 3,
+   "union": null
   },
   "customer-service-l2": {
    "groupDir": "customer-service-l2",
@@ -87369,7 +90144,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 127,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "customer-service-l3": {
    "groupDir": "customer-service-l3",
@@ -87541,7 +90317,15 @@
    "controlsSource": null,
    "testFiles": 19,
    "testCount": 192,
-   "specCount": 2
+   "specCount": 2,
+   "union": {
+    "parents": [
+     "customer-service-l1",
+     "customer-service-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/customer-service-l3/UNION-SPEC.md"
+   }
   },
   "cybersecurity-l1": {
    "groupDir": "cybersecurity-l1",
@@ -87847,7 +90631,8 @@
    "controlsSource": "groups/cybersecurity-l1/src/cyber/catalog.py",
    "testFiles": 16,
    "testCount": 246,
-   "specCount": 6
+   "specCount": 6,
+   "union": null
   },
   "cybersecurity-l2": {
    "groupDir": "cybersecurity-l2",
@@ -88144,7 +90929,8 @@
    "controlsSource": "groups/cybersecurity-l2/src/cyber/catalog.py",
    "testFiles": 15,
    "testCount": 233,
-   "specCount": 72
+   "specCount": 72,
+   "union": null
   },
   "cybersecurity-l3": {
    "groupDir": "cybersecurity-l3",
@@ -88452,7 +91238,8 @@
    "controlsSource": "groups/cybersecurity-l3/src/cyber/catalog.py",
    "testFiles": 20,
    "testCount": 307,
-   "specCount": 18
+   "specCount": 18,
+   "union": null
   },
   "cybersecurity-untiered": {
    "groupDir": "cybersecurity-untiered",
@@ -88749,7 +91536,8 @@
    "controlsSource": "groups/cybersecurity-untiered/src/cyber/catalog.py",
    "testFiles": 15,
    "testCount": 222,
-   "specCount": 27
+   "specCount": 27,
+   "union": null
   },
   "data-management-l1": {
    "groupDir": "data-management-l1",
@@ -88939,7 +91727,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 272,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "data-management-l2": {
    "groupDir": "data-management-l2",
@@ -89120,7 +91909,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 257,
-   "specCount": 13
+   "specCount": 13,
+   "union": null
   },
   "data-management-l3": {
    "groupDir": "data-management-l3",
@@ -89302,7 +92092,14 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 293,
-   "specCount": 2
+   "specCount": 2,
+   "union": {
+    "parents": [
+     "data-management-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/data-management-l3/UNION-SPEC.md"
+   }
   },
   "data-management-untiered": {
    "groupDir": "data-management-untiered",
@@ -89483,7 +92280,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 241,
-   "specCount": 8
+   "specCount": 8,
+   "union": null
   },
   "development-tools-l1": {
    "groupDir": "development-tools-l1",
@@ -89651,7 +92449,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 109,
-   "specCount": 5
+   "specCount": 5,
+   "union": null
   },
   "development-tools-l2": {
    "groupDir": "development-tools-l2",
@@ -89828,7 +92627,8 @@
    "controlsSource": null,
    "testFiles": 17,
    "testCount": 144,
-   "specCount": 6
+   "specCount": 6,
+   "union": null
   },
   "development-tools-l3": {
    "groupDir": "development-tools-l3",
@@ -89998,7 +92798,14 @@
    "controlsSource": null,
    "testFiles": 20,
    "testCount": 148,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "development-tools-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/development-tools-l3/UNION-SPEC.md"
+   }
   },
   "development-tools-untiered": {
    "groupDir": "development-tools-untiered",
@@ -90166,7 +92973,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 108,
-   "specCount": 7
+   "specCount": 7,
+   "union": null
   },
   "education-training-l1": {
    "groupDir": "education-training-l1",
@@ -90332,7 +93140,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 102,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "education-training-l2": {
    "groupDir": "education-training-l2",
@@ -90498,7 +93307,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 116,
-   "specCount": 9
+   "specCount": 9,
+   "union": null
   },
   "education-training-untiered": {
    "groupDir": "education-training-untiered",
@@ -90664,7 +93474,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 128,
-   "specCount": 6
+   "specCount": 6,
+   "union": null
   },
   "energy-management-l1": {
    "groupDir": "energy-management-l1",
@@ -90824,7 +93635,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 115,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "enterprise-resource-planning-l2": {
    "groupDir": "enterprise-resource-planning-l2",
@@ -91028,7 +93840,8 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 118,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "event-management-l1": {
    "groupDir": "event-management-l1",
@@ -91188,7 +94001,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 101,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "finance-l2": {
    "groupDir": "finance-l2",
@@ -91368,7 +94182,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 308,
-   "specCount": 6
+   "specCount": 6,
+   "union": null
   },
   "finance-l3": {
    "groupDir": "finance-l3",
@@ -91549,7 +94364,14 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 323,
-   "specCount": 2
+   "specCount": 2,
+   "union": {
+    "parents": [
+     "finance-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/finance-l3/UNION-SPEC.md"
+   }
   },
   "finance-untiered": {
    "groupDir": "finance-untiered",
@@ -91720,7 +94542,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 256,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "fleet-management-l1": {
    "groupDir": "fleet-management-l1",
@@ -91884,7 +94707,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 97,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "fleet-management-l2": {
    "groupDir": "fleet-management-l2",
@@ -92039,7 +94863,14 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 79,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "fleet-management-l1"
+    ],
+    "kind": "carry-up",
+    "spec": "groups/fleet-management-l2/UNION-SPEC.md"
+   }
   },
   "fleet-management-untiered": {
    "groupDir": "fleet-management-untiered",
@@ -92203,7 +95034,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 111,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "grant-management-l2": {
    "groupDir": "grant-management-l2",
@@ -92363,7 +95195,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 135,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "grc-l1": {
    "groupDir": "grc-l1",
@@ -92637,7 +95470,8 @@
    "controlsSource": "groups/grc-l1/src/grc/catalog.py",
    "testFiles": 13,
    "testCount": 142,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "grc-l2": {
    "groupDir": "grc-l2",
@@ -92920,7 +95754,8 @@
    "controlsSource": "groups/grc-l2/src/grc/catalog.py",
    "testFiles": 15,
    "testCount": 194,
-   "specCount": 7
+   "specCount": 7,
+   "union": null
   },
   "grc-l3": {
    "groupDir": "grc-l3",
@@ -93204,7 +96039,14 @@
    "controlsSource": "groups/grc-l3/src/grc/catalog.py",
    "testFiles": 19,
    "testCount": 228,
-   "specCount": 2
+   "specCount": 2,
+   "union": {
+    "parents": [
+     "grc-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/grc-l3/UNION-SPEC.md"
+   }
   },
   "grc-untiered": {
    "groupDir": "grc-untiered",
@@ -93478,7 +96320,8 @@
    "controlsSource": "groups/grc-untiered/src/grc/catalog.py",
    "testFiles": 14,
    "testCount": 194,
-   "specCount": 15
+   "specCount": 15,
+   "union": null
   },
   "health-wellness-l1": {
    "groupDir": "health-wellness-l1",
@@ -93644,7 +96487,14 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 99,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "health-wellness-l2"
+    ],
+    "kind": "carry-down",
+    "spec": "groups/health-wellness-l1/UNION-SPEC.md"
+   }
   },
   "health-wellness-l2": {
    "groupDir": "health-wellness-l2",
@@ -93828,7 +96678,8 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 175,
-   "specCount": 9
+   "specCount": 9,
+   "union": null
   },
   "health-wellness-l3": {
    "groupDir": "health-wellness-l3",
@@ -93996,7 +96847,14 @@
    "controlsSource": null,
    "testFiles": 19,
    "testCount": 147,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "health-wellness-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/health-wellness-l3/UNION-SPEC.md"
+   }
   },
   "health-wellness-untiered": {
    "groupDir": "health-wellness-untiered",
@@ -94171,7 +97029,8 @@
    "controlsSource": null,
    "testFiles": 17,
    "testCount": 162,
-   "specCount": 4
+   "specCount": 4,
+   "union": null
   },
   "human-resources-l1": {
    "groupDir": "human-resources-l1",
@@ -94351,7 +97210,14 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 120,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "human-resources-l2"
+    ],
+    "kind": "carry-down",
+    "spec": "groups/human-resources-l1/UNION-SPEC.md"
+   }
   },
   "human-resources-l2": {
    "groupDir": "human-resources-l2",
@@ -94540,7 +97406,8 @@
    "controlsSource": null,
    "testFiles": 19,
    "testCount": 176,
-   "specCount": 7
+   "specCount": 7,
+   "union": null
   },
   "human-resources-untiered": {
    "groupDir": "human-resources-untiered",
@@ -94720,7 +97587,8 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 132,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "law-enforcement-l1": {
    "groupDir": "law-enforcement-l1",
@@ -94853,7 +97721,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 110,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "law-enforcement-l2": {
    "groupDir": "law-enforcement-l2",
@@ -94986,7 +97855,8 @@
    "controlsSource": null,
    "testFiles": 13,
    "testCount": 110,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "law-enforcement-l3": {
    "groupDir": "law-enforcement-l3",
@@ -95130,7 +98000,14 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 196,
-   "specCount": 3
+   "specCount": 3,
+   "union": {
+    "parents": [
+     "law-enforcement-l2"
+    ],
+    "kind": "merge",
+    "spec": "groups/law-enforcement-l3/UNION-SPEC.md"
+   }
   },
   "law-enforcement-untiered": {
    "groupDir": "law-enforcement-untiered",
@@ -95263,7 +98140,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 133,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "learning-management-l1": {
    "groupDir": "learning-management-l1",
@@ -95453,7 +98331,8 @@
    "controlsSource": null,
    "testFiles": 21,
    "testCount": 170,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "learning-management-l2": {
    "groupDir": "learning-management-l2",
@@ -95658,7 +98537,8 @@
    "controlsSource": null,
    "testFiles": 21,
    "testCount": 201,
-   "specCount": 3
+   "specCount": 3,
+   "union": null
   },
   "learning-management-untiered": {
    "groupDir": "learning-management-untiered",
@@ -95845,7 +98725,8 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 146,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "legal-policy-l2": {
    "groupDir": "legal-policy-l2",
@@ -95990,7 +98871,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 176,
-   "specCount": 7
+   "specCount": 7,
+   "union": null
   },
   "legal-policy-untiered": {
    "groupDir": "legal-policy-untiered",
@@ -96126,7 +99008,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 130,
-   "specCount": 3
+   "specCount": 3,
+   "union": null
   },
   "library-systems-l1": {
    "groupDir": "library-systems-l1",
@@ -96249,7 +99132,8 @@
    "controlsSource": null,
    "testFiles": 12,
    "testCount": 66,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "manufacturing-untiered": {
    "groupDir": "manufacturing-untiered",
@@ -96377,7 +99261,8 @@
    "controlsSource": null,
    "testFiles": 10,
    "testCount": 73,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "marketing-sales-untiered": {
    "groupDir": "marketing-sales-untiered",
@@ -96558,7 +99443,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 111,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "media-untiered": {
    "groupDir": "media-untiered",
@@ -96722,7 +99608,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 102,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "mobile-device-management-l2": {
    "groupDir": "mobile-device-management-l2",
@@ -96893,7 +99780,8 @@
    "controlsSource": null,
    "testFiles": 19,
    "testCount": 157,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "network-management-l2": {
    "groupDir": "network-management-l2",
@@ -97036,7 +99924,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 114,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "network-management-untiered": {
    "groupDir": "network-management-untiered",
@@ -97179,7 +100068,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 124,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "operations-management-l1": {
    "groupDir": "operations-management-l1",
@@ -97366,7 +100256,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 211,
-   "specCount": 4
+   "specCount": 4,
+   "union": null
   },
   "operations-management-l2": {
    "groupDir": "operations-management-l2",
@@ -97562,7 +100453,8 @@
    "controlsSource": null,
    "testFiles": 18,
    "testCount": 249,
-   "specCount": 23
+   "specCount": 23,
+   "union": null
   },
   "operations-management-untiered": {
    "groupDir": "operations-management-untiered",
@@ -97740,7 +100632,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 161,
-   "specCount": 20
+   "specCount": 20,
+   "union": null
   },
   "research-l1": {
    "groupDir": "research-l1",
@@ -97884,7 +100777,14 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 142,
-   "specCount": 1
+   "specCount": 1,
+   "union": {
+    "parents": [
+     "research-l2"
+    ],
+    "kind": "carry-down",
+    "spec": "groups/research-l1/UNION-SPEC.md"
+   }
   },
   "research-l2": {
    "groupDir": "research-l2",
@@ -98037,7 +100937,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 163,
-   "specCount": 6
+   "specCount": 6,
+   "union": null
   },
   "research-untiered": {
    "groupDir": "research-untiered",
@@ -98181,7 +101082,8 @@
    "controlsSource": null,
    "testFiles": 14,
    "testCount": 132,
-   "specCount": 4
+   "specCount": 4,
+   "union": null
   },
   "storage-l2": {
    "groupDir": "storage-l2",
@@ -98354,7 +101256,8 @@
    "controlsSource": null,
    "testFiles": 17,
    "testCount": 122,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "storage-l3": {
    "groupDir": "storage-l3",
@@ -98529,7 +101432,8 @@
    "controlsSource": null,
    "testFiles": 21,
    "testCount": 161,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
   },
   "system-administration-l2": {
    "groupDir": "system-administration-l2",
@@ -98683,7 +101587,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 138,
-   "specCount": 9
+   "specCount": 9,
+   "union": null
   },
   "system-administration-untiered": {
    "groupDir": "system-administration-untiered",
@@ -98828,7 +101733,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 140,
-   "specCount": 5
+   "specCount": 5,
+   "union": null
   },
   "talent-development-untiered": {
    "groupDir": "talent-development-untiered",
@@ -98976,7 +101882,8 @@
    "controlsSource": null,
    "testFiles": 12,
    "testCount": 86,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "talent-management-l2": {
    "groupDir": "talent-management-l2",
@@ -99120,7 +102027,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 135,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "talent-management-untiered": {
    "groupDir": "talent-management-untiered",
@@ -99264,7 +102172,8 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 141,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "travel-management-l2": {
    "groupDir": "travel-management-l2",
@@ -99415,7 +102324,8 @@
    "controlsSource": null,
    "testFiles": 16,
    "testCount": 177,
-   "specCount": 2
+   "specCount": 2,
+   "union": null
   },
   "travel-management-untiered": {
    "groupDir": "travel-management-untiered",
@@ -99557,7 +102467,527 @@
    "controlsSource": null,
    "testFiles": 15,
    "testCount": 135,
-   "specCount": 1
+   "specCount": 1,
+   "union": null
+  }
+ },
+ "merges": [
+  {
+   "child": "ai-l3",
+   "parent": "ai-l2",
+   "kind": "merge",
+   "childDistrict": "ai-l3",
+   "parentDistrict": "ai-l2",
+   "childForks": 3,
+   "parentForks": 12,
+   "spec": "groups/ai-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "analytics-l3",
+   "parent": "analytics-l2",
+   "kind": "merge",
+   "childDistrict": "analytics-l3",
+   "parentDistrict": "analytics-l2",
+   "childForks": 54,
+   "parentForks": 129,
+   "spec": "groups/analytics-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "cms-l3",
+   "parent": "cms-l2",
+   "kind": "merge",
+   "childDistrict": "cms-l3",
+   "parentDistrict": "cms-l2",
+   "childForks": 1,
+   "parentForks": 5,
+   "spec": "groups/cms-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "collaboration-l3",
+   "parent": "collaboration-l2",
+   "kind": "merge",
+   "childDistrict": "collaboration-l3",
+   "parentDistrict": "collaboration-l2",
+   "childForks": 18,
+   "parentForks": 60,
+   "spec": "groups/collaboration-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "communication-l3",
+   "parent": "communication-l2",
+   "kind": "merge",
+   "childDistrict": "communication-l3",
+   "parentDistrict": "communication-l2",
+   "childForks": 7,
+   "parentForks": 11,
+   "spec": "groups/communication-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "crm-l1",
+   "parent": "crm-l2",
+   "kind": "carry-down",
+   "childDistrict": "uncategorized-l1",
+   "parentDistrict": "crm-l2",
+   "childForks": 1,
+   "parentForks": 2,
+   "spec": "groups/crm-l1/UNION-SPEC.md"
+  },
+  {
+   "child": "crm-l3",
+   "parent": "crm-l2",
+   "kind": "merge",
+   "childDistrict": "crm-l3",
+   "parentDistrict": "crm-l2",
+   "childForks": 1,
+   "parentForks": 2,
+   "spec": "groups/crm-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "customer-service-l3",
+   "parent": "customer-service-l1",
+   "kind": "merge",
+   "childDistrict": "customer-service-l3",
+   "parentDistrict": "customer-service-l1",
+   "childForks": 2,
+   "parentForks": 3,
+   "spec": "groups/customer-service-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "customer-service-l3",
+   "parent": "customer-service-l2",
+   "kind": "merge",
+   "childDistrict": "customer-service-l3",
+   "parentDistrict": "customer-service-l2",
+   "childForks": 2,
+   "parentForks": 2,
+   "spec": "groups/customer-service-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "data-management-l3",
+   "parent": "data-management-l2",
+   "kind": "merge",
+   "childDistrict": "data-management-l3",
+   "parentDistrict": "data-management-l2",
+   "childForks": 2,
+   "parentForks": 13,
+   "spec": "groups/data-management-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "development-tools-l3",
+   "parent": "development-tools-l2",
+   "kind": "merge",
+   "childDistrict": "uncategorized-l3",
+   "parentDistrict": "uncategorized-l2",
+   "childForks": 1,
+   "parentForks": 6,
+   "spec": "groups/development-tools-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "finance-l3",
+   "parent": "finance-l2",
+   "kind": "merge",
+   "childDistrict": "finance-l3",
+   "parentDistrict": "uncategorized-l2",
+   "childForks": 2,
+   "parentForks": 6,
+   "spec": "groups/finance-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "fleet-management-l2",
+   "parent": "fleet-management-l1",
+   "kind": "carry-up",
+   "childDistrict": "uncategorized-l2",
+   "parentDistrict": "fleet-management-l1",
+   "childForks": 1,
+   "parentForks": 2,
+   "spec": "groups/fleet-management-l2/UNION-SPEC.md"
+  },
+  {
+   "child": "grc-l3",
+   "parent": "grc-l2",
+   "kind": "merge",
+   "childDistrict": "grc-l3",
+   "parentDistrict": "uncategorized-l2",
+   "childForks": 2,
+   "parentForks": 7,
+   "spec": "groups/grc-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "health-wellness-l1",
+   "parent": "health-wellness-l2",
+   "kind": "carry-down",
+   "childDistrict": "uncategorized-l1",
+   "parentDistrict": "health-wellness-l2",
+   "childForks": 1,
+   "parentForks": 9,
+   "spec": "groups/health-wellness-l1/UNION-SPEC.md"
+  },
+  {
+   "child": "health-wellness-l3",
+   "parent": "health-wellness-l2",
+   "kind": "merge",
+   "childDistrict": "health-wellness-l3",
+   "parentDistrict": "health-wellness-l2",
+   "childForks": 1,
+   "parentForks": 9,
+   "spec": "groups/health-wellness-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "human-resources-l1",
+   "parent": "human-resources-l2",
+   "kind": "carry-down",
+   "childDistrict": "uncategorized-l1",
+   "parentDistrict": "human-resources-l2",
+   "childForks": 1,
+   "parentForks": 7,
+   "spec": "groups/human-resources-l1/UNION-SPEC.md"
+  },
+  {
+   "child": "law-enforcement-l3",
+   "parent": "law-enforcement-l2",
+   "kind": "merge",
+   "childDistrict": "law-enforcement-l3",
+   "parentDistrict": "law-enforcement-l2",
+   "childForks": 3,
+   "parentForks": 2,
+   "spec": "groups/law-enforcement-l3/UNION-SPEC.md"
+  },
+  {
+   "child": "research-l1",
+   "parent": "research-l2",
+   "kind": "carry-down",
+   "childDistrict": "uncategorized-l1",
+   "parentDistrict": "uncategorized-l2",
+   "childForks": 1,
+   "parentForks": 6,
+   "spec": "groups/research-l1/UNION-SPEC.md"
+  }
+ ],
+ "platformLayer": {
+  "decisions": [
+   {
+    "n": 1,
+    "title": "Identity and authentication",
+    "controls": "IA-2, IA-2(1)/(2), IA-5",
+    "text": "Multifactor authentication, authenticator management, identity proofing, and any identity-provider, SSO, directory, PAM, or IGA engine stay with the embedding organization and its identity provider. Builds ship RBAC and access hooks and demo identities that are explicitly hooks, not an IdP. No build in this repo is, or claims to be, an identity provider."
+   },
+   {
+    "n": 2,
+    "title": "FIPS-validated cryptography",
+    "controls": "SC-13",
+    "text": "No build claims FIPS-validated cryptography. The builds are Python standard library only; the standard library is not a FIPS-validated module. Where a fork's own platform carries a validation (for example a FIPS 140-2 Level 3 HSM), that posture is the fork's, is recorded as the fork's, and does not transfer to the build."
+   },
+   {
+    "n": 3,
+    "title": "Encryption at rest and in transit",
+    "controls": "SC-28, SC-8",
+    "text": "Encryption at rest is a deployment-layer property of the storage the embedding organization provisions. Encryption in transit is TLS when configured at deployment. Builds perform no cryptography of their own except where a group's spec explicitly implements a mechanism (for example hash-chained audit), and never claim a validated module for it."
+   },
+   {
+    "n": 4,
+    "title": "Audit retention enforcement",
+    "controls": "AU-11",
+    "text": "Builds produce append-only audit records and never delete them. Retention-period enforcement — how long records are kept, and their eventual disposition — is the embedding organization's records schedule, executed at the deployment layer."
+   },
+   {
+    "n": 5,
+    "title": "Session lock and termination",
+    "controls": "AC-11, AC-12",
+    "text": "Builds authenticate per request and are stateless between requests; there is no build-side session to lock or terminate. Session policy belongs to the embedding organization's access layer in front of the build."
+   },
+   {
+    "n": 6,
+    "title": "Hosting substrate and platform umbrella",
+    "controls": null,
+    "text": "A fork's hosting substrate (a named cloud, region, or impact-level posture of its own platform) does not transfer to the build. Multi-tenancy, hosting, and console surfaces are deployment properties unless a group's own spec claims a records function for them, in which case that function is a build gap in its own name — never closed by this umbrella decision."
+   }
+  ],
+  "rescoped": [
+   {
+    "group": 2,
+    "section": "Collaboration L2",
+    "text": "Meetings / video media transport (coordination surface is core; a stdlib build carries no A/V)",
+    "district": "collaboration-l2",
+    "buildGroup": "collaboration-l2"
+   },
+   {
+    "group": 3,
+    "section": "Analytics L3-adjacent",
+    "text": "MFA / authenticator management (IA-2(1)/(2), IA-5) — IdP layer, hooks only",
+    "district": "analytics-l3",
+    "buildGroup": "analytics-l3"
+   },
+   {
+    "group": 3,
+    "section": "Analytics L3-adjacent",
+    "text": "FIPS-validated cryptography (SC-13) — Python stdlib is not a validated module; not claimed",
+    "district": "analytics-l3",
+    "buildGroup": "analytics-l3"
+   },
+   {
+    "group": 3,
+    "section": "Analytics L3-adjacent",
+    "text": "Encryption at rest (SC-28) — deployment layer",
+    "district": "analytics-l3",
+    "buildGroup": "analytics-l3"
+   },
+   {
+    "group": 3,
+    "section": "Analytics L3-adjacent",
+    "text": "Audit retention enforcement (AU-11)",
+    "district": "analytics-l3",
+    "buildGroup": "analytics-l3"
+   },
+   {
+    "group": 3,
+    "section": "Analytics L3-adjacent",
+    "text": "Session lock / termination (AC-11/AC-12) — stateless per-request auth in the current build",
+    "district": "analytics-l3",
+    "buildGroup": "analytics-l3"
+   },
+   {
+    "group": 4,
+    "section": "Cybersecurity & Risk Management L2",
+    "text": "Detection engines and staffed SOC services (13) — ingestion and triage of their output is core",
+    "district": "cybersecurity-l2",
+    "buildGroup": "cybersecurity-l2"
+   },
+   {
+    "group": 8,
+    "section": "Cybersecurity & Risk Management L3-adjacent",
+    "text": "Identity products (IdP / PAM / IGA / MFA engines)",
+    "district": "cybersecurity-l3",
+    "buildGroup": "cybersecurity-l3"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Identity provider / identity management service (the build ships RBAC hooks; IA-2 stays with the embedding organization)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Identity provider / MFA / SSO service",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Identity provider / federation service (the fork federates identity with enforced MFA; IA-2 stays with the embedding organization)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "FIPS-validated cryptography (claimed by the fork's own platform; the standard library is not a validated module and none is claimed)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "FIPS-validated cryptography (SC-13; the fork's platform property — the build claims no validated cryptography)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "HSM as a Service: cloud HSM & key-management service (AuthentX; distinct from the SC-13 platform gap; the fork's own FIPS 140-2 Level 3 HSM certification is its platform property and does not transfer to this build)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Identity provider / registration verification service (registration records are not identity proofing; IA-2 stays with the embedding organization)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Identity provider / candidate identity verification (IA-2 stays with the embedding organization)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Detection engines & staffed SOC operations (9)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Encryption & key-management platform layer (the build performs no cryptography; the platform layer includes the SC-13 note)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer (multi-tenancy, encryption at rest, TLS by deployment)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer (encryption at rest, TLS-when-configured, multi-tenancy, demo identities not an IdP)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer (encryption at rest, TLS-when-configured, multi-tenancy, demo identities not an IdP)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Workspace multi-tenancy / platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer (the AWS GovCloud substrate one fork names)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer (hosting and the single-browser-window console)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Identity provider / SSO / directory services (IA-2 stays with the embedding organization)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Identity provider (IA-2 stays with the embedding organization)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Stronger authentication (IA-2(1)/(2)/IA-5) — an identity-provider property, not taken as an uplift",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "FIPS-validated cryptography (SC-13)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Encryption at rest (SC-28)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Audit retention (AU-11)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Session lock / termination (AC-11/AC-12)",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   },
+   {
+    "group": 36,
+    "section": "Operations Management L2",
+    "text": "Platform layer: the fork's GovCloud / ITAR / CJIS / HIPAA posture does not transfer to the build; FIPS-validated cryptography (SC-13) is not claimed",
+    "district": "operations-management-l2",
+    "buildGroup": "operations-management-l2"
+   }
+  ],
+  "deckAnchor": {
+   "x": -48,
+   "z": 26,
+   "rotationY": 1.917
   }
  }
 }

@@ -282,5 +282,206 @@ if (changedVendors.length === 1) {
     a.position.x === b.position.x && a.position.z === b.position.z && a.rotationY === b.rotationY);
 }
 
+/* ================= Phase 4: merges, platform, construction =================
+ * Three records join the catalog, each derived from a DeadRamp source
+ * outside forks.json: union lineage (groups/<g>/UNION-SPEC.md), the
+ * platform layer (PLATFORM-LAYER.md decisions + GAPS.md re-scoped
+ * entries), and per-vendor construction state (offering statuses).
+ * Each is re-derived here independently, then pinned by controls. */
+const districtIds = new Set(cat.districts.map((d) => d.id));
+
+console.log('\n[phase 4: union merges]');
+/* Independent derivation: a build has a parent build iff its spec
+ * sheet says, in so many words, that it does not start from zero
+ * (exactly 18 spec sheets say that, and no other spec sheet does);
+ * the parents are the group links in the bold-build parenthetical of
+ * its Lineage section. */
+const unionExpected = new Map();
+for (const g of fs.readdirSync(path.join(DEADRAMP_ROOT, 'groups')).sort()) {
+  const p = path.join(DEADRAMP_ROOT, 'groups', g, 'UNION-SPEC.md');
+  if (!fs.existsSync(p)) continue;
+  const text = fs.readFileSync(p, 'utf8');
+  if (!text.includes('does not start from zero')) continue;
+  const seg = text.slice(text.indexOf('## Lineage')).replace(/\s+/g, ' ');
+  const pm = seg.match(/\*\*[^*]*build\*\*\s*\(([^)]*)\)/);
+  unionExpected.set(g, pm ? [...pm[1].matchAll(/\.\.\/([a-z0-9-]+)\//g)].map((m) => m[1]) : []);
+}
+check('exactly 18 builds declare they do not start from zero', unionExpected.size === 18,
+  `found ${unionExpected.size}`);
+check('every declared build parsed at least one parent',
+  [...unionExpected.values()].every((ps) => ps.length >= 1),
+  'a spec declaring a merge must never parse to zero parents');
+const catEdges = cat.merges.map((m) => `${m.child}<-${m.parent}`).sort();
+const expEdges = [];
+for (const [child, parents] of unionExpected) for (const p of parents) expEdges.push(`${child}<-${p}`);
+expEdges.sort();
+check('catalog merge edges equal the lineage records exactly (19 edges)',
+  JSON.stringify(catEdges) === JSON.stringify(expEdges),
+  `catalog ${catEdges.length} vs records ${expEdges.length}`);
+const parentsOf = (child) => cat.merges.filter((m) => m.child === child).map((m) => m.parent).sort();
+check('pin: ai-l3 merges ai-l2 only', JSON.stringify(parentsOf('ai-l3')) === '["ai-l2"]');
+check('pin: customer-service-l3 merges both lower tiers of its category',
+  JSON.stringify(parentsOf('customer-service-l3')) === '["customer-service-l1","customer-service-l2"]',
+  JSON.stringify(parentsOf('customer-service-l3')));
+check('pin: health-wellness-l1 carries from l2 only (a prose mention of l3 is not a parent)',
+  JSON.stringify(parentsOf('health-wellness-l1')) === '["health-wellness-l2"]',
+  JSON.stringify(parentsOf('health-wellness-l1')));
+check('pin: merge kinds from the lineage headings',
+  cat.merges.find((m) => m.child === 'crm-l1').kind === 'carry-down'
+  && cat.merges.find((m) => m.child === 'fleet-management-l2').kind === 'carry-up'
+  && cat.merges.find((m) => m.child === 'ai-l3').kind === 'merge');
+check('every merge endpoint is a real build record',
+  cat.merges.every((m) => cat.builds[m.child] && cat.builds[m.parent]));
+check('merge fork counts are the builds\u2019 own spec counts',
+  cat.merges.every((m) => m.childForks === cat.builds[m.child].specCount && m.parentForks === cat.builds[m.parent].specCount));
+/* Anchors re-derived from the rooms: plurality district per build. */
+const anchorOf = (g) => {
+  const counts = new Map();
+  for (const v of cat.vendors) for (const o of v.offerings) {
+    if (o.room.buildGroup !== g) continue;
+    counts.set(o.district, (counts.get(o.district) || 0) + 1);
+  }
+  let best = null;
+  for (const [d, c] of counts) if (!best || c > best.c || (c === best.c && d < best.d)) best = { d, c };
+  return best ? best.d : null;
+};
+check('merge anchors are the builds\u2019 plurality districts, recomputed from the rooms',
+  cat.merges.every((m) => m.childDistrict === anchorOf(m.child) && m.parentDistrict === anchorOf(m.parent)));
+check('every bridge joins two different districts',
+  cat.merges.every((m) => m.childDistrict !== m.parentDistrict
+    && districtIds.has(m.childDistrict) && districtIds.has(m.parentDistrict)));
+check('build records carry their union (or null) and the spec path',
+  cat.builds['ai-l3'].union && cat.builds['ai-l3'].union.spec === 'groups/ai-l3/UNION-SPEC.md'
+  && cat.builds['ai-l2'].union === null);
+
+console.log('\n[phase 4: platform layer]');
+const plText = fs.readFileSync(path.join(DEADRAMP_ROOT, 'PLATFORM-LAYER.md'), 'utf8');
+const gapsText = fs.readFileSync(path.join(DEADRAMP_ROOT, 'GAPS.md'), 'utf8');
+const expTitles = [...plText.matchAll(/^\d+\.\s+\*\*(.+?)\*\*/gm)]
+  .map((m) => m[1].replace(/\.\s*$/, '').replace(/\s*\((.*)\)\s*$/, '').trim());
+check('platform decisions: exactly the six of PLATFORM-LAYER.md',
+  cat.platformLayer.decisions.length === 6
+  && JSON.stringify(cat.platformLayer.decisions.map((d) => d.title)) === JSON.stringify(expTitles),
+  JSON.stringify(cat.platformLayer.decisions.map((d) => d.title)));
+check('decision control citations carried where the decision names them',
+  cat.platformLayer.decisions[0].controls === 'IA-2, IA-2(1)/(2), IA-5'
+  && cat.platformLayer.decisions[1].controls === 'SC-13'
+  && cat.platformLayer.decisions[5].controls === null);
+check('decision bodies are the decision text itself (non-empty, bounded)',
+  cat.platformLayer.decisions.every((d) => d.text.length > 100 && d.text.length <= 701));
+const expRescopedCount = (gapsText.match(/^- \[x\] re-scoped — /gm) || []).length;
+check('re-scoped entries: catalog equals the GAPS.md record',
+  cat.platformLayer.rescoped.length === expRescopedCount && expRescopedCount === 40,
+  `catalog ${cat.platformLayer.rescoped.length} vs GAPS.md ${expRescopedCount}`);
+check('every re-scoped entry text is verbatim in GAPS.md',
+  cat.platformLayer.rescoped.every((e) => gapsText.includes(e.text)));
+const sectionCounts = {};
+for (const e of cat.platformLayer.rescoped) sectionCounts[e.group] = (sectionCounts[e.group] || 0) + 1;
+check('re-scoped entries by owning GAPS section (2:1, 3:5, 4:1, 8:1, 36:32)',
+  JSON.stringify(sectionCounts) === JSON.stringify({ 2: 1, 3: 5, 4: 1, 8: 1, 36: 32 }),
+  JSON.stringify(sectionCounts));
+check('every re-scoped entry resolves to a real district and build',
+  cat.platformLayer.rescoped.every((e) => e.district && districtIds.has(e.district) && cat.builds[e.buildGroup]));
+check('the platform deck anchor is a fixed plaza constant facing spawn',
+  cat.platformLayer.deckAnchor.x === -48 && cat.platformLayer.deckAnchor.z === 26
+  && Math.abs(cat.platformLayer.deckAnchor.rotationY - 1.917) < 0.01);
+
+console.log('\n[phase 4: construction states]');
+let fracOk = true;
+for (const v of cat.vendors) {
+  const pend = v.offerings.filter((o) => o.authorization_status !== 'FedRAMP Certified').length;
+  if (Math.abs(pend / v.offerings.length - v.construction.frac) > 0.0011) fracOk = false;
+}
+check('construction frac equals each vendor\u2019s pending-offering share, recomputed', fracOk);
+check('certified vendors are finished (frac 0); pipeline vendors fully pending (frac 1); mixed in between',
+  cat.vendors.every((v) => (v.statusClass === 'certified' && v.construction.frac === 0)
+    || (v.statusClass === 'pipeline' && v.construction.frac === 1)
+    || (v.statusClass === 'mixed' && v.construction.frac > 0 && v.construction.frac < 1)));
+/* Crane rule re-derived: per district, >= 3 fully-pipeline buildings;
+ * the tallest (registry order breaks ties) carries the crane. */
+const craneExpected = new Set();
+{
+  const byD = new Map();
+  for (const v of cat.vendors) {
+    if (v.kind !== 'building' || v.statusClass !== 'pipeline') continue;
+    if (!byD.has(v.district)) byD.set(v.district, []);
+    byD.get(v.district).push(v);
+  }
+  const sizeOf = (n) => Math.min(60, 9 + 6 * (n - 1) + (n >= 5 ? 6 : 0));
+  for (const list of byD.values()) {
+    if (list.length < 3) continue;
+    const t = list.slice().sort((a, b) => sizeOf(b.offeringCount) - sizeOf(a.offeringCount)
+      || Math.min(...a.offerings.map((o) => o.registryIndex)) - Math.min(...b.offerings.map((o) => o.registryIndex)))[0];
+    craneExpected.add(t.name);
+  }
+}
+const craneActual = new Set(cat.vendors.filter((v) => v.construction.crane).map((v) => v.name));
+check('cranes equal the district rule, re-derived (17 expected)',
+  JSON.stringify([...craneActual].sort()) === JSON.stringify([...craneExpected].sort()) && craneActual.size === 17,
+  `catalog ${craneActual.size} vs rule ${craneExpected.size}`);
+check('the surveyed lot carries no crane',
+  cat.vendors.filter((v) => v.kind === 'lot').every((v) => !v.construction.crane));
+
+/* Negative control (data removal): the sparse tree has spec sheets
+ * only — no UNION-SPEC.md in it, and its root has no GAPS.md or
+ * PLATFORM-LAYER.md — so its catalog must carry zero merges and zero
+ * platform entries. mutCat2 above is exactly that export. */
+console.log('\n[phase 4 controls: source records removed]');
+check('control: with the union/platform sources absent, merges are zero',
+  Array.isArray(mutCat2.merges) && mutCat2.merges.length === 0,
+  `sparse catalog merges: ${mutCat2.merges && mutCat2.merges.length}`);
+check('control: with the sources absent, platform decisions and entries are zero',
+  mutCat2.platformLayer.decisions.length === 0 && mutCat2.platformLayer.rescoped.length === 0);
+check('control: with the sources absent, every build union is null',
+  Object.values(mutCat2.builds).every((b) => b.union === null));
+
+/* Negative control (status flip): one certified vendor's only
+ * offering flips to In Process in a registry copy. Its construction
+ * frac must go 0 -> 1; merges, platform layer and districts must not
+ * move; and no other vendor's construction may change. The target is
+ * chosen so the crane rule cannot shift: a district that already has
+ * a pipeline building taller than any single-offering tower. */
+console.log('\n[phase 4 controls: authorization status flip]');
+{
+  const sizeOf = (n) => Math.min(60, 9 + 6 * (n - 1) + (n >= 5 ? 6 : 0));
+  const byDistrict = new Map();
+  for (const v of cat.vendors) {
+    if (!byDistrict.has(v.district)) byDistrict.set(v.district, []);
+    byDistrict.get(v.district).push(v);
+  }
+  let target = null;
+  for (const list of byDistrict.values()) {
+    const tallestPipe = Math.max(0, ...list.filter((v) => v.statusClass === 'pipeline').map((v) => sizeOf(v.offeringCount)));
+    if (tallestPipe <= 9) continue;
+    target = list.find((v) => v.statusClass === 'certified' && v.offeringCount === 1) || null;
+    if (target) break;
+  }
+  check('flip control found a certified single-offering target under a taller pipeline building', !!target,
+    target ? target.name : 'none');
+  if (target) {
+    const forksFlip = JSON.parse(fs.readFileSync(FORKS, 'utf8'));
+    const hit = forksFlip.find((f) => f.vendor === target.name);
+    hit.authorization_status = 'FedRAMP In Process';
+    const flipPath = path.join(tmp, 'forks-flip.json');
+    const flipOut = path.join(tmp, 'flip-catalog.json');
+    fs.writeFileSync(flipPath, JSON.stringify(forksFlip));
+    runExporter(flipPath, flipOut);
+    const flipCat = JSON.parse(fs.readFileSync(flipOut, 'utf8'));
+    const flipVendor = flipCat.vendors.find((v) => v.name === target.name);
+    check('flip: the flipped vendor\u2019s construction goes 0 -> 1',
+      target.construction.frac === 0 && flipVendor.construction.frac === 1,
+      `${target.name}: ${target.construction.frac} -> ${flipVendor.construction.frac}`);
+    const changed = flipCat.vendors.filter((v, i) =>
+      JSON.stringify(v.construction) !== JSON.stringify(cat.vendors[i].construction)).map((v) => v.name);
+    check('flip: no other vendor\u2019s construction record changes (cranes included)',
+      JSON.stringify(changed) === JSON.stringify([target.name]), JSON.stringify(changed));
+    check('flip: merges and platform layer are untouched by a status change',
+      JSON.stringify(flipCat.merges) === JSON.stringify(cat.merges)
+      && JSON.stringify(flipCat.platformLayer) === JSON.stringify(cat.platformLayer));
+    check('flip: districts are untouched by a status change',
+      JSON.stringify(flipCat.districts) === JSON.stringify(cat.districts));
+  }
+}
+
 console.log(failures === 0 ? '\nALL TESTS PASSED' : `\n${failures} TEST(S) FAILED`);
 process.exit(failures === 0 ? 0 : 1);

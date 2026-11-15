@@ -347,3 +347,110 @@ running in order and failing cleanly. Headless Chrome has no XR
 runtime, so presentation itself (pose, locomotion feel, in-headset
 legibility, frame rate on device) is verified on Aries's Quest 2;
 the checklist is in the v0.3.0 release notes.
+
+## Phase 4: skybridges, the platform deck, construction states
+
+Three more records from DeadRamp become architecture. All three
+are derived in the exporter from the source records and emitted in
+the catalog; the client builds them at load and hardcodes nothing
+per vendor.
+
+### Union merges become skybridges
+
+DeadRamp's merge record is a record of merged *builds*, not merged
+vendors. A group build's `UNION-SPEC.md` carries a Lineage section;
+18 builds state there that they do not start from zero, naming 19
+parent edges (one build, customer-service-l3, merges two parents).
+The parser takes the first bold phrase ending in "build" followed
+by a parenthetical of group links in that section; later prose
+mentions of other builds never take that shape and are never
+mistaken for parents. The kind comes from the heading: a union
+merge, or a cross-tier carry, downward or upward.
+
+No vendor-to-vendor merge exists anywhere in the record, so no
+bridge joins two buildings. A bridge joins the *gates of the two
+districts* where the child and parent builds' offerings live. A
+build's anchor district is the plurality district of the offerings
+whose spec sheets live in that build, the same plurality rule as a
+vendor's home district. For most builds the anchor is the district
+named like the build; six merge builds anchor elsewhere (several to
+the uncategorized districts), because that is where the
+Marketplace files their forks. That is the record, not an error.
+
+Geometry: a quadratic bezier from parent gate to child gate,
+endpoints at 26 m, control point at the midpoint raised to
+clamp(30 + distance × 0.16, 44, 150) m. Segments of about 26 m of
+arc (8 to 44 per bridge), each a deck slab (3.4 m wide) and a top
+rail tinted with the child district's tier trim; the slab is
+granite mixed 25% toward the child district's colour. A bridgehead
+pylon rises at every gate a bridge lands on. All segments of all
+bridges are one InstancedMesh; instance id resolves back to the
+merge edge, and picking a bridge opens its record: the two builds,
+their fork counts, the Merge Rule (union, never intersection;
+highest tier inherited in full; traceability; SSDF process), and
+the spec the lineage came from. In VR the same record draws on the
+in-world card.
+
+### The platform layer becomes one deck
+
+The 40 GAPS entries DeadRamp closed as `re-scoped` belong to no
+vendor and no offering: they are properties of the deployment
+platform, governed by the six decisions in `PLATFORM-LAYER.md`
+(identity and authentication; FIPS-validated cryptography;
+encryption at rest and in transit; audit retention; session lock
+and termination; hosting substrate). They render as one shared
+deck on the plaza, west of spawn at (−48, 26), facing spawn, in
+the federal materials: granite slab, limestone inlay, bronze trim.
+The six decisions stand as panels around a central walkway; a
+directory board carries the entry record by owning GAPS section
+(Group 2: 1, Group 3: 5, Group 4: 1, Group 8: 1, Group 36: 32),
+counted from the catalog. The deck carries the clean-room framing
+plaque, and picking anywhere on it opens the platform record.
+
+One accounting note, kept visible: the GAPS batch decision
+document (gaps-batch/DECISION.md, ratified 2026-11-07) accounts
+for 39 re-scope closures (36 platform re-scopes and 3 written
+re-scopes); GAPS.md itself carries 40 `re-scoped` entry lines.
+The deck presents the 40 in GAPS.md, the fuller record.
+
+### Construction states
+
+A vendor's construction record is `frac`, the share of its own
+offerings not yet FedRAMP Certified, computed in the exporter from
+the registry statuses. Certified vendors (frac 0) stay finished
+and lit, untouched. For any vendor with frac > 0 (227 buildings;
+228 vendors counting the surveyed lot, which gets no treatment):
+
+- A scaffold cage stands 0.55 m proud of the facade on all four
+  faces, up to height × frac: corner poles and rail levels every
+  ~2.3 m. A mixed vendor is scaffolded part-way over its finished,
+  lit massing; a pipeline vendor to the top.
+- A fully pending tower (frac 1) is wrapped in a translucent
+  construction-orange netting shell.
+- Three site barriers (orange, white, orange) close the front,
+  and an UNDER CONSTRUCTION sign stands at the door side. The
+  signage is generic construction vocabulary; no vendor artwork.
+- Cranes are district equipment, assigned in the exporter by one
+  rule: in each district with at least three fully-pipeline
+  buildings, the tallest such building (registry order breaks
+  ties) works under a crane: mast to height + 13 m beside the
+  tower, jib across the roof, counter-jib and counterweight, a
+  hook line and block over the building. 17 districts qualify.
+
+The status weathering of Phase 1 stays exactly as it was; the
+construction state extends it rather than replacing it. All
+sitework (scaffolds, barriers, cranes, bridgeheads) is one
+InstancedMesh; netting is a second; signs a third.
+
+### Measured cost
+
+Measured by `verify/verify.js`: at the fixed exterior viewpoint
+(camera at (30, 34) looking at the origin, pitch level), draw
+calls went 9 → 15; at the boot spawn view, 18 → 22 draw calls
+and 48,242 → 125,220 triangles. The increase is the four
+instanced populations (bridges: 824 instances over 412 segments;
+sitework: 5,351 instances; netting: 202 shells; signs: 227
+boards) plus the deck's merged slab and whichever of its panels
+the frustum catches. Triangle growth is the honest cost of real
+geometry for scaffolds and bridges; draw calls, the number that
+gates phone frame rates, grew by single digits.

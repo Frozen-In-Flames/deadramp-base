@@ -209,6 +209,13 @@ const state = {
     headYaw: null,         // headset world yaw while presenting (movement frame)
     gazeMode: false,       // presenting with no tracked-pointer source
   },
+  /* Phase 4: skybridges, the platform deck, construction states. All
+   * three are generated from the catalog at load (catalog.merges,
+   * catalog.platformLayer, per-vendor construction records); nothing
+   * about them is hardcoded per vendor. */
+  bridgeMesh: null, segBridge: [], deckPickables: [],
+  phase4: { bridges: 0, bridgeSegments: 0, deckDecisions: 0, deckEntries: 0, constructionVendors: 0, siteworkInstances: 0, cranes: 0, netting: 0 },
+  phase4Points: null,      // viewpoints of the three features, for verification
 };
 
 const TIER_TRIM = { l1: new THREE.Color(0xcd7f32), l2: new THREE.Color(0xcfd8dc), l3: new THREE.Color(0xffd700), untiered: new THREE.Color(0x546e7a) };
@@ -367,6 +374,9 @@ function buildWorld(catalog) {
   if (pylons.instanceColor) pylons.instanceColor.needsUpdate = true;
   worldGroup.add(pylons);
 
+  /* Phase 4: skybridges, the platform deck, construction states */
+  buildPhase4(catalog);
+
   /* empty lots: slab + survey marker + sign */
   for (const v of lots) {
     const g = new THREE.Group();
@@ -385,6 +395,339 @@ function buildWorld(catalog) {
     state.lotMeshes.push(slab);
     slab.userData.vendor = v;
   }
+}
+
+/* ---------------- Phase 4: bridges, platform deck, construction ----
+ * Skybridges: DeadRamp's record of merged portfolios is a record of
+ * merged BUILDS, not merged vendors: 18 group builds declare in their
+ * UNION-SPEC lineage that they do not start from zero, naming 19
+ * parent edges under the Merge Rule. No vendor-to-vendor merge
+ * exists anywhere in the record, so no bridge joins two buildings.
+ * Each bridge joins the gates of the two districts where the child
+ * and parent builds' offerings actually live (the exporter emits the
+ * anchor districts; several builds anchor to a district named for
+ * another category, because that is where the Marketplace files
+ * their forks). The bridge's exhibit is its record card: the Merge
+ * Rule, the two builds, and the spec the lineage came from.
+ *
+ * Platform deck: the 40 GAPS entries DeadRamp closed as re-scoped
+ * belong to no vendor and no offering; they are properties of the
+ * deployment platform, decided once in PLATFORM-LAYER.md. They get
+ * one shared deck on the plaza carrying the six decisions and the
+ * entry record, never buildings of their own.
+ *
+ * Construction states: a vendor's construction record is the share
+ * of its own offerings not yet certified. That share of the tower is
+ * scaffolded; a fully pending tower is scaffolded to the top and
+ * netted; mixed towers are scaffolded part-way, over the finished
+ * massing and lit windows below (the status weathering stays: this
+ * extends it, it does not replace it). Cranes are district
+ * equipment: the exporter flags the tallest fully-pipeline building
+ * in each district with at least three of them. Signage is honest
+ * and generic: UNDER CONSTRUCTION, no vendor artwork.
+ *
+ * Everything below is instanced or merged: one InstancedMesh for all
+ * bridge segments, one for all sitework (scaffolds, barriers,
+ * cranes, bridgehead pylons), one for netting shells, one for signs. */
+const SITE_ORANGE = new THREE.Color(0xc96a1e);
+const SITE_WHITE = new THREE.Color(0xe8e6df);
+const SITE_STEEL = new THREE.Color(0xb9c4d4);
+const SITE_DARK = new THREE.Color(0x20242c);
+const GRANITE_C = new THREE.Color(0x4c5257);
+const UP_V = new THREE.Vector3(0, 1, 0);
+
+function curvePoint(a, c, b, t) {
+  const u = 1 - t;
+  return new THREE.Vector3(
+    u * u * a.x + 2 * u * t * c.x + t * t * b.x,
+    u * u * a.y + 2 * u * t * c.y + t * t * b.y,
+    u * u * a.z + 2 * u * t * c.z + t * t * b.z);
+}
+function instancedBoxes(list, material) {
+  const m = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), material, list.length);
+  const d = new THREE.Object3D();
+  list.forEach((it, i) => {
+    d.position.set(it.x, it.y, it.z);
+    if (it.quat) d.quaternion.copy(it.quat); else d.quaternion.identity();
+    d.scale.set(it.sx, it.sy, it.sz);
+    d.updateMatrix();
+    m.setMatrixAt(i, d.matrix);
+    m.setColorAt(i, it.color);
+  });
+  m.instanceMatrix.needsUpdate = true;
+  if (m.instanceColor) m.instanceColor.needsUpdate = true;
+  m.frustumCulled = false;
+  return m;
+}
+
+function buildPhase4(catalog) {
+  const P4 = state.phase4;
+  const sitework = [];   // scaffolds, barriers, cranes, bridgeheads
+  const netting = [];    // one shell per fully-pending tower
+  const signs = [];      // UNDER CONSTRUCTION boards
+  const push = (list, x, y, z, sx, sy, sz, color, quat) =>
+    list.push({ x, y, z, sx, sy, sz, color, quat: quat || null });
+  const byId = new Map(state.districts.map((d) => [d.id, d]));
+
+  /* --- skybridges, gate to gate, one per merge edge --- */
+  const bridgeSegs = [];
+  const usedGates = new Set();
+  const m4 = new THREE.Matrix4();
+  for (const e of catalog.merges) {
+    const A = byId.get(e.parentDistrict), B = byId.get(e.childDistrict);
+    if (!A || !B) continue;
+    const p0 = new THREE.Vector3(A.gate.x, 26, A.gate.z);
+    const p2 = new THREE.Vector3(B.gate.x, 26, B.gate.z);
+    const dist = p0.distanceTo(p2);
+    const peak = Math.min(150, Math.max(44, 26 + dist * 0.16));
+    const p1 = new THREE.Vector3((p0.x + p2.x) / 2, peak, (p0.z + p2.z) / 2);
+    e._mid = curvePoint(p0, p1, p2, 0.5);
+    e._len = dist;
+    const n = Math.max(8, Math.min(44, Math.round(dist / 26)));
+    const slabCol = GRANITE_C.clone().lerp(new THREE.Color(B.color), 0.25);
+    const railCol = TIER_TRIM[B.tier] || TIER_TRIM.untiered;
+    for (let i = 0; i < n; i++) {
+      const a = curvePoint(p0, p1, p2, i / n), b = curvePoint(p0, p1, p2, (i + 1) / n);
+      const mid = a.clone().add(b).multiplyScalar(0.5);
+      const len = a.distanceTo(b) * 1.08;
+      const q = new THREE.Quaternion().setFromRotationMatrix(m4.lookAt(a, b, UP_V));
+      const up = new THREE.Vector3(0, 1, 0).applyQuaternion(q);
+      bridgeSegs.push({ x: mid.x, y: mid.y, z: mid.z, sx: 3.4, sy: 0.7, sz: len, color: slabCol, quat: q });
+      state.segBridge.push(e);
+      bridgeSegs.push({ x: mid.x + up.x * 0.62, y: mid.y + up.y * 0.62, z: mid.z + up.z * 0.62, sx: 3.9, sy: 0.3, sz: len, color: railCol, quat: q });
+      state.segBridge.push(e);
+    }
+    usedGates.add(A.id); usedGates.add(B.id);
+    P4.bridges++;
+    P4.bridgeSegments += n;
+  }
+  if (bridgeSegs.length) {
+    state.bridgeMesh = instancedBoxes(bridgeSegs, new THREE.MeshLambertMaterial({ color: 0xffffff }));
+    worldGroup.add(state.bridgeMesh);
+  }
+  /* bridgehead pylons: a tower at each gate a bridge lands on */
+  for (const id of usedGates) {
+    const d = byId.get(id);
+    push(sitework, d.gate.x, 13, d.gate.z, 2.4, 26, 2.4, GRANITE_C);
+    push(sitework, d.gate.x, 26.6, d.gate.z, 3.2, 1.1, 3.2, new THREE.Color(0x8c6a2f));
+  }
+
+  /* --- construction states --- */
+  for (const v of state.buildings) {
+    const con = v.construction;
+    if (!con || con.frac <= 0) continue;
+    P4.constructionVendors++;
+    const q = new THREE.Quaternion().setFromAxisAngle(UP_V, v.rotationY);
+    const local = (list, lx, ly, lz, sx, sy, sz, color) => {
+      const p = new THREE.Vector3(lx, 0, lz).applyQuaternion(q);
+      push(list, v.position.x + p.x, ly, v.position.z + p.z, sx, sy, sz, color, q);
+    };
+    const hw = v.size.w / 2 + 0.55, hd = v.size.d / 2 + 0.55;
+    const sh = Math.max(2.4, v.size.h * con.frac);
+    for (const [cx, cz] of [[-hw, -hd], [hw, -hd], [-hw, hd], [hw, hd]]) {
+      local(sitework, cx, sh / 2, cz, 0.18, sh, 0.18, SITE_STEEL);
+    }
+    const levels = Math.max(1, Math.round(sh / 2.3));
+    for (let li = 1; li <= levels; li++) {
+      const y = Math.min(sh, (sh / levels) * li);
+      local(sitework, 0, y, -hd, hw * 2, 0.14, 0.14, SITE_STEEL);
+      local(sitework, 0, y, hd, hw * 2, 0.14, 0.14, SITE_STEEL);
+      local(sitework, -hw, y, 0, 0.14, 0.14, hd * 2, SITE_STEEL);
+      local(sitework, hw, y, 0, 0.14, 0.14, hd * 2, SITE_STEEL);
+    }
+    for (let bi = -1; bi <= 1; bi++) {
+      local(sitework, bi * (v.size.w / 3), 0.45, hd + 1.15, v.size.w / 3 - 0.3, 0.9, 0.22, bi === 0 ? SITE_WHITE : SITE_ORANGE);
+    }
+    signs.push(v);
+    if (con.frac >= 0.999) {
+      push(netting, v.position.x, v.size.h * 0.485, v.position.z,
+        v.size.w + 1.3, v.size.h * 0.97, v.size.d + 1.3, SITE_ORANGE, q);
+      P4.netting++;
+    }
+    if (con.crane) {
+      P4.cranes++;
+      const ch = v.size.h + 13;
+      const cx = hw + 6.5, cz = hd * 0.2;
+      local(sitework, cx, ch / 2, cz, 0.5, ch, 0.5, SITE_ORANGE);
+      local(sitework, cx - (v.size.w / 2 + 7), ch - 1.2, cz, v.size.w + 14, 0.45, 0.45, SITE_ORANGE);
+      local(sitework, cx + 4.5, ch - 1.2, cz, 8, 0.45, 0.45, SITE_ORANGE);
+      local(sitework, cx + 4.5, ch - 2.7, cz, 1.4, 2.2, 1.4, GRANITE_C);
+      const hx = -v.size.w * 0.2, drop = ch * 0.45;
+      local(sitework, hx, ch - 1.2 - drop / 2, cz, 0.07, drop, 0.07, SITE_DARK);
+      local(sitework, hx, ch - 1.2 - drop, cz, 0.85, 0.85, 0.85, SITE_ORANGE);
+    }
+  }
+  P4.siteworkInstances = sitework.length;
+  if (sitework.length) worldGroup.add(instancedBoxes(sitework, new THREE.MeshLambertMaterial({ color: 0xffffff })));
+  if (netting.length) {
+    worldGroup.add(instancedBoxes(netting, new THREE.MeshLambertMaterial({
+      color: 0xffffff, transparent: true, opacity: 0.16, depthWrite: false,
+    })));
+  }
+  if (signs.length) {
+    const tex = textTexture(['UNDER CONSTRUCTION', 'authorization in process'],
+      { w: 1024, h: 256, bg: '#2a1c08', fg: '#ffb36b', sub: '#e8d9b8' });
+    const sm = new THREE.InstancedMesh(new THREE.PlaneGeometry(6.4, 1.6),
+      new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }), signs.length);
+    const d = new THREE.Object3D();
+    signs.forEach((v, i) => {
+      const fx = Math.sin(v.rotationY), fz = Math.cos(v.rotationY);
+      d.position.set(v.position.x + fx * (v.size.d / 2 + 2.3), 2.6, v.position.z + fz * (v.size.d / 2 + 2.3));
+      d.quaternion.setFromAxisAngle(UP_V, v.rotationY);
+      d.scale.set(1, 1, 1);
+      d.updateMatrix();
+      sm.setMatrixAt(i, d.matrix);
+    });
+    sm.instanceMatrix.needsUpdate = true;
+    sm.frustumCulled = false;
+    worldGroup.add(sm);
+  }
+
+  buildPlatformDeck(catalog, byId);
+  computePhase4Points(catalog);
+}
+
+/* The platform deck: one shared structure on the plaza, west of
+ * spawn and facing it (the anchor is a layout constant the exporter
+ * emits). Federal materials, like the kiosk: granite slab, limestone
+ * inlay, bronze trim. The six decisions stand as panels around a
+ * central walkway; the directory board carries the entry record —
+ * which GAPS sections the re-scoped entries belong to, and how many
+ * each holds, counted from the catalog, never typed in. */
+function buildPlatformDeck(catalog, byId) {
+  const P4 = state.phase4;
+  const pl = catalog.platformLayer;
+  P4.deckDecisions = pl.decisions.length;
+  P4.deckEntries = pl.rescoped.length;
+  const A = pl.deckAnchor;
+  const deck = new THREE.Group();
+  deck.position.set(A.x, 0, A.z);
+  deck.rotation.y = A.rotationY;
+
+  const geoms = [];
+  const slab = coloredGeom(new THREE.BoxGeometry(46, 1.1, 26), 0x4c5257); slab.translate(0, 0.55, 0); geoms.push(slab);
+  const inlay = coloredGeom(new THREE.BoxGeometry(43, 0.14, 23), 0xcfc9b8); inlay.translate(0, 1.12, 0); geoms.push(inlay);
+  for (const s of [-1, 1]) {
+    const trim = coloredGeom(new THREE.BoxGeometry(46.6, 0.32, 0.55), 0x8c6a2f);
+    trim.translate(0, 1.0, s * 13.05); geoms.push(trim);
+  }
+  const postAt = (x, z, top) => {
+    const p = coloredGeom(new THREE.BoxGeometry(0.26, top - 1.1, 0.26), 0x4c5257);
+    p.translate(x, (top + 1.1) / 2, z); geoms.push(p);
+  };
+  const panelX = [-14.5, 0, 14.5];
+  pl.decisions.forEach((d, i) => {
+    const row = i < 3 ? -5.5 : 5.5;
+    postAt(panelX[i % 3] - 2.6, row, 3.4); postAt(panelX[i % 3] + 2.6, row, 3.4);
+  });
+  postAt(-4.9, -10.6, 6.4); postAt(4.9, -10.6, 6.4);       // directory board
+  postAt(-5.2, -10.6, 8.6); postAt(5.2, -10.6, 8.6);       // header sign
+  postAt(-4.6, 12.9, 2.9); postAt(4.6, 12.9, 2.9);         // framing plaque
+  deck.add(new THREE.Mesh(mergeGeoms(geoms), new THREE.MeshLambertMaterial({ vertexColors: true })));
+
+  pl.decisions.forEach((d, i) => {
+    const row = i < 3 ? -5.5 : 5.5;
+    const lines = [];
+    if (d.controls) lines.push(`Controls: ${d.controls}`);
+    lines.push(d.text);
+    const p = makePanel(6.6, 3.5, `${d.n}. ${d.title}`.toUpperCase(), lines, '#ffb36b');
+    p.position.set(panelX[i % 3], 3.55, row);
+    p.rotation.y = row < 0 ? 0 : Math.PI;
+    deck.add(p);
+    state.deckPickables.push(p);
+  });
+
+  const bySection = new Map();
+  for (const e of pl.rescoped) {
+    if (!bySection.has(e.group)) bySection.set(e.group, { section: e.section, district: e.district, n: 0 });
+    bySection.get(e.group).n++;
+  }
+  const boardLines = [
+    `${pl.rescoped.length} catalogue gap entries were not built per group.`,
+    'They are properties of the platform every service is',
+    'deployed on, decided once, in writing, in',
+    'PLATFORM-LAYER.md. The six panels on this deck',
+    'state the decisions.',
+    '',
+    ...[...bySection.entries()].sort((a, b) => a[0] - b[0]).map(([g, s]) => {
+      const d = byId.get(s.district);
+      const dn = d ? `${d.functionName} ${d.tier}` : s.district;
+      return `Group ${g} · ${s.section} — ${s.n} ${s.n === 1 ? 'entry' : 'entries'} (${dn} district)`;
+    }),
+    '',
+    'Full record: GAPS.md in the DeadRamp repo, and the',
+    "platformLayer record in this Base's catalog data.",
+  ];
+  const board = makePanel(11.4, 5.4, 'THE PLATFORM LAYER — CLOSED IN WRITING', boardLines, '#ffd9a0');
+  board.position.set(0, 4.15, -10.6);
+  deck.add(board);
+  state.deckPickables.push(board);
+
+  const sign = new THREE.Mesh(new THREE.PlaneGeometry(12.5, 2.3),
+    new THREE.MeshBasicMaterial({
+      map: textTexture(['PLATFORM LAYER', 'one shared deck · decided once, in writing'],
+        { w: 1024, h: 192, bg: '#10141d', fg: '#ffd9a0', sub: '#9fb0c3' }),
+      side: THREE.DoubleSide,
+    }));
+  sign.position.set(0, 7.7, -10.6);
+  deck.add(sign);
+
+  const plaque = new THREE.Mesh(new THREE.PlaneGeometry(11, 1.7),
+    new THREE.MeshBasicMaterial({
+      map: textTexture([
+        'Clean-room model built from public FedRAMP Marketplace information,',
+        "inspired by the vendor's public brand identity.",
+        'Not affiliated with or endorsed by the vendor.',
+      ], { w: 1024, h: 160, bg: '#141a26', fg: '#cfe0f4', sub: '#9fb0c3' }),
+      side: THREE.DoubleSide,
+    }));
+  plaque.position.set(0, 2.35, 12.9);
+  deck.add(plaque);
+
+  const hit = new THREE.Mesh(new THREE.BoxGeometry(46, 7, 26),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
+  hit.position.y = 3.5;
+  deck.add(hit);
+  state.deckPickables.push(hit);
+  worldGroup.add(deck);
+}
+
+/* Viewpoints of the three features, computed from the same data the
+ * features are built from, so verification looks at what was built
+ * rather than re-deriving where it should be. */
+function computePhase4Points(catalog) {
+  const A = catalog.platformLayer.deckAnchor;
+  const fwd = new THREE.Vector3(Math.sin(A.rotationY), 0, Math.cos(A.rotationY));
+  const pts = {
+    deck: {
+      pos: { x: A.x + fwd.x * 36, y: 1.7, z: A.z + fwd.z * 36 },
+      look: { x: A.x, y: 3.4, z: A.z },
+    },
+  };
+  let best = null;
+  for (const e of catalog.merges) if (e._mid && (!best || e._len < best._len)) best = e;
+  if (best) {
+    const A2 = state.districts.find((d) => d.id === best.parentDistrict);
+    const B2 = state.districts.find((d) => d.id === best.childDistrict);
+    const chord = new THREE.Vector3(B2.gate.x - A2.gate.x, 0, B2.gate.z - A2.gate.z).normalize();
+    const perp = new THREE.Vector3(-chord.z, 0, chord.x);
+    pts.bridge = {
+      edge: `${best.child}<-${best.parent}`,
+      pos: { x: best._mid.x + perp.x * 60, y: best._mid.y + 14, z: best._mid.z + perp.z * 60 },
+      look: { x: best._mid.x, y: best._mid.y, z: best._mid.z },
+    };
+  }
+  const cv = state.buildings.find((v) => v.construction && v.construction.crane);
+  if (cv) {
+    const dp = doorPoint(cv);
+    const fx = Math.sin(cv.rotationY), fz = Math.cos(cv.rotationY);
+    pts.construction = {
+      vendor: cv.name,
+      pos: { x: dp.x + fx * 20, y: 1.7, z: dp.z + fz * 20 },
+      look: { x: cv.position.x, y: cv.size.h * 0.55, z: cv.position.z },
+    };
+  }
+  state.phase4Points = pts;
 }
 
 /* ---------------- labels (pooled HTML overlays) ---------------- */
@@ -504,7 +847,82 @@ function pickAt(clientX, clientY) {
   raycaster.setFromCamera({ x: nx, y: ny }, camera);
   const v = raycastBuildings();
   if (v) { showCard(v); return true; }
+  const f = raycastFeatures();
+  if (f) { showFeatureCard(f); return true; }
   return false;
+}
+
+/* Phase 4 picking: bridges resolve through the segment instance id
+ * to their merge edge; the deck resolves through its panels, board,
+ * and footprint hitbox. Exteriors only, like building picking. */
+function raycastFeatures() {
+  if (state.interior) return null;
+  if (state.bridgeMesh) {
+    const hits = raycaster.intersectObject(state.bridgeMesh);
+    if (hits.length && hits[0].instanceId !== undefined) {
+      const e = state.segBridge[hits[0].instanceId];
+      if (e) return { feature: 'bridge', edge: e };
+    }
+  }
+  if (state.deckPickables.length) {
+    const hits = raycaster.intersectObjects(state.deckPickables, true);
+    if (hits.length) return { feature: 'deck' };
+  }
+  return null;
+}
+function showFeatureCard(f) {
+  if (f.feature === 'bridge') showBridgeCard(f.edge);
+  else showDeckCard();
+}
+function districtLabel(id) {
+  const d = state.districts.find((x) => x.id === id);
+  return d ? `${d.functionName} · ${d.tier}` : id;
+}
+const MERGE_KIND_TEXT = {
+  merge: 'a union merge',
+  'carry-down': 'a cross-tier carry, downward',
+  'carry-up': 'a cross-tier carry, upward',
+};
+function showBridgeCard(e) {
+  const rec = { feature: 'bridge', edge: e };
+  state.selected = rec;
+  cardBody.innerHTML =
+    `<h3>Skybridge — ${MERGE_KIND_TEXT[e.kind] || 'a union merge'}</h3>` +
+    `<div class="meta">${districtLabel(e.parentDistrict)} district ↔ ${districtLabel(e.childDistrict)} district</div>` +
+    `<div class="note">The ${e.child} build (${e.childForks} forks) is built on the ${e.parent} build (${e.parentForks} forks): ` +
+    `the parent build's control baseline is united with the child tier's own forks, per the lineage recorded in ${e.spec} in the DeadRamp repo. ` +
+    `This bridge joins the gates of the two districts where those builds' offerings live.</div>` +
+    `<div class="note">The merge is between DeadRamp's reference builds, not between vendors: no vendor in the record merged with another vendor. The Merge Rule it follows:</div>` +
+    `<ul><li>Union of the parent baselines, never the intersection</li>` +
+    `<li>The highest parent tier is inherited in full</li>` +
+    `<li>Every merge carries a control traceability record</li>` +
+    `<li>Process per NIST SP 800-218 (SSDF): provenance, review, verification</li></ul>` +
+    `<div class="framing">${FRAMING}</div>`;
+  card.style.display = 'block';
+  if (renderer.xr.isPresenting) drawXRCard(rec);
+}
+function showDeckCard() {
+  const rec = { feature: 'deck' };
+  state.selected = rec;
+  const pl = state.catalog.platformLayer;
+  const bySection = new Map();
+  for (const e of pl.rescoped) {
+    if (!bySection.has(e.group)) bySection.set(e.group, { section: e.section, district: e.district, n: 0 });
+    bySection.get(e.group).n++;
+  }
+  const decisions = pl.decisions.map((d) =>
+    `<li><b>${d.title}</b>${d.controls ? ` (${d.controls})` : ''}</li>`).join('');
+  const sections = [...bySection.entries()].sort((a, b) => a[0] - b[0]).map(([g, s]) =>
+    `<li>Group ${g} · ${s.section} — ${s.n} ${s.n === 1 ? 'entry' : 'entries'} (${districtLabel(s.district)} district)</li>`).join('');
+  cardBody.innerHTML =
+    `<h3>The Platform Layer</h3>` +
+    `<div class="meta">${pl.rescoped.length} re-scoped entries · ${pl.decisions.length} standing decisions · one shared deck</div>` +
+    `<div class="note">These catalogue entries belong to no vendor and no offering. They are properties of the platform every service is deployed on, so DeadRamp decided them once, in writing, instead of building them per group. The Base gives them this deck, not buildings.</div>` +
+    `<div class="meta">The six decisions (PLATFORM-LAYER.md):</div><ul>${decisions}</ul>` +
+    `<div class="meta">The entries, by the GAPS section that closed them:</div><ul>${sections}</ul>` +
+    `<div class="framing">${FRAMING}</div>`;
+  card.style.display = 'block';
+  if (renderer.xr.isPresenting) drawXRCard(rec);
 }
 
 /* ---------------- Phase 2: interiors ----------------
@@ -1347,6 +1765,7 @@ function drawXRHelpPanel() {
   drawXRPanel(xrHelpPlane, 'DEADRAMP BASE — HELP', XR_HELP_LINES[helpSpace]);
 }
 function drawXRCard(v) {
+  if (v && v.feature) { drawXRFeatureCard(v); return; }
   const d = state.districts.find((x) => x.id === v.district);
   const lines = [
     `${d ? d.functionName + ' · ' + d.tier : ''} district · ${v.offeringCount} offering${v.offeringCount > 1 ? 's' : ''}`,
@@ -1358,6 +1777,30 @@ function drawXRCard(v) {
   else lines.push('', ...wrapText('Surveyed empty lot. This offering is one of the two the DeadRamp build holds as honestly unclassified, so the Base shows the lot, not a building.', 58));
   lines.push('', ...wrapText(FRAMING, 58));
   drawXRPanel(xrCardPlane, v.name.toUpperCase().slice(0, 40), lines);
+}
+/* Phase 4 records on the in-world card: the same facts as the flat
+ * card, in the headset's own surface. */
+function drawXRFeatureCard(rec) {
+  if (rec.feature === 'bridge') {
+    const e = rec.edge;
+    const lines = [
+      `${districtLabel(e.parentDistrict)}  →  ${districtLabel(e.childDistrict)}`,
+      MERGE_KIND_TEXT[e.kind] || 'a union merge',
+      `${e.child} (${e.childForks} forks) builds on`,
+      `${e.parent} (${e.parentForks} forks)`,
+      '',
+      ...wrapText('The union is of the reference builds\u2019 control baselines under the Merge Rule: union, never intersection; the highest tier inherited in full. No vendor merged with another vendor.', 58),
+      '',
+      ...wrapText(FRAMING, 58),
+    ];
+    drawXRPanel(xrCardPlane, 'SKYBRIDGE — UNION MERGE', lines);
+  } else {
+    const pl = state.catalog.platformLayer;
+    const lines = [`${pl.rescoped.length} entries · ${pl.decisions.length} standing decisions`, ''];
+    for (const d of pl.decisions) lines.push('· ' + d.title);
+    lines.push('', ...wrapText(FRAMING, 58));
+    drawXRPanel(xrCardPlane, 'THE PLATFORM LAYER', lines);
+  }
 }
 function drawXRPrompt(text) {
   const x = xrPromptPlane.canvas.getContext('2d');
@@ -1389,6 +1832,8 @@ function activateFromRay(origin, dir) {
   raycaster.set(origin, dir);
   const v = raycastBuildings();
   if (v) { showCard(v); return true; }
+  const f = raycastFeatures();
+  if (f) { showFeatureCard(f); return true; }
   if (state.interior) {
     if (state.interior.atExit) { exitBuilding(); return true; }
     return false;
@@ -1752,6 +2197,7 @@ function currentStats() {
     fps: state.fps,
     camera: { x: Math.round(player.x * 10) / 10, z: Math.round(player.z * 10) / 10 },
     exteriorDrawCalls: state.exteriorDrawCalls,
+    phase4: { ...state.phase4 },
     interior: state.interior ? {
       vendor: state.interior.vendor.name,
       roomsBuilt: state.interior.rooms.length,
@@ -1765,6 +2211,15 @@ function currentStats() {
 window.__BASE_STATS__ = () => currentStats();
 window.__BASE__ = {
   stats: () => currentStats(),
+  /* Phase 4: viewpoints of the three features + the feature records */
+  phase4Points: () => state.phase4Points,
+  phase4Pick: () => {
+    const s = state.selected;
+    if (!s || !s.feature) return null;
+    return s.feature === 'bridge'
+      ? { feature: 'bridge', child: s.edge.child, parent: s.edge.parent, kind: s.edge.kind }
+      : { feature: 'deck' };
+  },
   /* Phase 3: WebXR session state, for verification and debugging */
   xr: () => ({
     xrEnabled: renderer.xr.enabled,
