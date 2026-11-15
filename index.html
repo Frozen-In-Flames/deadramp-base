@@ -14,7 +14,14 @@
   #hud h1 { margin: 0; font-size: 20px; letter-spacing: 2px; font-weight: 700; }
   #hud h1 span { color: #ffb36b; }
   #hud .sub { font-size: 12px; color: #b9c4d4; margin-top: 2px; }
-  #hud .hint { font-size: 11px; color: #8fa0b5; margin-top: 6px; max-width: 340px; line-height: 1.5; }
+  #hud .hint { font-size: 11px; color: #8fa0b5; margin-top: 6px; max-width: 340px; line-height: 1.5;
+    transition: opacity .7s ease; }
+  #hud .hint.faded { opacity: 0; }
+  #helpBtn { position: fixed; left: 12px; bottom: 36px; z-index: 16; width: 42px; height: 42px;
+    border-radius: 50%; background: rgba(16, 21, 31, .92); border: 1px solid #8c6a2f; color: #ffd9a0;
+    font-size: 20px; font-weight: 700; line-height: 1; padding: 0; cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,.5); }
+  #helpBtn:hover { background: rgba(43, 74, 115, .92); }
   #statsbar { position: fixed; left: 12px; bottom: 10px; z-index: 10; font-size: 11px;
     color: #9fb0c3; pointer-events: none; text-shadow: 0 1px 3px rgba(0,0,0,.8); }
   #crosshair { position: fixed; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px;
@@ -42,6 +49,10 @@
   #framingNote { position: fixed; right: 12px; bottom: 10px; z-index: 10; max-width: 330px;
     font-size: 10.5px; color: #77879c; line-height: 1.5; text-align: right; pointer-events: none;
     text-shadow: 0 1px 3px rgba(0,0,0,.8); }
+  @media (max-width: 640px) {
+    #framingNote { max-width: 210px; bottom: 32px; }
+    #statsbar { max-width: 52vw; }
+  }
   #cardClose { position: absolute; top: 8px; right: 10px; background: none; border: none;
     color: #a9b8cc; font-size: 18px; cursor: pointer; line-height: 1; }
   #card .enterBtn { display: block; width: 100%; margin-top: 12px; padding: 9px 0;
@@ -59,7 +70,7 @@
     border: 2px solid rgba(255,255,255,.25); background: rgba(255,255,255,.06); display: none; pointer-events: none; }
   #stickKnob { position: absolute; width: 44px; height: 44px; border-radius: 50%; left: 33px; top: 33px;
     background: rgba(255,255,255,.35); }
-  @media (pointer: coarse) { #hud .hint .kb { display: none; } }
+
 </style>
 </head>
 <body>
@@ -68,13 +79,12 @@
 <div id="hud">
   <h1>DEADRAMP <span>BASE</span></h1>
   <div class="sub" id="hudSub">Loading catalog…</div>
-  <div class="hint">
-    <span class="kb">WASD / arrows to walk, mouse to look (click the world to lock the mouse), Shift to move fast.<br></span>
-    On touch screens: left thumb stick to walk, drag right side to look. Tap a building for its record.
-    Enter a building from its record card, or walk to its door and press <b>E</b>. Inside, one spiral ramp climbs past every service room; the lobby door marked EXIT (or <b>E</b> beside it) returns you to the boulevard.
+  <div class="hint" id="hint">WASD / arrows to walk, mouse to look (click the world to lock the mouse), Shift to move fast.<br>
+    Click a building for its record. Enter a building from its record card, or walk to its door and press <b>E</b>. Inside, one spiral ramp climbs past every service room; the lobby door marked EXIT (or <b>E</b> beside it) returns you to the boulevard.
     Everything is one spiral away: follow the boulevard out from the plaza.
   </div>
 </div>
+<button id="helpBtn" aria-label="Show help" title="Help">?</button>
 <div id="crosshair"></div>
 <div id="prompt"></div>
 <div id="statsbar"></div>

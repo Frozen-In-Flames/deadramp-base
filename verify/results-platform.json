@@ -1,0 +1,13 @@
+{
+ "desktopSignals": {
+  "pointerCoarse": false,
+  "ontouchstart": false,
+  "maxTouchPoints": 0
+ },
+ "touchSignals": {
+  "pointerCoarse": true,
+  "ontouchstart": true,
+  "maxTouchPoints": 1
+ },
+ "failures": 0
+}

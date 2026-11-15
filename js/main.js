@@ -185,6 +185,7 @@ async function boot() {
   document.getElementById('loading').style.display = 'none';
   state.ready = true;
   window.__BASE_READY__ = true;
+  showHelp('out');
 }
 
 function buildWorld(catalog) {
@@ -952,6 +953,11 @@ function enterBuilding(vendor) {
   const tx = Math.cos(SPAWN_ANGLE) * R_OUT, tz = Math.sin(SPAWN_ANGLE) * R_OUT;
   player.yaw = Math.atan2(-(tx - player.x), -(tz - player.z));
   document.getElementById('hudSub').textContent = `${vendor.name} — inside · ${vendor.offeringCount} rooms up the spiral`;
+  /* help lifecycle: the first entry swaps the tutorial to its indoor
+   * variant; later entries simply dismiss it (the action it described
+   * has been performed). */
+  if (!helpSeen.indoor) { helpSeen.indoor = true; showHelp('in'); }
+  else hideHelp();
 }
 function exitBuilding() {
   const rec = state.interior;
@@ -971,6 +977,7 @@ function exitBuilding() {
   worldGroup.visible = true;
   document.getElementById('hudSub').textContent = rec.hudSub;
   state.interior = null;
+  hideHelp();
 }
 function resolveInteriorMove(prevX, prevZ) {
   const rec = state.interior, layout = rec.layout;
@@ -1010,12 +1017,103 @@ function animateInterior(dt) {
     }
   }
 }
+/* ---------------- platform-matched prompts + help lifecycle ----------------
+ * Standing rule (Aries, Nov 14, 2026): prompts name only the controls
+ * the visitor's device actually has. There is no E key on a cellphone
+ * or in VR, so touch visitors get tap language and tappable doors;
+ * keyboard visitors keep the WASD / E copy. Phase 3 (WebXR) prompts
+ * will speak controller / gaze language under the same rule.
+ *
+ * The help block is a tutorial, not a permanent overlay: it shows on
+ * arrival outdoors, shows its indoor variant on first entry into a
+ * building, fades after a short dwell or once the action it describes
+ * is performed, and a persistent "?" button recalls the variant for
+ * the space the visitor is in. The header title and the clean-room
+ * framing note are not tutorial text and never fade. */
+const IS_TOUCH = !!((window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
+  || 'ontouchstart' in window || (navigator.maxTouchPoints || 0) > 0);
+const HELP_DWELL_MS = 7000;
+const HELP_COPY = {
+  out: {
+    kb: 'WASD / arrows to walk, mouse to look (click the world to lock the mouse), Shift to move fast.<br>' +
+      'Click a building for its record. Enter a building from its record card, or walk to its door and press <b>E</b>. ' +
+      'Inside, one spiral ramp climbs past every service room; the lobby door marked EXIT (or <b>E</b> beside it) returns you to the boulevard. ' +
+      'Everything is one spiral away: follow the boulevard out from the plaza.',
+    touch: 'Left thumb stick to walk, drag right side to look. Tap a building for its record. ' +
+      'Enter from its record card, or walk to its door and tap the door to go in. ' +
+      'Inside, one spiral ramp climbs past every service room; tap the lobby door marked EXIT to return to the boulevard. ' +
+      'Everything is one spiral away: follow the boulevard out from the plaza.',
+  },
+  in: {
+    kb: 'WASD / arrows to walk, mouse to look, Shift to move fast.<br>' +
+      'One spiral ramp climbs past every service room; each room opens off the coil on its own floor. ' +
+      'The lobby door marked EXIT (or <b>E</b> beside it) returns you to the boulevard.',
+    touch: 'Left thumb stick to walk, drag right side to look. ' +
+      'One spiral ramp climbs past every service room; each room opens off the coil on its own floor. ' +
+      'Tap the lobby door marked EXIT to return to the boulevard.',
+  },
+};
+const hintEl = document.getElementById('hint');
+const helpBtn = document.getElementById('helpBtn');
+let helpTimer = 0;
+let helpSpace = 'out';
+const helpSeen = { indoor: false };
+function showHelp(space) {
+  helpSpace = space || (state.interior ? 'in' : 'out');
+  hintEl.innerHTML = HELP_COPY[helpSpace][IS_TOUCH ? 'touch' : 'kb'];
+  hintEl.classList.remove('faded');
+  window.clearTimeout(helpTimer);
+  helpTimer = window.setTimeout(hideHelp, HELP_DWELL_MS);
+}
+function hideHelp() {
+  window.clearTimeout(helpTimer);
+  hintEl.classList.add('faded');
+}
+helpBtn.addEventListener('click', () => showHelp(state.interior ? 'in' : 'out'));
+
+/* door geometry shared by the prompt, the tap target, and the hooks:
+ * the door point is the same point the E-prompt measures from. */
+function doorPoint(v) {
+  const fx = Math.sin(v.rotationY), fz = Math.cos(v.rotationY);
+  return {
+    x: v.position.x + fx * (v.size.d / 2 + 1.5), y: 2.4,
+    z: v.position.z + fz * (v.size.d / 2 + 1.5),
+  };
+}
+function projectToScreen(x, y, z) {
+  const p = new THREE.Vector3(x, y, z).project(camera);
+  if (p.z > 1 || p.z < -1) return null;
+  return { x: (p.x * 0.5 + 0.5) * window.innerWidth, y: (-p.y * 0.5 + 0.5) * window.innerHeight };
+}
+const TAP_DOOR_RADIUS = 120; // px around the door's screen position
+/* A tap is a real input, not a lesser click: indoors, a tap while
+ * standing at the EXIT door leaves; outdoors, a tap on the door of
+ * the building whose door zone the visitor stands in enters it. Any
+ * other tap falls through to the existing picking (record cards). */
+function handleTap(x, y) {
+  if (state.interior) {
+    if (state.interior.atExit) exitBuilding();
+    return;
+  }
+  const dv = state.doorVendor;
+  if (dv) {
+    const dp = doorPoint(dv);
+    const sp = projectToScreen(dp.x, dp.y, dp.z);
+    if (sp && Math.hypot(x - sp.x, y - sp.y) <= TAP_DOOR_RADIUS) {
+      card.style.display = 'none';
+      enterBuilding(dv);
+      return;
+    }
+  }
+  pickAt(x, y);
+}
+
 /* door prompts, refreshed on the stats timer */
 const promptEl = document.getElementById('prompt');
 function updatePrompt() {
   if (state.interior) {
     if (state.interior.atExit) {
-      promptEl.innerHTML = '<b>E</b> — Exit to the boulevard';
+      promptEl.innerHTML = IS_TOUCH ? 'Tap — Exit to the boulevard' : '<b>E</b> — Exit to the boulevard';
       promptEl.style.display = 'block';
     } else promptEl.style.display = 'none';
     state.doorVendor = null;
@@ -1031,7 +1129,7 @@ function updatePrompt() {
   }
   state.doorVendor = best;
   if (best) {
-    promptEl.innerHTML = `<b>E</b> — Enter ${best.name}`;
+    promptEl.innerHTML = IS_TOUCH ? `Tap the door — Enter ${best.name}` : `<b>E</b> — Enter ${best.name}`;
     promptEl.style.display = 'block';
   } else promptEl.style.display = 'none';
 }
@@ -1056,8 +1154,12 @@ const stickEl = document.getElementById('stick');
 const stickKnob = document.getElementById('stickKnob');
 let lookTouch = { id: -1, lx: 0, ly: 0 };
 let downInfo = null;
+let lastTouchTapAt = 0;
 
 renderer.domElement.addEventListener('click', (ev) => {
+  /* a tap already handled by the touch path must not be replayed as a
+   * mouse click (it could re-pick, or request pointer lock indoors) */
+  if (performance.now() - lastTouchTapAt < 700) return;
   if (document.pointerLockElement === renderer.domElement) {
     pickAt(window.innerWidth / 2, window.innerHeight / 2);
   } else if (!pickAt(ev.clientX, ev.clientY)) {
@@ -1084,7 +1186,11 @@ renderer.domElement.addEventListener('touchstart', (ev) => {
     } else if (lookTouch.id === -1) {
       lookTouch = { id: t.identifier, lx: t.clientX, ly: t.clientY };
     }
-    downInfo = { x: t.clientX, y: t.clientY, t: performance.now() };
+    /* the tap clock is the events' own timestamps, not handler time:
+     * under render load a frame can run between the two handlers and
+     * stretch a handler-time delta past the tap window, dropping a
+     * genuine tap (measured: a 206 ms tap read as 2,566 ms) */
+    downInfo = { x: t.clientX, y: t.clientY, t: ev.timeStamp };
   }
   ev.preventDefault();
 }, { passive: false });
@@ -1109,8 +1215,9 @@ renderer.domElement.addEventListener('touchend', (ev) => {
   for (const t of ev.changedTouches) {
     if (t.identifier === stick.id) { stick.active = false; stick.id = -1; stick.mx = 0; stick.mz = 0; stickEl.style.display = 'none'; }
     if (t.identifier === lookTouch.id) lookTouch.id = -1;
-    if (downInfo && performance.now() - downInfo.t < 260 && Math.hypot(t.clientX - downInfo.x, t.clientY - downInfo.y) < 9) {
-      pickAt(t.clientX, t.clientY);
+    if (downInfo && ev.timeStamp - downInfo.t < 260 && Math.hypot(t.clientX - downInfo.x, t.clientY - downInfo.y) < 9) {
+      lastTouchTapAt = performance.now();
+      handleTap(t.clientX, t.clientY);
     }
   }
   downInfo = null;
@@ -1167,6 +1274,27 @@ function currentStats() {
 window.__BASE_STATS__ = () => currentStats();
 window.__BASE__ = {
   stats: () => currentStats(),
+  /* platform-prompt + help-lifecycle hooks */
+  help: () => ({
+    isTouch: IS_TOUCH,
+    space: helpSpace,
+    faded: hintEl.classList.contains('faded'),
+    visible: !hintEl.classList.contains('faded') && hintEl.textContent.trim().length > 0,
+    opacity: Number(getComputedStyle(hintEl).opacity),
+    text: hintEl.textContent.replace(/\s+/g, ' ').trim(),
+    prompt: promptEl.style.display === 'block' ? promptEl.textContent : null,
+    signals: {
+      pointerCoarse: !!(window.matchMedia && window.matchMedia('(pointer: coarse)').matches),
+      ontouchstart: 'ontouchstart' in window,
+      maxTouchPoints: navigator.maxTouchPoints || 0,
+    },
+  }),
+  door: () => {
+    const dv = state.doorVendor;
+    if (!dv) return null;
+    const p = doorPoint(dv);
+    return { name: dv.name, world: p, screen: projectToScreen(p.x, p.y, p.z) };
+  },
   getCamera: () => ({ x: player.x, z: player.z, y: player.y, yaw: player.yaw, pitch: player.pitch }),
   setCamera: ({ x, z, y, yawDeg, pitchDeg }) => {
     if (x !== undefined) player.x = x;

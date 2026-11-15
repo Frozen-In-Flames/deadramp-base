@@ -176,3 +176,42 @@ exit, placed far below the exterior world so the two never interact.
   server strips, panels and signs as individual textured planes.
   Measured on the largest building (IBM, 10 rooms): 19 draw calls in
   the spiral view, 5 to 6 in lobby and room views.
+
+## Platform-matched prompts (standing rule)
+
+Prompts name only the controls the visitor's device actually has
+(Aries, Nov 14, 2026: "there is no 'press E' on VR or cellphone").
+The client detects its input class at boot (coarse pointer, touch
+points) and every instruction follows it:
+
+- Keyboard visitors get the WASD / mouse / E copy, exactly as before.
+- Touch visitors get tap language only; no instruction shown to them
+  names a keyboard key. Doors are targets, not just signs: standing
+  in a building's door zone, tapping the door itself (within a radius
+  of its screen position) enters the building, and a tap while
+  standing at the lobby EXIT door returns to the boulevard. Other
+  taps keep the existing picking (record cards). The contextual door
+  prompt speaks the same language ("Tap the door — Enter …",
+  "Tap — Exit to the boulevard"). Tap duration is measured on the
+  touch events' own timestamps, never on handler execution time: a
+  long frame between the two handlers must not eat a genuine tap
+  (measured under software rendering: a 206 ms tap whose handlers
+  ran 2,566 ms apart).
+- Phase 3 (WebXR) inherits the rule: prompts there will speak
+  controller and gaze language, never keyboard language.
+
+## The help lifecycle
+
+The help block is an in-game tutorial, not a permanent overlay:
+
+- It shows on arrival outdoors, and again, briefly, on the visitor's
+  first entry into an interior, in that space's own variant (outdoor
+  and indoor copy differ, each in keyboard and touch language).
+- It fades after a 7 second dwell, or sooner once the visitor
+  performs the action it describes (entering a building outdoors,
+  leaving through the EXIT door indoors).
+- A small persistent "?" button in the federal grammar (granite
+  disc, bronze ring), touch-sized, recalls the help for the space
+  the visitor is currently in, outdoors or indoors.
+- The header title and the clean-room framing note are not tutorial
+  text; they never fade.

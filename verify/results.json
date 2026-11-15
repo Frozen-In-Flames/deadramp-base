@@ -10,7 +10,7 @@
   "brandDefault": 597,
   "drawCalls": 18,
   "triangles": 48242,
-  "fps": 28,
+  "fps": 23,
   "camera": {
    "x": 24,
    "z": 0
@@ -37,22 +37,22 @@
    "pitch": 0
   },
   "after": {
-   "x": 28.199999999999996,
-   "z": -2.571758278209442e-16,
+   "x": 28.078199999997388,
+   "z": -2.497177288139771e-16,
    "y": 1.7,
    "yaw": -1.5707963267948966,
    "pitch": 0
   },
-  "moved": 4.199999999999996
+  "moved": 4.078199999997388
  },
  "districtView": {
   "camIdx": 53,
   "clearance": 10.5
  },
  "districtPixels": {
-  "nonBgFraction": 0.5919053819444444,
-  "brightFraction": 0.5516493055555556,
-  "distinctColors": 90,
+  "nonBgFraction": 0.5377604166666666,
+  "brightFraction": 0.022135416666666668,
+  "distinctColors": 67,
   "bg": [
    27,
    36,
@@ -98,7 +98,7 @@
   },
   "lobbyPixels": {
    "nonBgFraction": 0.8680555555555556,
-   "distinctColors": 59,
+   "distinctColors": 62,
    "bg": [
     36,
     34,
@@ -106,50 +106,50 @@
    ]
   },
   "spiralPixels": {
-   "nonBgFraction": 0.9722222222222222,
-   "distinctColors": 115,
+   "nonBgFraction": 0.9663194444444444,
+   "distinctColors": 114,
    "bg": [
-    181,
-    157,
-    156
+    178,
+    155,
+    154
    ]
   },
   "largestRoomPixels": {
    "GO.gov": {
     "archetype": "federal-office",
-    "nonBg": 0.9060763888888889
+    "nonBg": 0.9119791666666667
    },
    "IBM Automation Services for Government": {
     "archetype": "federal-office",
-    "nonBg": 0.9059027777777777
+    "nonBg": 0.9118055555555555
    },
    "IBM Cloud for Government": {
     "archetype": "federal-office",
-    "nonBg": 0.9027777777777778
+    "nonBg": 0.9086805555555556
    },
    "IBM Data Services for Government": {
     "archetype": "lab",
-    "nonBg": 0.9010416666666666
+    "nonBg": 0.9071180555555556
    },
    "IBM Envizi ESG Reporting": {
     "archetype": "lab",
-    "nonBg": 0.8977430555555556
+    "nonBg": 0.9036458333333334
    },
    "IBM Federal ATOM": {
     "archetype": "lab",
-    "nonBg": 0.8946180555555555
+    "nonBg": 0.9006944444444445
    },
    "IBM Federal HR Cloud": {
     "archetype": "lab",
-    "nonBg": 0.8940972222222222
+    "nonBg": 0.9
    },
    "IBM Platform Services for Government": {
     "archetype": "federal-office",
-    "nonBg": 0.9067708333333333
+    "nonBg": 0.9126736111111111
    },
    "SmartCloud for Government": {
     "archetype": "federal-office",
-    "nonBg": 0.9029513888888889
+    "nonBg": 0.9088541666666666
    }
   },
   "archetypeShots": {
@@ -163,11 +163,11 @@
    },
    "meeting-space": {
     "vendor": "911inform",
-    "nonBg": 0.9092013888888889
+    "nonBg": 0.9095486111111111
    },
    "ledger-office": {
     "vendor": "Amazon Web Services, Inc.",
-    "nonBg": 0.8850694444444445
+    "nonBg": 0.8871527777777778
    },
    "lab": "largest building",
    "federal-office": "largest building"
