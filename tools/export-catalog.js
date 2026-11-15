@@ -691,6 +691,148 @@ const BRAND_SEEDS = {
   'DocketScope, Inc.': { primary: '#0088ca', secondary: '#ffffff', accent: '#1b2a3c' },
   // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/dssinc.com
   'Document Storage Systems, Inc. (DSS, Inc.)': { primary: '#d6bb8e', secondary: '#a3dffa', accent: '#000000' },
+  /* ---- Phase 4 brand research, tranche 5 (Nov 15, 2026) ----
+   * The next 60 default vendors in registry order after
+   * Document Storage Systems, Inc. (DSS, Inc.), researched one
+   * by one. 52 were established from a citable public source
+   * (recorded per entry below) and are seeded here; the other 8
+   * stay on the federal default: Eleven Labs' only listing
+   * states exactly two colors, so no third value is citable;
+   * the only Filevine and Flock Safety listings' hex codes
+   * contradict their own branding text (copper and mauve
+   * against stated cool blue tones; a mustard-gold lead
+   * against stated deep navy and teal) and the only Ground
+   * Control listing contradicts itself (its header describes
+   * an aerospace quality company, its About an incident
+   * response company); Envisage Technologies' only listing
+   * now sits under its acquirer Vector Solutions and Govini's
+   * now describes Air, the successor brand it renamed to, so
+   * neither palette is the vendor's own; Four BT and Get
+   * A-Head have no citable source stating brand colors as hex
+   * values. Every value below appears in its cited source,
+   * verified against the fetched page. */
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/dossier.com
+  'Dossier': { primary: '#243d51', secondary: '#8fcaf0', accent: '#64748b' },
+  // Brandfetch brand page, claimed brand (Slate, Mist, Cobalt; Space and Dust also listed): https://brandfetch.com/drata.com
+  'Drata': { primary: '#1c262b', secondary: '#f5f6f7', accent: '#2e4dff' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/druva.com
+  'Druva, Inc.': { primary: '#ff9900', secondary: '#699cee', accent: '#000833' },
+  // Brandfetch brand page (Red, White, Astronaut): https://brandfetch.com/dtexsystems.com
+  'DTEX Systems, Inc.': { primary: '#fe0000', secondary: '#ffffff', accent: '#232671' },
+  // Economic Systems, Inc. does business as EconSys; Brandfetch brand page
+  // (Cinnabar, Petite Orchid, Eden): https://brandfetch.com/econsys.com
+  'Economic Systems': { primary: '#e63c25', secondary: '#da8e88', accent: '#0f445a' },
+  // Brandfetch brand page (Mulberry, Lavender Rose, Black): https://brandfetch.com/egain.com
+  'eGain Corporation': { primary: '#c942a6', secondary: '#ff90dc', accent: '#000000' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/egnyte.com
+  'Egnyte': { primary: '#32bdb5', secondary: '#ffdb8f', accent: '#0d6e5f' },
+  // Brandfetch brand page (Bondi Blue, Plum, White; Nile Blue also listed): https://brandfetch.com/eightfold.ai
+  'Eightfold AI Inc.': { primary: '#008fbf', secondary: '#7e3a77', accent: '#ffffff' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/elekta.com
+  'Elekta Solutions': { primary: '#2dccd3', secondary: '#8ff7ba', accent: '#006780' },
+  // Brandfetch brand page for Elvo Health (the vendor's own site, per its
+  // Marketplace listing), palette stated in its FAQ (no color names listed): https://brandfetch.com/elvohealth.com
+  'Elvo': { primary: '#f7962e', secondary: '#021240', accent: '#5ebc6a' },
+  // Brandfetch brand page (Cerulean, Midnight Blue, Maroon Flush; White and
+  // Blue Zodiac also listed): https://brandfetch.com/emburse.com
+  'Emburse': { primary: '#0097dc', secondary: '#002f6c', accent: '#b21f59' },
+  // End To End Computing is now End To End Enterprise Solutions (E3S);
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/eecomputing.com
+  'End To End Computing': { primary: '#f97316', secondary: '#ffffff', accent: '#16385c' },
+  // Enel X North America carries the Enel X brand; Brandfetch brand page
+  // (Trinidad, Anakiwa, Hawaiian Tan): https://brandfetch.com/enelx.com
+  'Enel X North America': { primary: '#f33907', secondary: '#91fefc', accent: '#9c5119' },
+  // Brandfetch brand page (Mindaro, Alabaster, Big Stone): https://brandfetch.com/energycap.com
+  'EnergyCAP LLC.': { primary: '#caf880', secondary: '#fbfbfb', accent: '#162f3b' },
+  // Brandfetch brand page (Torea Bay, Alice Blue, Haiti): https://brandfetch.com/entratus.ai
+  'Entratus': { primary: '#0a3c9b', secondary: '#f0faff', accent: '#0f0d2b' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/eptura.com
+  'Eptura, Inc': { primary: '#1b4bc5', secondary: '#f9fafc', accent: '#0d122e' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/ericsson.com
+  'Ericsson': { primary: '#1174e6', secondary: '#0c0c0c', accent: '#ffffff' },
+  // Brandfetch brand page (Trinidad, Goldenrod, Black): https://brandfetch.com/etherfax.net
+  'ETHERFAX': { primary: '#e93301', secondary: '#ffcb70', accent: '#000000' },
+  // Brandfetch brand page (Outrageous Orange, Black, White): https://brandfetch.com/everfox.com
+  'Everfox': { primary: '#ff5b42', secondary: '#000000', accent: '#ffffff' },
+  // Brandfetch brand page (Cornflower Blue, Morning Glory, Black): https://brandfetch.com/everlaw.com
+  'Everlaw, Inc.': { primary: '#63b2e6', secondary: '#8fd2de', accent: '#000000' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/evidenceprime.com
+  'Evidence Prime': { primary: '#70b9dd', secondary: '#6bbe6b', accent: '#003399' },
+  // Brandfetch brand page (Copper, Jordy Blue, Chathams Blue): https://brandfetch.com/exlibrisgroup.com
+  'Ex Libris': { primary: '#c57931', secondary: '#6bbaef', accent: '#1b4a78' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/exostar.com
+  'Exostar': { primary: '#1e1c56', secondary: '#b5cefa', accent: '#0c4da2' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/exterro.com
+  'Exterro, Inc.': { primary: '#f26c38', secondary: '#3e3e3c', accent: '#ffffff' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/extrahop.com
+  'ExtraHop Networks': { primary: '#29a3a0', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/facilitygrid.com
+  'Facility Grid, LLC': { primary: '#8db941', secondary: '#ffffff', accent: '#0e0c3c' },
+  // Brandfetch brand page (Havelock Blue, Jordy Blue, Blue Zodiac): https://brandfetch.com/feith.com
+  'Feith Sytems and Software, Inc.': { primary: '#408bdc', secondary: '#8bbef0', accent: '#0a1330' },
+  // Brandfetch brand page, claimed brand (Dodger Blue, Electric Violet, Burning
+  // Orange; Mountain Meadow and Red Orange also listed): https://brandfetch.com/figma.com
+  'Figma': { primary: '#0d99ff', secondary: '#874fff', accent: '#ff7237' },
+  // Brandfetch brand page, claimed brand (Primary Red, Mine Shaft, Hint of Red;
+  // Alizarin Crimson also listed): https://brandfetch.com/files.com
+  'Files.com': { primary: '#c11f32', secondary: '#222222', accent: '#fbf9f9' },
+  // Brandfetch brand page (Cerulean, Selective Yellow, Cod Gray; White also listed): https://brandfetch.com/forescout.com
+  'Forescout Technologies, Inc.': { primary: '#009dea', secondary: '#ffb400', accent: '#111111' },
+  // Brandfetch brand page, palette stated in its FAQ (White also listed;
+  // no color names listed): https://brandfetch.com/freshworks.com
+  'Freshworks': { primary: '#8512e0', secondary: '#0000ee', accent: '#0b1320' },
+  // Brandfetch brand page, claimed brand (Deep Blue, Scarlet, Dark Gray;
+  // Sky Light and White also listed): https://brandfetch.com/fulcrumapp.com
+  'Fulcrum': { primary: '#034c8c', secondary: '#eb1300', accent: '#414042' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/gallerysystems.com
+  'Gallery Systems': { primary: '#d95726', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page for GDCII (the domain on the vendor's Marketplace
+  // listing), palette stated in its FAQ (no color names listed): https://brandfetch.com/gdcii.com
+  'GDC Integration, Inc.': { primary: '#6fb434', secondary: '#53accc', accent: '#333333' },
+  // Brandfetch brand page for the General Services Administration (the
+  // registry vendor; its offering is Login.gov), palette stated in its FAQ
+  // (no color names listed): https://brandfetch.com/gsa.gov
+  'General Services Administration': { primary: '#c8942b', secondary: '#c7a97b', accent: '#005ea2' },
+  // Brandfetch brand page (Allports, Scooter, Black Pearl): https://brandfetch.com/geographicsolutions.com
+  'Geographic Solutions Inc.': { primary: '#0069a4', secondary: '#46b8da', accent: '#061921' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/geotab.com
+  'Geotab': { primary: '#00326d', secondary: '#ffffff', accent: '#666666' },
+  // GetWellNetwork trades as Get Well; Brandfetch brand page (Valhalla,
+  // Portage, Valhalla): https://brandfetch.com/getwellnetwork.com
+  'GetWellNetwork': { primary: '#291758', secondary: '#9896f0', accent: '#221548' },
+  // Brandfetch brand page (Ripe Lemon, Rajah, Red Beech): https://brandfetch.com/glassbeam.com
+  'Glassbeam, Inc.': { primary: '#f2db0a', secondary: '#f7c67b', accent: '#732d00' },
+  // Brandfetch brand page (Shakespeare, Di Serria, Limed Spruce): https://brandfetch.com/globaltelehealthservices.com
+  'Global Telehealth Services, inc.': { primary: '#4597cb', secondary: '#dca559', accent: '#37474f' },
+  // Brandfetch brand page (Jungle Green, Twilight Blue, Biscay): https://brandfetch.com/globality.com
+  'Globality Inc': { primary: '#24b66f', secondary: '#f7ffff', accent: '#163760' },
+  // Brandfetch brand page (Cerulean, Silver, Cod Gray): https://brandfetch.com/glytec.com
+  'Glytec, LLC': { primary: '#00c0ff', secondary: '#cccccc', accent: '#151515' },
+  // Brandfetch brand page (Blue Ribbon, Malibu, Mirage): https://brandfetch.com/gordian.com
+  'Gordian': { primary: '#0067e7', secondary: '#8ed1fc', accent: '#1e293b' },
+  // Brandfetch brand page (Blue Ribbon, Black White, Bright Gray): https://brandfetch.com/govdash.com
+  'GovDash': { primary: '#024ff5', secondary: '#fffefa', accent: '#3c4250' },
+  // Government Retirement & Benefits, Inc. is GRB Inc., as the page's own
+  // About states in full; Brandfetch brand page (Monza, Alabaster, Mine
+  // Shaft): https://brandfetch.com/grbinc.com
+  'Government Retirement & Benefits, Inc.': { primary: '#c10021', secondary: '#f8f8f8', accent: '#222222' },
+  // Brandfetch brand page (Brick Red, Cadet Blue, Rusty Nail): https://brandfetch.com/granicus.com
+  'Granicus': { primary: '#cd364e', secondary: '#a9b8c3', accent: '#843d08' },
+  // Brandfetch brand page (Electric Violet, Muddy Waters, Woodsmoke): https://brandfetch.com/groupize.com
+  'Groupize, Inc.': { primary: '#9333ea', secondary: '#bc8461', accent: '#0f1115' },
+  // H2O.AI for Government carries the parent H2O.ai brand; Brandfetch brand
+  // page (Lightning Yellow, White, Cod Gray): https://brandfetch.com/h2o.ai
+  'H2O.AI for Government': { primary: '#fec925', secondary: '#ffffff', accent: '#161616' },
+  // Brandfetch brand page (Razzmatazz, White, Black): https://brandfetch.com/hackerone.com
+  'HackerOne': { primary: '#ec1075', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page (Cerulean, White, Bunker): https://brandfetch.com/haivision.com
+  'Haivision Systems, Inc.': { primary: '#00a3e0', secondary: '#ffffff', accent: '#101820' },
+  // Brandfetch brand page, claimed brand (Sunshade, Seashell Peach, Midnight): https://brandfetch.com/halcyon.ai
+  'Halcyon Tech, Inc.': { primary: '#ffac2f', secondary: '#fff6ed', accent: '#00182c' },
+  // The vendor's Marketplace listing points at usehalo.com (Halo's ITSM
+  // platform); Brandfetch brand page, claimed brand (Halo Blue, Navy,
+  // Midnight; White and Teal also listed): https://brandfetch.com/usehalo.com
+  'Halo': { primary: '#00ceff', secondary: '#002d5b', accent: '#051830' },
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];

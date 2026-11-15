@@ -6,11 +6,11 @@
   "offeringsIndexed": 781,
   "districts": 81,
   "litWindowInstances": 471,
-  "brandResearched": 258,
-  "brandDefault": 416,
+  "brandResearched": 310,
+  "brandDefault": 364,
   "drawCalls": 18,
   "triangles": 48242,
-  "fps": 38,
+  "fps": 32,
   "camera": {
    "x": 24,
    "z": 0
@@ -37,13 +37,13 @@
    "pitch": 0
   },
   "after": {
-   "x": 29.3144000000013,
-   "z": -3.2541314746951454e-16,
+   "x": 29.57340000000782,
+   "z": -3.41272323518872e-16,
    "y": 1.7,
    "yaw": -1.5707963267948966,
    "pitch": 0
   },
-  "moved": 5.314400000001299
+  "moved": 5.573400000007819
  },
  "districtView": {
   "camIdx": 53,
@@ -51,8 +51,8 @@
  },
  "districtPixels": {
   "nonBgFraction": 0.5926649305555556,
-  "brightFraction": 0.5526258680555556,
-  "distinctColors": 93,
+  "brightFraction": 0.5521918402777778,
+  "distinctColors": 95,
   "bg": [
    27,
    36,
@@ -137,11 +137,11 @@
    },
    "IBM Federal ATOM": {
     "archetype": "lab",
-    "nonBg": 0.9005208333333333
+    "nonBg": 0.9006944444444445
    },
    "IBM Federal HR Cloud": {
     "archetype": "lab",
-    "nonBg": 0.8996527777777777
+    "nonBg": 0.9003472222222222
    },
    "IBM Platform Services for Government": {
     "archetype": "federal-office",
