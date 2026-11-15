@@ -214,6 +214,74 @@ const BRAND_SEEDS = {
   'Thomson Reuters': { primary: '#ff8000', secondary: '#1a1a1a', accent: '#ffffff' },
   'Axon': { primary: '#111111', secondary: '#ffffff', accent: '#ffd500' },
   'Qlik Technologies Inc.': { primary: '#009845', secondary: '#1a1a1a', accent: '#ffffff' },
+  /* ---- Phase 4 brand research, tranche 1 (Nov 15, 2026) ----
+   * The 40 highest-offering-count default vendors, researched one by
+   * one. 24 were established from a citable public source (recorded
+   * per entry below) and are seeded here; the other 16 stay on the
+   * federal default because no fetched source states their brand
+   * colors as hex values (among them Casepoint, whose only listing
+   * contradicts its own identity description, and Kiteworks, whose
+   * official media kit shows its palette as an image with no hex
+   * text). Every value below appears in its cited source. */
+  // Brandfetch brand page (Tango, Cobalt, Jagged Ice): https://brandfetch.com/projecthosts.com
+  'Project Hosts Inc.': { primary: '#f36d21', secondary: '#003ca5', accent: '#b6e3d4' },
+  // Brandfetch brand page (Bay of Many, Turquoise Blue, Black): https://brandfetch.com/stackarmor.com
+  'stackArmor': { primary: '#244d80', secondary: '#000000', accent: '#4aeadc' },
+  // Brandfetch brand page (Blue, White, Cod Gray): https://brandfetch.com/trellix.com
+  'Trellix': { primary: '#2814ff', secondary: '#ffffff', accent: '#1a1a1a' },
+  // Brandfetch brand page (Mariner, Midnight, Lightning Yellow): https://brandfetch.com/unisonglobal.com
+  'Unison': { primary: '#2e76bc', secondary: '#00133d', accent: '#f8b625' },
+  // AvePoint's own G-Cloud document header: PRIMARY COLORS AvePoint Red / AvePoint Indigo,
+  // SECONDARY ACCENT COLORS Mint (Sunrise #fdca41 also listed): https://assets.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-15/documents/92331/307940440573590-pricing-document-2026-01-29-1101.pdf
+  'AvePoint Inc.': { primary: '#ef3b39', secondary: '#3027e2', accent: '#18e9ba' },
+  // Brandfetch colors collection for CGI (Crimson, Gigas, Mine Shaft, White): https://brandfetch.com/cgi.com
+  'CGI Federal': { primary: '#e11937', secondary: '#ffffff', accent: '#5236ab' },
+  // Commvault Brand Guidelines v3, Color chapter, Primary Colors (Peacoat, Cloud, Storm, Raspberry): https://preprod-commvault-legacy.pantheonsite.io/wp-content/uploads/2021/09/Commvault-Brand-Guidelines.pdf
+  'Commvault Systems, Inc.': { primary: '#0b2e44', secondary: '#ddeaf3', accent: '#ff4a6a' },
+  // Brandfetch brand page for Exiger (near-black ground, slate, violet accent): https://brandfetch.com/exiger.com
+  'Covergent Solutions Inc dba Exiger Government Solutions (EGS)': { primary: '#121318', secondary: '#4b4e5a', accent: '#8b6eff' },
+  // Brandfetch brand page for Deltek: https://brandfetch.com/deltek.com
+  'Deltek - Replicon': { primary: '#0063a3', secondary: '#ffffff', accent: '#72767b' },
+  // Docusign's own brand guidelines color page (Cobalt is the primary brand color;
+  // Inkwell a secondary; Poppy the accent): https://brand.docusign.com/color
+  'DocuSign': { primary: '#4c00ff', secondary: '#130032', accent: '#ff5252' },
+  // Brandfetch brand page: https://brandfetch.com/dynatrace.com
+  'Dynatrace': { primary: '#3481f4', secondary: '#000000', accent: '#ffffff' },
+  // HP Visual Identity 2022 logo guidelines: the logo colors are Black, White and
+  // HP Corporate blue; the blue's hex (0096D6, Pantone 2925 C) is stated in HP's logo
+  // specification documents: https://cdn.relayto.com/media/files/HP_Logo_Guidelines_2.0_3e28e05e435848fd89e8d1442689a548.pdf
+  'HP Inc.': { primary: '#0096d6', secondary: '#ffffff', accent: '#000000' },
+  // Ivanti Brand Expression Guide (August 2025), Colors page primary scale
+  // (Ivanti Red #ff1515 is the named logo color; deep purple and orange are the scale anchors): https://palti.com.co/wp-content/uploads/2026/01/Ivanti-Brand-Expression-Guide-compressed.pdf
+  'Ivanti': { primary: '#ff1515', secondary: '#280b3f', accent: '#ff8303' },
+  // Keeper Security's own USPTO trademark application (Serial 97137705), colors claimed
+  // for the mark: Black (000000), Gold (FFC700), White (FFFFFF): https://trademarks.justia.com/971/37/n-97137705.html
+  'Keeper Security': { primary: '#000000', secondary: '#ffffff', accent: '#ffc700' },
+  // Brandfetch brand page, claimed brand (Vermilion, Black, Deep Teal, Aubergine, Vapor): https://brandfetch.com/knowbe4.com
+  'KnowBe4, Inc.': { primary: '#ef4523', secondary: '#101820', accent: '#00293c' },
+  // Brandfetch brand page: https://brandfetch.com/maximus.com
+  'MAXIMUS Inc.': { primary: '#502d90', secondary: '#ffffff', accent: '#4a4a4a' },
+  // NinjaOne Brand Guide v1.5, logotype colors and palette page ("the primary palette
+  // color is blue, paired with a vivid green"): https://images.ninjaone.com/wp-content/uploads/2026/01/NinjaOne-Brand-Guide-v1.5.pdf
+  'NinjaOne': { primary: '#053856', secondary: '#ffffff', accent: '#04ff88' },
+  // Nintex Brand Guidelines v2.2, Colors page (primary: Nintex Orange, Nintex Charcoal;
+  // secondary: Red, Amber, Grey): http://nintexdownload.com/Nsupport/Nintex_Brand_Guidelines.pdf
+  'Nintex': { primary: '#ff7900', secondary: '#323232', accent: '#ff0f00' },
+  // Brandfetch brand page, claimed brand (Blue Ribbon, Big Stone, Island Spice): https://brandfetch.com/skillsoft.com
+  'Skillsoft': { primary: '#1f69fc', secondary: '#151c36', accent: '#fffbee' },
+  // Slack Brand Guidelines, Colors page ("Aubergine is our brand primary color";
+  // Aubergine Null is its surface variant; Blue is the lead logo color): https://a.slack-edge.com/3f2ae/marketing/img/media-kit/Slack-Brand-Guidelines.pdf
+  'Slack Technologies': { primary: '#4a154b', secondary: '#611f69', accent: '#36c5f0' },
+  // Trend Micro's own brand palette page (Trend Red, White, Rich Black): https://resources.trendmicro.com/Hybrid-Cloud-Security-Contact-Us.html
+  'Trend Micro Inc.': { primary: '#d71920', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page for Tyler Technologies (blue wordmark, deep blue, green): https://brandfetch.com/tylertech.com
+  'Tyler Federal, LLC': { primary: '#1278c0', secondary: '#045590', accent: '#909b48' },
+  // USDA's official Design and Brand page, "USDA Colors": the official logo colors are
+  // Dark Blue #002d72 (PMS 288) and Dark Green #005440 (PMS 343); the same page sets the
+  // logo on a white masthead field: https://www.usda.gov/digital-strategy/design-and-brand/plays
+  'United States Department of Agriculture': { primary: '#002d72', secondary: '#ffffff', accent: '#005440' },
+  // Brandfetch brand page, claimed brand (Royal Blue, Ebony, White): https://brandfetch.com/wiz.io
+  'Wiz, Inc.': { primary: '#325fe8', secondary: '#0f172a', accent: '#ffffff' },
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];
