@@ -558,6 +558,139 @@ const BRAND_SEEDS = {
   'CloudFit Software, LLC': { primary: '#233d93', secondary: '#fff9f9', accent: '#141d38' },
   // Brandfetch brand page (Azure Radiance, Anakiwa, Woodsmoke): https://brandfetch.com/cobblestonesoftware.com
   'CobbleStone Software': { primary: '#107dff', secondary: '#a9d0ff', accent: '#121619' },
+  /* ---- Phase 4 brand research, tranche 4 (Nov 15, 2026) ----
+   * The next 60 default vendors in registry order after
+   * CobbleStone Software, researched one by one. 52 were
+   * established from a citable public source (recorded per entry
+   * below) and are seeded here; the other 8 stay on the federal
+   * default: Cognition USG's only listing states exactly two
+   * colors, so no third value is citable; the only ContinuumGRC
+   * listing contradicts itself (its About section describes a
+   * cookie-consent company, not the GRC audit vendor) and the
+   * only Cyera listing's hex codes contradict its own branding
+   * text (two near-identical lime greens against a stated
+   * deep-purple primary palette); ComplianceAid, Consus
+   * Industries, Coretsu, Creative Veteran Productions and
+   * Distributed Solutions have no citable source stating brand
+   * colors as hex values. Every value below appears in its
+   * cited source, verified against the fetched page. */
+  // Brandfetch brand page (Blue Ribbon, Midnight Blue, Persimmon): https://brandfetch.com/codesignal.com
+  'CodeSignal, Inc.': { primary: '#1062fb', secondary: '#002570', accent: '#ff5b4a' },
+  // Brandfetch brand page (Punch, White, Elephant): https://brandfetch.com/cofense.com
+  'Cofense': { primary: '#d7282f', secondary: '#ffffff', accent: '#0e2538' },
+  // Brandfetch brand page (Atlantis, Gallery, Cobalt): https://brandfetch.com/cohesity.com
+  'Cohesity': { primary: '#96c73d', secondary: '#eeeeee', accent: '#0047bb' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/colabsoftware.com
+  'CoLab': { primary: '#006ce0', secondary: '#ffffff', accent: '#020617' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/collabware.com
+  'Collabware': { primary: '#bdb831', secondary: '#ffffff', accent: '#004d71' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/collibra.com
+  'Collibra': { primary: '#72bf00', secondary: '#ffffff', accent: '#002b3f' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/cdslegal.com
+  'Complete Discovery Source': { primary: '#fcc705', secondary: '#ffffff', accent: '#464646' },
+  // Brandfetch brand page (Blue Zodiac, Pampas, Mirage): https://brandfetch.com/concoursetech.com
+  'Concourse Tech Inc.': { primary: '#0e2d52', secondary: '#f6f6f1', accent: '#182328' },
+  // Brandfetch brand page for SAP Concur, palette stated in its FAQ (Black also
+  // listed; no color names listed): https://brandfetch.com/concur.com
+  'Concur Technologies, Inc.': { primary: '#f0ab00', secondary: '#008fd3', accent: '#ffffff' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/confluent.io
+  'Confluent': { primary: '#0156f9', secondary: '#000000', accent: '#ffffff' },
+  // Brandfetch brand page (Gable Green, White, Gable Green): https://brandfetch.com/connectsecure.com
+  'ConnectSecure LLC': { primary: '#12242b', secondary: '#ffffff', accent: '#193039' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/consensus.com
+  'Consensus Cloud Solutions': { primary: '#7952ff', secondary: '#4aeadc', accent: '#007cba' },
+  // Brandfetch brand page (Tawny Port, Viking, Deep Sea Green): https://brandfetch.com/contegix.com
+  'Contegix': { primary: '#74275d', secondary: '#63bcdd', accent: '#0d4b6d' },
+  // Brandfetch brand page (Congress Blue, Cerise Red, Black): https://brandfetch.com/contentguru.com
+  'Content Guru': { primary: '#004d95', secondary: '#e83174', accent: '#000000' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/copado.com
+  'Copado': { primary: '#00c3ef', secondary: '#fc5c50', accent: '#3d1665' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/coralogix.com
+  'Coralogix Inc.': { primary: '#006cf8', secondary: '#f0f5fb', accent: '#050b25' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/coras.com
+  'CORAS': { primary: '#00ccff', secondary: '#a6efff', accent: '#26262a' },
+  // Brandfetch brand page (Eucalyptus, Aero Blue, International Klein Blue): https://brandfetch.com/corelight.com
+  'Corelight': { primary: '#24b34c', secondary: '#befced', accent: '#063ba7' },
+  // Brandfetch brand page (Tenn, Concrete, Blue Charcoal): https://brandfetch.com/cority.com
+  'Cority Software Inc.': { primary: '#d65f00', secondary: '#f2f2f2', accent: '#011223' },
+  // Cornerstone Information Systems is the Bloomington travel-technology company
+  // at ciswired.com (cornerstone.com is Cornerstone Research, a different
+  // company); Brandfetch brand page (Cornflower Blue, White, Stratos): https://brandfetch.com/ciswired.com
+  'Cornerstone Information Systems': { primary: '#4f84f8', secondary: '#ffffff', accent: '#040059' },
+  // Brandfetch brand page, palette stated in its FAQ (White also listed;
+  // no color names listed): https://brandfetch.com/cornerstoneondemand.com
+  'Cornerstone OnDemand': { primary: '#fa4616', secondary: '#2eccd3', accent: '#4a5568' },
+  // Brandfetch brand page, palette stated in its FAQ (White also listed;
+  // no color names listed): https://brandfetch.com/coupa.com
+  'Coupa Software Inc': { primary: '#5ed5ff', secondary: '#1565c0', accent: '#081d4d' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/crestpt.com
+  'CrestPoint Solutions, Inc': { primary: '#000000', secondary: '#a1cc3a', accent: '#ffffff' },
+  // Brandfetch brand page (Blaze Orange, Robin's Egg Blue, Science Blue;
+  // Alabaster and Daintree also listed): https://brandfetch.com/cribl.io
+  'Cribl Inc.': { primary: '#ff6600', secondary: '#00cccc', accent: '#0b6cd9' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/curapatient.com
+  'CuraPatient': { primary: '#f0923b', secondary: '#ffffff', accent: '#1461a5' },
+  // Brandfetch brand page (Bay Leaf, Blizzard Blue, Black): https://brandfetch.com/cylogic.com
+  'CyLogic': { primary: '#7eac8c', secondary: '#9dd7f0', accent: '#000000' },
+  // Brandfetch brand page (Vermilion, Tangaroa, White): https://brandfetch.com/dailypay.com
+  'DailyPay': { primary: '#ff4c00', secondary: '#03153a', accent: '#ffffff' },
+  // Darktrace Federal carries the parent Darktrace brand; Brandfetch brand page,
+  // palette stated in its FAQ (no color names listed; Darktrace's own Brand Hub
+  // likewise names Black, Orange and White as its primary palette): https://brandfetch.com/darktrace.com
+  'Darktrace Federal Inc.': { primary: '#f2582c', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page (Flamingo, White, Cod Gray): https://brandfetch.com/databank.com
+  'DataBank Holdings': { primary: '#f35e2b', secondary: '#ffffff', accent: '#0b0b0b' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/datadoghq.com
+  'Datadog, Inc.': { primary: '#632ca6', secondary: '#110617', accent: '#ffffff' },
+  // Brandfetch brand page, palette stated in its FAQ (Black also listed;
+  // no color names listed): https://brandfetch.com/datarobot.com
+  'DataRobot': { primary: '#81fba5', secondary: '#a6b0ff', accent: '#ffff54' },
+  // Brandfetch brand page (Bright Turquoise, White, Jacksons Purple): https://brandfetch.com/datavant.com
+  'Datavant': { primary: '#0dd9b8', secondary: '#ffffff', accent: '#211b94' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/dayforce.com
+  'Dayforce': { primary: '#346fe7', secondary: '#080000', accent: '#ffffff' },
+  // Brandfetch brand page (Royal Blue, My Sin, Black Pearl): https://brandfetch.com/decisionlens.com
+  'Decision Lens Inc.': { primary: '#1d74ec', secondary: '#ffb526', accent: '#040d19' },
+  // Brandfetch brand page (Tango, White, Fuscous Gray): https://brandfetch.com/cybersecgru.com
+  'Defense Cybersecurity Group': { primary: '#f0810e', secondary: '#ffffff', accent: '#525150' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/dejero.com
+  'Dejero Labs, Inc.': { primary: '#00468b', secondary: '#fcd34d', accent: '#000000' },
+  // Deltek, Inc. carries the same Deltek brand seeded for Deltek - Replicon in
+  // tranche 1; Brandfetch brand page, palette stated in its FAQ (no color names
+  // listed): https://brandfetch.com/deltek.com
+  'Deltek, Inc.': { primary: '#0063a3', secondary: '#ffffff', accent: '#72767b' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/devo.com
+  'Devo': { primary: '#d6e80f', secondary: '#f3f3f3', accent: '#004c97' },
+  // Brandfetch brand page (Meteor, Sisal, Red Berry): https://brandfetch.com/devresults.com
+  'DevResults': { primary: '#d8820f', secondary: '#d6cdc1', accent: '#8b0000' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/dexcom.com
+  'Dexcom Inc.': { primary: '#09b02c', secondary: '#161a1d', accent: '#ffffff' },
+  // Brandfetch brand page (Dodger Blue, White, River Bed): https://brandfetch.com/digicert.com
+  'DigiCert, Inc.': { primary: '#0f9dff', secondary: '#ffffff', accent: '#48565e' },
+  // Brandfetch brand page (Lightning Yellow, Black, White): https://brandfetch.com/digital-science.com
+  'Digital Science UK Limited': { primary: '#ffcc20', secondary: '#000000', accent: '#ffffff' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/digital.ai
+  'Digital.ai': { primary: '#517934', secondary: '#ffffff', accent: '#000000' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/diligent.com
+  'Diligent, Inc.': { primary: '#ee312e', secondary: '#ffffff', accent: '#282e37' },
+  // Brandfetch brand page (Medium Purple, White, Cod Gray): https://brandfetch.com/dispel.com
+  'Dispel LLC': { primary: '#7554da', secondary: '#ffffff', accent: '#070606' },
+  // The same Dispel company as the Dispel LLC entry above, under a second
+  // registry name; Brandfetch brand page (Medium Purple, White, Cod Gray): https://brandfetch.com/dispel.com
+  'Dispel, LLC': { primary: '#7554da', secondary: '#ffffff', accent: '#070606' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/dlhcorp.com
+  'DLH Corporation': { primary: '#4054b2', secondary: '#ffffff', accent: '#a71444' },
+  // Brandfetch brand page (Mariner, Catskill White, Hawaiian Tan): https://brandfetch.com/dmetrics.com
+  'dMetrics': { primary: '#2f76c2', secondary: '#f5f7fa', accent: '#9e5218' },
+  // Brandfetch brand page (Malibu, White, Outer Space): https://brandfetch.com/dnanexus.com
+  'DNAnexus, Inc.': { primary: '#65c9f9', secondary: '#ffffff', accent: '#2c3339' },
+  // Brandfetch brand page (Navy Blue, Violet, Hot Pink; Magenta and Lavender
+  // also listed): https://brandfetch.com/docebo.com
+  'Docebo': { primary: '#002b80', secondary: '#7e2ee9', accent: '#ff5dd8' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/docketscope.com
+  'DocketScope, Inc.': { primary: '#0088ca', secondary: '#ffffff', accent: '#1b2a3c' },
+  // Brandfetch brand page, palette stated in its FAQ (no color names listed): https://brandfetch.com/dssinc.com
+  'Document Storage Systems, Inc. (DSS, Inc.)': { primary: '#d6bb8e', secondary: '#a3dffa', accent: '#000000' },
 };
 function brandFor(vendorName) {
   const seed = BRAND_SEEDS[vendorName];
