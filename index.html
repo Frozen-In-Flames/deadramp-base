@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DeadRamp Base</title>
 <style>
   html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #141a26;
@@ -31,12 +31,13 @@
     width: min(360px, calc(100vw - 24px)); background: rgba(16, 21, 31, .94);
     border: 1px solid #3a465c; border-radius: 8px; padding: 14px 16px; display: none;
     box-shadow: 0 8px 30px rgba(0,0,0,.5); }
-  #settingsPanel h3 { margin: 0 24px 8px 0; font-size: 16px; line-height: 1.3; }
+  #settingsPanel h2 { margin: 0 24px 8px 0; font-size: 16px; line-height: 1.3; }
   #settingsPanel .setHead { font-size: 12px; font-weight: 700; letter-spacing: 1px;
     text-transform: uppercase; color: #ffb36b; margin-bottom: 6px; }
   #settingsPanel p { margin: 0; font-size: 12.5px; color: #c8cfda; line-height: 1.55; }
   #settingsClose { position: absolute; top: 8px; right: 10px; background: none; border: none;
-    color: #a9b8cc; font-size: 18px; cursor: pointer; line-height: 1; }
+    color: #a9b8cc; font-size: 18px; cursor: pointer; line-height: 1;
+    width: 24px; height: 24px; min-width: 24px; min-height: 24px; padding: 0; text-align: center; }
   #vrBtn { position: fixed; left: 50%; transform: translateX(-50%); bottom: 12px; z-index: 16;
     display: none; padding: 10px 24px; border-radius: 6px; background: rgba(16, 21, 31, .92);
     border: 1px solid #8c6a2f; color: #ffd9a0; font-size: 14px; font-weight: 700; letter-spacing: 1px;
@@ -56,7 +57,7 @@
     max-height: calc(100vh - 24px); overflow-y: auto; background: rgba(16, 21, 31, .94);
     border: 1px solid #3a465c; border-radius: 8px; padding: 14px 16px; display: none;
     box-shadow: 0 8px 30px rgba(0,0,0,.5); }
-  #card h3 { margin: 0 24px 4px 0; font-size: 16px; line-height: 1.3; }
+  #card h2 { margin: 0 24px 4px 0; font-size: 16px; line-height: 1.3; }
   #card .meta { font-size: 12px; color: #a9b8cc; margin-bottom: 8px; line-height: 1.5; }
   #card .status-certified { color: #8be08b; } #card .status-pipeline { color: #f2b880; } #card .status-mixed { color: #ffe08a; }
   #card ul { list-style: none; margin: 8px 0 0; padding: 0; }
@@ -70,7 +71,8 @@
     #statsbar { max-width: 52vw; }
   }
   #cardClose { position: absolute; top: 8px; right: 10px; background: none; border: none;
-    color: #a9b8cc; font-size: 18px; cursor: pointer; line-height: 1; }
+    color: #a9b8cc; font-size: 18px; cursor: pointer; line-height: 1;
+    width: 24px; height: 24px; min-width: 24px; min-height: 24px; padding: 0; text-align: center; }
   #card .enterBtn { display: block; width: 100%; margin-top: 12px; padding: 9px 0;
     background: #2b4a73; color: #eaf2ff; border: 1px solid #4a6f9f; border-radius: 6px;
     font-size: 13.5px; font-weight: 600; letter-spacing: .4px; cursor: pointer; }
@@ -100,7 +102,8 @@
   #termMode.live { color: #8be08b; } #termMode.recorded { color: #f2b880; }
   #termMode .sub { display: block; font-weight: 400; letter-spacing: 0; color: #a9b8cc; font-size: 11.5px; }
   #termClose { position: absolute; top: 6px; right: 8px; background: none; border: none;
-    color: #a9b8cc; font-size: 19px; cursor: pointer; line-height: 1; padding: 4px; }
+    color: #a9b8cc; font-size: 19px; cursor: pointer; line-height: 1;
+    width: 24px; height: 24px; min-width: 24px; min-height: 24px; padding: 0; text-align: center; }
   #termOut { overflow-y: auto; padding: 9px 12px; font-family: ui-monospace, Menlo, Consolas, monospace;
     font-size: 12.5px; line-height: 1.55; color: #c8cfda; white-space: pre-wrap; word-break: break-word;
     min-height: 90px; }
@@ -119,11 +122,65 @@
     font-size: 13px; font-weight: 600; padding: 9px 18px; cursor: pointer; }
   #termRun:hover { background: #356099; }
 
+  /* accessibility (v0.5.0): an explicit focus indicator in the brand
+     bronze, a visually-hidden class for text that exists for
+     assistive technology, a skip link to the directory, the
+     directory panel, and the touch turn pads */
+  :focus-visible { outline: 2px solid #ffb36b; outline-offset: 2px; }
+  .vh { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .skip { position: fixed; top: -48px; left: 12px; z-index: 40; background: rgba(16, 21, 31, .96);
+    color: #ffd9a0; border: 1px solid #8c6a2f; border-radius: 6px; padding: 10px 14px;
+    font-size: 13px; text-decoration: none; transition: top .15s ease; }
+  .skip:focus { top: 10px; }
+  #directoryBtn { position: fixed; left: 112px; bottom: 36px; z-index: 16; width: 42px; height: 42px;
+    border-radius: 50%; background: rgba(16, 21, 31, .92); border: 1px solid #8c6a2f; color: #ffd9a0;
+    padding: 0; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.5);
+    display: flex; align-items: center; justify-content: center; }
+  #directoryBtn:hover { background: rgba(43, 74, 115, .92); }
+  #directory { position: fixed; left: 12px; bottom: 88px; z-index: 22;
+    width: min(440px, calc(100vw - 24px)); max-height: min(72vh, 760px); overflow-y: auto;
+    background: rgba(16, 21, 31, .96); border: 1px solid #3a465c; border-radius: 8px;
+    padding: 14px 16px; display: none; box-shadow: 0 8px 30px rgba(0,0,0,.5); }
+  #directory h2 { margin: 0 24px 6px 0; font-size: 16px; line-height: 1.3; }
+  #directory h3 { margin: 14px 0 4px; font-size: 13px; letter-spacing: .6px; color: #ffb36b; }
+  #directory p { margin: 0 0 8px; font-size: 12.5px; color: #c8cfda; line-height: 1.55; }
+  #directoryClose { position: absolute; top: 8px; right: 10px; background: none; border: none;
+    color: #a9b8cc; font-size: 18px; cursor: pointer; line-height: 1;
+    width: 24px; height: 24px; min-width: 24px; min-height: 24px; padding: 0; text-align: center; }
+  #directory label.dirSearchLabel { display: block; font-size: 12px; font-weight: 700;
+    letter-spacing: .6px; text-transform: uppercase; color: #ffb36b; margin: 8px 0 5px; }
+  #directorySearch { width: 100%; box-sizing: border-box; background: #0d1017; border: 1px solid #35507a;
+    border-radius: 6px; color: #eef3fa; font-size: 13.5px; padding: 9px 10px; }
+  #directoryMeta { font-size: 12px; color: #9fb0c3; margin-top: 6px; }
+  #directory ul { list-style: none; margin: 0; padding: 0; }
+  .dirVendor { padding: 8px 0; border-top: 1px solid #2a3448; }
+  .dirVName { font-size: 13.5px; font-weight: 700; color: #eef3fa; }
+  .dirVStatus { display: block; font-size: 12px; color: #a9b8cc; margin-top: 1px; }
+  .dirOff { margin-top: 4px; }
+  .dirOff li { font-size: 12.5px; color: #c8cfda; padding: 2px 0 2px 10px; line-height: 1.45; }
+  .dirOff .dirMode { color: #93a5bb; font-size: 11.5px; }
+  .dirBtns { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .dirBtns button { background: #1c2a42; color: #cfe2ff; border: 1px solid #35507a; border-radius: 6px;
+    font-size: 12px; font-weight: 600; padding: 6px 11px; cursor: pointer; min-height: 24px; }
+  .dirBtns button:hover { background: #2b4a73; }
+  #settingsPanel .setRow { display: flex; gap: 8px; align-items: flex-start;
+    font-size: 12.5px; color: #c8cfda; line-height: 1.5; margin: 7px 0; cursor: pointer; }
+  #settingsPanel .setRow input { width: 18px; height: 18px; margin: 1px 0 0; flex: none; }
+  #settingsPanel .setBlock { margin-bottom: 12px; }
+  #turnPads { position: fixed; right: 12px; bottom: 92px; z-index: 16; display: none; gap: 10px; }
+  #turnPads button { width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(16, 21, 31, .92); border: 1px solid #8c6a2f; color: #ffd9a0;
+    font-size: 18px; line-height: 1; padding: 0; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.5); }
+  body.hc-labels .lbl { background: rgba(10, 14, 22, .8); }
+  body.large-labels .lbl { font-size: 14px; }
+  body.large-labels .lbl.district { font-size: 17px; }
 </style>
 </head>
 <body>
-<div id="app"></div>
-<div id="loading">Building the Base from the catalog…</div>
+<a id="skipDir" class="skip" href="#directoryBtn">Skip to the directory of all vendors</a>
+<div id="app"><p id="sceneDesc" class="vh">A three-dimensional spiral city generated from the FedRAMP Marketplace record: one building per vendor, one room per offering. Everything in the scene is also available as text in the Directory, and state changes are announced through a live region.</p></div>
+<div id="loading" role="status">Building the Base from the catalog…</div>
 <div id="hud">
   <h1>DEADRAMP <span>BASE</span></h1>
   <div class="sub" id="hudSub">Loading catalog…</div>
@@ -134,18 +191,49 @@
 </div>
 <button id="helpBtn" aria-label="Show help" title="Help">?</button>
 <button id="settingsBtn" aria-label="Settings" title="Settings"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffd9a0" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><circle cx="9" cy="7" r="2.2" fill="#10141d"/><line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2.2" fill="#10141d"/><line x1="4" y1="17" x2="20" y2="17"/><circle cx="7" cy="17" r="2.2" fill="#10141d"/></svg></button>
+<button id="directoryBtn" aria-label="Directory" title="Directory"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffd9a0" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="8" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.1" fill="#ffd9a0"/><circle cx="4" cy="12" r="1.1" fill="#ffd9a0"/><circle cx="4" cy="18" r="1.1" fill="#ffd9a0"/></svg></button>
+<div id="ariaLive" class="vh" role="status" aria-live="polite"></div>
 <button id="vrBtn">Enter VR</button>
 <div id="crosshair"></div>
 <div id="prompt"></div>
 <div id="statsbar"></div>
-<div id="settingsPanel">
+<div id="settingsPanel" role="dialog" aria-label="Settings">
   <button id="settingsClose" aria-label="Close settings">×</button>
-  <h3>Settings</h3>
+  <h2>Settings</h2>
+  <div class="setBlock">
+    <div class="setHead">Accessibility and comfort</div>
+    <label class="setRow"><input type="checkbox" id="setMotion"><span>Reduce motion. Help stays on screen instead of fading, and the interior animations hold still.</span></label>
+    <label class="setRow"><input type="checkbox" id="setHcLabels"><span>High-contrast building labels. Names render at full strength with a darker backing.</span></label>
+    <label class="setRow"><input type="checkbox" id="setLargeLabels"><span>Larger building labels.</span></label>
+    <label class="setRow"><input type="checkbox" id="setKeys"><span>Keyboard movement and action keys. Turn this off if you drive the page by voice or switch and the keys fire by accident.</span></label>
+  </div>
+  <div class="setBlock">
+    <div class="setHead">Keyboard controls</div>
+    <p>WASD or the arrow keys walk. The comma and period keys turn. E enters at a door and launches the terminal in a room. Enter opens the record of whatever you are looking at. Shift moves fast. Escape closes the topmost panel.</p>
+  </div>
+  <div class="setBlock">
+    <div class="setHead">Accessibility statement</div>
+    <p>The Base is a three-dimensional scene, and everything in it is also available as text. The Directory lists every district, vendor, and offering with its status and launch mode, and can place you at any building or take you inside it. Arrivals, doors, floors, records, and terminal sessions are announced to assistive technology through a polite live region, and the terminal output is a live log. Known limits: the in-headset WebXR panels are visual only, because WebXR offers no assistive channel today; the on-device checks with VoiceOver and on the Quest 2 are still to be run; and signage inside the scene is carried by the Directory rather than by text inside the canvas.</p>
+  </div>
   <div class="setHead">About this model</div>
   <p id="settingsAbout"></p>
 </div>
-<div id="labels"></div>
-<div id="card">
+<div id="directory" role="dialog" aria-label="Directory of the Base">
+  <button id="directoryClose" aria-label="Close directory">×</button>
+  <h2>Directory</h2>
+  <p>Every district, vendor, and offering in the Base, as text: the same records the buildings carry, with the same statuses and launch modes.</p>
+  <div id="directoryInterior"></div>
+  <label class="dirSearchLabel" for="directorySearch">Search vendors and offerings</label>
+  <input id="directorySearch" type="search" autocomplete="off" aria-describedby="directoryMeta">
+  <div id="directoryMeta" aria-hidden="true"></div>
+  <div id="directoryList"></div>
+</div>
+<div id="turnPads">
+  <button id="turnLeft" aria-label="Turn left">◀</button>
+  <button id="turnRight" aria-label="Turn right">▶</button>
+</div>
+<div id="labels" aria-hidden="true"></div>
+<div id="card" role="dialog" aria-label="Record">
   <button id="cardClose" aria-label="Close">×</button>
   <div id="cardBody"></div>
 </div>
@@ -156,7 +244,7 @@
     <div id="termMode"></div>
     <button id="termClose" aria-label="Close terminal">×</button>
   </div>
-  <div id="termOut"></div>
+  <div id="termOut" role="log" aria-live="polite" aria-label="Terminal output"></div>
   <div id="termChips"></div>
   <div id="termBar">
     <input id="termInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command">

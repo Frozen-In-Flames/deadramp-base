@@ -175,6 +175,17 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffe
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 renderer.setSize(window.innerWidth, window.innerHeight);
 app.appendChild(renderer.domElement);
+/* The canvas is the scene, and a scene needs a text alternative
+ * (audit finding B2): it carries the image role, a name, and the
+ * description in #sceneDesc, and it is focusable so panel closes
+ * have a stable element to return focus to. The full non-visual
+ * equivalent of the scene is the Directory (below): the same
+ * records, as text. */
+renderer.domElement.tabIndex = 0;
+renderer.domElement.setAttribute('role', 'img');
+renderer.domElement.setAttribute('aria-label',
+  'Three-dimensional view of DeadRamp Base, a spiral city of vendor buildings generated from the FedRAMP Marketplace record.');
+renderer.domElement.setAttribute('aria-describedby', 'sceneDesc');
 
 /* Phase 3: WebXR is enabled from the start so a session can begin on
  * a visitor's gesture without rebuilding the renderer. Fixed
@@ -273,6 +284,7 @@ async function boot() {
   state.ready = true;
   window.__BASE_READY__ = true;
   showHelp('out');
+  announce(`DeadRamp Base. ${catalog.meta.vendors} vendors, ${catalog.meta.offerings} offerings, ${catalog.meta.districts} districts, on one spiral. The Directory button lists every vendor and offering as text.`);
 }
 
 function buildWorld(catalog) {
@@ -860,10 +872,15 @@ function updateLabels() {
     if (i >= cand.length) { el.style.display = 'none'; continue; }
     const { v, d2 } = cand[i];
     const dist = Math.sqrt(d2);
-    /* legibility floor: a name at the edge of label range still
-     * renders at better than half opacity (measured at spawn: every
-     * visible vendor label sat at the old 0.20 floor). */
-    const op = 0.55 + 0.45 * (1 - dist / LABEL_VENDOR_RANGE);
+    /* legibility floor (audit finding M1): at the old 0.55 floor a
+     * vendor label against a bright facade computed to 3.79:1, below
+     * the 4.5:1 minimum for 11 px text, while the same label at full
+     * opacity computes to 13.2:1. The defect was the fade, not the
+     * palette, so the floor rises to 0.85 (and to 1.0 under the
+     * high-contrast labels setting); the district floor rises from
+     * 0.60 to 0.70 for margin over its 3:1 large-text bound. */
+    const vFloor = a11y.highContrastLabels ? 1 : 0.85;
+    const op = vFloor + (1 - vFloor) * (1 - dist / LABEL_VENDOR_RANGE);
     placeLabel(el, v.position.x, v.size.h + 2.5, v.position.z, v.name, op);
   }
   let di = 0;
@@ -872,7 +889,8 @@ function updateLabels() {
     const dx = d.center.x - px, dz = d.center.z - pz;
     const dist = Math.hypot(dx, dz);
     if (dist < LABEL_DISTRICT_RANGE) {
-      placeLabel(districtLabels[di], d.gate.x, 11, d.gate.z, `${d.functionName} · ${d.tier}`, 0.6 + 0.4 * (1 - dist / LABEL_DISTRICT_RANGE));
+      const dFloor = a11y.highContrastLabels ? 1 : 0.7;
+      placeLabel(districtLabels[di], d.gate.x, 11, d.gate.z, `${d.functionName} · ${d.tier}`, dFloor + (1 - dFloor) * (1 - dist / LABEL_DISTRICT_RANGE));
       di++;
     }
   }
@@ -883,7 +901,19 @@ function updateLabels() {
 const raycaster = new THREE.Raycaster();
 const card = document.getElementById('card');
 const cardBody = document.getElementById('cardBody');
-document.getElementById('cardClose').addEventListener('click', () => { card.style.display = 'none'; state.selected = null; });
+/* Focus management (audit finding M4): opening a panel moves focus
+ * into it; closing returns focus to whoever opened it, or to the
+ * canvas, the scene's stable focus home. Before this, a click-opened
+ * card left focus on BODY and a closed terminal dropped it there. */
+function closeCard() {
+  card.style.display = 'none';
+  state.selected = null;
+  const back = state.cardReturnFocus;
+  state.cardReturnFocus = null;
+  if (back && document.contains(back)) back.focus();
+  else renderer.domElement.focus();
+}
+document.getElementById('cardClose').addEventListener('click', closeCard);
 const STATUS_TEXT = { certified: 'FedRAMP Certified', pipeline: 'In the pipeline', mixed: 'Mixed statuses' };
 /* The record card's status, in plain words with the building's own
  * counts, in the same vocabulary as the gate signs: a vendor whose
@@ -899,13 +929,14 @@ function statusLine(v) {
     ? `FedRAMP authorized, ${cert} of ${total} offerings authorized`
     : `Authorization in process, ${cert} of ${total} offerings authorized`;
 }
-function showCard(v) {
+function showCard(v, opts) {
   state.selected = v;
+  state.cardReturnFocus = opts && opts.returnFocusTo ? opts.returnFocusTo : null;
   const d = state.districts.find((x) => x.id === v.district);
   const rows = v.offerings.map((o) => {
     const meta = [o.service_model || 'model not stated', o.fedramp_impact_level, o.authorization_status].join(' · ');
     const unc = o.unclassified ? ' <span class="unc">UNCLASSIFIED IN THE DEADRAMP BUILD</span>' : '';
-    return `<li><a href="${o.source_url}" target="_blank" rel="noopener">${o.product}</a>${unc}<br><span class="om">${meta}</span></li>`;
+    return `<li><a href="${o.source_url}" target="_blank" rel="noopener">${o.product}<span class="vh"> (FedRAMP Marketplace, new tab)</span></a>${unc}<br><span class="om">${meta}</span></li>`;
   }).join('');
   const lotNote = v.kind === 'lot'
     ? `<div class="note">Surveyed empty lot. This vendor's only offering is one of the two the DeadRamp build holds as honestly unclassified, so the Base shows the lot, not a building.</div>` : '';
@@ -913,7 +944,7 @@ function showCard(v) {
     ? `<div class="meta">Brand palette: researched from this vendor's public brand identity. Colours only, as evocation: no logo, wordmark, or trade dress is reproduced.</div>`
     : `<div class="meta">Brand palette: not yet researched, so this building wears the neutral federal finish.</div>`;
   cardBody.innerHTML =
-    `<h3>${v.name}</h3>` +
+    `<h2>${v.name}</h2>` +
     `<div class="meta">${d ? d.functionName + ' · ' + d.tier : ''} district · ${v.offeringCount} offering${v.offeringCount > 1 ? 's' : ''} · ` +
     `<span class="status-${v.statusClass}">${statusLine(v)}</span></div>` +
     brandLine +
@@ -926,6 +957,8 @@ function showCard(v) {
     cardBody.appendChild(btn);
   }
   card.style.display = 'block';
+  document.getElementById('cardClose').focus();
+  announce(`${v.name}. ${statusLine(v)}. ${v.offeringCount} offering${v.offeringCount > 1 ? 's' : ''}.`);
   /* In VR the DOM card is not visible inside the headset, so the
    * same record is drawn onto the in-world card (Phase 3 section). */
   if (renderer.xr.isPresenting) drawXRCard(v);
@@ -1007,7 +1040,7 @@ function showBridgeCard(e) {
   const rec = { feature: 'bridge', edge: e };
   state.selected = rec;
   cardBody.innerHTML =
-    `<h3>Skybridge — ${MERGE_KIND_TEXT[e.kind] || 'a union merge'}</h3>` +
+    `<h2>Skybridge — ${MERGE_KIND_TEXT[e.kind] || 'a union merge'}</h2>` +
     `<div class="meta">${districtLabel(e.parentDistrict)} district ↔ ${districtLabel(e.childDistrict)} district</div>` +
     `<div class="note">The ${e.child} build (${e.childForks} forks) is built on the ${e.parent} build (${e.parentForks} forks): ` +
     `the parent build's control baseline is united with the child tier's own forks, per the lineage recorded in ${e.spec} in the DeadRamp repo. ` +
@@ -1018,6 +1051,8 @@ function showBridgeCard(e) {
     `<li>Every merge carries a control traceability record</li>` +
     `<li>Process per NIST SP 800-218 (SSDF): provenance, review, verification</li></ul>`;
   card.style.display = 'block';
+  document.getElementById('cardClose').focus();
+  announce(`Skybridge. ${MERGE_KIND_TEXT[e.kind] || 'a union merge'} between the ${districtLabel(e.parentDistrict)} and ${districtLabel(e.childDistrict)} districts.`);
   if (renderer.xr.isPresenting) drawXRCard(rec);
 }
 function showDeckCard() {
@@ -1034,12 +1069,14 @@ function showDeckCard() {
   const sections = [...bySection.entries()].sort((a, b) => a[0] - b[0]).map(([g, s]) =>
     `<li>Group ${g} · ${s.section} — ${s.n} ${s.n === 1 ? 'entry' : 'entries'} (${districtLabel(s.district)} district)</li>`).join('');
   cardBody.innerHTML =
-    `<h3>The Platform Layer</h3>` +
+    `<h2>The Platform Layer</h2>` +
     `<div class="meta">${pl.rescoped.length} re-scoped entries · ${pl.decisions.length} standing decisions · one shared deck</div>` +
     `<div class="note">These catalogue entries belong to no vendor and no offering. They are properties of the platform every service is deployed on, so DeadRamp decided them once, in writing, instead of building them per group. The Base gives them this deck, not buildings.</div>` +
     `<div class="meta">The six decisions (PLATFORM-LAYER.md):</div><ul>${decisions}</ul>` +
     `<div class="meta">The entries, by the GAPS section that closed them:</div><ul>${sections}</ul>`;
   card.style.display = 'block';
+  document.getElementById('cardClose').focus();
+  announce(`The Platform Layer. ${pl.rescoped.length} re-scoped entries, ${pl.decisions.length} standing decisions, one shared deck.`);
   if (renderer.xr.isPresenting) drawXRCard(rec);
 }
 
@@ -1753,6 +1790,7 @@ function enterBuilding(vendor) {
   const tx = Math.cos(SPAWN_ANGLE) * R_OUT, tz = Math.sin(SPAWN_ANGLE) * R_OUT;
   player.yaw = Math.atan2(-(tx - player.x), -(tz - player.z));
   document.getElementById('hudSub').textContent = interiorHudSub(rec);
+  announce(`${vendor.name}. Inside. Lobby. ${vendor.offeringCount} room${vendor.offeringCount > 1 ? 's' : ''} up the spiral.`);
   /* help lifecycle: the first entry swaps the tutorial to its indoor
    * variant; later entries simply dismiss it (the action it described
    * has been performed). */
@@ -1781,6 +1819,7 @@ function exitBuilding() {
   worldGroup.visible = true;
   document.getElementById('hudSub').textContent = rec.hudSub;
   state.interior = null;
+  announce(`Exited ${rec.vendor.name}. Back on the boulevard.`);
   hideHelp();
 }
 function resolveInteriorMove(prevX, prevZ) {
@@ -1800,6 +1839,7 @@ function resolveInteriorMove(prevX, prevZ) {
   if (hudF !== rec.hudFloor) {
     rec.hudFloor = hudF;
     document.getElementById('hudSub').textContent = interiorHudSub(rec);
+    announce(hudF <= 0 ? `${rec.vendor.name}. Lobby.` : `${rec.vendor.name}. Floor ${hudF} of ${rec.layout.levels}.`);
   }
   player.y = INT_Y + rec.floorY + EYE;
   rec.atExit = rec.floorY < 0.01 &&
@@ -1810,6 +1850,11 @@ function resolveInteriorMove(prevX, prevZ) {
 function animateInterior(dt) {
   const rec = state.interior;
   if (!rec) return;
+  /* Pause, stop, hide (audit finding m3): the rotating bars, the
+   * pulsing light strips, and the cycling ops-center board are
+   * decorative motion, and the reduced-motion setting stills all
+   * three. The strip material simply keeps its resting brightness. */
+  if (reducedMotion()) return;
   const t = performance.now() / 1000;
   if (rec.stripMat) {
     const s = 0.72 + 0.28 * Math.sin(t * 2.6);
@@ -1828,6 +1873,336 @@ function animateInterior(dt) {
     }
   }
 }
+/* ---------------- accessibility: settings, announcements, directory ----
+ * The v0.5.0 accessibility build, specified by the measured audit in
+ * ~/workspace/deadramp-base-a11y-audit/AUDIT.md. Its pattern: every
+ * DOM surface the Base already had was in good shape, and everything
+ * that existed only as a walked 3D place had no non-visual or
+ * keyboard path at all. This section is the second door: comfort
+ * settings persisted per visitor, one polite live region carrying
+ * state changes (finding B3), and a Directory that renders the same
+ * catalog as searchable text with placement actions (finding B2).
+ * The keyboard path itself (turning, centre activation, focus
+ * management) lives with the controls section below. */
+
+/* Comfort settings. Persisted in localStorage under one key; every
+ * read is defensive, because storage can be unavailable (private
+ * windows, embedded frames) and a missing preference must never
+ * break the visit. reduceMotion is tri-state in storage: null means
+ * follow the operating system's prefers-reduced-motion, which is
+ * what finding M6 requires at boot; the Settings checkbox shows the
+ * effective value and, once touched, stores the explicit choice. */
+const A11Y_STORE_KEY = 'deadramp-base-settings-v1';
+const a11y = {
+  reduceMotion: null,
+  highContrastLabels: false,
+  largeLabels: false,
+  keyboardControls: true,
+};
+try {
+  const saved = JSON.parse(localStorage.getItem(A11Y_STORE_KEY) || 'null');
+  if (saved && typeof saved === 'object') {
+    if (typeof saved.reduceMotion === 'boolean' || saved.reduceMotion === null) a11y.reduceMotion = saved.reduceMotion;
+    if (typeof saved.highContrastLabels === 'boolean') a11y.highContrastLabels = saved.highContrastLabels;
+    if (typeof saved.largeLabels === 'boolean') a11y.largeLabels = saved.largeLabels;
+    if (typeof saved.keyboardControls === 'boolean') a11y.keyboardControls = saved.keyboardControls;
+  }
+} catch (e) { /* storage unavailable: session defaults apply */ }
+const MOTION_QUERY = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)')) || { matches: false };
+function reducedMotion() {
+  return a11y.reduceMotion !== null ? a11y.reduceMotion : !!MOTION_QUERY.matches;
+}
+function saveA11y() {
+  try { localStorage.setItem(A11Y_STORE_KEY, JSON.stringify(a11y)); } catch (e) { /* session only */ }
+}
+function applyA11y() {
+  document.body.classList.toggle('hc-labels', a11y.highContrastLabels);
+  document.body.classList.toggle('large-labels', a11y.largeLabels);
+  const m = document.getElementById('setMotion');
+  if (m) m.checked = reducedMotion();
+  const hc = document.getElementById('setHcLabels');
+  if (hc) hc.checked = a11y.highContrastLabels;
+  const lg = document.getElementById('setLargeLabels');
+  if (lg) lg.checked = a11y.largeLabels;
+  const kb = document.getElementById('setKeys');
+  if (kb) kb.checked = a11y.keyboardControls;
+}
+function wireA11ySettings() {
+  const m = document.getElementById('setMotion');
+  if (m) m.addEventListener('change', () => { a11y.reduceMotion = m.checked; saveA11y(); applyA11y(); });
+  const hc = document.getElementById('setHcLabels');
+  if (hc) hc.addEventListener('change', () => { a11y.highContrastLabels = hc.checked; saveA11y(); applyA11y(); });
+  const lg = document.getElementById('setLargeLabels');
+  if (lg) lg.addEventListener('change', () => { a11y.largeLabels = lg.checked; saveA11y(); applyA11y(); });
+  const kb = document.getElementById('setKeys');
+  if (kb) kb.addEventListener('change', () => { a11y.keyboardControls = kb.checked; saveA11y(); });
+  applyA11y();
+}
+
+/* Announcements (finding B3): one polite live region carries the
+ * state changes a sighted visitor sees for free: arrivals, district
+ * changes, door prompts, record opens, building entries, floor
+ * changes, terminal sessions. The write is deferred a tick and the
+ * region is cleared first, so a repeated message is still spoken;
+ * identical consecutive messages are not repeated. Terminal output
+ * has its own channel: #termOut is a live log. */
+const liveEl = document.getElementById('ariaLive');
+let liveTimer = 0, liveLast = '', liveEventT = 0;
+function announce(text) {
+  if (!text || text === liveLast) return;
+  liveLast = text;
+  liveEventT = performance.now();
+  window.clearTimeout(liveTimer);
+  liveEl.textContent = '';
+  liveTimer = window.setTimeout(() => { liveEl.textContent = text; }, 40);
+}
+/* The periodic announcer in the render loop (district changes, door
+ * prompts) yields to event announcements: its change trackers sync
+ * on a half-second cadence, so without this guard a door prompt
+ * that armed just before a visitor opened a record would be
+ * announced a tick later and overwrite the record announcement in
+ * the region (measured in verification: the card announcement lived
+ * under a second before the prompt replaced it). A periodic message
+ * that falls inside the guard window is not dropped either (the
+ * first version of this guard dropped one, and verification caught
+ * a door prompt that never reached the region): it is queued for
+ * the end of the window, and the stamp check at fire time drops it
+ * if a newer event announcement has superseded it meanwhile. */
+let periodicTimer = 0;
+function announcePeriodic(text) {
+  if (!text) return;
+  const since = performance.now() - liveEventT;
+  if (since >= 1200) { announce(text); return; }
+  const stamp = liveEventT;
+  window.clearTimeout(periodicTimer);
+  periodicTimer = window.setTimeout(() => {
+    if (liveEventT === stamp && liveLast !== text) announce(text);
+  }, 1230 - since);
+}
+
+/* ---------------- the Directory: the scene as text ----------------
+ * Generated from the same catalog the world is built from, with the
+ * same derivations (statusLine for status, modeOf for launch mode),
+ * so the text can never drift from the scene. directoryData is a
+ * pure function of the catalog: the verify suite runs it against a
+ * mutated catalog copy as a negative control. The DOM is built once,
+ * on first open; search filters the built rows. */
+function directoryData(catalog) {
+  const districts = new Map(catalog.districts.map((d) => [d.id, d]));
+  const byDistrict = new Map();
+  for (const v of catalog.vendors) {
+    if (!byDistrict.has(v.district)) byDistrict.set(v.district, []);
+    byDistrict.get(v.district).push(v);
+  }
+  return catalog.districts.map((d) => ({
+    id: d.id,
+    label: `${d.functionName} · ${d.tier}`,
+    vendors: (byDistrict.get(d.id) || []).map((v) => ({
+      id: v.id, name: v.name, kind: v.kind, status: statusLine(v),
+      offerings: v.offerings.map((o) => {
+        const b = o.room && o.room.buildGroup ? catalog.builds[o.room.buildGroup] : null;
+        const mode = modeOf(b);
+        return { product: o.product, mode: mode ? MODE_LABEL[mode] : 'NO REFERENCE BUILD' };
+      }),
+    })),
+  }));
+}
+const directoryEl = document.getElementById('directory');
+const directoryListEl = document.getElementById('directoryList');
+const directorySearchEl = document.getElementById('directorySearch');
+const directoryMetaEl = document.getElementById('directoryMeta');
+const directoryInteriorEl = document.getElementById('directoryInterior');
+const directoryBtn = document.getElementById('directoryBtn');
+let directoryOpen = false;
+let directoryBuilt = false;
+function buildDirectory() {
+  const data = directoryData(state.catalog);
+  const vendorById = new Map(state.catalog.vendors.map((v) => [v.id, v]));
+  directoryListEl.innerHTML = '';
+  for (const d of data) {
+    const sec = document.createElement('section');
+    sec.className = 'dirDistrict';
+    const h = document.createElement('h3');
+    h.textContent = d.label;
+    sec.appendChild(h);
+    const ul = document.createElement('ul');
+    for (const row of d.vendors) {
+      const v = vendorById.get(row.id);
+      const li = document.createElement('li');
+      li.className = 'dirVendor';
+      li.dataset.search = (row.name + ' ' + row.offerings.map((o) => o.product).join(' ')).toLowerCase();
+      const head = document.createElement('div');
+      const nm = document.createElement('span');
+      nm.className = 'dirVName'; nm.textContent = row.name;
+      const st = document.createElement('span');
+      st.className = 'dirVStatus'; st.textContent = row.status;
+      head.append(nm, st);
+      li.appendChild(head);
+      const offs = document.createElement('ul');
+      offs.className = 'dirOff';
+      for (const o of row.offerings) {
+        const oli = document.createElement('li');
+        oli.textContent = o.product;
+        const md = document.createElement('span');
+        md.className = 'dirMode'; md.textContent = ' · ' + o.mode;
+        oli.appendChild(md);
+        offs.appendChild(oli);
+      }
+      li.appendChild(offs);
+      const btns = document.createElement('div');
+      btns.className = 'dirBtns';
+      const rec = document.createElement('button');
+      rec.type = 'button'; rec.textContent = 'Open record';
+      rec.setAttribute('aria-label', `Open record for ${row.name}`);
+      rec.addEventListener('click', () => showCard(v, { returnFocusTo: rec }));
+      btns.appendChild(rec);
+      const go = document.createElement('button');
+      go.type = 'button'; go.textContent = 'Go to';
+      go.setAttribute('aria-label', `Go to ${row.name}`);
+      go.addEventListener('click', () => goToVendor(v));
+      btns.appendChild(go);
+      if (v.kind === 'building') {
+        const en = document.createElement('button');
+        en.type = 'button'; en.textContent = 'Enter building';
+        en.setAttribute('aria-label', `Enter ${row.name}`);
+        en.addEventListener('click', () => { closeDirectory(true); enterBuilding(v); renderer.domElement.focus(); });
+        btns.appendChild(en);
+      }
+      li.appendChild(btns);
+      ul.appendChild(li);
+    }
+    sec.appendChild(ul);
+    directoryListEl.appendChild(sec);
+  }
+  directoryBuilt = true;
+  updateDirectoryMeta();
+}
+function updateDirectoryMeta() {
+  const all = directoryListEl.querySelectorAll('.dirVendor');
+  let shown = 0;
+  all.forEach((el) => { if (el.style.display !== 'none') shown++; });
+  directoryMetaEl.textContent = `${shown} of ${all.length} vendors shown`;
+  return shown;
+}
+let directorySearchTimer = 0;
+function filterDirectory() {
+  const q = directorySearchEl.value.trim().toLowerCase();
+  directoryListEl.querySelectorAll('.dirDistrict').forEach((sec) => {
+    let any = false;
+    sec.querySelectorAll('.dirVendor').forEach((li) => {
+      const hit = !q || li.dataset.search.includes(q);
+      li.style.display = hit ? '' : 'none';
+      if (hit) any = true;
+    });
+    sec.style.display = any ? '' : 'none';
+  });
+  const shown = updateDirectoryMeta();
+  window.clearTimeout(directorySearchTimer);
+  directorySearchTimer = window.setTimeout(() => {
+    announce(q ? `${shown} vendors match "${directorySearchEl.value.trim()}".` : `${shown} vendors in the directory.`);
+  }, 600);
+}
+/* The interior section: while the visitor is inside a building, the
+ * directory also lists that building's rooms, with the same two
+ * kinds of action the scene offers: go to the room (placed at its
+ * chamber door, on its floor, facing its terminal, by the same
+ * layout math the verification hooks use) and open its terminal. */
+function refreshDirectoryInterior() {
+  directoryInteriorEl.innerHTML = '';
+  const rec = state.interior;
+  if (!rec) return;
+  const h = document.createElement('h3');
+  h.textContent = `Inside ${rec.vendor.name}`;
+  directoryInteriorEl.appendChild(h);
+  const p = document.createElement('p');
+  p.textContent = `${rec.rooms.length} rooms up the spiral, one per offering.`;
+  directoryInteriorEl.appendChild(p);
+  const ul = document.createElement('ul');
+  for (const rr of rec.rooms) {
+    const li = document.createElement('li');
+    li.className = 'dirVendor';
+    const head = document.createElement('div');
+    const nm = document.createElement('span');
+    nm.className = 'dirVName'; nm.textContent = rr.room.offering.product;
+    const st = document.createElement('span');
+    st.className = 'dirVStatus';
+    st.textContent = `Floor ${rr.room.level} · ${rr.build ? rr.signMode : 'NO REFERENCE BUILD'}`;
+    head.append(nm, st);
+    li.appendChild(head);
+    const btns = document.createElement('div');
+    btns.className = 'dirBtns';
+    const go = document.createElement('button');
+    go.type = 'button'; go.textContent = 'Go to room';
+    go.setAttribute('aria-label', `Go to the room for ${rr.room.offering.product}`);
+    go.addEventListener('click', () => goToRoom(rr));
+    btns.appendChild(go);
+    if (rr.build) {
+      const tb = document.createElement('button');
+      tb.type = 'button'; tb.textContent = 'Open terminal';
+      tb.setAttribute('aria-label', `Open the terminal for ${rr.room.offering.product}`);
+      tb.addEventListener('click', () => { closeDirectory(true); openTerminal(rr); });
+      btns.appendChild(tb);
+    }
+    li.appendChild(btns);
+    ul.appendChild(li);
+  }
+  directoryInteriorEl.appendChild(ul);
+  const leave = document.createElement('div');
+  leave.className = 'dirBtns';
+  const lv = document.createElement('button');
+  lv.type = 'button'; lv.textContent = 'Leave the building';
+  lv.addEventListener('click', () => { closeDirectory(true); exitBuilding(); renderer.domElement.focus(); });
+  leave.appendChild(lv);
+  directoryInteriorEl.appendChild(leave);
+}
+function goToRoom(rr) {
+  const rec = state.interior;
+  if (!rec || !rec.rooms.includes(rr)) return;
+  const A = rr.room.angle, rMid = (CH_IN + CH_OUT) / 2;
+  const pos = chPoint(A, rMid, 0, 0, -1.6);
+  const look = chPoint(A, rMid, 0, 0, (CH_OUT - CH_IN) / 2);
+  rec.floorY = rr.room.floorY;
+  rec.onFlight = -1; // a placement breaks surface continuity, like a teleport
+  player.x = pos.x; player.z = pos.z;
+  player.y = INT_Y + rr.room.floorY + EYE;
+  player.yaw = Math.atan2(-(look.x - pos.x), -(look.z - pos.z));
+  player.pitch = 0;
+  closeDirectory(true);
+  renderer.domElement.focus();
+  announce(`${rr.room.offering.product}. Floor ${rr.room.level} of ${rec.layout.levels}.`);
+}
+/* Placement outdoors: at the building's door, facing it, close
+ * enough that the door prompt arms on the next prompt refresh, so
+ * the ordinary door action (E, tap, trigger, Enter) takes it from
+ * there. Lots have no door to arm; the visitor is placed at the lot. */
+function goToVendor(v) {
+  if (state.interior) exitBuilding();
+  const dp = doorPoint(v);
+  const fx = Math.sin(v.rotationY), fz = Math.cos(v.rotationY);
+  player.x = dp.x + fx * 3.0;
+  player.z = dp.z + fz * 3.0;
+  player.y = EYE;
+  player.pitch = 0;
+  player.yaw = Math.atan2(-(v.position.x - player.x), -(v.position.z - player.z));
+  announce(v.kind === 'building' ? `${v.name}. You are standing at its door.` : `${v.name}. You are at the surveyed lot.`);
+}
+function openDirectory() {
+  if (!directoryBuilt) buildDirectory();
+  refreshDirectoryInterior();
+  directoryOpen = true;
+  directoryEl.style.display = 'block';
+  directorySearchEl.focus();
+}
+function closeDirectory(stay) {
+  directoryOpen = false;
+  directoryEl.style.display = 'none';
+  if (!stay) directoryBtn.focus();
+}
+directoryBtn.addEventListener('click', () => { if (directoryOpen) closeDirectory(); else openDirectory(); });
+document.getElementById('directoryClose').addEventListener('click', () => closeDirectory());
+directorySearchEl.addEventListener('input', filterDirectory);
+document.getElementById('skipDir').addEventListener('click', (ev) => { ev.preventDefault(); openDirectory(); });
+
 /* ---------------- platform-matched prompts + help lifecycle ----------------
  * Standing rule (Aries, Nov 14, 2026): prompts name only the controls
  * the visitor's device actually has. There is no E key on a cellphone
@@ -1886,11 +2261,14 @@ const HELP_COPY = {
       'Click a building for its record. Enter a building from its record card, or walk to its door and press <b>E</b>. ' +
       'Inside, one spiral ramp climbs past every service room; the lobby door marked EXIT (or <b>E</b> beside it) returns you to the boulevard. ' +
       'Everything is one spiral away: follow the boulevard out from the plaza. ' +
+      'Keyboard without a mouse: the comma and period keys turn, and Enter opens the record of whatever you are looking at. ' +
+      'The Directory button lists every vendor and offering as text. ' +
       'Finished buildings are FedRAMP authorized. Scaffolded buildings are still in the authorization process.',
-    touch: 'Left thumb stick to walk, drag right side to look. Tap a building for its record. ' +
+    touch: 'Left thumb stick to walk, drag right side to look, or use the two round turn buttons. Tap a building for its record. ' +
       'Enter from its record card, or walk to its door and tap the door to go in. ' +
       'Inside, one spiral ramp climbs past every service room; tap the lobby door marked EXIT to return to the boulevard. ' +
       'Everything is one spiral away: follow the boulevard out from the plaza. ' +
+      'The Directory button lists every vendor and offering as text. ' +
       'Finished buildings are FedRAMP authorized. Scaffolded buildings are still in the authorization process.',
     xr: XR_HELP_LINES.out.join(' '),
   },
@@ -1898,10 +2276,12 @@ const HELP_COPY = {
     kb: 'WASD / arrows to walk, mouse to look, Shift to move fast.<br>' +
       'One spiral ramp climbs past every service room; each room opens off the coil on its own floor. ' +
       'Use a room\u2019s terminal to launch its build: stand in the room and press <b>E</b>, or click the terminal. ' +
+      'The comma and period keys turn. The Directory button lists this building\u2019s rooms as text. ' +
       'The lobby door marked EXIT (or <b>E</b> beside it) returns you to the boulevard.',
-    touch: 'Left thumb stick to walk, drag right side to look. ' +
+    touch: 'Left thumb stick to walk, drag right side to look, or use the two round turn buttons. ' +
       'One spiral ramp climbs past every service room; each room opens off the coil on its own floor. ' +
       'Tap a room\u2019s terminal to launch its build and use it. ' +
+      'The Directory button lists this building\u2019s rooms as text. ' +
       'Tap the lobby door marked EXIT to return to the boulevard.',
     xr: XR_HELP_LINES.in.join(' '),
   },
@@ -1916,7 +2296,11 @@ function showHelp(space) {
   hintEl.innerHTML = HELP_COPY[helpSpace][inputMode()];
   hintEl.classList.remove('faded');
   window.clearTimeout(helpTimer);
-  helpTimer = window.setTimeout(hideHelp, HELP_DWELL_MS);
+  /* Reduced motion (audit findings M6 and m4): the help is not put
+   * on a fade clock at all. It stays until the action it describes
+   * is performed or another surface dismisses it, exactly as it
+   * stays in the DOM for screen readers. */
+  if (!reducedMotion()) helpTimer = window.setTimeout(hideHelp, HELP_DWELL_MS);
   if (renderer.xr.isPresenting) drawXRHelpPanel();
 }
 function hideHelp() {
@@ -1944,6 +2328,8 @@ function showSettings() {
   settingsOpen = true;
   settingsPanel.style.display = 'block';
   hideHelp();
+  applyA11y();
+  document.getElementById('settingsClose').focus();
   if (renderer.xr.isPresenting) drawXRSettingsPanel();
 }
 function hideSettings() {
@@ -1952,6 +2338,7 @@ function hideSettings() {
 }
 settingsBtn.addEventListener('click', () => { if (settingsOpen) hideSettings(); else showSettings(); });
 document.getElementById('settingsClose').addEventListener('click', hideSettings);
+wireA11ySettings();
 
 /* ---------------- the room terminal: launch the build ----------------
  * The experience pass (Aries, Nov 15, 2026): "we don't want the user
@@ -2048,6 +2435,9 @@ function termPrint(text, cls) {
 }
 function termHeader(session) {
   const o = term.rr.room.offering, build = term.rr.build;
+  announce(session.mode === 'live'
+    ? `Terminal open. ${o.product}. Runs live in your browser.`
+    : `Terminal open. ${o.product}. Recorded surface.`);
   termTitleEl.textContent = `${o.product} — ${build.title}`;
   if (session.mode === 'live') {
     termModeEl.className = 'live';
@@ -2354,6 +2744,7 @@ async function openTerminal(rr) {
     buildXRMenu(rr.session);
     termPrint('Session resumed: its state is as you left it.', 'note');
     if (renderer.xr.isPresenting) drawXRTerminal();
+    if (inputMode() === 'kb') termInputEl.focus();
     return true;
   }
   term.transcript = [];
@@ -2389,7 +2780,8 @@ function closeTerminal() {
   term.session = null;
   term.rr = null;
   termEl.style.display = 'none';
-  if (document.activeElement === termInputEl) termInputEl.blur();
+  /* focus returns to the scene, not to BODY (finding M4) */
+  if (termEl.contains(document.activeElement)) renderer.domElement.focus();
 }
 function disposeTermSessions() {
   if (!state.interior) return;
@@ -3011,10 +3403,49 @@ function updateXRPeripherals(dt) {
 
 /* ---------------- controls: keyboard, pointer lock, touch ---------------- */
 const keys = {};
+/* Keyboard turning, and the E conflict, resolved deliberately
+ * (audit finding B1): E was already the action key (enter at a door,
+ * launch in a room, exit at the EXIT door) with suites and help copy
+ * bound to it, so E keeps that meaning and turning takes the comma
+ * and period keys, comma left and period right, the pair that sits
+ * under the right hand beside them. Arrow keys keep their strafe,
+ * unchanged. Enter is the keyboard's pick: it activates whatever
+ * the centre of the view is aimed at, through the same centre
+ * raycast a pointer-locked click uses, so a keyboard visitor opens
+ * the same cards and terminals a mouse visitor does. The turning
+ * itself is applied in stepMovement at TURN_RATE. */
+const TURN_RATE = 1.7; // radians per second, held-key turning
 window.addEventListener('keydown', (ev) => {
   if (document.activeElement === termInputEl) return; // typing in the terminal is not movement
   keys[ev.code] = true;
-  if (ev.code === 'Escape' && term.open) { closeTerminal(); return; }
+  if (ev.code === 'Escape') {
+    /* topmost first: the terminal, then a record card (which the
+     * Directory may have opened over itself), then the Directory,
+     * then Settings */
+    if (term.open) { closeTerminal(); return; }
+    if (card.style.display === 'block') { closeCard(); return; }
+    if (directoryOpen) { closeDirectory(); return; }
+    if (settingsOpen) { hideSettings(); settingsBtn.focus(); return; }
+    return;
+  }
+  if (!a11y.keyboardControls) return; // the m5 off switch: keys are inert
+  if (ev.code === 'Enter' && !ev.repeat) {
+    /* Only when focus is on the scene itself: Enter on a focused
+     * button or link keeps its native meaning. */
+    const ae = document.activeElement;
+    const onScene = !ae || ae === document.body || ae === renderer.domElement;
+    if (onScene && !settingsOpen && !directoryOpen) {
+      /* The default must be prevented: opening a card moves focus
+       * to its close button, and an unprevented Enter would spend
+       * its default activation on that button, closing the card it
+       * just opened (measured: the card lived for 20 ms). */
+      ev.preventDefault();
+      const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+      if (state.interior) { if (!term.open) termPickAt(cx, cy); }
+      else pickAt(cx, cy);
+    }
+    return;
+  }
   if (ev.code === 'KeyE' && !ev.repeat) {
     if (state.interior) {
       if (state.interior.atExit) exitBuilding();
@@ -3108,17 +3539,42 @@ renderer.domElement.addEventListener('touchend', (ev) => {
   downInfo = null;
 });
 
+/* Touch turn pads (audit finding m6): the touch look gesture is a
+ * path-based drag, so touch also gets two hold-to-turn buttons.
+ * turnTouch is -1, 0, or 1 and feeds the same turning step as the
+ * comma and period keys. */
+let turnTouch = 0;
+function wireTurnPad(id, dir) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const on = (ev) => { ev.preventDefault(); turnTouch = dir; };
+  const off = () => { if (turnTouch === dir) turnTouch = 0; };
+  el.addEventListener('pointerdown', on);
+  el.addEventListener('pointerup', off);
+  el.addEventListener('pointerleave', off);
+  el.addEventListener('pointercancel', off);
+}
+wireTurnPad('turnLeft', 1);
+wireTurnPad('turnRight', -1);
+if (IS_TOUCH) document.getElementById('turnPads').style.display = 'flex';
+
 function stepMovement(dt) {
   let f = 0, r = 0;
   /* while the visitor types in the terminal, letter keys are text,
-   * not movement; the stick and the debug driver are not typing */
+   * not movement; the stick and the debug driver are not typing.
+   * The same holds while a settings or directory panel is open, and
+   * when the visitor has switched the keyboard controls off (m5). */
   const typing = document.activeElement === termInputEl;
-  if (!typing) {
+  const keysLive = !typing && a11y.keyboardControls && !settingsOpen && !directoryOpen;
+  if (keysLive) {
     if (keys.KeyW || keys.ArrowUp) f += 1;
     if (keys.KeyS || keys.ArrowDown) f -= 1;
     if (keys.KeyD || keys.ArrowRight) r += 1;
     if (keys.KeyA || keys.ArrowLeft) r -= 1;
+    if (keys.Comma) player.yaw += TURN_RATE * dt;
+    if (keys.Period) player.yaw -= TURN_RATE * dt;
   }
+  if (turnTouch !== 0) player.yaw += turnTouch * TURN_RATE * dt;
   f += debugMove.f - debugMove.b;
   r += debugMove.r - debugMove.l;
   if (stick.active) { f += -stick.mz; r += stick.mx; }
@@ -3245,6 +3701,47 @@ window.__BASE__ = {
     const p = doorPoint(dv);
     return { name: dv.name, world: p, screen: projectToScreen(p.x, p.y, p.z) };
   },
+  /* accessibility hooks (v0.5.0): the effective comfort settings,
+   * the label fade floors they produce, the canvas semantics, the
+   * live region's current text, and the directory in data form.
+   * directoryProbe runs the pure directory builder against a
+   * catalog copy with one vendor removed: the mutated count must
+   * differ from the real one by exactly that vendor, which is the
+   * negative control proving the directory is derived, not typed. */
+  a11y: () => ({
+    reducedMotion: reducedMotion(),
+    motionSetting: a11y.reduceMotion,
+    systemReducedMotion: !!MOTION_QUERY.matches,
+    highContrastLabels: a11y.highContrastLabels,
+    largeLabels: a11y.largeLabels,
+    keyboardControls: a11y.keyboardControls,
+    labelFloors: {
+      vendor: a11y.highContrastLabels ? 1 : 0.85,
+      district: a11y.highContrastLabels ? 1 : 0.7,
+    },
+    canvas: {
+      role: renderer.domElement.getAttribute('role'),
+      label: renderer.domElement.getAttribute('aria-label'),
+      describedBy: renderer.domElement.getAttribute('aria-describedby'),
+      tabIndex: renderer.domElement.tabIndex,
+    },
+    liveText: liveEl.textContent,
+    directory: {
+      open: directoryOpen,
+      built: directoryBuilt,
+      vendors: directoryListEl.querySelectorAll('.dirVendor').length,
+      districts: directoryListEl.querySelectorAll('.dirDistrict').length,
+    },
+    directoryProbe: () => {
+      const full = directoryData(state.catalog);
+      const count = (data) => data.reduce((n, d) => n + d.vendors.length, 0);
+      const clone = JSON.parse(JSON.stringify(state.catalog));
+      const dropped = clone.vendors[0].name;
+      clone.vendors = clone.vendors.slice(1);
+      const mutated = directoryData(clone);
+      return { full: count(full), mutated: count(mutated), dropped };
+    },
+  }),
   /* disclaimer consolidation hooks (Nov 15, 2026) */
   settings: () => ({
     open: settingsOpen,
@@ -3401,6 +3898,7 @@ window.__BASE__ = {
 /* ---------------- main loop ---------------- */
 const clock = new THREE.Clock();
 let fpsAccum = 0, fpsCount = 0, fpsTimer = 0, labelTimer = 0, statsTimer = 0;
+let lastDistrictName = null, lastPromptText = '';
 function nearestDistrictName() {
   if (Math.hypot(player.x, player.z) < 112) return 'Central Plaza';
   let best = null, bd = Infinity;
@@ -3438,6 +3936,23 @@ function loop() {
         statsbar.textContent = `${nearestDistrictName()} · ${s.drawCalls} draw calls · ${Math.round(s.triangles / 1000)}k triangles · ${s.fps} fps`;
       }
       updatePrompt();
+      /* announcements ride the same half-second cadence as the
+       * stats bar: a district change or a newly armed door prompt
+       * is a status message (finding B3), announced once per
+       * change, never per frame */
+      if (!state.interior) {
+        const dn = nearestDistrictName();
+        if (dn !== lastDistrictName) {
+          const first = lastDistrictName === null;
+          lastDistrictName = dn;
+          if (!first) announcePeriodic(dn === 'The Boulevard' ? 'On the boulevard.' : `Now in ${dn}.`);
+        }
+      }
+      const pt = promptEl.style.display === 'block' ? promptEl.textContent.trim() : '';
+      if (pt !== lastPromptText) {
+        lastPromptText = pt;
+        if (pt) announcePeriodic(pt);
+      }
     }
   }
 }

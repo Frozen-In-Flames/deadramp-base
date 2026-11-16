@@ -624,3 +624,64 @@ change.
   same legend in one sentence pair; the building record
   card, flat and in-world, states each vendor's status in
   plain words with its counts, once.
+
+## Accessibility (v0.5.0)
+
+The Base is generated from data, so everything in it exists twice:
+as the walked place, and as text derived from the same catalog by
+the same functions. The accessibility build, specified by the
+measured audit (36 criteria: 21 pass, 12 fail, 3 not applicable at
+v0.4.0), closes the split the audit found: the DOM surfaces were
+already sound, and the scene itself had no keyboard or non-visual
+path. What was built:
+
+- Keyboard operation (audit B1). E was already the action key
+  (enter at a door, launch in a room, exit at the EXIT door), bound
+  in suites and help copy, so E keeps that meaning and turning
+  takes the comma and period keys (comma left, period right, held
+  to turn at 1.7 radians per second). Arrow keys keep their
+  strafe. Enter is the keyboard pick: it activates whatever the
+  centre of the view is aimed at, through the same centre raycast
+  a pointer-locked click uses, opening the same cards and
+  terminals. Touch gains hold-to-turn pads beside the drag look
+  (finding m6), and Settings carries an off switch for the
+  keyboard controls themselves (finding m5).
+- The Directory (audit B2). A Directory button opens a searchable
+  text rendering of the whole catalog: 81 districts, 674 vendors,
+  781 offerings, each vendor with its plain-words status and each
+  offering with its launch mode, derived by a pure function of the
+  catalog (statusLine and modeOf, the scene's own derivations).
+  Actions per vendor: open its record card, go to its door, or
+  enter the building. Inside a building the Directory lists the
+  rooms with go-to-room placement and terminal opening. The canvas
+  carries the image role, a name, and a description; the pooled
+  floating labels are hidden from assistive technology, their
+  information living here and in the announcements (finding M5).
+- Announcements (audit B3). One polite live region announces
+  arrivals, district changes, armed door prompts, record opens,
+  building entries and exits, floor changes, and terminal
+  sessions, once per change on the stats cadence. The terminal
+  output is a live log. Panels manage focus: opening moves focus
+  in, closing returns it to the invoker or to the canvas, and
+  Escape closes the topmost panel (finding M4). The loading
+  overlay is a status region.
+- Measured majors. The vendor label fade floor rises from 0.55 to
+  0.85 and the district floor from 0.60 to 0.70 (finding M1: at
+  0.55 a label against a bright facade computed to 3.79:1 against
+  the 4.5:1 minimum; at full opacity the same label is 13.2:1, so
+  the fade was the defect). The viewport meta no longer bans pinch
+  zoom (M2). The three close buttons carry a 24 by 24 CSS pixel
+  minimum hit area (M3). Panel titles are H2 under the page's one
+  H1, and a skip link leads to the Directory (m1). Card offering
+  links say they open the Marketplace in a new tab (m8).
+- Comfort settings. Settings gains: reduce motion (honours
+  prefers-reduced-motion at boot, finding M6; the help stops
+  fading and the interior idle animations hold still, finding
+  m3), high-contrast labels (floors at 1.0 over a darker backing),
+  larger labels, and the keyboard-controls switch, all persisted
+  in localStorage, plus an accessibility statement that names the
+  known limits plainly: the in-headset panels are visual only
+  because WebXR offers no assistive channel, and the on-device
+  VoiceOver and Quest 2 checks remain to be run.
+- Cost: no new draw calls (the Directory and panels are DOM;
+  measured at spawn before and after in verify/verify-a11y.js).

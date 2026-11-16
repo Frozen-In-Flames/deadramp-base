@@ -1,0 +1,76 @@
+{
+ "a11y": {
+  "reducedMotion": false,
+  "motionSetting": null,
+  "systemReducedMotion": false,
+  "highContrastLabels": false,
+  "largeLabels": false,
+  "keyboardControls": true,
+  "labelFloors": {
+   "vendor": 0.85,
+   "district": 0.7
+  },
+  "canvas": {
+   "role": "img",
+   "label": "Three-dimensional view of DeadRamp Base, a spiral city of vendor buildings generated from the FedRAMP Marketplace record.",
+   "describedBy": "sceneDesc",
+   "tabIndex": 0
+  },
+  "liveText": "DeadRamp Base. 674 vendors, 781 offerings, 81 districts, on one spiral. The Directory button lists every vendor and offering as text.",
+  "directory": {
+   "open": false,
+   "built": false,
+   "vendors": 0,
+   "districts": 0
+  },
+  "directoryProbe": {}
+ },
+ "drawCalls": 21,
+ "contrast": [
+  {
+   "text": "Chainalysis",
+   "opacity": 0.88,
+   "bg": [
+    0,
+    0,
+    0
+   ],
+   "live": 13.930756579085308,
+   "atOldFloor": 5.610292178369155
+  },
+  {
+   "text": "Wolters Kluwer",
+   "opacity": 0.88,
+   "bg": [
+    0,
+    0,
+    0
+   ],
+   "live": 13.930756579085308,
+   "atOldFloor": 5.610292178369155
+  },
+  {
+   "text": "Concur Technologies, Inc.",
+   "opacity": 0.86,
+   "bg": [
+    120,
+    78,
+    65
+   ],
+   "live": 7.964332994240426,
+   "atOldFloor": 4.115368192253092
+  },
+  {
+   "text": "Deltek - Replicon",
+   "opacity": 0.86,
+   "bg": [
+    27,
+    36,
+    54
+   ],
+   "live": 11.667009873927825,
+   "atOldFloor": 5.535540253488105
+  }
+ ],
+ "failures": 0
+}
