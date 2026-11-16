@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 /*
  * DeadRamp Base verification, experience pass: the room terminals.
- * Serves the repo over HTTP (plus the local Pyodide copy, since the
- * sandbox proxy blocks the CDN the production page uses), loads the
- * page in headless Chrome, and proves the launch paths end to end:
+ * Serves the repo over HTTP and loads the page in headless Chrome,
+ * and proves the launch paths end to end. The Python runtime is
+ * vendored in the repo (vendor/pyodide/), so the live session uses
+ * the page's own default runtime path; a third session proves a
+ * live launch with every request to the old CDN host blocked.
  *
  *   LIVE: enter a building whose build the probes verified (ai-l2),
  *   stand in its room, open the terminal, and run real commands the
@@ -17,6 +19,11 @@
  *   fall back to the recorded surface, say so in its header, replay
  *   a recorded exchange with its source named, and answer a
  *   fabricated request honestly as unrecorded.
+ *   VENDORED: a third session, no runtime-base override, with
+ *   every request to cdn.jsdelivr.net aborted by interception:
+ *   the live launch must still complete from the runtime vendored
+ *   in the repo, because a visitor's phone owes the old CDN
+ *   nothing.
  *   BUDGET: no bundle or runtime bytes move before the first launch
  *   (boot weight), and draw calls stay at the shipped counts.
  *
@@ -29,7 +36,6 @@ const path = require('path');
 const puppeteer = require('/home/hatch/workspace/.pptr/node_modules/puppeteer-core');
 
 const REPO = path.resolve(__dirname, '..');
-const PYODIDE_DIR = '/home/hatch/workspace/fif-ears/verify-web/pyodide-local';
 const EXE = '/home/hatch/workspace/.pptr/chrome-headless-shell/linux-157.0.8103.78/chrome-headless-shell-linux64/chrome-headless-shell';
 const PORT = 8949;
 const MIME = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json', '.py': 'text/plain', '.wasm': 'application/wasm', '.zip': 'application/zip', '.md': 'text/markdown' };
@@ -45,9 +51,7 @@ function serve() {
   return new Promise((resolve) => {
     const srv = http.createServer((req, res) => {
       const url = decodeURIComponent(req.url.split('?')[0]);
-      let file;
-      if (url.startsWith('/pyodide/')) file = path.join(PYODIDE_DIR, url.slice(9));
-      else file = path.join(REPO, url === '/' ? 'index.html' : url);
+      const file = path.join(REPO, url === '/' ? 'index.html' : url);
       if (!file.startsWith('/') || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
         res.writeHead(404); res.end('not found'); return;
       }
@@ -80,8 +84,6 @@ function serve() {
     const errors = [];
     page.on('pageerror', (e) => errors.push('pageerror: ' + String(e)));
     page.on('console', (m) => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
-    await page.evaluateOnNewDocument((base) => { window.__BASE_PYODIDE_BASE__ = base; },
-      `http://127.0.0.1:${PORT}/pyodide/`);
     await page.goto(`http://127.0.0.1:${PORT}/`, { waitUntil: 'load', timeout: 120000 });
     await page.waitForFunction('window.__BASE_READY__ === true', { timeout: 120000 });
     await sleep(600);
@@ -226,6 +228,47 @@ function serve() {
     await page2.screenshot({ path: path.join(__dirname, 'launch-recorded.png') });
     check('recorded: zero JS errors through the recorded session', errors2.length === 0, errors2.slice(0, 2).join(' | '));
     await page2.close();
+
+    /* ---------- LIVE session with the old CDN host blocked ----------
+     * The runtime is vendored with the site, so a live launch must
+     * succeed with every request to cdn.jsdelivr.net aborted. No
+     * runtime-base override is set on this page: it uses the page's
+     * own default path, exactly as a visitor's phone does. */
+    const page3 = await browser.newPage();
+    await page3.setViewport({ width: 1280, height: 800 });
+    const errors3 = [];
+    page3.on('pageerror', (e) => errors3.push('pageerror: ' + String(e)));
+    page3.on('console', (m) => {
+      if (m.type() === 'error' && !/cdn\.jsdelivr\.net|ERR_FAILED/.test(m.text())) errors3.push('console: ' + m.text());
+    });
+    let cdnBlocked = 0;
+    await page3.setRequestInterception(true);
+    page3.on('request', (req) => {
+      if (req.url().includes('cdn.jsdelivr.net')) { cdnBlocked++; req.abort(); }
+      else req.continue();
+    });
+    await page3.goto(`http://127.0.0.1:${PORT}/`, { waitUntil: 'load', timeout: 120000 });
+    await page3.waitForFunction('window.__BASE_READY__ === true', { timeout: 120000 });
+    await page3.evaluate(`window.__BASE__.enterBuilding(${JSON.stringify(vendor.name)})`);
+    await sleep(500);
+    const pts3 = await page3.evaluate('window.__BASE__.interiorPoints()');
+    const rp3 = pts3.rooms[roomIdx];
+    await page3.evaluate(`window.__BASE__.interiorTeleport(${JSON.stringify({ x: rp3.pos.x, z: rp3.pos.z, floorY: rp3.floorY })})`);
+    await sleep(300);
+    const opened3 = await page3.evaluate('window.__BASE__.useTerminal()');
+    check('vendored: the terminal opens with cdn.jsdelivr.net blocked', opened3 === true);
+    await sleep(300);
+    t = await page3.evaluate('window.__BASE__.terminal()');
+    results.cdnBlocked = { blockedRequests: cdnBlocked, sessionMode: t.sessionMode, fallback: t.fallback };
+    check('vendored: the session is live, not a fallback, with the CDN unreachable',
+      t.sessionMode === 'live' && t.fallback === false,
+      `session=${t.sessionMode} fallback=${t.fallback} cdnRequestsBlocked=${cdnBlocked}`);
+    lines = await page3.evaluate(`window.__BASE__.termRun('GET /health')`);
+    check('vendored: the build itself answers GET /health from the vendored runtime',
+      lines.some((l) => l.startsWith('← 200')) && lines.some((l) => l.includes('"status": "ok"')),
+      lines.slice(-3).join(' | ').slice(0, 160));
+    check('vendored: zero JS errors through the blocked-CDN session', errors3.length === 0, errors3.slice(0, 2).join(' | '));
+    await page3.close();
   } finally {
     await browser.close();
     srv.close();

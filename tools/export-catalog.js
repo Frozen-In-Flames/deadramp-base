@@ -2683,6 +2683,14 @@ function attachLaunchData(builds, root, outPath) {
       seen.add(key);
       exchanges.push(ex);
     }
+    // Drive-first is a rule, not an accident of the concatenation
+    // above: the recorded surface (and the terminal's command
+    // chips, which take its first exchanges) leads with full real
+    // responses from driving the build, and the test-recorded
+    // exchanges follow. The sort is stable, so each class keeps
+    // its own order (Aries, Nov 16, 2026).
+    const kindRank = (ex) => (ex.source && ex.source.kind === 'drive' ? 0 : 1);
+    exchanges.sort((a, b) => kindRank(a) - kindRank(b));
     const recDir = path.join(launchRoot, 'recorded');
     fs.mkdirSync(recDir, { recursive: true });
     fs.writeFileSync(path.join(recDir, `${g}.json`),

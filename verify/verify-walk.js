@@ -26,6 +26,11 @@
  * the flat candidate is withheld, proving the visitor steps down
  * onto the ramp instead of standing on air over the well.
  *
+ * A fourth leg climbs the full height of the tower to the top
+ * door (floor 10), with per-door height checks at unwrapped
+ * angles and a step into the top room: the whole coil is
+ * walkable, not just its first three floors.
+ *
  * Usage: node verify/verify-walk.js   (exit code 0 = climb works)
  */
 'use strict';
@@ -264,6 +269,83 @@ function classify(s, levels) {
     check('well: the visitor lands on flight 2 and tracks its helical height',
       !!wellEnd && Math.abs(wellEnd.floorY - f2Height(wellEnd.theta)) <= 0.45 && wellEnd.surface === 'ramp',
       wellEnd ? `floorY=${wellEnd.floorY.toFixed(2)} expected=${f2Height(wellEnd.theta).toFixed(2)} at theta=${wellEnd.theta.toFixed(2)} surface=${wellEnd.surface}` : 'no sample');
+
+    /* leg 4: the full-height climb. Aries's playtest (Nov 16,
+     * 2026) found 3 of Oracle's 6 rooms; the legs above prove the
+     * coil only to floor 3, so this leg climbs the whole tower:
+     * from leg 3's end on flight 2 back up and on to the top door
+     * (door 10, unwrapped angle doorAngle(9) = 13.05 rad). The
+     * unwrapped-angle tracker is seeded HERE, at the start of this
+     * monotonic climb, and accumulates only across it: seeding it
+     * any earlier conflates the approach (which descends in angle)
+     * with the climb and shifts every door reading, the exact
+     * instrument error that briefly agreed with the playtest. */
+    let unwrapped = null, lastTh = null;
+    async function sampleU(leg) {
+      const s = await sample(leg);
+      if (!s) return null;
+      if (unwrapped === null) { unwrapped = s.theta; lastTh = s.theta; }
+      else {
+        let d = s.theta - lastTh;
+        d = ((d % (Math.PI * 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI;
+        unwrapped += d; lastTh = s.theta;
+      }
+      s.unwrapped = unwrapped;
+      return s;
+    }
+    async function walkToU(tx, tz, leg, timeoutMs = 90000) {
+      if (!walking) { await page.keyboard.down('KeyW'); walking = true; }
+      const start = Date.now();
+      let cur = await sampleU(leg);
+      while (Date.now() - start < timeoutMs) {
+        if (Math.hypot(cur.x - tx, cur.z - tz) < 1.1) return cur;
+        await page.evaluate(`window.__BASE__.lookAt(${tx}, ${tz})`);
+        await sleep(180);
+        cur = await sampleU(leg);
+      }
+      return cur;
+    }
+    const climb2Start = trace.length;
+    await sampleU('climb2');
+    const seedU = unwrapped;
+    for (let th = seedU + 0.25; th <= doorAngle(9) + 0.3; th += 0.25) {
+      await walkToU(Math.cos(th) * COIL_R, Math.sin(th) * COIL_R, 'climb2', 90000);
+    }
+    await stopWalking();
+    await sleep(700);
+    const topSample = await sampleU('climb2');
+    const climb2 = trace.slice(climb2Start);
+    const maxFloorY2 = Math.max(...climb2.map((s) => s.floorY));
+    results.maxFloorYFull = maxFloorY2;
+    results.topUnwrapped = topSample ? topSample.unwrapped : null;
+    /* doors 4..10 by unwrapped angle (doors 1..3 were checked in
+     * leg 2, where absolute theta is the unwrapped angle) */
+    results.doorsFull = [];
+    for (let j = 3; j < 10; j++) {
+      const da = doorAngle(j), want = (j + 1) * FH;
+      let best = null, bd = Infinity;
+      for (const s of climb2) {
+        if (s.unwrapped === undefined) continue;
+        const d = Math.abs(s.unwrapped - da);
+        if (d < bd) { bd = d; best = s; }
+      }
+      results.doorsFull.push({ flight: j, doorAngle: da, expected: want, got: best ? best.floorY : null });
+      check(`full climb: door ${j + 1} floor height at its unwrapped angle is floor ${j + 1} (${want.toFixed(1)} m)`,
+        !!best && Math.abs(best.floorY - want) <= 0.7,
+        best ? `floorY=${best.floorY.toFixed(2)} at unwrapped=${best.unwrapped.toFixed(2)}` : 'no sample');
+    }
+    check('full climb: reaches the top floor height (34.0 m)', maxFloorY2 >= 10 * FH - 0.35,
+      `max=${maxFloorY2.toFixed(2)} m`);
+    /* step off the coil at the top door angle into the top room */
+    const topA = doorAngle(9);
+    await walkTo(Math.cos(topA) * 18.8, Math.sin(topA) * 18.8, 'climb2', 45000);
+    await stopWalking();
+    await sleep(500);
+    const topRoomState = await page.evaluate('window.__BASE__.interiorState()');
+    results.topRoom = topRoomState ? topRoomState.currentRoom : null;
+    check('full climb: stepping in at the top door lands in the top room (index 9)',
+      !!topRoomState && topRoomState.currentRoom === 9,
+      `currentRoom=${topRoomState && topRoomState.currentRoom}`);
     check('zero JS errors across the walk', pageErrors.length === 0, pageErrors.join(' | '));
 
     /* the trace, decimated for the log */

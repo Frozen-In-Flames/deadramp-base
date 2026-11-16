@@ -579,3 +579,22 @@ change.
   (22 at spawn, 19 at the overview, 24 at the deck, 12 at the
   bridge and construction views); triangles 125,220 →
   125,676, the paving geometry.
+
+## Playtest fixes (v0.4.0)
+
+- Lobby directory lines carry each room's mode (RUNS LIVE IN
+  YOUR BROWSER / RECORDED SURFACE / NO REFERENCE BUILD),
+  generated from the catalog at interior build time. The
+  panel's 14-line capacity holds the largest building
+  (12 rooms).
+- The interior readout names the current floor ("Floor N
+  of M"), refreshed when the floor changes, never per frame.
+- Terminals open on the build's own function surface (the
+  surface command's own output) before any input.
+- The Python runtime (Pyodide 0.26.4) is vendored at
+  vendor/pyodide/ and loads lazily from the same origin at
+  first launch; no outside server is contacted, and world
+  boot still loads zero runtime bytes.
+- Recorded exchanges are ordered drive-first by exporter
+  rule (stable sort by source kind after dedup), pinned by
+  an export test over all 101 surfaces.

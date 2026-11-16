@@ -590,6 +590,21 @@ console.log('\n[phase 4 controls: authorization status flip]');
   }
   check('launch: every recorded exchange traces to a DeadRamp source file that names it',
     recBad.length === 0, `${recTotal} exchanges${recBad.length ? ' bad: ' + recBad.slice(0, 4).join(', ') : ''}`);
+  // Drive-first order: no test-recorded exchange may precede a
+  // drive exchange in any recorded surface, so the terminal's
+  // first exchanges (and its command chips) lead with full real
+  // responses from driving the build.
+  const orderBad = [];
+  for (const g of groups) {
+    const rec = JSON.parse(fs.readFileSync(path.join(tmp, 'launch', 'recorded', `${g}.json`), 'utf8'));
+    let seenTest = false;
+    for (const ex of rec.exchanges) {
+      if (ex.source.kind === 'test') seenTest = true;
+      else if (ex.source.kind === 'drive' && seenTest) { orderBad.push(g); break; }
+    }
+  }
+  check('launch: every recorded surface is ordered drive-first, then test exchanges',
+    orderBad.length === 0, orderBad.length ? 'bad: ' + orderBad.slice(0, 4).join(', ') : `${groups.length} surfaces`);
   const aiRec = JSON.parse(fs.readFileSync(path.join(tmp, 'launch', 'recorded', 'ai-l2.json'), 'utf8'));
   check('launch: ai-l2 recorded surface contains its real health response',
     aiRec.exchanges.some((e) => e.method === 'GET' && e.path === '/health'

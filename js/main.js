@@ -1411,7 +1411,11 @@ function buildInterior(vendor) {
   ];
   wallPanel(SPAWN_ANGLE, 1.72, 6.4, 3.0, vendor.name.toUpperCase().slice(0, 34), lobbyLines, accentCss);
   wallPanel(SPAWN_ANGLE - 0.66, 1.72, 5.4, 3.0, 'DIRECTORY', [
-    ...vendor.offerings.map((o, j) => `L${j + 1}  ${o.product}`),
+    ...vendor.offerings.map((o, j) => {
+      const b = o.room.buildGroup ? state.catalog.builds[o.room.buildGroup] : null;
+      const m = modeOf(b);
+      return `L${j + 1}  ${o.product} — ${m ? MODE_LABEL[m] : 'NO REFERENCE BUILD'}`;
+    }),
   ], accentCss);
   {
     const exitSign = makePanel(3.4, 0.9, 'EXIT — BOULEVARD', [], '#ffd9a0');
@@ -1619,9 +1623,22 @@ function buildInterior(vendor) {
   };
 }
 
+/* The interior HUD sub-line: where the visitor is in the tower,
+ * floor included, so the room count on the directory is matched by
+ * a position the visitor can feel (Aries's playtest, Nov 16, 2026:
+ * he found 3 of Oracle's 6 rooms and nothing told him more were
+ * above). Refreshed on entry and whenever the floor changes, never
+ * per frame. */
+function interiorHudSub(rec) {
+  const f = Math.round(rec.floorY / FH);
+  const where = f <= 0 ? 'Lobby' : `Floor ${f} of ${rec.layout.levels}`;
+  return `${rec.vendor.name} — inside · ${where} · ${rec.vendor.offeringCount} rooms up the spiral`;
+}
+
 function enterBuilding(vendor) {
   if (state.interior || !vendor || vendor.kind !== 'building') return;
   const rec = buildInterior(vendor);
+  rec.hudFloor = 0;
   rec.saved = { x: player.x, z: player.z, yaw: player.yaw, pitch: player.pitch };
   state.interior = rec;
   worldGroup.visible = false;
@@ -1631,7 +1648,7 @@ function enterBuilding(vendor) {
   player.pitch = 0;
   const tx = Math.cos(SPAWN_ANGLE) * R_OUT, tz = Math.sin(SPAWN_ANGLE) * R_OUT;
   player.yaw = Math.atan2(-(tx - player.x), -(tz - player.z));
-  document.getElementById('hudSub').textContent = `${vendor.name} — inside · ${vendor.offeringCount} rooms up the spiral`;
+  document.getElementById('hudSub').textContent = interiorHudSub(rec);
   /* help lifecycle: the first entry swaps the tutorial to its indoor
    * variant; later entries simply dismiss it (the action it described
    * has been performed). */
@@ -1675,6 +1692,11 @@ function resolveInteriorMove(prevX, prevZ) {
   const hs = interiorHeightAt(layout, lx, lz, cur, typeof rec.onFlight === 'number' ? rec.onFlight : -1);
   rec.floorY = hs.y;
   rec.onFlight = hs.flight;
+  const hudF = Math.round(rec.floorY / FH);
+  if (hudF !== rec.hudFloor) {
+    rec.hudFloor = hudF;
+    document.getElementById('hudSub').textContent = interiorHudSub(rec);
+  }
   player.y = INT_Y + rec.floorY + EYE;
   rec.atExit = rec.floorY < 0.01 &&
     angDiff(angNorm(Math.atan2(lz, lx)), EXIT_ANGLE) <= 0.35 && Math.hypot(lx, lz) >= R_OUT - 4.5;
@@ -1871,7 +1893,15 @@ const termModeEl = document.getElementById('termMode');
 const termOutEl = document.getElementById('termOut');
 const termChipsEl = document.getElementById('termChips');
 const termInputEl = document.getElementById('termInput');
-const PYODIDE_BASE = window.__BASE_PYODIDE_BASE__ || 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+/* The Python runtime is vendored with the site (vendor/pyodide/,
+ * Pyodide 0.26.4, byte-identical to the published distribution):
+ * a live launch must never depend on an outside server being
+ * reachable from the visitor's phone (Aries's playtest, Nov 16,
+ * 2026: terminals fell back to the recorded surface when the CDN
+ * fetch could not complete). It still loads lazily, at the first
+ * launch only; the boot path moves zero runtime bytes. The
+ * __BASE_PYODIDE_BASE__ override remains for the verify suites. */
+const PYODIDE_BASE = window.__BASE_PYODIDE_BASE__ || 'vendor/pyodide/';
 const term = {
   open: false, rr: null, session: null, transcript: [],
   pyodide: null, pyLoading: null, driverSrc: null,
@@ -2236,6 +2266,11 @@ async function openTerminal(rr) {
   term.session = session;
   termHeader(session);
   printSessionIntro(session);
+  /* The visitor sees the build's own function surface before
+   * typing anything (Aries, Nov 16, 2026): the same listing the
+   * "surface" command prints, through the same code path. A
+   * resumed session already carries it in its transcript. */
+  printSurface(session);
   buildTermChips(session);
   buildXRMenu(session);
   if (renderer.xr.isPresenting) drawXRTerminal();
