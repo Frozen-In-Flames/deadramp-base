@@ -28,6 +28,10 @@ record, and proven equivalent by the fidelity tests), different label
 and packaging (our federal rendition), and a label that states plainly
 it is not the brand product.
 
+## Live demonstration
+
+- [DeadRamp Base](https://frozen-in-flames.github.io/deadramp-base/): the full environment, running in the browser, on desktop, mobile, and WebXR headsets.
+
 ## Phase status
 
 | Phase | Scope | Status |
