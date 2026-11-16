@@ -1,0 +1,486 @@
+{
+ "group": "learning-management-l1",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/learning-management-l1/src/lms/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/learning-management-l1/src/lms/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/learning-management-l1/src/lms/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:55.138989+00:00\", \"actor\": \"anonymous\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:55.139159+00:00\", \"actor\": \"mallory\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/learning-management-l1/src/lms/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_audit_access"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "learner",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/certificates",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_certificates_and_continuing_education_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "awarded_on": "2026-06-10",
+    "learner_ref": "carol",
+    "title": "Safety Certificate"
+   },
+   "headers": {
+    "X-Role": "instructor",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/certificates",
+   "response": {
+    "fields": {
+     "awarded_on": "2026-06-10"
+    }
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_certificates_and_continuing_education_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "learner_ref": "carol",
+    "title": "Nope"
+   },
+   "headers": {
+    "X-Role": "learner",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/certificates",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_certificates_and_continuing_education_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "name": "Safety Awareness"
+   },
+   "headers": {
+    "X-Role": "instructor",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/competencies",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "learner",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/continuing-education",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_certificates_and_continuing_education_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "activity_ref": "act-1",
+    "credit_text": "3.5 credits",
+    "learner_ref": "carol",
+    "recorded_on": "2026-06-11"
+   },
+   "headers": {
+    "X-Role": "instructor",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/continuing-education",
+   "response": {
+    "fields": {
+     "credit_text": "3.5 credits"
+    }
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_certificates_and_continuing_education_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/courses",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_user_and_role_mismatch_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "title": ""
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/courses",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 404
+  },
+  {
+   "body": {
+    "title": "Nope"
+   },
+   "headers": {
+    "X-Role": "learner",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/courses",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_learner_write_is_403_and_denied_audited"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/courses/crs-999999",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_path_404_no_traceback"
+   },
+   "status": 404
+  },
+  {
+   "body": {
+    "recipient_ref": "carol",
+    "subject": "Briefing tomorrow"
+   },
+   "headers": {
+    "X-Role": "instructor",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/notifications",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "learner",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_organizations_endpoints"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "bogus_key": 1,
+    "label": "Gamma",
+    "ref": "gamma"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_organizations_endpoints"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "label": "Acme Health",
+    "portal_label": "Acme Portal",
+    "ref": "acme"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "fields": {
+     "portal_label": "Acme Portal"
+    }
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_organizations_endpoints"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "label": "Beta Org",
+    "ref": "beta"
+   },
+   "headers": {
+    "X-Role": "instructor",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestNewFamiliesOverHttp.test_organizations_endpoints"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "learner",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/report",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_report_and_search_learner_403"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "learner",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/search?q=safety",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_report_and_search_learner_403"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "auditor",
+    "X-User": "dana"
+   },
+   "method": "GET",
+   "path": "/search?q=safety",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "name": "Onboarding",
+    "steps": [
+     "assign safety course"
+    ]
+   },
+   "headers": {
+    "X-Role": "instructor",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/workflows",
+   "response": {},
+   "source": {
+    "file": "groups/learning-management-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  }
+ ]
+}

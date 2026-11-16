@@ -1,0 +1,372 @@
+{
+ "group": "human-resources-untiered",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/src/hr/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/src/hr/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/src/hr/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:54.435066+00:00\", \"actor\": \"anonymous\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:54.435271+00:00\", \"actor\": \"mallory\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/src/hr/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "employee",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/applications",
+   "response": {},
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_employee_scope_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_audit_access"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "kind": "benefit_enrollment",
+    "person_ref": "carol",
+    "plan_ref": "plan-a"
+   },
+   "headers": {
+    "X-Role": "hr_specialist",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/benefits",
+   "response": {
+    "fields": {
+     "state": "active"
+    }
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "kind": "award",
+    "person_ref": "carol",
+    "title": "Service Award"
+   },
+   "headers": {
+    "X-Role": "hr_specialist",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/cases",
+   "response": {},
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "kind": "onboarding",
+    "person_ref": "carol",
+    "task_titles": [
+     "Badge",
+     "Laptop"
+    ]
+   },
+   "headers": {
+    "X-Role": "hr_specialist",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/lifecycle-cases",
+   "response": {
+    "fields": {
+     "status": "complete"
+    }
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_path_404_no_traceback"
+   },
+   "status": 404
+  },
+  {
+   "body": {
+    "cycle": "2026-annual",
+    "period_end": "2026-12-31",
+    "period_start": "2026-01-01",
+    "person_ref": "carol"
+   },
+   "headers": {
+    "X-Role": "hr_specialist",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/performance-reviews",
+   "response": {
+    "fields": {
+     "outcome": "meets"
+    }
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "kind": "applicant",
+    "person_ref": "erin"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/persons",
+   "response": {},
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_employee_scope_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "kind": "employee",
+    "person_ref": "carol"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/persons",
+   "response": {},
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/positions",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_user_and_role_mismatch_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "title": ""
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/positions",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 404
+  },
+  {
+   "body": {
+    "title": "Nope"
+   },
+   "headers": {
+    "X-Role": "employee",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/positions",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_employee_write_is_403_and_denied_audited"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/positions/pos-999999",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "employee",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/report",
+   "response": {},
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_report_employee_403"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "auditor",
+    "X-User": "dana"
+   },
+   "method": "GET",
+   "path": "/report",
+   "response": {
+    "fields": {
+     "applications": 1,
+     "persons": 1
+    }
+   },
+   "source": {
+    "file": "groups/human-resources-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  }
+ ]
+}

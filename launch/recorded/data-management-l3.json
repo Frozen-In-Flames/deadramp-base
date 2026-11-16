@@ -1,0 +1,353 @@
+{
+ "group": "data-management-l3",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/data-management-l3/src/datamgmt/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/data-management-l3/src/datamgmt/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/data-management-l3/src/datamgmt/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:50.303016+00:00\", \"actor\": \"anonymous\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null, \"seq\": 0, \"prev_hash\": \"0000000000000000000000000000000000000000000000000000000000000000\", \"hash\": \"c47f77b314d7d0255da4fd50e28d25881aa4426feccf4bbaa86855dcbea0c458\"}, {\"ts\": \"2026-11-15T23:57:50.303259+00:00\", \"actor\": \"mallory\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null, \"seq\": 1, \"prev_hash\": \"c47f77b314d7d0255da4fd50e28d25881aa4426feccf4bbaa86855dcbea0c458\", \"hash\": \"7708d7034a20b9bcfe8e7f5086f225ec95a6d7f1c3b82aabc6c74b54dde7400c\"}]}"
+   },
+   "source": {
+    "file": "groups/data-management-l3/src/datamgmt/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "entries"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_auditor.py",
+    "kind": "test",
+    "test": "TestAuditorServiceLevel.test_auditor_can_read_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "entries"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit/verify",
+   "response": {},
+   "source": {
+    "file": "groups/data-management-l3/tests/test_auditor.py",
+    "kind": "test",
+    "test": "TestAuditorServiceLevel.test_auditor_can_verify_chain"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_role_mismatch_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/datasets",
+   "response": {},
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_user_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "description": "Y",
+    "name": "X"
+   },
+   "headers": {},
+   "method": "POST",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_auditor.py",
+    "kind": "test",
+    "test": "TestAuditorServiceLevel.test_auditor_denied_operational_endpoints"
+   },
+   "status": 403
+  },
+  {
+   "body": {
+    "classification": "secret",
+    "description": "x",
+    "name": "Bad"
+   },
+   "headers": {
+    "X-Role": "steward",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "description": "x",
+    "name": "X"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_viewer_dataset_create_403_and_denied_audited"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/datasets/ds-999999",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_not_found_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/grants",
+   "response": {},
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_path_404_no_traceback"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "steward",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/retention-due",
+   "response": {},
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/sources",
+   "response": {
+    "fieldsPresent": [
+     "sources"
+    ]
+   },
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "kind": "api",
+    "location": "ehr.internal",
+    "name": "ehr-feed"
+   },
+   "headers": {
+    "X-Role": "steward",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/sources",
+   "response": {},
+   "source": {
+    "file": "groups/data-management-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  }
+ ]
+}

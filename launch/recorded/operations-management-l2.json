@@ -1,0 +1,360 @@
+{
+ "group": "operations-management-l2",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/operations-management-l2/src/opsmgmt/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/operations-management-l2/src/opsmgmt/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/operations-management-l2/src/opsmgmt/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:56.976111+00:00\", \"actor\": \"anonymous\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:56.976300+00:00\", \"actor\": \"mallory\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/operations-management-l2/src/opsmgmt/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_audit_admin_only"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "entries"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_path_404_no_traceback"
+   },
+   "status": 404
+  },
+  {
+   "body": {
+    "name": "Acme Vendor",
+    "reference": "ORG-1001"
+   },
+   "headers": {
+    "X-Role": "operator",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/persons",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_user_and_role_mismatch_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "name": "Pat Person",
+    "reference": "EXT-1001"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/persons",
+   "response": {},
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "name": "X"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/persons",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_viewer_write_is_403_and_denied_audited"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/report?now=junk",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "metric": "hours",
+    "period": "2026-10",
+    "project_id": "proj-1",
+    "quantity": 1.5
+   },
+   "headers": {
+    "X-Role": "operator",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/usage",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "subject": "s",
+    "work_type": "bogus"
+   },
+   "headers": {
+    "X-Role": "operator",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/work-orders",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/work-orders/wo-999999",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/work-orders?now=junk",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400_and_not_found_404"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "action_text": "a",
+    "name": "w",
+    "trigger_text": "t",
+    "work_type": "all"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/workflows",
+   "response": {
+    "fields": {
+     "version": 1
+    }
+   },
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "action_text": "a",
+    "name": "w",
+    "trigger_text": "t",
+    "work_type": "all"
+   },
+   "headers": {
+    "X-Role": "operator",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/workflows",
+   "response": {},
+   "source": {
+    "file": "groups/operations-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  }
+ ]
+}

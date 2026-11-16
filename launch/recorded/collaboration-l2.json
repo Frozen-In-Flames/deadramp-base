@@ -1,0 +1,366 @@
+{
+ "group": "collaboration-l2",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/collaboration-l2/src/collab/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/collaboration-l2/src/collab/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/collaboration-l2/src/collab/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:46.984545+00:00\", \"actor\": \"anonymous\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:46.984710+00:00\", \"actor\": \"mallory\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/collaboration-l2/src/collab/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_member_and_viewer_cannot_read_audit"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow_workspace_to_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow_workspace_to_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_unknown_path_is_404_json_without_stack_trace"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/notifications",
+   "response": {},
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow_workspace_to_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "dave"
+   },
+   "method": "GET",
+   "path": "/notifications",
+   "response": {
+    "fields": {
+     "notifications": []
+    }
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_notifications_endpoint_shape"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/presence/bob",
+   "response": {
+    "fields": {
+     "note": "focus",
+     "status": "busy",
+     "user": "bob"
+    }
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_presence_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "note": "focus",
+    "status": "busy"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "PUT",
+   "path": "/presence/bob",
+   "response": {
+    "fields": {
+     "status": "busy"
+    }
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_presence_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "status": "away"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "PUT",
+   "path": "/presence/bob",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_presence_for_another_user_is_403_and_invalid_status_400"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "status": "busy"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "PUT",
+   "path": "/presence/bob",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_presence_for_another_user_is_403_and_invalid_status_400"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/workspaces",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_missing_auth_headers_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/workspaces",
+   "response": {},
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_list_and_get_workspace"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/workspaces",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_unknown_user_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "name": "nope"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/workspaces",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_viewer_cannot_create_a_workspace"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/workspaces/ws-999999",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/collaboration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_get_unknown_workspace_is_404"
+   },
+   "status": 404
+  }
+ ]
+}

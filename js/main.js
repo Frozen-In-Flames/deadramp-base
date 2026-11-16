@@ -851,6 +851,23 @@ function pickAt(clientX, clientY) {
   return false;
 }
 
+/* interior picking: a click or tap on a room's terminal panel
+ * launches that room's build. The panel is the room's centerpiece
+ * (outer wall, facing the door), so this is the natural target. */
+function termPickAt(clientX, clientY) {
+  if (!state.interior) return false;
+  const nx = (clientX / window.innerWidth) * 2 - 1;
+  const ny = -(clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera({ x: nx, y: ny }, camera);
+  const panels = state.interior.rooms.filter((r) => r.build).map((r) => r.termPanel);
+  if (!panels.length) return false;
+  const hits = raycaster.intersectObjects(panels, false);
+  if (!hits.length) return false;
+  const rr = state.interior.rooms.find((r) => r.termPanel === hits[0].object);
+  if (rr) { openTerminal(rr); return true; }
+  return false;
+}
+
 /* Phase 4 picking: bridges resolve through the segment instance id
  * to their merge edge; the deck resolves through its panels, board,
  * and footprint hitbox. Exteriors only, like building picking. */
@@ -1038,35 +1055,59 @@ function districtNameOf(o) {
   const d = state.districts.find((x) => x.id === o.district);
   return d ? `${d.functionName} · ${d.tier}` : o.district;
 }
-function recordLines(o, v) {
-  const lines = [
+/* The experience pass (Aries, Nov 15, 2026): a room is for using
+ * its service, not for reading about it. The record panels shrink
+ * to labels (title, one line, mode); the terminal is the room's
+ * centerpiece and launches the room's DeadRamp build. The mode
+ * words below are the one vocabulary used on the door signage, the
+ * wall labels, the terminal header, and the catalog record, and
+ * they must match the catalogued mode exactly. */
+const MODE_LABEL = { live: 'RUNS LIVE IN YOUR BROWSER', recorded: 'RECORDED SURFACE' };
+const MODE_LINE = {
+  live: 'This build itself runs here, in your browser.',
+  recorded: 'Work through this build\u2019s own recorded responses.',
+};
+function launchOf(build) { return build && build.launch ? build.launch : null; }
+function modeOf(build) { const l = launchOf(build); return l ? l.mode : null; }
+function oneLine(o) {
+  if (o.room.description) {
+    const first = o.room.description.split(/(?<=[.!?])\s/)[0].trim();
+    if (first) return first.length > 110 ? first.slice(0, 107).replace(/\s+\S*$/, '') + '…' : first;
+  }
+  return `${o.service_model || 'Service model not stated'} · ${o.fedramp_impact_level} · ${o.authorization_status}`;
+}
+function serviceLabelLines(o, v, build) {
+  const mode = modeOf(build);
+  return [
     o.product,
     v.name,
-    `${o.service_model || 'Service model not stated'} · ${o.fedramp_impact_level} · ${o.authorization_status}`,
+    oneLine(o),
+    '',
+    mode ? MODE_LABEL[mode] : 'NO REFERENCE BUILD',
+    mode ? MODE_LINE[mode] : 'This room shows the Marketplace record only.',
     `Tier ${o.tier} · ${districtNameOf(o)} district`,
-    o.room.deploymentModel ? `Deployment: ${o.room.deploymentModel}` : 'Deployment model: not stated in the source record',
-    `Fork ${o.room.forkId || 'id not in source'}`,
-    `Marketplace record: ${o.source_url}`,
-    o.room.specPath ? `Build source: ${o.room.specPath}` : 'Build source: none (unclassified in the DeadRamp build)',
   ];
-  if (o.room.description) lines.push('', 'From the Marketplace record:', o.room.description.slice(0, 300));
-  return lines;
 }
-function functionsLines(o, build) {
-  const lines = ['CLAIMED FUNCTIONS — from the Marketplace record'];
-  if (o.room.functions.length) for (const f of o.room.functions) lines.push('· ' + f.name);
-  else lines.push('The Marketplace record claims no specific functions for this offering.');
-  lines.push('');
-  if (build && build.controls.length) {
-    lines.push(`BUILD CONTROL CATALOG — NIST SP 800-53, from ${build.controlsSource}`);
-    for (const c of build.controls) lines.push(`${c.id}  ${c.title}`);
-  } else if (build) {
-    lines.push('This build carries no control-catalog table. Its anatomy:');
-    for (const m of build.modules) lines.push(`${m.path.split('/').pop()} — ${m.doc || 'module'}`);
+function buildLabelLines(o, build) {
+  if (!build) {
+    return [
+      'NO REFERENCE BUILD',
+      'One of the two offerings the DeadRamp build',
+      'holds as honestly unclassified.',
+      'Nothing here is invented to fill the space.',
+    ];
   }
+  const l = launchOf(build);
+  const lines = [
+    build.title,
+    `groups/${build.groupDir} · ${build.modules.length} modules · ${build.testCount} tests`,
+    `Surface: ${build.http.operationsTotal} operations · ${l ? l.recorded.exchanges : 0} recorded exchanges`,
+  ];
+  if (o.room.functions.length) lines.push(`Functions claimed: ${o.room.functions.length} (on the full record)`);
+  if (build.controls.length) lines.push(`Control catalog: ${build.controls.length} NIST SP 800-53 controls (on the full record)`);
   return lines;
 }
-function terminalLines(o, build) {
+function terminalIdleLines(o, build) {
   if (!build) {
     return [
       'NO REFERENCE BUILD',
@@ -1076,24 +1117,17 @@ function terminalLines(o, build) {
       'Nothing here is invented to fill the space.',
     ];
   }
-  const lines = [
-    `REFERENCE BUILD — groups/${build.groupDir}`,
+  const mode = modeOf(build);
+  return [
     build.title,
-    `Merged clean-room build · ${build.specCount} offerings · ${build.testCount} tests · ${build.modules.length} modules`,
     '',
-    'CLI surface (from __main__.py):',
+    MODE_LABEL[mode],
+    MODE_LINE[mode],
+    'The session is real: its state is yours for the visit,',
+    'and it is disposed of when you leave the building.',
+    '',
+    'Select this terminal to launch the build.',
   ];
-  for (const c of build.cli) lines.push(`  ${c.name}${c.help ? ' — ' + c.help : ''}`);
-  lines.push('', `HTTP operations (extracted verbatim from the service source, ${build.http.operationsTotal} total):`);
-  lines.push('  ' + build.http.operations.join(', '));
-  if (build.http.routes.length) {
-    lines.push('', `Literal routes (${build.http.routesTotal} total):`);
-    lines.push('  ' + build.http.routes.join('   '));
-  }
-  if (build.http.resources.length) lines.push('', 'Resource roots: ' + build.http.resources.join(', '));
-  lines.push('', 'This surface is the reference build\'s own, extracted from the',
-    'source above. It is not the vendor\'s API, and no endorsement is implied.');
-  return lines;
 }
 
 /* ---- interior layout math (shared by the builder and the hooks) ---- */
@@ -1436,11 +1470,21 @@ function buildInterior(vendor) {
       statics.push(cbox(w, h, d, p.x, fy + (py !== undefined ? py : h / 2), p.z, rot, col));
     };
     const deskC = new THREE.Color(0x5a4632), metalC = new THREE.Color(0x6a7076), rackC = new THREE.Color(0x22262e);
+    /* Furnishing is the supporting layer: procedural work surfaces
+     * and equipment silhouettes per archetype, all merged into the
+     * room's statics (no per-vendor work, no extra draw calls), in
+     * the federal grammar with the vendor palette riding the trim
+     * and the animated pieces above. */
     if (room.archetype === 'ops-center') {
       F(3.6, 0.75, 1.1, -2.0, -0.6, deskC); F(3.6, 0.75, 1.1, 2.0, -0.6, deskC);
       F(0.95, 0.55, 0.08, -2.6, -0.6, FED.dark, 1.05); F(0.95, 0.55, 0.08, -1.4, -0.6, FED.dark, 1.05);
       F(0.95, 0.55, 0.08, 1.4, -0.6, FED.dark, 1.05); F(0.95, 0.55, 0.08, 2.6, -0.6, FED.dark, 1.05);
       F(5.6, 0.9, 0.7, 0, -3.6, FED.granite);
+      // a second watch row, facing the first across the aisle
+      F(3.6, 0.75, 1.1, -2.0, 2.2, deskC); F(3.6, 0.75, 1.1, 2.0, 2.2, deskC);
+      F(0.95, 0.55, 0.08, -2.6, 2.2, FED.dark, 1.05); F(0.95, 0.55, 0.08, 1.4, 2.2, FED.dark, 1.05);
+      F(0.95, 0.55, 0.08, 2.6, 2.2, FED.dark, 1.05);
+      for (const cx of [-2.0, 2.0]) { F(0.5, 0.5, 0.5, cx, 0.8, metalC, 0.25); }
     } else if (room.archetype === 'server-hall') {
       for (const sx of [-2.3, 2.3]) for (const sz of [-2.5, 0, 2.5]) {
         F(0.95, 2.2, 0.85, sx, sz, rackC);
@@ -1450,6 +1494,13 @@ function buildInterior(vendor) {
         const sg2 = coloredGeom(xg(new THREE.BoxGeometry(0.05, 0.07, 0.6), sp.x, fy + 1.05, sp.z, rot), new THREE.Color(0x7ee2a8));
         strips.push(sg2);
       }
+      // a centre row makes the hall read as rows, not furniture
+      for (const sz of [-2.5, 2.5]) {
+        F(0.95, 2.2, 0.85, 0, sz, rackC);
+        const sp = chPoint(A, rMid, 0.52, 0, sz);
+        strips.push(coloredGeom(xg(new THREE.BoxGeometry(0.05, 0.07, 0.6), sp.x, fy + 1.3, sp.z, rot), new THREE.Color(0x7ee2a8)));
+      }
+      F(1.8, 0.85, 0.9, 0, -0.2, metalC); // the operator's bench in the aisle
     } else if (room.archetype === 'lab') {
       F(3.4, 0.9, 1.2, -1.9, -0.6, metalC); F(3.4, 0.9, 1.2, 1.9, -0.6, metalC);
       for (const sx of [-3.6, 3.6]) {
@@ -1462,22 +1513,40 @@ function buildInterior(vendor) {
         bar.position.x = 0.85;
         pivot.add(bar); group.add(pivot); bars.push(pivot);
       }
+      // stools at the benches, a shelf run along the back
+      for (const sx of [-2.8, -1.0, 1.0, 2.8]) F(0.46, 0.55, 0.46, sx, 0.6, deskC, 0.28);
+      F(5.2, 2.0, 0.5, 0, -4.0, metalC);
+      F(5.0, 0.08, 0.06, 0, -3.72, FED.limestone, 1.35); F(5.0, 0.08, 0.06, 0, -3.72, FED.limestone, 0.75);
+      for (const sx of [-1.8, 0, 1.8]) F(0.5, 0.42, 0.34, sx, -3.8, FED.dark, 1.62);
     } else if (room.archetype === 'meeting-space') {
       F(3.8, 0.14, 1.7, 0, -0.2, FED.granite, 0.78);
       F(0.5, 0.75, 1.5, 0, -0.2, deskC, 0.37);
       for (const cx of [-1.5, 0, 1.5]) { F(0.52, 0.95, 0.52, cx, -1.45, deskC); F(0.52, 0.95, 0.52, cx, 1.05, deskC); }
+      F(0.52, 0.95, 0.52, -2.35, -0.2, deskC); F(0.52, 0.95, 0.52, 2.35, -0.2, deskC);
+      F(3.0, 1.5, 0.4, 0, -4.1, deskC, 0.75); // sideboard under the back wall
+      F(1.1, 0.5, 0.06, 0, -3.85, FED.dark, 1.35); // the room's display, dark until used
     } else if (room.archetype === 'ledger-office') {
       F(2.6, 0.8, 1.1, 0, -1.0, deskC);
       for (const sx of [-3.1, 0, 3.1]) {
         F(2.7, 2.3, 0.5, sx, -4.15, new THREE.Color(0x54432c));
         F(2.5, 0.1, 0.06, sx, -3.87, FED.limestone, 1.5);
         F(2.5, 0.1, 0.06, sx, -3.87, FED.limestone, 0.8);
+        F(0.62, 0.3, 0.3, sx - 0.6, -3.95, FED.dark, 1.72); F(0.62, 0.3, 0.3, sx + 0.55, -3.95, FED.dark, 1.02);
       }
+      F(3.0, 0.78, 1.3, 0, 1.7, deskC); // the reading table
+      F(0.09, 1.5, 0.09, -1.2, 1.7, metalC, 0.75); F(0.09, 1.5, 0.09, 1.2, 1.7, metalC, 0.75);
     } else {
       F(2.6, 0.8, 1.1, 0, -1.0, deskC);
       F(0.85, 1.85, 0.6, -4.5, -2.2, FED.granite); F(0.85, 1.85, 0.6, 4.5, -2.2, FED.granite);
+      F(2.6, 0.8, 1.1, -2.2, 1.9, deskC); // a second desk, same office grammar
+      F(0.85, 0.55, 0.08, -2.2, 1.9, FED.dark, 1.08);
+      F(1.9, 1.1, 0.5, 3.4, -3.9, FED.granite); // low credenza on the back wall
     }
-    /* wall panels: record (outer wall), functions/controls (left), terminal (right) */
+    /* wall panels: the terminal is the centerpiece (outer wall,
+     * facing the door); the record panels shrink to labels on the
+     * side walls (service title, one line, mode; the build in one
+     * breath). The full record still exists: on the building's
+     * record card outside, and in the terminal's own surface. */
     const mkP = (px, pz, w, h, title, lines, tx, tz) => {
       const mesh = makePanel(w, h, title, lines, accentCss);
       const pos = chPoint(A, rMid, px, fy + 1.68, pz);
@@ -1489,10 +1558,14 @@ function buildInterior(vendor) {
       panelTitles.push(title);
       return mesh;
     };
-    mkP(0, chDepth / 2 + 0.22, 6.6, 3.0, 'SERVICE RECORD', recordLines(o, vendor), 0, -1);
-    mkP(-(CH_HALF_W + 0.28), 0.4, 4.7, 2.9, 'FUNCTIONS & CONTROLS', functionsLines(o, build), 0, 0.4);
-    const term = mkP(CH_HALF_W + 0.28, 0.4, 4.7, 2.9, 'TERMINAL — REFERENCE BUILD', terminalLines(o, build), 0, 0.4);
+    const rMode = modeOf(build);
+    const term = mkP(0, chDepth / 2 + 0.22, 6.6, 3.0,
+      build ? (rMode === 'live' ? 'TERMINAL — RUNS LIVE' : 'TERMINAL — RECORDED SURFACE') : 'TERMINAL',
+      terminalIdleLines(o, build), 0, -1);
+    mkP(-(CH_HALF_W + 0.28), 0.4, 4.7, 2.2, 'SERVICE', serviceLabelLines(o, vendor, build), 0, 0.4);
+    mkP(CH_HALF_W + 0.28, 0.4, 4.7, 2.2, 'REFERENCE BUILD', buildLabelLines(o, build), 0, 0.4);
     /* door sign + status plaque, in the ring */
+    const signModeText = build ? MODE_LABEL[rMode] : 'NO REFERENCE BUILD';
     {
       const lines = capLines(wrapText(o.product, 30), 2);
       const c = document.createElement('canvas'); c.width = 1024; c.height = 448;
@@ -1503,9 +1576,13 @@ function buildInterior(vendor) {
       x.font = '700 62px sans-serif';
       lines.forEach((ln, i) => x.fillText(ln, 512, 130 + i * 78 - (lines.length - 1) * 39));
       x.font = '34px sans-serif'; x.fillStyle = o.authorization_status === 'FedRAMP Certified' ? STATUS_COLORS.certified : STATUS_COLORS.other;
-      x.fillText(`${o.tier} · ${o.authorization_status}`, 512, 330);
+      x.fillText(`${o.tier} · ${o.authorization_status}`, 512, 318);
       x.font = '28px sans-serif'; x.fillStyle = '#9fb0c3';
-      x.fillText(ARCHETYPE_LABEL[room.archetype], 512, 385);
+      x.fillText(ARCHETYPE_LABEL[room.archetype], 512, 362);
+      /* the mode, in the same words as the catalog and the terminal */
+      x.font = '700 27px sans-serif';
+      x.fillStyle = !build ? '#f28ba8' : (rMode === 'live' ? '#8be08b' : '#f2b880');
+      x.fillText(signModeText, 512, 408);
       const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
       const sign = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 1.58), new THREE.MeshBasicMaterial({ map: t }));
       sign.position.set(Math.cos(A) * (R_OUT - 0.42), fy + 2.5, Math.sin(A) * (R_OUT - 0.42));
@@ -1517,7 +1594,7 @@ function buildInterior(vendor) {
       plaque.position.copy(pp); plaque.rotation.y = rot;
       group.add(plaque); panels.push(plaque);
     }
-    roomRecs.push({ room, build, termPanel: term, termLines: term.userData.panelLines });
+    roomRecs.push({ room, build, termPanel: term, termLines: term.userData.panelLines, session: null, signMode: signModeText });
   }
 
   const staticMesh = new THREE.Mesh(mergeGeoms(statics),
@@ -1564,6 +1641,10 @@ function enterBuilding(vendor) {
 function exitBuilding() {
   const rec = state.interior;
   if (!rec) return;
+  /* terminal sessions are disposed with the interior: live sessions
+   * are closed in the runtime, transcripts and state go with them */
+  closeTerminal();
+  disposeTermSessions();
   rec.group.traverse((obj) => {
     if (obj.geometry) obj.geometry.dispose();
     if (obj.material) {
@@ -1666,7 +1747,8 @@ const XR_HELP_LINES = {
     'Left thumbstick to walk. One spiral ramp',
     'climbs past every service room; each room',
     'opens off the coil on its own floor.',
-    'Point and pull the trigger for a record.',
+    'Point at a room\u2019s terminal and pull the',
+    'trigger to launch its build and use it.',
     'The lobby door marked EXIT, trigger beside',
     'it, returns you to the boulevard.',
     'Squeeze a grip to recall this help.',
@@ -1687,9 +1769,11 @@ const HELP_COPY = {
   in: {
     kb: 'WASD / arrows to walk, mouse to look, Shift to move fast.<br>' +
       'One spiral ramp climbs past every service room; each room opens off the coil on its own floor. ' +
+      'Use a room\u2019s terminal to launch its build: stand in the room and press <b>E</b>, or click the terminal. ' +
       'The lobby door marked EXIT (or <b>E</b> beside it) returns you to the boulevard.',
     touch: 'Left thumb stick to walk, drag right side to look. ' +
       'One spiral ramp climbs past every service room; each room opens off the coil on its own floor. ' +
+      'Tap a room\u2019s terminal to launch its build and use it. ' +
       'Tap the lobby door marked EXIT to return to the boulevard.',
     xr: XR_HELP_LINES.in.join(' '),
   },
@@ -1741,6 +1825,537 @@ function hideSettings() {
 settingsBtn.addEventListener('click', () => { if (settingsOpen) hideSettings(); else showSettings(); });
 document.getElementById('settingsClose').addEventListener('click', hideSettings);
 
+/* ---------------- the room terminal: launch the build ----------------
+ * The experience pass (Aries, Nov 15, 2026): "we don't want the user
+ * to have this vast world with nothing to do but read. We want them
+ * to experience every product and service." Every room's terminal
+ * launches that room's DeadRamp build, in one of two modes, and the
+ * mode is stated in the same words on the door signage, the wall
+ * labels, this console's header, and the catalog record:
+ *
+ * LIVE (the catalogued mode when the probes verified it): the build
+ * itself executes in the browser. Its own Python package loads
+ * lazily on first launch (never at world boot) into a Pyodide
+ * runtime, and launch/driver.py drives the build's own handler
+ * class in-process: the build's make_server captures the handler
+ * instead of binding a socket, and every request runs the build's
+ * real routing, auth, store, and audit code. State is held for the
+ * visit and disposed on exit, like the rest of the interior. The
+ * only substituted parts are the transport (sockets and threads for
+ * in-process streams) and, on runtimes that ship no ssl module, the
+ * ssl import its optional TLS branch needs (that branch never runs:
+ * the driver passes no certificate, exactly as the build runs
+ * without TLS flags). If a live launch cannot complete in the
+ * visitor's browser (the runtime cannot load, the build raises),
+ * the terminal falls back to the recorded surface and says so in
+ * its header: the label always names the session actually in front
+ * of the visitor.
+ *
+ * RECORDED: an interactive session over the build's real recorded
+ * surface: the exchanges in launch/recorded/<group>.json, harvested
+ * by the exporter from the build's own test suites and from driving
+ * the build itself at export time. A request with a recorded
+ * behavior replays it, with its source named. A request with none
+ * gets an honest answer saying so. Nothing is invented, in either
+ * mode.
+ *
+ * Input on every platform: tap or click the terminal (or stand in
+ * the room and use the prompted action) to open the console; the
+ * command chips are tappable commands (no typing required); the
+ * text field serves physical and on-screen keyboards alike. In XR
+ * the console rides an in-world panel whose command rows are
+ * selected by pointing and pulling the trigger, or by gaze dwell. */
+const termEl = document.getElementById('term');
+const termTitleEl = document.getElementById('termTitle');
+const termModeEl = document.getElementById('termMode');
+const termOutEl = document.getElementById('termOut');
+const termChipsEl = document.getElementById('termChips');
+const termInputEl = document.getElementById('termInput');
+const PYODIDE_BASE = window.__BASE_PYODIDE_BASE__ || 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+const term = {
+  open: false, rr: null, session: null, transcript: [],
+  pyodide: null, pyLoading: null, driverSrc: null,
+  staged: new Set(), recordedCache: new Map(),
+  xrRow: 0, xrMenu: [],
+};
+const HTTP_VERBS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
+const STATUS_WORD = { 200: 'OK', 201: 'Created', 204: 'No Content', 400: 'Bad Request', 401: 'Unauthorized', 403: 'Forbidden', 404: 'Not Found', 405: 'Method Not Allowed', 409: 'Conflict', 422: 'Unprocessable Entity', 500: 'Internal Server Error' };
+function stableJson(v) {
+  if (v === null || typeof v !== 'object') return JSON.stringify(v);
+  if (Array.isArray(v)) return '[' + v.map(stableJson).join(',') + ']';
+  return '{' + Object.keys(v).sort().map((k) => JSON.stringify(k) + ':' + stableJson(v[k])).join(',') + '}';
+}
+function prettyBody(text) {
+  if (!text) return '';
+  try { return JSON.stringify(JSON.parse(text), null, 1); } catch (e) { return text; }
+}
+function renderTranscript() {
+  termOutEl.innerHTML = '';
+  for (const ln of term.transcript.slice(-220)) {
+    const div = document.createElement('div');
+    if (ln.cls) div.className = ln.cls;
+    div.textContent = ln.text;
+    termOutEl.appendChild(div);
+  }
+  termOutEl.scrollTop = termOutEl.scrollHeight;
+}
+function termPrint(text, cls) {
+  term.transcript.push({ text, cls: cls || '' });
+  if (term.transcript.length > 400) term.transcript.splice(0, term.transcript.length - 400);
+  const div = document.createElement('div');
+  if (cls) div.className = cls;
+  div.textContent = text;
+  termOutEl.appendChild(div);
+  while (termOutEl.children.length > 220) termOutEl.removeChild(termOutEl.firstChild);
+  termOutEl.scrollTop = termOutEl.scrollHeight;
+  if (renderer.xr.isPresenting) drawXRTerminal();
+}
+function termHeader(session) {
+  const o = term.rr.room.offering, build = term.rr.build;
+  termTitleEl.textContent = `${o.product} — ${build.title}`;
+  if (session.mode === 'live') {
+    termModeEl.className = 'live';
+    termModeEl.innerHTML = '● LIVE — RUNS LIVE IN YOUR BROWSER' +
+      '<span class="sub">This build itself is running in your browser right now.</span>';
+  } else {
+    termModeEl.className = 'recorded';
+    termModeEl.innerHTML = '● RECORDED SURFACE' +
+      '<span class="sub">You are working through this build\u2019s recorded responses.</span>' +
+      (session.fallback ? '<span class="sub">The live launch could not complete in this browser session, so this terminal is showing the recorded surface.</span>' : '');
+  }
+}
+async function fetchRecorded(build) {
+  const g = build.groupDir;
+  if (term.recordedCache.has(g)) return term.recordedCache.get(g);
+  const data = await (await fetch(build.launch.recorded.file)).json();
+  term.recordedCache.set(g, data.exchanges || []);
+  return data.exchanges || [];
+}
+function defaultUser(users) {
+  const names = Object.keys(users).sort();
+  return names.find((n) => users[n] === 'admin') || names[0] || null;
+}
+/* ---- live sessions: the build itself, in the browser ---- */
+async function ensurePyodide() {
+  if (term.pyodide) return term.pyodide;
+  if (term.pyLoading) return term.pyLoading;
+  term.pyLoading = (async () => {
+    if (!window.loadPyodide) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = PYODIDE_BASE + 'pyodide.js';
+        s.onload = res;
+        s.onerror = () => rej(new Error('the Python runtime could not be loaded'));
+        document.head.appendChild(s);
+      });
+    }
+    const py = await window.loadPyodide({ indexURL: PYODIDE_BASE });
+    if (!term.driverSrc) term.driverSrc = await (await fetch('launch/driver.py')).text();
+    py.runPython(term.driverSrc);
+    term.pyodide = py;
+    return py;
+  })();
+  try { return await term.pyLoading; } finally { term.pyLoading = null; }
+}
+function drvCall(py, fn, args) {
+  py.globals.set('__a', JSON.stringify(args));
+  return JSON.parse(py.runPython('import json as _j; ' + fn + '(*_j.loads(__a))'));
+}
+async function stageBundle(py, build) {
+  const g = build.groupDir, bundle = build.launch.bundle;
+  if (term.staged.has(g)) return;
+  for (const f of bundle.files) {
+    const text = await (await fetch(`launch/bundles/${g}/${f.path}`)).text();
+    const target = `/bundles/${g}/${f.path}`;
+    py.FS.mkdirTree(target.slice(0, target.lastIndexOf('/')));
+    py.FS.writeFile(target, text);
+  }
+  term.staged.add(g);
+}
+async function startLiveSession(rr) {
+  const build = rr.build, g = build.groupDir;
+  const py = await ensurePyodide();
+  await stageBundle(py, build);
+  const sid = `s_${g}_${rr.room.index}`;
+  const res = drvCall(py, 'drv_launch', [sid, `/bundles/${g}`, build.launch.bundle.package,
+    JSON.stringify(build.launch.users || {})]);
+  if (!res.ok) throw new Error(res.error || 'the build did not launch');
+  const session = {
+    mode: 'live', sid, group: g, users: build.launch.users || {},
+    user: defaultUser(build.launch.users || {}),
+    handler: res.handler, store: res.store,
+    exchanges: await fetchRecorded(build), fallback: false,
+  };
+  rr.session = session;
+  return session;
+}
+async function startRecordedSession(rr, fallback, err) {
+  const build = rr.build;
+  const session = {
+    mode: 'recorded', sid: null, group: build.groupDir,
+    users: build.launch.users || {}, user: defaultUser(build.launch.users || {}),
+    exchanges: await fetchRecorded(build), fallback: !!fallback,
+    fallbackError: err ? String((err && err.message) || err).slice(0, 160) : null,
+  };
+  rr.session = session;
+  return session;
+}
+function printSessionIntro(session) {
+  const o = term.rr.room.offering, build = term.rr.build, g = build.groupDir;
+  if (session.mode === 'live') {
+    termPrint(`Launched groups/${g} through its own make_server: handler ${session.handler}, store ${session.store}.`, 'ok');
+    termPrint('Its routing, auth, store, and audit code are executing for real; state is held for your visit.');
+  } else {
+    const d = build.launch.recorded.fromDrive, t = build.launch.recorded.fromTests;
+    termPrint(`Every answer here was recorded from this build itself: ${d} exchanges from driving the build, ${t} from its own test suite.`, 'note');
+    termPrint('Anything with no recorded behavior is answered honestly as unrecorded.', 'note');
+    if (session.fallback) termPrint(`The live launch could not complete in this browser session (${session.fallbackError || 'runtime unavailable'}), so this terminal is showing the recorded surface.`, 'warn');
+  }
+  if (session.user) termPrint(`You are ${session.user} (${session.users[session.user]}), one of this build's demo users from its own source.`, 'note');
+  termPrint('Type "help" for the command list, or use the commands below.', 'note');
+}
+/* ---- the recorded matcher: replay only what was recorded ---- */
+function printRecordedResponse(ex, via) {
+  const r = ex.response || {};
+  termPrint(ex.status !== null && ex.status !== undefined
+    ? `← ${ex.status} ${STATUS_WORD[ex.status] || ''}`.trim() : '← (the source asserts the response below; it records no status)', 'ok');
+  if (r.text) termPrint(prettyBody(r.text));
+  if (r.fields) termPrint('Asserted fields: ' + JSON.stringify(r.fields));
+  if (r.fieldsPresent) termPrint('Asserted to contain keys: ' + r.fieldsPresent.join(', '));
+  if (r.contains) for (const c of r.contains) termPrint(`Asserted to contain text: "${c}"`);
+  if (ex.source.kind === 'test') termPrint(`Recorded from ${ex.source.file} — ${ex.source.test}`, 'note');
+  else termPrint(`Recorded by driving this build itself at export time (launch/driver.py); source ${ex.source.file}`, 'note');
+  if (via) termPrint(via, 'note');
+}
+function runRecordedExchange(session, ex) {
+  const u = (ex.headers || {})['X-User'];
+  termPrint(`> ${ex.method} ${ex.path}${u ? ` (recorded, as ${u})` : ' (recorded)'}${ex.body !== null && ex.body !== undefined ? ' ' + stableJson(ex.body) : ''}`, 'cmd');
+  printRecordedResponse(ex, null);
+}
+function runRecordedRequest(session, method, path, body, user) {
+  const bodyKey = stableJson(body === undefined ? null : body);
+  const cands = session.exchanges.filter((e) => e.method === method && e.path === path);
+  const exact = cands.find((e) => ((e.headers || {})['X-User'] || null) === (user || null)
+    && stableJson(e.body === undefined ? null : e.body) === bodyKey);
+  const sameBody = cands.find((e) => stableJson(e.body === undefined ? null : e.body) === bodyKey);
+  const pick = exact || sameBody;
+  if (pick) {
+    termPrint(`> ${method} ${path}${user ? ` (as ${user})` : ''}${body !== null && body !== undefined ? ' ' + bodyKey : ''}`, 'cmd');
+    const via = exact ? null
+      : `That exact exchange was not recorded; this is the recorded ${method} ${path} with the same body${(pick.headers || {})['X-User'] ? `, recorded as ${(pick.headers)['X-User']}` : ''}.`;
+    printRecordedResponse(pick, via);
+    return;
+  }
+  termPrint(`> ${method} ${path}${user ? ` (as ${user})` : ''}`, 'cmd');
+  if (cands.length) {
+    const variants = cands.slice(0, 4).map((e) => `${e.method} ${e.path}${(e.headers || {})['X-User'] ? ` as ${(e.headers)['X-User']}` : ''}${e.body !== null && e.body !== undefined ? ' with a recorded body' : ''}`);
+    termPrint(`No recorded behavior for that exact request. This surface does record, for ${path}:`, 'warn');
+    for (const v of variants) termPrint('  ' + v, 'note');
+    termPrint('Nothing else is claimed for it: unrecorded requests are not invented.', 'note');
+  } else {
+    termPrint(`No recorded behavior for ${method} ${path} in this build's recorded surface. It is not invented here.`, 'warn');
+    termPrint('Type "surface" to see what is recorded.', 'note');
+  }
+}
+/* ---- live requests: the build answers itself ---- */
+function runLiveRequest(session, method, path, bodyText, user) {
+  const headers = user ? { 'X-User': user, 'X-Role': session.users[user] } : {};
+  termPrint(`> ${method} ${path}${user ? ` (as ${user})` : ''}${bodyText ? ' ' + bodyText : ''}`, 'cmd');
+  let res;
+  try {
+    res = drvCall(term.pyodide, 'drv_request', [session.sid, method, path, JSON.stringify(headers), bodyText || '']);
+  } catch (e) {
+    termPrint(`The build could not answer: ${String((e && e.message) || e).slice(0, 200)}`, 'warn');
+    return;
+  }
+  if (!res.status) {
+    termPrint(`The build could not answer: ${res.error || 'no response'}`, 'warn');
+    return;
+  }
+  termPrint(`← ${res.status} ${STATUS_WORD[res.status] || ''}`.trim(), 'ok');
+  if (res.body) termPrint(prettyBody(res.body));
+}
+/* ---- commands ---- */
+function printHelp(session) {
+  termPrint('Commands:', 'cmd');
+  termPrint('  GET /path                 run a request as the current user');
+  termPrint('  POST /path {"key": 1}     a request with a JSON body');
+  termPrint('  as alice                  act as another of the build\u2019s demo users');
+  termPrint('  surface                   list this build\u2019s recorded surface');
+  termPrint('  users                     the demo users from the build\u2019s source');
+  termPrint('  restart                   start the session over');
+  termPrint('  close                     close the terminal');
+  termPrint(session.mode === 'live'
+    ? 'This session is live: the build itself answers, and its state carries between requests.'
+    : 'This session is recorded: answers replay this build\u2019s recorded surface, and only that.', 'note');
+}
+function printSurface(session) {
+  const build = term.rr.build;
+  termPrint(`Recorded surface of groups/${build.groupDir} (${session.exchanges.length} exchanges):`, 'cmd');
+  for (const ex of session.exchanges.slice(0, 24)) {
+    termPrint(`  ${ex.method} ${ex.path}${(ex.headers || {})['X-User'] ? ` as ${(ex.headers)['X-User']}` : ''} — ${ex.source.kind === 'test' ? 'from ' + ex.source.test : 'from driving the build'}`, 'note');
+  }
+  if (session.exchanges.length > 24) termPrint(`  … (+${session.exchanges.length - 24} more recorded exchanges)`, 'note');
+  if (session.mode === 'live') termPrint('This session is live; the recorded surface is kept as reference and as the fallback.', 'note');
+}
+async function termRunCommand(raw) {
+  const session = term.session;
+  if (!session || !raw || !raw.trim()) return;
+  const text = raw.trim();
+  const lower = text.toLowerCase();
+  if (lower === 'close') { closeTerminal(); return; }
+  if (lower === 'help') { printHelp(session); return; }
+  if (lower === 'surface') { printSurface(session); return; }
+  if (lower === 'users' || lower === 'whoami') {
+    if (lower === 'whoami') { termPrint(session.user ? `You are ${session.user} (${session.users[session.user]}).` : 'You are not acting as any demo user.', 'cmd'); return; }
+    termPrint('Demo users from the build\u2019s own source:', 'cmd');
+    for (const n of Object.keys(session.users).sort()) termPrint(`  ${n} — ${session.users[n]}${n === session.user ? ' (you)' : ''}`, 'note');
+    return;
+  }
+  if (lower === 'restart') {
+    termPrint('Starting the session over…', 'cmd');
+    if (session.mode === 'live') {
+      try { drvCall(term.pyodide, 'drv_close', [session.sid]); } catch (e) { /* already gone */ }
+      term.rr.session = null;
+      try {
+        const s2 = await startLiveSession(term.rr);
+        term.session = s2; termHeader(s2); buildTermChips(s2); printSessionIntro(s2);
+      } catch (e) {
+        const s2 = await startRecordedSession(term.rr, true, e);
+        term.session = s2; termHeader(s2); buildTermChips(s2); printSessionIntro(s2);
+      }
+    } else {
+      termPrint('Recorded sessions hold no state to reset; the recorded surface is the same on every visit.', 'note');
+    }
+    return;
+  }
+  let user = session.user, rest = text;
+  const asM = text.match(/^as\s+(\S+)(?:\s+([\s\S]+))?$/i);
+  if (asM) {
+    const name = asM[1];
+    if (!(name in session.users)) {
+      termPrint(`"${name}" is not one of this build's demo users. They are: ${Object.keys(session.users).sort().join(', ')}.`, 'warn');
+      return;
+    }
+    if (!asM[2]) {
+      session.user = name;
+      termPrint(`You are now ${name} (${session.users[name]}).`, 'cmd');
+      return;
+    }
+    user = name; rest = asM[2];
+  }
+  const reqM = rest.match(/^([A-Za-z]+)\s+(\/\S+)(?:\s+([\s\S]+))?$/) || rest.match(/^()(\/\S+)(?:\s+([\s\S]+))?$/);
+  if (!reqM) {
+    termPrint('That is not a command this terminal knows. Type "help" for the list.', 'warn');
+    return;
+  }
+  const method = (reqM[1] || 'GET').toUpperCase();
+  const path = reqM[2];
+  const bodyText = reqM[3] ? reqM[3].trim() : '';
+  if (!HTTP_VERBS.includes(method)) {
+    termPrint(`"${method}" is not an HTTP method this terminal sends. Use one of: ${HTTP_VERBS.join(', ')}.`, 'warn');
+    return;
+  }
+  let body = null;
+  if (bodyText) {
+    try { body = JSON.parse(bodyText); } catch (e) {
+      termPrint('That body is not valid JSON, so nothing was sent. Quote keys and string values, e.g. {"name": "x"}.', 'warn');
+      return;
+    }
+  }
+  if (session.mode === 'live') runLiveRequest(session, method, path, bodyText, user);
+  else runRecordedRequest(session, method, path, body, user);
+  buildXRMenu(session);
+  if (renderer.xr.isPresenting) drawXRTerminal();
+}
+function buildTermChips(session) {
+  termChipsEl.innerHTML = '';
+  const add = (label, fn, util) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = label;
+    if (util) b.className = 'util';
+    b.addEventListener('click', () => { fn(); if (inputMode() === 'kb') termInputEl.focus(); });
+    termChipsEl.appendChild(b);
+    return b;
+  };
+  if (session.mode === 'recorded') {
+    for (const ex of session.exchanges.slice(0, 10)) {
+      const u = (ex.headers || {})['X-User'];
+      add(`${ex.method} ${ex.path}${u ? ' · ' + u : ''}`, () => { runRecordedExchange(session, ex); buildXRMenu(session); });
+    }
+  } else {
+    const seen = new Set();
+    for (const ex of session.exchanges) {
+      const key = ex.method + ' ' + ex.path;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      if (seen.size > 10) break;
+      add(key, () => termRunCommand(key));
+    }
+  }
+  add('surface', () => termRunCommand('surface'), true);
+  add('users', () => termRunCommand('users'), true);
+  add('help', () => termRunCommand('help'), true);
+  add('restart', () => termRunCommand('restart'), true);
+}
+/* ---- open / close / dispose ---- */
+async function openTerminal(rr) {
+  if (!rr || !rr.build || !state.interior) return false;
+  if (term.rr && term.rr !== rr) term.rr._transcript = term.transcript;
+  term.rr = rr;
+  term.open = true;
+  termEl.style.display = 'flex';
+  hideHelp();
+  termTitleEl.textContent = `${rr.room.offering.product} — ${rr.build.title}`;
+  termModeEl.className = '';
+  termModeEl.textContent = 'Launching…';
+  if (rr.session) {
+    term.session = rr.session;
+    term.transcript = rr._transcript || [];
+    renderTranscript();
+    termHeader(rr.session);
+    buildTermChips(rr.session);
+    buildXRMenu(rr.session);
+    termPrint('Session resumed: its state is as you left it.', 'note');
+    if (renderer.xr.isPresenting) drawXRTerminal();
+    return true;
+  }
+  term.transcript = [];
+  termOutEl.innerHTML = '';
+  termPrint(`${rr.room.offering.product} — ${rr.build.title}`, 'cmd');
+  termPrint(MODE_LABEL[modeOf(rr.build)] + ' — ' + MODE_LINE[modeOf(rr.build)], 'note');
+  let session = null;
+  if (modeOf(rr.build) === 'live') {
+    termPrint('Launching the build in your browser…', 'note');
+    try { session = await startLiveSession(rr); }
+    catch (e) { session = await startRecordedSession(rr, true, e); }
+  } else {
+    session = await startRecordedSession(rr, false, null);
+  }
+  if (!term.open || term.rr !== rr) { return true; } // closed while launching
+  term.session = session;
+  termHeader(session);
+  printSessionIntro(session);
+  buildTermChips(session);
+  buildXRMenu(session);
+  if (renderer.xr.isPresenting) drawXRTerminal();
+  if (inputMode() === 'kb') termInputEl.focus();
+  return true;
+}
+function closeTerminal() {
+  if (term.rr) term.rr._transcript = term.transcript;
+  term.open = false;
+  term.session = null;
+  term.rr = null;
+  termEl.style.display = 'none';
+  if (document.activeElement === termInputEl) termInputEl.blur();
+}
+function disposeTermSessions() {
+  if (!state.interior) return;
+  for (const rr of state.interior.rooms) {
+    if (rr.session && rr.session.mode === 'live' && term.pyodide) {
+      try { drvCall(term.pyodide, 'drv_close', [rr.session.sid]); } catch (e) { /* runtime already gone */ }
+    }
+    rr.session = null;
+  }
+}
+termCloseBtnSetup();
+function termCloseBtnSetup() {
+  document.getElementById('termClose').addEventListener('click', closeTerminal);
+  document.getElementById('termRun').addEventListener('click', () => {
+    const v = termInputEl.value; termInputEl.value = ''; termRunCommand(v);
+  });
+  termInputEl.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter') { const v = termInputEl.value; termInputEl.value = ''; termRunCommand(v); }
+    else if (ev.key === 'Escape') { closeTerminal(); }
+    ev.stopPropagation();
+  });
+}
+/* ---- the terminal in-world (XR): the same session, on a panel ----
+ * Layout is fixed so a trigger pull can be mapped from the hit UV
+ * to a command row exactly: header band 0..64, mode line at 96,
+ * transcript from 140 in 30 px lines (7 shown), the command header
+ * at 386, command rows from 424 in 40 px steps (5 shown). */
+const XR_TERM = { w: 1024, h: 668, menuTop: 424, rowH: 40, maxRows: 5, linesTop: 140, lineH: 30, maxLines: 7 };
+const xrTermPlane = makeXRPlane(1.5, 0.98, XR_TERM.w, XR_TERM.h, 0, 0.02, -2.05, 997);
+function buildXRMenu(session) {
+  term.xrMenu = [];
+  if (!session) return;
+  if (session.mode === 'recorded') {
+    for (const ex of session.exchanges.slice(0, 10)) {
+      const u = (ex.headers || {})['X-User'];
+      term.xrMenu.push({ label: `${ex.method} ${ex.path}${u ? ' · ' + u : ''}`, run: () => runRecordedExchange(session, ex) });
+    }
+  } else {
+    const seen = new Set();
+    for (const ex of session.exchanges) {
+      const key = ex.method + ' ' + ex.path;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      if (seen.size > 10) break;
+      term.xrMenu.push({ label: key, run: () => termRunCommand(key) });
+    }
+  }
+  term.xrMenu.push({ label: 'surface', run: () => termRunCommand('surface') });
+  term.xrMenu.push({ label: 'users', run: () => termRunCommand('users') });
+  term.xrMenu.push({ label: 'close terminal', run: () => closeTerminal() });
+  if (term.xrRow >= term.xrMenu.length) term.xrRow = 0;
+}
+function drawXRTerminal() {
+  if (!term.open || !term.rr) return;
+  const p = xrTermPlane, x = p.canvas.getContext('2d');
+  const build = term.rr.build, session = term.session;
+  x.clearRect(0, 0, XR_TERM.w, XR_TERM.h);
+  x.fillStyle = 'rgba(10, 13, 20, 0.96)'; x.fillRect(0, 0, XR_TERM.w, XR_TERM.h);
+  x.strokeStyle = '#4a6f9f'; x.lineWidth = 3; x.strokeRect(1.5, 1.5, XR_TERM.w - 3, XR_TERM.h - 3);
+  x.fillStyle = session && session.mode === 'recorded' ? '#f2b880' : '#8be08b';
+  x.fillRect(0, 0, XR_TERM.w, 64);
+  x.fillStyle = '#0d1017'; x.font = '700 27px sans-serif'; x.textAlign = 'left'; x.textBaseline = 'middle';
+  const title = `${term.rr.room.offering.product} — TERMINAL`.slice(0, 56);
+  x.fillText(title, 26, 34);
+  x.font = '700 24px sans-serif';
+  x.fillStyle = session && session.mode === 'recorded' ? '#f2b880' : '#8be08b';
+  const modeText = !session ? 'LAUNCHING…'
+    : session.mode === 'live' ? '● LIVE — THIS BUILD IS RUNNING IN YOUR BROWSER'
+    : '● RECORDED SURFACE — THIS BUILD\u2019S RECORDED RESPONSES' + (session.fallback ? ' (live launch unavailable here)' : '');
+  x.fillText(modeText.slice(0, 62), 26, 96);
+  x.font = '22px ui-monospace, Menlo, monospace'; x.fillStyle = '#c8cfda';
+  const lines = term.transcript.slice(-XR_TERM.maxLines);
+  lines.forEach((ln, i) => {
+    const t = ln.text.length > 74 ? ln.text.slice(0, 73) + '…' : ln.text;
+    x.fillText(t, 26, XR_TERM.linesTop + i * XR_TERM.lineH);
+  });
+  x.font = '700 22px sans-serif'; x.fillStyle = '#ffd9a0';
+  x.fillText('COMMANDS — point at a row and pull the trigger', 26, 386);
+  x.font = '23px ui-monospace, Menlo, monospace';
+  term.xrMenu.slice(0, XR_TERM.maxRows).forEach((item, i) => {
+    const y = XR_TERM.menuTop + i * XR_TERM.rowH + XR_TERM.rowH / 2;
+    if (i === term.xrRow) { x.fillStyle = 'rgba(74, 111, 159, 0.35)'; x.fillRect(14, y - 19, XR_TERM.w - 28, 38); }
+    x.fillStyle = i === term.xrRow ? '#ffd9a0' : '#cfe2ff';
+    x.fillText((i === term.xrRow ? '▸ ' : '  ') + item.label, 26, y);
+  });
+  if (term.xrMenu.length > XR_TERM.maxRows) {
+    x.font = '20px sans-serif'; x.fillStyle = '#93a5bb';
+    x.fillText(`… (+${term.xrMenu.length - XR_TERM.maxRows} more rows: pull the trigger off a row to move the marker)`, 26, XR_TERM.menuTop + XR_TERM.maxRows * XR_TERM.rowH + 14);
+  }
+  p.tex.needsUpdate = true;
+}
+function xrTermRowFromUV(uv) {
+  if (!uv) return -1;
+  const cy = (1 - uv.y) * XR_TERM.h;
+  if (cy < XR_TERM.menuTop) return -1;
+  const row = Math.floor((cy - XR_TERM.menuTop) / XR_TERM.rowH);
+  return row >= 0 && row < Math.min(term.xrMenu.length, XR_TERM.maxRows) ? row : -1;
+}
+async function runXRMenuRow(row) {
+  const item = term.xrMenu[row];
+  if (!item) return;
+  term.xrRow = row;
+  await item.run();
+  buildXRMenu(term.session);
+  drawXRTerminal();
+}
+
 /* door geometry shared by the prompt, the tap target, and the hooks:
  * the door point is the same point the E-prompt measures from. */
 function doorPoint(v) {
@@ -1762,7 +2377,21 @@ const TAP_DOOR_RADIUS = 120; // px around the door's screen position
  * other tap falls through to the existing picking (record cards). */
 function handleTap(x, y) {
   if (state.interior) {
-    if (state.interior.atExit) exitBuilding();
+    if (state.interior.atExit) { exitBuilding(); return; }
+    /* a tap near the terminal of the room the visitor stands in
+     * launches its build (the tap-priority order: EXIT first, then
+     * the room's terminal, then nothing: interior taps never fall
+     * through to exterior picking) */
+    const ci = state.interior.currentRoom;
+    if (ci !== undefined && ci >= 0) {
+      const rr = state.interior.rooms[ci];
+      if (rr && rr.build && rr.termPanel) {
+        const wp = new THREE.Vector3();
+        rr.termPanel.getWorldPosition(wp);
+        const sp = projectToScreen(wp.x, wp.y, wp.z);
+        if (sp && Math.hypot(x - sp.x, y - sp.y) <= 150) { openTerminal(rr); return; }
+      }
+    }
     return;
   }
   const dv = state.doorVendor;
@@ -1783,9 +2412,17 @@ const promptEl = document.getElementById('prompt');
 function updatePrompt() {
   const mode = inputMode();
   if (state.interior) {
-    if (state.interior.atExit) {
+    const ci = state.interior.currentRoom;
+    const rr = ci !== undefined && ci >= 0 ? state.interior.rooms[ci] : null;
+    if (term.open) {
+      promptEl.style.display = 'none';
+    } else if (state.interior.atExit) {
       promptEl.innerHTML = mode === 'xr' ? 'Trigger — Exit to the boulevard'
         : mode === 'touch' ? 'Tap — Exit to the boulevard' : '<b>E</b> — Exit to the boulevard';
+      promptEl.style.display = 'block';
+    } else if (rr && rr.build) {
+      promptEl.innerHTML = mode === 'xr' ? 'Trigger on the terminal — Launch the build'
+        : mode === 'touch' ? 'Tap the terminal — Launch the build' : '<b>E</b> — Launch the build at the terminal';
       promptEl.style.display = 'block';
     } else promptEl.style.display = 'none';
     state.doorVendor = null;
@@ -1961,6 +2598,13 @@ function activateFromRay(origin, dir) {
   if (f) { showFeatureCard(f); return true; }
   if (state.interior) {
     if (state.interior.atExit) { exitBuilding(); return true; }
+    /* a terminal panel under the ray launches its room's build */
+    const panels = state.interior.rooms.filter((r) => r.build).map((r) => r.termPanel);
+    const hits = panels.length ? raycaster.intersectObjects(panels, false) : [];
+    if (hits.length) {
+      const rr = state.interior.rooms.find((r) => r.termPanel === hits[0].object);
+      if (rr) { openTerminal(rr); return true; }
+    }
     return false;
   }
   if (state.doorVendor) {
@@ -1978,6 +2622,22 @@ function onXRSelect(ev) {
   _xrOrigin.setFromMatrixPosition(c.matrixWorld);
   c.getWorldQuaternion(_xrQuat);
   _xrDir.set(0, 0, -1).applyQuaternion(_xrQuat);
+  /* with the terminal open, a pull on its panel runs the command
+   * row under the ray; a pull elsewhere on the panel advances the
+   * row marker, so every row stays reachable */
+  if (term.open && xrTermPlane.mesh.visible) {
+    raycaster.set(_xrOrigin, _xrDir);
+    const hit = raycaster.intersectObject(xrTermPlane.mesh, false)[0];
+    if (hit) {
+      const row = xrTermRowFromUV(hit.uv);
+      if (row >= 0) runXRMenuRow(row);
+      else {
+        term.xrRow = (term.xrRow + 1) % Math.max(term.xrMenu.length, 1);
+        drawXRTerminal();
+      }
+      return;
+    }
+  }
   activateFromRay(_xrOrigin, _xrDir);
 }
 function onXRSqueeze() {
@@ -2088,6 +2748,7 @@ renderer.xr.addEventListener('sessionend', () => {
   xrPromptPlane.mesh.visible = false;
   xrHelpPlane.mesh.visible = false;
   xrSettingsPlane.mesh.visible = false;
+  xrTermPlane.mesh.visible = false;
   gazeReticle.visible = false;
   /* The manager overwrote the camera's projection with the headset's
    * union frustum while presenting; hand the flat view its own back
@@ -2151,7 +2812,9 @@ function updateXRGaze(dt) {
   raycaster.set(_gazeOrigin, _xrDir);
   const v = raycastBuildings();
   let key = null;
-  if (v) key = 'pick:' + v.id;
+  if (term.open && xrTermPlane.mesh.visible
+    && raycaster.intersectObject(xrTermPlane.mesh, false).length) key = 'term';
+  else if (v) key = 'pick:' + v.id;
   else if (state.interior && state.interior.atExit) key = 'exit';
   else if (!state.interior && state.doorVendor) key = 'enter:' + state.doorVendor.id;
   const now = performance.now();
@@ -2166,7 +2829,13 @@ function updateXRGaze(dt) {
   if (gazeDwellS >= XR_GAZE_DWELL_S) {
     gazeDwellS = 0;
     gazeCooldownUntil = now + 1500;
-    activateFromRay(_gazeOrigin, _xrDir);
+    if (key === 'term') {
+      /* gaze runs the marked command row, then advances the marker
+       * so the next dwell reaches the next row */
+      runXRMenuRow(term.xrRow);
+      term.xrRow = (term.xrRow + 1) % Math.max(term.xrMenu.length, 1);
+      drawXRTerminal();
+    } else activateFromRay(_gazeOrigin, _xrDir);
   }
 }
 
@@ -2188,6 +2857,8 @@ function updateXRPeripherals(dt) {
   xrHelpPlane.mesh.visible = !hintEl.classList.contains('faded');
   xrSettingsPlane.mesh.visible = settingsOpen;
   xrCardPlane.mesh.visible = !!state.selected && card.style.display === 'block';
+  if (term.open && !xrTermPlane.mesh.visible) drawXRTerminal();
+  xrTermPlane.mesh.visible = term.open;
   const ptxt = promptEl.style.display === 'block' ? promptEl.textContent : '';
   xrPromptPlane.mesh.visible = ptxt.length > 0;
   if (xrPromptPlane.mesh.visible && xrPromptPlane.lastText !== ptxt) {
@@ -2200,9 +2871,17 @@ function updateXRPeripherals(dt) {
 /* ---------------- controls: keyboard, pointer lock, touch ---------------- */
 const keys = {};
 window.addEventListener('keydown', (ev) => {
+  if (document.activeElement === termInputEl) return; // typing in the terminal is not movement
   keys[ev.code] = true;
+  if (ev.code === 'Escape' && term.open) { closeTerminal(); return; }
   if (ev.code === 'KeyE' && !ev.repeat) {
-    if (state.interior) { if (state.interior.atExit) exitBuilding(); }
+    if (state.interior) {
+      if (state.interior.atExit) exitBuilding();
+      else if (!term.open && state.interior.currentRoom >= 0) {
+        const rr = state.interior.rooms[state.interior.currentRoom];
+        if (rr && rr.build) openTerminal(rr);
+      }
+    }
     else if (state.doorVendor) {
       const v = state.doorVendor;
       card.style.display = 'none';
@@ -2224,8 +2903,10 @@ renderer.domElement.addEventListener('click', (ev) => {
    * mouse click (it could re-pick, or request pointer lock indoors) */
   if (performance.now() - lastTouchTapAt < 700) return;
   if (document.pointerLockElement === renderer.domElement) {
-    pickAt(window.innerWidth / 2, window.innerHeight / 2);
-  } else if (!pickAt(ev.clientX, ev.clientY)) {
+    if (!termPickAt(window.innerWidth / 2, window.innerHeight / 2)) {
+      pickAt(window.innerWidth / 2, window.innerHeight / 2);
+    }
+  } else if (!termPickAt(ev.clientX, ev.clientY) && !pickAt(ev.clientX, ev.clientY)) {
     renderer.domElement.requestPointerLock();
   }
 });
@@ -2288,10 +2969,15 @@ renderer.domElement.addEventListener('touchend', (ev) => {
 
 function stepMovement(dt) {
   let f = 0, r = 0;
-  if (keys.KeyW || keys.ArrowUp) f += 1;
-  if (keys.KeyS || keys.ArrowDown) f -= 1;
-  if (keys.KeyD || keys.ArrowRight) r += 1;
-  if (keys.KeyA || keys.ArrowLeft) r -= 1;
+  /* while the visitor types in the terminal, letter keys are text,
+   * not movement; the stick and the debug driver are not typing */
+  const typing = document.activeElement === termInputEl;
+  if (!typing) {
+    if (keys.KeyW || keys.ArrowUp) f += 1;
+    if (keys.KeyS || keys.ArrowDown) f -= 1;
+    if (keys.KeyD || keys.ArrowRight) r += 1;
+    if (keys.KeyA || keys.ArrowLeft) r -= 1;
+  }
   f += debugMove.f - debugMove.b;
   r += debugMove.r - debugMove.l;
   if (stick.active) { f += -stick.mz; r += stick.mx; }
@@ -2409,6 +3095,44 @@ window.__BASE__ = {
     titles: state.interior.panelTitles.slice(),
     lobbyLines: state.interior.lobbyLines.slice(),
   } : null,
+  /* experience pass: the terminal's state, labels, and drivers */
+  terminal: () => ({
+    open: term.open,
+    product: term.rr ? term.rr.room.offering.product : null,
+    group: term.session ? term.session.group : (term.rr && term.rr.build ? term.rr.build.groupDir : null),
+    catalogMode: term.rr && term.rr.build ? modeOf(term.rr.build) : null,
+    sessionMode: term.session ? term.session.mode : null,
+    fallback: term.session ? !!term.session.fallback : false,
+    user: term.session ? term.session.user : null,
+    headerTitle: termTitleEl.textContent,
+    headerMode: termModeEl.textContent.replace(/\s+/g, ' ').trim(),
+    signMode: term.rr ? term.rr.signMode : null,
+    transcript: term.transcript.map((l) => l.text),
+    chips: [...termChipsEl.querySelectorAll('button')].map((b) => b.textContent),
+    xrMenu: term.xrMenu.map((m) => m.label),
+    pyodideLoaded: !!term.pyodide,
+  }),
+  interiorSigns: () => state.interior ? state.interior.rooms.map((r) => ({
+    product: r.room.offering.product, signMode: r.signMode,
+    catalogMode: r.build ? modeOf(r.build) : null,
+  })) : null,
+  useTerminal: async () => {
+    if (!state.interior || state.interior.currentRoom === undefined || state.interior.currentRoom < 0) return false;
+    const rr = state.interior.rooms[state.interior.currentRoom];
+    if (!rr || !rr.build) return false;
+    return openTerminal(rr);
+  },
+  openTerminalFor: async (product) => {
+    if (!state.interior) return false;
+    const rr = state.interior.rooms.find((r) => r.room.offering.product === product);
+    if (!rr || !rr.build) return false;
+    return openTerminal(rr);
+  },
+  termRun: async (cmd) => {
+    await termRunCommand(cmd);
+    return term.transcript.map((l) => l.text);
+  },
+  closeTerminal: () => { closeTerminal(); return !term.open; },
   getCamera: () => ({ x: player.x, z: player.z, y: player.y, yaw: player.yaw, pitch: player.pitch }),
   setCamera: ({ x, z, y, yawDeg, pitchDeg }) => {
     if (x !== undefined) player.x = x;

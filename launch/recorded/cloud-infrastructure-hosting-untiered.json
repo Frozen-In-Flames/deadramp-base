@@ -1,0 +1,223 @@
+{
+ "group": "cloud-infrastructure-hosting-untiered",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/src/cloudinfra/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/src/cloudinfra/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/src/cloudinfra/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:46.158637+00:00\", \"actor\": \"anonymous\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:46.158813+00:00\", \"actor\": \"mallory\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:46.158943+00:00\", \"actor\": \"alice\", \"action\": \"audit_read\", \"target\": \"audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/src/cloudinfra/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "text": "{\"error\": \"org_ref must be a non-empty string\"}"
+   },
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/src/cloudinfra/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_audit_endpoint_admin_only_and_denied_entries"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_audit_endpoint_admin_only_and_denied_entries"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_missing_auth_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_wrong_role_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "label": "Svc Org 2",
+    "org_ref": "org-svc2"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_viewer_write_is_403"
+   },
+   "status": 403
+  },
+  {
+   "body": {
+    "label": "Svc Org 3",
+    "org_ref": "org-svc3"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_validation_is_400"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "label": "Svc Org",
+    "org_ref": "org-svc"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_end_to_end_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/organizations/org-99",
+   "response": {},
+   "source": {
+    "file": "groups/cloud-infrastructure-hosting-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_not_found_is_404"
+   },
+   "status": 404
+  }
+ ]
+}

@@ -1,0 +1,118 @@
+{
+ "group": "grant-management-l2",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/grant-management-l2/src/grants/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/grant-management-l2/src/grants/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/grant-management-l2/src/grants/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:52.814171+00:00\", \"actor\": \"anonymous\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:52.814369+00:00\", \"actor\": \"mallory\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:52.814519+00:00\", \"actor\": \"alice\", \"action\": \"audit_read\", \"target\": \"audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/grant-management-l2/src/grants/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "text": "{\"error\": \"ref must be a non-empty string\"}"
+   },
+   "source": {
+    "file": "groups/grant-management-l2/src/grants/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/programs",
+   "response": {},
+   "source": {
+    "file": "groups/grant-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceFlow.test_missing_or_wrong_credentials_are_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/programs",
+   "response": {},
+   "source": {
+    "file": "groups/grant-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceFlow.test_missing_or_wrong_credentials_are_401"
+   },
+   "status": 401
+  }
+ ]
+}

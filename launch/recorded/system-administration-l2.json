@@ -1,0 +1,231 @@
+{
+ "group": "system-administration-l2",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/system-administration-l2/src/sysadmin/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/system-administration-l2/src/sysadmin/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/system-administration-l2/src/sysadmin/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:57.950047+00:00\", \"actor\": \"anonymous\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:57.950245+00:00\", \"actor\": \"mallory\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:57.950368+00:00\", \"actor\": \"alice\", \"action\": \"audit_read\", \"target\": \"audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/system-administration-l2/src/sysadmin/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "text": "{\"error\": \"ref must be a non-empty string\"}"
+   },
+   "source": {
+    "file": "groups/system-administration-l2/src/sysadmin/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "entries"
+    ]
+   },
+   "source": {
+    "file": "groups/system-administration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_audit_endpoint_is_admin_only"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/system-administration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_audit_endpoint_is_admin_only"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {},
+   "source": {
+    "file": "groups/system-administration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unknown_route_is_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/system-administration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unauthenticated_and_role_mismatch_are_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/system-administration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unauthenticated_and_role_mismatch_are_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "label": "Agency One",
+    "ref": "AGENCY-1"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/system-administration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_full_flow_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "label": "x",
+    "ref": ""
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/system-administration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_validation_error_is_400"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "label": "Nine",
+    "ref": "AGENCY-9"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "erin"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/system-administration-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_outsider_is_403"
+   },
+   "status": 403
+  }
+ ]
+}

@@ -1,0 +1,364 @@
+{
+ "group": "cybersecurity-l1",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/src/cyber/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/src/cyber/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/src/cyber/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:49.449200+00:00\", \"actor\": \"anonymous\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:49.449382+00:00\", \"actor\": \"mallory\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/src/cyber/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/assets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_missing_auth_headers_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/assets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_unknown_user_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "criticality": "high",
+    "kind": "toaster",
+    "name": "bad",
+    "owner": "it-ops"
+   },
+   "headers": {
+    "X-Role": "analyst",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/assets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_invalid_asset_body_is_400"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "criticality": "low",
+    "kind": "server",
+    "name": "nope",
+    "owner": "x"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/assets",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_viewer_cannot_create_an_asset_or_assess_a_control"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/assets?q=listable",
+   "response": {},
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_list_and_filter_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_analyst_and_viewer_cannot_read_audit"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow_asset_to_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "analyst",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow_asset_to_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/controls",
+   "response": {},
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_list_and_filter_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "status": "implemented"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/controls/AC-2/assess",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_viewer_cannot_create_an_asset_or_assess_a_control"
+   },
+   "status": 403
+  },
+  {
+   "body": {
+    "evidence": "scan schedule",
+    "status": "implemented"
+   },
+   "headers": {
+    "X-Role": "analyst",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/controls/RA-5/assess",
+   "response": {
+    "fields": {
+     "finding_count": 1,
+     "status": "implemented"
+    }
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow_asset_to_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_unknown_path_is_404_json_without_stack_trace"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/posture",
+   "response": {},
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow_asset_to_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "description": "d",
+    "impact": 3,
+    "likelihood": 3,
+    "title": "Listable risk"
+   },
+   "headers": {
+    "X-Role": "analyst",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/risks",
+   "response": {},
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_list_and_filter_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/risks?status=open",
+   "response": {},
+   "source": {
+    "file": "groups/cybersecurity-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_list_and_filter_endpoints"
+   },
+   "status": 200
+  }
+ ]
+}

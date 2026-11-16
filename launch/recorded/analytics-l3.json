@@ -1,0 +1,286 @@
+{
+ "group": "analytics-l3",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/datasets",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/analytics-l3/src/analytics/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/datasets",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/analytics-l3/src/analytics/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/datasets",
+   "response": {
+    "text": "{\"datasets\": []}"
+   },
+   "source": {
+    "file": "groups/analytics-l3/src/analytics/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_admin_reads_audit_and_sees_activity"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "analyst",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_analyst_cannot_read_audit"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessControlAndAudit.test_viewer_cannot_read_audit"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_missing_auth_headers_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/datasets",
+   "response": {},
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestDatasetEndpoints.test_create_list_and_get_dataset"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_unknown_user_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "data": "<x/>",
+    "format": "xml",
+    "name": "svc-xml"
+   },
+   "headers": {
+    "X-Role": "analyst",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestDatasetEndpoints.test_unsupported_format_is_400"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "data": "{oops",
+    "format": "json",
+    "name": "svc-bad"
+   },
+   "headers": {
+    "X-Role": "analyst",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/datasets",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestDatasetEndpoints.test_malformed_dataset_payload_is_400_and_stores_nothing"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/datasets/ds-999999",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestDatasetEndpoints.test_get_unknown_dataset_is_404"
+   },
+   "status": 404
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "analyst",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/datasets/ds-999999/query",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestDatasetEndpoints.test_query_on_unknown_dataset_is_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {},
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_health_endpoint"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/analytics-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_unknown_path_is_404_json"
+   },
+   "status": 404
+  }
+ ]
+}

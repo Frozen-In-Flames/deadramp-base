@@ -1,0 +1,15 @@
+## Why
+
+The law Aries set on his playtest: not a vast world with nothing to do but read; experience every product and service. The room terminals were exhibits describing each build. In this release they launch it.
+
+## What is new
+
+- Every terminal launches its room's DeadRamp build. The build's own package loads on first launch, its own make_server constructs the service, and its routing, auth, store, and audit code executes in the visitor's browser. The live and recorded split is what the evidence supports: 101 of 101 builds run live, proven per build by two independent drives, one under CPython and one in the browser, whose responses match exactly. A recorded surface stands as the labeled fallback for any browser where a live launch cannot complete: 1,674 exchanges harvested from the builds' own drives and test suites, each traced to its source file. An input with no recorded behavior is answered plainly as unrecorded. Nothing is invented in either mode.
+- Every space states its mode. RUNS LIVE IN YOUR BROWSER or RECORDED SURFACE appears on the door signage, the room label, the terminal header, and the console header, and the label always names the session actually in front of the visitor, including when a live launch falls back and says why. The two unclassified offerings have no reference build; their signs read NO REFERENCE BUILD and their terminals do not launch.
+- Sessions behave like the service. Commands follow the build's own HTTP surface, with identity switching from the build's own demo registry, plus surface, users, help, and restart. State is real for the visit (create something and it is there when you list it) and is disposed of when you leave the building. Tappable command chips are the touch input method; XR sessions are menu driven over the same surface and do not pretend to have a keyboard.
+- The rooms serve the terminal now. Record panels shrank to labels, and the archetype furnishing grew as the supporting layer (watch rows in ops centers, a centre rack row in server halls, benches and shelving in labs) at zero new draw calls.
+- Two substitutions, disclosed wherever this is documented: transport runs over in-process streams instead of sockets, and where the browser runtime ships no ssl module a stand-in resolves the import; its TLS objects raise if constructed, no certificate is ever passed, and that branch never runs, exactly as the build runs without TLS flags.
+
+## Verification
+
+Exporter fidelity tests pass 92 of 92, including bundle byte equality with the DeadRamp source tree for all 854 files, provenance for all 1,674 recorded exchanges, and a mutation control on the harvest. The new launch suite passes 26 of 26: world boot moves zero bundle or runtime bytes before a first launch, a live session proves real state and returns the build's own errors, and a forced recorded session replays with sources named and answers fabrication honestly. All five prior suites pass with zero JavaScript errors. Boot weight rose 5.3 percent; the 15 megabytes of bundles and recorded data load only on first launch in a room.

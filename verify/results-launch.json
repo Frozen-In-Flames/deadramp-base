@@ -1,0 +1,150 @@
+{
+ "boot": {
+  "stats": {
+   "vendorsRendered": 674,
+   "buildingsInstanced": 673,
+   "lots": 1,
+   "offeringsIndexed": 781,
+   "districts": 81,
+   "litWindowInstances": 471,
+   "brandResearched": 600,
+   "brandDefault": 74,
+   "drawCalls": 21,
+   "triangles": 125674,
+   "fps": 0,
+   "camera": {
+    "x": 24,
+    "z": 0
+   },
+   "exteriorDrawCalls": 21,
+   "phase4": {
+    "bridges": 19,
+    "bridgeSegments": 412,
+    "deckDecisions": 6,
+    "deckEntries": 40,
+    "constructionVendors": 227,
+    "siteworkInstances": 5351,
+    "cranes": 17,
+    "netting": 202
+   },
+   "interior": null
+  },
+  "launchFetches": 0,
+  "catalogFetched": true
+ },
+ "liveHeader": {
+  "open": true,
+  "product": "Aeroplicity",
+  "group": "ai-l2",
+  "catalogMode": "live",
+  "sessionMode": "live",
+  "fallback": false,
+  "user": "alice",
+  "headerTitle": "Aeroplicity — Artificial Intelligence (AI) L2 — merged build (Operation DeadRamp, Phase 2, Group 9)",
+  "headerMode": "● LIVE — RUNS LIVE IN YOUR BROWSERThis build itself is running in your browser right now.",
+  "signMode": "RUNS LIVE IN YOUR BROWSER",
+  "transcript": [
+   "Aeroplicity — Artificial Intelligence (AI) L2 — merged build (Operation DeadRamp, Phase 2, Group 9)",
+   "RUNS LIVE IN YOUR BROWSER — This build itself runs here, in your browser.",
+   "Launching the build in your browser…",
+   "Launched groups/ai-l2 through its own make_server: handler AIGatewayHandler, store AIGatewayStore.",
+   "Its routing, auth, store, and audit code are executing for real; state is held for your visit.",
+   "You are alice (admin), one of this build's demo users from its own source.",
+   "Type \"help\" for the command list, or use the commands below."
+  ],
+  "chips": [
+   "GET /health",
+   "GET /audit",
+   "GET /eval/datasets",
+   "POST /eval/datasets",
+   "GET /keys",
+   "POST /keys",
+   "GET /models",
+   "POST /models",
+   "GET /models/ghost",
+   "GET /models/http-echo",
+   "surface",
+   "users",
+   "help",
+   "restart"
+  ],
+  "xrMenu": [
+   "GET /health",
+   "GET /audit",
+   "GET /eval/datasets",
+   "POST /eval/datasets",
+   "GET /keys",
+   "POST /keys",
+   "GET /models",
+   "POST /models",
+   "GET /models/ghost",
+   "GET /models/http-echo",
+   "surface",
+   "users",
+   "close terminal"
+  ],
+  "pyodideLoaded": true
+ },
+ "interior": {
+  "vendor": "Aeroplicity Inc.",
+  "roomsBuilt": 1,
+  "floor": 1,
+  "levels": 1,
+  "drawCalls": 6,
+  "triangles": 1322
+ },
+ "recordedHeader": {
+  "open": true,
+  "product": "Aeroplicity",
+  "group": "ai-l2",
+  "catalogMode": "live",
+  "sessionMode": "recorded",
+  "fallback": true,
+  "user": "alice",
+  "headerTitle": "Aeroplicity — Artificial Intelligence (AI) L2 — merged build (Operation DeadRamp, Phase 2, Group 9)",
+  "headerMode": "● RECORDED SURFACEYou are working through this build’s recorded responses.The live launch could not complete in this browser session, so this terminal is showing the recorded surface.",
+  "signMode": "RUNS LIVE IN YOUR BROWSER",
+  "transcript": [
+   "Aeroplicity — Artificial Intelligence (AI) L2 — merged build (Operation DeadRamp, Phase 2, Group 9)",
+   "RUNS LIVE IN YOUR BROWSER — This build itself runs here, in your browser.",
+   "Launching the build in your browser…",
+   "Every answer here was recorded from this build itself: 4 exchanges from driving the build, 27 from its own test suite.",
+   "Anything with no recorded behavior is answered honestly as unrecorded.",
+   "The live launch could not complete in this browser session (the Python runtime could not be loaded), so this terminal is showing the recorded surface.",
+   "You are alice (admin), one of this build's demo users from its own source.",
+   "Type \"help\" for the command list, or use the commands below."
+  ],
+  "chips": [
+   "GET /health",
+   "GET /audit",
+   "GET /audit · mallory",
+   "GET /audit · alice",
+   "GET /audit",
+   "GET /audit · alice",
+   "GET /eval/datasets · bob",
+   "POST /eval/datasets · bob",
+   "GET /keys · bob",
+   "POST /keys · bob",
+   "surface",
+   "users",
+   "help",
+   "restart"
+  ],
+  "xrMenu": [
+   "GET /health",
+   "GET /audit",
+   "GET /audit · mallory",
+   "GET /audit · alice",
+   "GET /audit",
+   "GET /audit · alice",
+   "GET /eval/datasets · bob",
+   "POST /eval/datasets · bob",
+   "GET /keys · bob",
+   "POST /keys · bob",
+   "surface",
+   "users",
+   "close terminal"
+  ],
+  "pyodideLoaded": false
+ }
+}

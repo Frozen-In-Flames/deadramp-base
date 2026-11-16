@@ -2580,12 +2580,136 @@ function buildingSize(n) {
   };
 }
 
+/* ---------------- Experience pass: launch data ----------------
+ * Every room's terminal launches its room's DeadRamp build. What a
+ * launch means is a catalogued fact per build, derived from probe
+ * evidence, never assumed:
+ *
+ *   tools/launchprobe.py harvest  -> tools/launch-harvest.json
+ *     The build's demo-user registry, resolved statically from its
+ *     own __main__/service source, and the recorded HTTP exchanges
+ *     inside its test suites (statically literal calls through the
+ *     tests' own request helpers, paired with the response facts
+ *     the same tests assert; every exchange names its source test).
+ *   tools/launchprobe.py probe    -> tools/probe-cpython.json
+ *     The build's own handler driven in-process under CPython via
+ *     launch/driver.py (the shared launch driver): the ground-truth
+ *     verdict plus full real responses to a canonical request set
+ *     drawn from the build's own surface (its drive exchanges).
+ *   tools/probe-live-web.js       -> tools/live-probe-results.json
+ *     The same driver and the same canonical requests under Pyodide
+ *     in a real browser engine, every status compared against the
+ *     CPython drive.
+ *
+ * A build is catalogued LIVE only when both drives pass and agree.
+ * Otherwise it is RECORDED, with the failed stage named in its
+ * basis, and its terminal sessions run over the recorded surface:
+ * the drive exchanges plus the test exchanges, written per build to
+ * launch/recorded/<group>.json. Live builds also get a bundle: the
+ * build's own Python package copied under a per-group unique name
+ * into launch/bundles/<group>/, with a hashed manifest, loaded
+ * lazily by the client on first launch, never at world boot.
+ * Side files land beside the catalog output, so test exports into
+ * scratch directories never touch the shipped tree. */
+function attachLaunchData(builds, root, outPath) {
+  const toolsDir = path.join(REPO, 'tools');
+  const readEvidence = (name) => {
+    const p = path.join(toolsDir, name);
+    if (!fs.existsSync(p)) {
+      throw new Error(`launch evidence missing: tools/${name} (run tools/launchprobe.py and tools/probe-live-web.js first)`);
+    }
+    return JSON.parse(fs.readFileSync(p, 'utf8'));
+  };
+  const harvest = readEvidence('launch-harvest.json');
+  const cpProbe = readEvidence('probe-cpython.json');
+  const webProbe = readEvidence('live-probe-results.json');
+  // The shipped export writes launch/ at the repo root; scratch
+  // exports keep their side files beside the scratch catalog.
+  const launchRoot = outPath === path.join(REPO, 'data', 'base-catalog.json')
+    ? path.join(REPO, 'launch')
+    : path.join(path.dirname(outPath), 'launch');
+  let live = 0, recorded = 0;
+  for (const g of Object.keys(builds).sort()) {
+    const build = builds[g];
+    const hv = harvest[g] || {};
+    const cp = cpProbe[g] || {};
+    const wp = webProbe[g] || {};
+    const users = hv.demoUsers || {};
+    // Stage the live bundle from this source tree (copies of the
+    // build's own files under a unique package name).
+    const bundleName = build.package ? `${build.package}_${g.replace(/-/g, '_')}` : null;
+    let bundle = null;
+    if (bundleName) {
+      const srcPkg = path.join(root, 'groups', g, 'src', build.package);
+      if (fs.existsSync(srcPkg)) {
+        const files = walkFiles(srcPkg, '.py')
+          .map((f) => path.relative(srcPkg, f).split(path.sep).join('/')).sort();
+        const destRoot = path.join(launchRoot, 'bundles', g, bundleName);
+        const manifest = [];
+        let totalBytes = 0;
+        for (const rel of files) {
+          const buf = fs.readFileSync(path.join(srcPkg, rel));
+          const dest = path.join(destRoot, rel);
+          fs.mkdirSync(path.dirname(dest), { recursive: true });
+          fs.writeFileSync(dest, buf);
+          manifest.push({ path: `${bundleName}/${rel}`, bytes: buf.length, sha256: sha256(buf) });
+          totalBytes += buf.length;
+        }
+        if (manifest.length) bundle = { package: bundleName, files: manifest, totalBytes };
+      }
+    }
+    const wpCount = (wp.requests || []).length;
+    const isLive = !!(cp.ok && wp.ok && bundle);
+    let basis;
+    if (isLive) {
+      basis = `Live-verified: this build's own handler, driven in a browser (Pyodide) through launch/driver.py, answered ${wpCount} canonical requests with statuses matching the CPython drive of the same build exactly (tools/live-probe-results.json against tools/probe-cpython.json).`;
+      live++;
+    } else {
+      const why = !cp.ok ? `CPython drive failed: ${cp.error || cp.stage || 'no verdict'}`
+        : !wp.ok ? `browser probe ${wp.stage || 'failed'}: ${wp.error || 'no verdict'}`
+        : 'no bundle could be staged from this source tree';
+      basis = `Not live-verified (${why}). Terminal sessions run over this build's recorded surface.`;
+      recorded++;
+    }
+    // The recorded surface: drive exchanges first (full real
+    // responses), then the exchanges recorded from the build's own
+    // tests. Deduped on the full request + response text.
+    const exchanges = [];
+    const seen = new Set();
+    for (const ex of [...(cp.drive || []), ...(hv.recorded || [])]) {
+      const key = [ex.method, ex.path, JSON.stringify(ex.body ?? null),
+        (ex.headers || {})['X-User'] || '', (ex.response || {}).text || ''].join('|');
+      if (seen.has(key)) continue;
+      seen.add(key);
+      exchanges.push(ex);
+    }
+    const recDir = path.join(launchRoot, 'recorded');
+    fs.mkdirSync(recDir, { recursive: true });
+    fs.writeFileSync(path.join(recDir, `${g}.json`),
+      JSON.stringify({ group: g, exchanges }, null, 1) + '\n');
+    build.launch = {
+      mode: isLive ? 'live' : 'recorded',
+      basis,
+      users,
+      bundle,
+      recorded: {
+        file: `launch/recorded/${g}.json`,
+        exchanges: exchanges.length,
+        fromDrive: (cp.drive || []).length,
+        fromTests: (hv.recorded || []).length,
+      },
+    };
+  }
+  return { live, recorded };
+}
+
 function main() {
   const forks = JSON.parse(fs.readFileSync(FORKS, 'utf8'));
   const groupDirs = new Set(fs.readdirSync(GROUPS).filter((d) => fs.statSync(path.join(GROUPS, d)).isDirectory()));
   // The DeadRamp repo root is the parent of the groups tree.
   const ROOT = path.dirname(GROUPS);
   const { specIndex, builds } = loadBuildData(ROOT, groupDirs);
+  const launchStats = attachLaunchData(builds, ROOT, OUT);
 
   /* ---- offerings with district assignment ---- */
   const offerings = forks.map((f, idx) => {
@@ -2836,6 +2960,8 @@ function main() {
       districts: districts.length,
       rooms: offerings.length,
       builds: Object.keys(builds).length,
+      launchLive: launchStats.live,
+      launchRecorded: launchStats.recorded,
       merges: merges.length,
       platformDecisions: platformLayer.decisions.length,
       platformRescoped: platformLayer.rescoped.length,
@@ -2865,6 +2991,7 @@ function main() {
   const roomsWithBuild = offerings.filter((o) => o.room.buildGroup).length;
   console.log(`rooms=${offerings.length} rooms with a source build=${roomsWithBuild} rooms without (unclassified)=${offerings.length - roomsWithBuild}`);
   console.log(`build records=${Object.keys(builds).length}`);
+  console.log(`launch modes: live=${launchStats.live} recorded=${launchStats.recorded}`);
   console.log(`union merges=${merges.length} edges across ${new Set(merges.map((m) => m.child)).size} merged builds`);
   console.log(`platform layer: decisions=${platformLayer.decisions.length} rescoped entries=${platformLayer.rescoped.length}`);
   console.log(`construction: vendors with pending offerings=${catalog.meta.constructionVendors} cranes=${catalog.meta.cranes}`);

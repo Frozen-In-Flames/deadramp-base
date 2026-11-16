@@ -1,0 +1,572 @@
+{
+ "group": "ai-l3",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/ai-l3/src/aigateway/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/ai-l3/src/aigateway/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/ai-l3/src/aigateway/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:45.145793+00:00\", \"actor\": \"anonymous\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null, \"seq\": 0, \"prev_hash\": \"0000000000000000000000000000000000000000000000000000000000000000\", \"hash\": \"22e9824794817712612f03bff720d6757786c19b8967d5da1e65b77b738b0cd4\"}, {\"ts\": \"2026-11-15T23:57:45.146016+00:00\", \"actor\": \"mallory\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null, \"seq\": 1, \"prev_hash\": \"22e9824794817712612f03bff720d6757786c19b8967d5da1e65b77b738b0cd4\", \"hash\": \"f7e94efae872062d6eca4a47de9a75fc6b30f665e3589fabd721a81a606533e3\"}, {\"ts\": \"2026-11-15T23:57:45.146166+00:00\", \"actor\": \"alice\", \"action\": \"audit_read\", \"target\": \"/audit\", \"details\": null, \"seq\": 2, \"prev_hash\": \"f7e94efae872062d6eca4a47de9a75fc6b30f665e3589fabd721a81a606533e3\", \"hash\": \"eb3549b006b96da91b4109254b0506a6144334a4c2d713e621eb028756eff379\"}]}"
+   },
+   "source": {
+    "file": "groups/ai-l3/src/aigateway/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestKeysPolicyEvalAuditEndpoints.test_audit_endpoint_admin_only_and_denied_suffix"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestKeysPolicyEvalAuditEndpoints.test_audit_endpoint_admin_only_and_denied_suffix"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/eval/datasets",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestKeysPolicyEvalAuditEndpoints.test_eval_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "cases": [
+     {
+      "expected": "hi",
+      "prompt": "hi"
+     }
+    ],
+    "name": "ds"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/eval/datasets",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestKeysPolicyEvalAuditEndpoints.test_eval_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/keys",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestKeysPolicyEvalAuditEndpoints.test_key_endpoints_secret_once_and_scoped_list"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "owner": "bob"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/keys",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestKeysPolicyEvalAuditEndpoints.test_key_endpoints_secret_once_and_scoped_list"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/models",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_missing_auth_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/models",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_model_lifecycle_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/models",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_unknown_user_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "name": "bad",
+    "responder": "neural"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/models",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_model_not_found_is_404_and_invalid_is_400"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "name": "viewer-model",
+    "responder": "echo"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/models",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_viewer_cannot_create_model_is_403"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/models/ghost",
+   "response": {
+    "fieldsPresent": [
+     "error",
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_model_not_found_is_404_and_invalid_is_400"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/models/http-echo",
+   "response": {
+    "fields": {
+     "version": 2
+    }
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_model_lifecycle_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/models/http-echo/versions/1",
+   "response": {
+    "fields": {
+     "responder": "echo"
+    }
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_model_lifecycle_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "status": "deprecated"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/models/http-echo/versions/1/status",
+   "response": {
+    "fields": {
+     "status": "deprecated"
+    }
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_model_lifecycle_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAndAuth.test_unknown_path_is_404_without_stack_trace"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/policy/rules",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestKeysPolicyEvalAuditEndpoints.test_policy_rule_delete_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "kind": "term",
+    "scope": "input",
+    "value": " ephemeral"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/policy/rules",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestKeysPolicyEvalAuditEndpoints.test_policy_rule_delete_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "owner": "bob",
+    "token_limit": 1
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/quotas",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestCompletionFlow.test_quota_exceeded_completion_is_429"
+   },
+   "status": 429
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/requests",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestCompletionFlow.test_policy_blocked_completion_is_422"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "title": "http chat"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/sessions",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestCompletionFlow.test_sessions_requests_and_usage_over_http"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/templates",
+   "response": {},
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_template_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "name": "wrap",
+    "text": "Please: {prompt}"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/templates",
+   "response": {
+    "fields": {
+     "id": "tpl-1"
+    }
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestModelAndTemplateEndpoints.test_template_endpoints"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/usage/bob",
+   "response": {
+    "fields": {
+     "owner": "bob"
+    }
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestCompletionFlow.test_sessions_requests_and_usage_over_http"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "dave"
+   },
+   "method": "GET",
+   "path": "/usage/bob",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestCompletionFlow.test_sessions_requests_and_usage_over_http"
+   },
+   "status": 403
+  },
+  {
+   "body": {
+    "model": "ghost-model",
+    "prompt": "ping"
+   },
+   "headers": {
+    "X-Role": "member",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/v1/completions",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/ai-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "TestCompletionFlow.test_completion_unknown_model_is_404"
+   },
+   "status": 404
+  }
+ ]
+}

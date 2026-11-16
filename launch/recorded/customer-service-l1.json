@@ -1,0 +1,331 @@
+{
+ "group": "customer-service-l1",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/alerts",
+   "response": {
+    "text": "{\"error\": \"authentication required: X-User / X-Role headers must match a registered demo user\"}"
+   },
+   "source": {
+    "file": "groups/customer-service-l1/src/custsvc/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/alerts",
+   "response": {
+    "text": "{\"error\": \"authentication required: X-User / X-Role headers must match a registered demo user\"}"
+   },
+   "source": {
+    "file": "groups/customer-service-l1/src/custsvc/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/alerts",
+   "response": {
+    "text": "{\"alerts\": []}"
+   },
+   "source": {
+    "file": "groups/customer-service-l1/src/custsvc/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/alerts",
+   "response": {
+    "text": "{\"error\": \"source_ref must be a non-empty string\"}"
+   },
+   "source": {
+    "file": "groups/customer-service-l1/src/custsvc/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "entries"
+    ]
+   },
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_audit_read_is_admin_only"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "agent",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_audit_read_is_admin_only"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/cases",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_missing_auth_is_401_and_audited_denied"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/cases",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_wrong_role_for_user_is_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "body": "500 errors",
+    "due_at": "2020-01-02T00:00:00+00:00",
+    "priority": "critical",
+    "requester_ref": "citizen-9",
+    "title": "Portal down"
+   },
+   "headers": {
+    "X-Role": "agent",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/cases",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "title": "x"
+   },
+   "headers": {
+    "X-Role": "agent",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/cases",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unknown_route_404_and_bad_body_400"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "fields": {
+     "status": "ok"
+    }
+   },
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_health_is_open"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unknown_route_404_and_bad_body_400"
+   },
+   "status": 404
+  },
+  {
+   "body": {
+    "label": "Citizen Nine",
+    "ref": "citizen-9"
+   },
+   "headers": {
+    "X-Role": "agent",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/requesters",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "label": "X",
+    "ref": "x"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "POST",
+   "path": "/requesters",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_viewer_write_is_403_and_audited_denied"
+   },
+   "status": 403
+  },
+  {
+   "body": {
+    "label": "Responder Nine",
+    "team": "tier-2"
+   },
+   "headers": {
+    "X-Role": "agent",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/responders",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": {
+    "action_text": "a",
+    "condition": "c",
+    "name": "r",
+    "trigger": "t"
+   },
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/rules",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_agent_cannot_create_rule_over_http"
+   },
+   "status": 201
+  },
+  {
+   "body": {
+    "action_text": "a",
+    "condition": "c",
+    "name": "r",
+    "trigger": "t"
+   },
+   "headers": {
+    "X-Role": "agent",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/rules",
+   "response": {},
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_agent_cannot_create_rule_over_http"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "carol"
+   },
+   "method": "GET",
+   "path": "/status",
+   "response": {
+    "fields": {
+     "overall": "outage"
+    }
+   },
+   "source": {
+    "file": "groups/customer-service-l1/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_full_flow"
+   },
+   "status": 200
+  }
+ ]
+}

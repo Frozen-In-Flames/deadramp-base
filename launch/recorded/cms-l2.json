@@ -1,0 +1,255 @@
+{
+ "group": "cms-l2",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/cms-l2/src/cms/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/cms-l2/src/cms/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/cms-l2/src/cms/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:46.428429+00:00\", \"actor\": \"anonymous\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:46.428594+00:00\", \"actor\": \"mallory\", \"action\": \"audit_read:denied\", \"target\": \"/audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/cms-l2/src/cms/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_audit_forbidden_for_non_admin"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/items/ci-999999",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_not_found_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/nope",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_path_404_no_traceback"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "erin"
+   },
+   "method": "GET",
+   "path": "/publishes",
+   "response": {},
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "erin"
+   },
+   "method": "GET",
+   "path": "/report",
+   "response": {},
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/sites",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestHealthAuth.test_unknown_user_and_role_mismatch_401"
+   },
+   "status": 401
+  },
+  {
+   "body": {
+    "name": "Bad",
+    "slug": "BAD SLUG"
+   },
+   "headers": {
+    "X-Role": "publisher",
+    "X-User": "bob"
+   },
+   "method": "POST",
+   "path": "/sites",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_validation_400"
+   },
+   "status": 400
+  },
+  {
+   "body": {
+    "name": "X",
+    "slug": "x-denied"
+   },
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "erin"
+   },
+   "method": "POST",
+   "path": "/sites",
+   "response": {
+    "fieldsPresent": [
+     "error"
+    ]
+   },
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestServiceAccessAndErrors.test_viewer_site_create_403_and_denied_audited"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "viewer",
+    "X-User": "erin"
+   },
+   "method": "GET",
+   "path": "/types",
+   "response": {},
+   "source": {
+    "file": "groups/cms-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestFullFlow.test_full_flow"
+   },
+   "status": 200
+  }
+ ]
+}

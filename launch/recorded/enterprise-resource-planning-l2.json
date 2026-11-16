@@ -1,0 +1,235 @@
+{
+ "group": "enterprise-resource-planning-l2",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/src/erp/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/absence-records",
+   "response": {
+    "text": "{\"error\": \"authentication required\"}"
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/src/erp/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/absence-records",
+   "response": {
+    "text": "{\"error\": \"authentication required\"}"
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/src/erp/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/absence-records",
+   "response": {
+    "text": "{\"absence_records\": []}"
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/src/erp/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/absence-records",
+   "response": {
+    "text": "{\"error\": \"no such organization: None\"}"
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/src/erp/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_auth_failures_and_denied_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/expense-reports",
+   "response": {
+    "fields": {
+     "total_cents": 4200
+    }
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_balance_gate"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/ledger-entries",
+   "response": {
+    "fields": {
+     "total_debits_cents": 5000
+    }
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_balance_gate"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/no-such-route",
+   "response": {},
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_not_found_is_a_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_auth_failures_and_denied_audit"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.seed_org"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations/org-99",
+   "response": {},
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_not_found_is_a_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/persons",
+   "response": {},
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_balance_gate"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/purchase-orders",
+   "response": {
+    "fields": {
+     "total_cents": 5000
+    }
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_balance_gate"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/summary",
+   "response": {
+    "fields": {
+     "ledger_entries": 1
+    }
+   },
+   "source": {
+    "file": "groups/enterprise-resource-planning-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_balance_gate"
+   },
+   "status": 200
+  }
+ ]
+}

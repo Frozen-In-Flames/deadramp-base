@@ -208,6 +208,57 @@ exit, placed far below the exterior world so the two never interact.
   Measured on the largest building (IBM, 10 rooms): 19 draw calls in
   the spiral view, 5 to 6 in lobby and room views.
 
+## The experience pass: rooms that launch (Nov 15, 2026)
+
+- The room's centerpiece is its terminal, on the outer wall facing
+  the door (6.6 by 3.0 m). The two record panels shrink to labels
+  on the side walls: SERVICE (product, vendor, one line from the
+  record, the mode) and REFERENCE BUILD (the build in one breath:
+  title, groups path, module and test counts, surface size). The
+  door sign gains a fourth line, the mode, in the same words as
+  everywhere else: RUNS LIVE IN YOUR BROWSER, RECORDED SURFACE, or
+  NO REFERENCE BUILD for the two unclassified rooms. Archetype
+  furnishing grows as the supporting layer (second watch row in
+  ops-centers, a centre rack row in server halls, benches and
+  shelving in labs, a reading table in ledger offices), all merged
+  into the same statics: no new draw calls.
+- Launching: the terminal opens a console (a DOM sheet on flat
+  screens, an in-world panel in XR). LIVE rooms execute the room's
+  build in the browser: the build's own package, staged lazily
+  from launch/bundles/<group>/ on first launch (never at world
+  boot), under a Pyodide runtime, driven by launch/driver.py. The
+  driver calls the build's own make_server with a stub server
+  class that captures the handler instead of binding a socket,
+  then feeds requests through handler instances backed by byte
+  streams: the build's routing, auth, store, and audit code runs
+  for real and holds state for the visit; drv_close on exit
+  disposes it with the interior. Where the runtime ships no ssl
+  module, the driver installs a stand-in so the import resolves;
+  its TLS objects raise if constructed, and the driver never
+  passes a certificate, so the TLS branch never runs, exactly as
+  the build runs without TLS flags. Sessions speak the build's own
+  surface: requests typed as METHOD /path with an optional JSON
+  body and an optional "as <user>" identity drawn from the build's
+  own demo registry (harvested from its source into the catalog).
+- RECORDED sessions (the fallback when a live launch cannot
+  complete in the visitor's browser, and the catalogued mode for
+  any build the probes ever fail): the console replays
+  launch/recorded/<group>.json, the exchanges harvested from the
+  build's own tests and from the export-time drive, each with its
+  source named. A request matching a recorded exchange replays it;
+  a near miss names the recorded variants; anything else is
+  answered as unrecorded. The console header always names the
+  session actually in front of the visitor, including the fallback.
+- The mode is evidence, recorded in the catalog per build
+  (build.launch: mode, basis, demo users, bundle manifest, recorded
+  counts): tools/launchprobe.py harvests and drives under CPython,
+  tools/probe-live-web.js drives the same requests under Pyodide
+  in a browser, and the exporter catalogues LIVE only when both
+  drives pass with agreeing statuses. On the Nov 15, 2026 evidence
+  all 101 builds are live; the recorded surface ships for every
+  build regardless, as the fallback. verify/verify-launch.js proves
+  both session kinds end to end in the harness.
+
 ## Platform-matched prompts (standing rule)
 
 Prompts name only the controls the visitor's device actually has

@@ -1,0 +1,183 @@
+{
+ "group": "travel-management-l2",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/travel-management-l2/src/travel/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/travel-management-l2/src/travel/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/travel-management-l2/src/travel/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:58.652428+00:00\", \"actor\": \"anonymous\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:58.652603+00:00\", \"actor\": \"mallory\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:58.652731+00:00\", \"actor\": \"alice\", \"action\": \"audit_read\", \"target\": \"audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/travel-management-l2/src/travel/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "text": "{\"error\": \"ref must be a non-empty string\"}"
+   },
+   "source": {
+    "file": "groups/travel-management-l2/src/travel/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/travel-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_audit_read_requires_admin"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/expense-reports/exp-999",
+   "response": {},
+   "source": {
+    "file": "groups/travel-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_missing_object_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/expense-reports/exp-999/vouchers",
+   "response": {},
+   "source": {
+    "file": "groups/travel-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_viewer_cannot_record_voucher_gets_403_and_denial_audited"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/nope",
+   "response": {},
+   "source": {
+    "file": "groups/travel-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unknown_route_404"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/travel-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unauthorized_without_headers"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/travel-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unauthorized_on_role_mismatch"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/travel-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_full_flow"
+   },
+   "status": 200
+  }
+ ]
+}

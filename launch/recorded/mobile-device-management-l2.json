@@ -1,0 +1,173 @@
+{
+ "group": "mobile-device-management-l2",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/mobile-device-management-l2/src/mdm/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/mobile-device-management-l2/src/mdm/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"unauthorized\"}"
+   },
+   "source": {
+    "file": "groups/mobile-device-management-l2/src/mdm/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:56.429431+00:00\", \"actor\": \"anonymous\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:56.429603+00:00\", \"actor\": \"mallory\", \"action\": \"get audit:denied\", \"target\": \"audit\", \"details\": null}, {\"ts\": \"2026-11-15T23:57:56.429728+00:00\", \"actor\": \"alice\", \"action\": \"audit_read\", \"target\": \"audit\", \"details\": null}]}"
+   },
+   "source": {
+    "file": "groups/mobile-device-management-l2/src/mdm/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/organizations",
+   "response": {
+    "text": "{\"error\": \"ref must be a non-empty string\"}"
+   },
+   "source": {
+    "file": "groups/mobile-device-management-l2/src/mdm/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/mobile-device-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_audit_endpoint_admin_only_and_denials_audited"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/nope",
+   "response": {},
+   "source": {
+    "file": "groups/mobile-device-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_validation_and_not_found"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "bob"
+   },
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/mobile-device-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unknown_user_and_role_mismatch_are_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "member",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/mobile-device-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_unknown_user_and_role_mismatch_are_401"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/mobile-device-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_full_flow_over_http"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations/org-99",
+   "response": {},
+   "source": {
+    "file": "groups/mobile-device-management-l2/tests/test_service.py",
+    "kind": "test",
+    "test": "TestService.test_validation_and_not_found"
+   },
+   "status": 404
+  }
+ ]
+}

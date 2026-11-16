@@ -483,5 +483,143 @@ console.log('\n[phase 4 controls: authorization status flip]');
   }
 }
 
+/* ---- experience pass: launch data fidelity ----
+ * The launch record on every build is re-derived here from the
+ * probe evidence files and the DeadRamp source tree, independently
+ * of the exporter: the mode rule from the two probe verdicts, the
+ * demo users from the source text of two sampled builds (one plain
+ * registry, one identity-object registry), the bundle manifest
+ * against both the staged bundle bytes and the source bytes, and
+ * the recorded surface against its named source files. A mutation
+ * control then alters one asserted response inside a copied test
+ * suite and shows the harvest, and only that harvest, change. */
+{
+  const sha = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
+  const cpProbe = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'probe-cpython.json'), 'utf8'));
+  const webProbe = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'live-probe-results.json'), 'utf8'));
+  const groups = Object.keys(cat.builds).sort();
+  check('launch: every build carries a launch record',
+    groups.every((g) => cat.builds[g].launch && ['live', 'recorded'].includes(cat.builds[g].launch.mode)),
+    `${groups.length} builds`);
+  check('launch: meta counts match the build records',
+    cat.meta.launchLive === groups.filter((g) => cat.builds[g].launch.mode === 'live').length
+    && cat.meta.launchRecorded === groups.filter((g) => cat.builds[g].launch.mode === 'recorded').length,
+    `live=${cat.meta.launchLive} recorded=${cat.meta.launchRecorded}`);
+  const modeMismatches = groups.filter((g) => {
+    const expected = (cpProbe[g] && cpProbe[g].ok && webProbe[g] && webProbe[g].ok) ? 'live' : 'recorded';
+    return cat.builds[g].launch.mode !== expected;
+  });
+  check('launch: every mode equals the probe-evidence rule (CPython drive and browser drive both green)',
+    modeMismatches.length === 0, modeMismatches.join(', ') || 'all 101 agree');
+  const basisBad = groups.filter((g) => {
+    const b = cat.builds[g].launch;
+    return b.mode === 'live' ? !/Pyodide/.test(b.basis) || !/CPython/.test(b.basis) : !/recorded surface/.test(b.basis);
+  });
+  check('launch: every basis names its evidence (live) or its fallback (recorded)', basisBad.length === 0, basisBad.join(', '));
+
+  // Demo users re-derived from source text for two sampled builds.
+  const usersFromService = (g) => {
+    const dir = path.join(GROUPS, g, 'src');
+    const pkg = fs.readdirSync(dir).filter((d) => fs.statSync(path.join(dir, d)).isDirectory())[0];
+    const main = fs.readFileSync(path.join(dir, pkg, '__main__.py'), 'utf8');
+    const m = main.match(/DEMO_USERS = \{([^}]*)\}/);
+    if (!m) return null;
+    const out = {};
+    for (const pm of m[1].matchAll(/"(\w+)":\s*"(\w+)"/g)) out[pm[1]] = pm[2];
+    return out;
+  };
+  const usersFromObjects = (g) => {
+    const dir = path.join(GROUPS, g, 'src');
+    const pkg = fs.readdirSync(dir).filter((d) => fs.statSync(path.join(dir, d)).isDirectory())[0];
+    const main = fs.readFileSync(path.join(dir, pkg, '__main__.py'), 'utf8');
+    const m = main.match(/DEMO_USERS = \{([^}]*)\}/);
+    if (!m) return null;
+    const out = {};
+    for (const pm of m[1].matchAll(/"(\w+)":\s*\w+\("\1",\s*"(\w+)"\)/g)) out[pm[1]] = pm[2];
+    return out;
+  };
+  for (const [g, derive] of [['ai-l2', usersFromService], ['manufacturing-untiered', usersFromObjects]]) {
+    const expected = derive(g);
+    check(`launch: demo users for ${g} match the source registry`,
+      expected && JSON.stringify(cat.builds[g].launch.users) === JSON.stringify(expected),
+      JSON.stringify(cat.builds[g].launch.users));
+  }
+  check('launch: every build resolved a non-empty demo registry',
+    groups.every((g) => Object.keys(cat.builds[g].launch.users).length > 0));
+
+  // Bundle provenance: manifest hash == staged bytes == source bytes.
+  let bundleBad = [];
+  let bundleFiles = 0;
+  for (const g of groups) {
+    const b = cat.builds[g];
+    if (b.launch.mode !== 'live') continue;
+    if (!b.launch.bundle || !b.launch.bundle.files.length) { bundleBad.push(g + ':no-bundle'); continue; }
+    for (const f of b.launch.bundle.files) {
+      bundleFiles++;
+      const staged = path.join(tmp, 'launch', 'bundles', g, f.path);
+      const rel = f.path.slice(b.launch.bundle.package.length + 1);
+      const source = path.join(GROUPS, g, 'src', b.package, rel);
+      if (!fs.existsSync(staged) || !fs.existsSync(source)) { bundleBad.push(`${g}:${rel}:missing`); continue; }
+      const sb = fs.readFileSync(staged), ob = fs.readFileSync(source);
+      if (sha(sb) !== f.sha256 || sha(ob) !== f.sha256 || sb.length !== f.bytes) bundleBad.push(`${g}:${rel}:hash`);
+    }
+  }
+  check('launch: every bundle file hashes to its manifest entry and to the DeadRamp source file',
+    bundleBad.length === 0, `${bundleFiles} files${bundleBad.length ? ' bad: ' + bundleBad.slice(0, 4).join(', ') : ''}`);
+
+  // Recorded surface provenance: counts, and every exchange traces
+  // to a source file that names it.
+  let recBad = [];
+  let recTotal = 0;
+  for (const g of groups) {
+    const b = cat.builds[g];
+    const recPath = path.join(tmp, 'launch', 'recorded', `${g}.json`);
+    if (!fs.existsSync(recPath)) { recBad.push(g + ':no-file'); continue; }
+    const rec = JSON.parse(fs.readFileSync(recPath, 'utf8'));
+    recTotal += rec.exchanges.length;
+    if (rec.exchanges.length !== b.launch.recorded.exchanges) recBad.push(g + ':count');
+    for (const ex of rec.exchanges) {
+      const srcFile = path.join(GROUPS, '..', ex.source.file);
+      if (!fs.existsSync(srcFile)) { recBad.push(`${g}:missing-source`); break; }
+      if (ex.source.kind === 'test') {
+        const text = fs.readFileSync(srcFile, 'utf8');
+        const testName = ex.source.test.split('.').pop();
+        if (!text.includes(testName) || !text.includes(ex.path)) { recBad.push(`${g}:untraced:${ex.path}`); break; }
+      }
+    }
+  }
+  check('launch: every recorded exchange traces to a DeadRamp source file that names it',
+    recBad.length === 0, `${recTotal} exchanges${recBad.length ? ' bad: ' + recBad.slice(0, 4).join(', ') : ''}`);
+  const aiRec = JSON.parse(fs.readFileSync(path.join(tmp, 'launch', 'recorded', 'ai-l2.json'), 'utf8'));
+  check('launch: ai-l2 recorded surface contains its real health response',
+    aiRec.exchanges.some((e) => e.method === 'GET' && e.path === '/health'
+      && ((e.response.text || '').includes('"status": "ok"') || (e.response.text || '').includes('"status":"ok"'))));
+
+  // Mutation control: change one asserted body in a copied ai-l2
+  // test suite; the harvest of the copy must change, and only there.
+  const mutRoot = path.join(tmp, 'mutroot');
+  fs.mkdirSync(path.join(mutRoot, 'groups'), { recursive: true });
+  fs.cpSync(path.join(GROUPS, 'ai-l2'), path.join(mutRoot, 'groups', 'ai-l2'), { recursive: true });
+  const mutTest = path.join(mutRoot, 'groups', 'ai-l2', 'tests', 'test_service.py');
+  const origText = fs.readFileSync(mutTest, 'utf8');
+  const mutText = origText.replace('self.assertEqual(parsed, {"status": "ok"})',
+    'self.assertEqual(parsed, {"status": "mutated-ok"})');
+  check('launch mutation: the ai-l2 health assertion exists to mutate', mutText !== origText);
+  fs.writeFileSync(mutTest, mutText);
+  const mutHarvestPath = path.join(tmp, 'mut-harvest.json');
+  execFileSync('python3', [path.join(REPO, 'tools', 'launchprobe.py'), 'harvest',
+    '--root', mutRoot, '--out', mutHarvestPath], { stdio: 'pipe' });
+  const mutHarvest = JSON.parse(fs.readFileSync(mutHarvestPath, 'utf8'));
+  const baseHarvest = JSON.parse(fs.readFileSync(path.join(REPO, 'tools', 'launch-harvest.json'), 'utf8'));
+  const mutHas = (mutHarvest['ai-l2'].recorded || []).some((e) => (e.response.text || '').includes('mutated-ok'));
+  const baseHas = (baseHarvest['ai-l2'].recorded || []).some((e) => (e.response.text || '').includes('mutated-ok'));
+  check('launch mutation: altering a source fixture changes the harvested surface',
+    mutHas && !baseHas,
+    `mutated harvest carries the change=${mutHas}, committed harvest untouched=${!baseHas}`);
+  check('launch mutation: the mutated harvest keeps the same exchange count',
+    mutHarvest['ai-l2'].recorded.length === baseHarvest['ai-l2'].recorded.length,
+    `${baseHarvest['ai-l2'].recorded.length} -> ${mutHarvest['ai-l2'].recorded.length}`);
+}
+
 console.log(failures === 0 ? '\nALL TESTS PASSED' : `\n${failures} TEST(S) FAILED`);
 process.exit(failures === 0 ? 0 : 1);

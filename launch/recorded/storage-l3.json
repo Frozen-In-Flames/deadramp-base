@@ -1,0 +1,279 @@
+{
+ "group": "storage-l3",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/storage-l3/src/storage/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"authentication required\"}"
+   },
+   "source": {
+    "file": "groups/storage-l3/src/storage/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"authentication required\"}"
+   },
+   "source": {
+    "file": "groups/storage-l3/src/storage/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"entries\": [{\"ts\": \"2026-11-15T23:57:57.805312+00:00\", \"actor\": \"anonymous\", \"action\": \"_audit:denied\", \"target\": \"/audit\", \"details\": {\"reason\": \"unauthenticated\"}, \"seq\": 0, \"prev_hash\": \"0000000000000000000000000000000000000000000000000000000000000000\", \"hash\": \"7c468c0b5f68a1d37b5629459b2e36e98d660d800d5f989e157262a47c247c8c\"}, {\"ts\": \"2026-11-15T23:57:57.805589+00:00\", \"actor\": \"mallory\", \"action\": \"_audit:denied\", \"target\": \"/audit\", \"details\": {\"reason\": \"unauthenticated\"}, \"seq\": 1, \"prev_hash\": \"7c468c0b5f68a1d37b5629459b2e36e98d660d800d5f989e157262a47c247c8c\", \"hash\": \"9f1ba9c51e3d2c906d4a134af27138266e7fd64562a2f0be362079633a0f7a04\"}], \"count\": 2}"
+   },
+   "source": {
+    "file": "groups/storage-l3/src/storage/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/collections",
+   "response": {
+    "text": "{\"error\": \"no such organization: None\"}"
+   },
+   "source": {
+    "file": "groups/storage-l3/src/storage/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_auth_and_denied_auditing"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/collections",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.seed"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/custody",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_records_over_http"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/discoveries",
+   "response": {
+    "fields": {
+     "result_count": 1
+    }
+   },
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_records_over_http"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/messages",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.archive_one"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/nope",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_unknown_route_and_object"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_auth_and_denied_auditing"
+   },
+   "status": 403
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.seed"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations/org-99",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_unknown_route_and_object"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/policies",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.seed"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/retrievals",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_records_over_http"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/search?q=sender-1",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_records_over_http"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/summary?now=2024-01-15",
+   "response": {
+    "fields": {
+     "dispositions": 1
+    }
+   },
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_retention_gate"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/supervision",
+   "response": {},
+   "source": {
+    "file": "groups/storage-l3/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_records_over_http"
+   },
+   "status": 201
+  }
+ ]
+}

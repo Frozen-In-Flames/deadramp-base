@@ -1,0 +1,4165 @@
+{
+ "ai-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "customer-service-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/alerts",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "manufacturing-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/decisions",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "accounting-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "talent-development-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/assessments",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/assessments",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/assessments",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/assessments",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "accounting-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "accounting-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "ai-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "ai-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "analytics-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "analytics-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "analytics-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/datasets",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "cloud-infrastructure-hosting-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "cloud-infrastructure-hosting-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "cloud-infrastructure-hosting-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "cms-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "cms-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "cms-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "cms-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "collaboration-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "collaboration-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "collaboration-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "communication-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/dispatch-due",
+    "tag": "admin-post",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "communication-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/dispatch-due",
+    "tag": "admin-post",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "communication-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/dispatch-due",
+    "tag": "admin-post",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "communication-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/dispatch-due",
+    "tag": "admin-post",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "construction-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "construction-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "contact-center-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "contract-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "crm-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "crm-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "crm-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "crm-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "customer-service-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/alerts",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "customer-service-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/alerts",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "cybersecurity-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "cybersecurity-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "cybersecurity-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "cybersecurity-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "data-management-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "data-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "data-management-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "data-management-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "development-tools-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "development-tools-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "development-tools-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "development-tools-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "education-training-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "education-training-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "education-training-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "energy-management-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/alerts",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/alerts",
+    "tag": "admin-post",
+    "status": 404,
+    "cpStatus": 404,
+    "error": null
+   }
+  ]
+ },
+ "enterprise-resource-planning-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/absence-records",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/absence-records",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/absence-records",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/absence-records",
+    "tag": "admin-post",
+    "status": 404,
+    "cpStatus": 404,
+    "error": null
+   }
+  ]
+ },
+ "event-management-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/events",
+    "tag": "admin-post",
+    "status": 404,
+    "cpStatus": 404,
+    "error": null
+   }
+  ]
+ },
+ "finance-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "finance-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "finance-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "fleet-management-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "fleet-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "fleet-management-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "grant-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "grc-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "grc-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "grc-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "grc-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "health-wellness-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "health-wellness-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "health-wellness-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "health-wellness-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "human-resources-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "human-resources-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "human-resources-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "law-enforcement-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "law-enforcement-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "law-enforcement-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "law-enforcement-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "learning-management-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "learning-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "learning-management-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "legal-policy-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/agencies",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/agencies",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/agencies",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/agencies",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "legal-policy-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/agencies",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/agencies",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/agencies",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/agencies",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "library-systems-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/libraries",
+    "tag": "unauthenticated",
+    "status": 403,
+    "cpStatus": 403,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/libraries",
+    "tag": "unknown-user",
+    "status": 403,
+    "cpStatus": 403,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/libraries",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "marketing-sales-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/campaigns",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "media-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/control-actions",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "mobile-device-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "network-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "network-management-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "operations-management-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "operations-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "operations-management-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   }
+  ]
+ },
+ "research-l1": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/commons",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "research-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/commons",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "research-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/commons",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "storage-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/collections",
+    "tag": "admin-post",
+    "status": 404,
+    "cpStatus": 404,
+    "error": null
+   }
+  ]
+ },
+ "storage-l3": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/collections",
+    "tag": "admin-post",
+    "status": 404,
+    "cpStatus": 404,
+    "error": null
+   }
+  ]
+ },
+ "system-administration-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "system-administration-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "talent-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "talent-management-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "travel-management-l2": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ },
+ "travel-management-untiered": {
+  "ok": true,
+  "stage": "requests",
+  "error": null,
+  "requests": [
+   {
+    "method": "GET",
+    "path": "/health",
+    "tag": "health",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unauthenticated",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "unknown-user",
+    "status": 401,
+    "cpStatus": 401,
+    "error": null
+   },
+   {
+    "method": "GET",
+    "path": "/audit",
+    "tag": "admin",
+    "status": 200,
+    "cpStatus": 200,
+    "error": null
+   },
+   {
+    "method": "POST",
+    "path": "/organizations",
+    "tag": "admin-post",
+    "status": 400,
+    "cpStatus": 400,
+    "error": null
+   }
+  ]
+ }
+}

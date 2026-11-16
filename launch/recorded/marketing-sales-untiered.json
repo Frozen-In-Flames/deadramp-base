@@ -1,0 +1,232 @@
+{
+ "group": "marketing-sales-untiered",
+ "exchanges": [
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/health",
+   "response": {
+    "text": "{\"status\": \"ok\"}"
+   },
+   "source": {
+    "file": "groups/marketing-sales-untiered/src/marketsales/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"authentication required\"}"
+   },
+   "source": {
+    "file": "groups/marketing-sales-untiered/src/marketsales/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "mallory"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"error\": \"authentication required\"}"
+   },
+   "source": {
+    "file": "groups/marketing-sales-untiered/src/marketsales/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "GET",
+   "path": "/audit",
+   "response": {
+    "text": "{\"count\": 2, \"entries\": [{\"ts\": \"2026-11-15T23:57:56.128715+00:00\", \"actor\": \"anonymous\", \"action\": \"_audit:denied\", \"target\": \"/audit\", \"details\": {\"reason\": \"unauthenticated\"}}, {\"ts\": \"2026-11-15T23:57:56.128896+00:00\", \"actor\": \"mallory\", \"action\": \"_audit:denied\", \"target\": \"/audit\", \"details\": {\"reason\": \"unauthenticated\"}}]}"
+   },
+   "source": {
+    "file": "groups/marketing-sales-untiered/src/marketsales/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 200
+  },
+  {
+   "body": {},
+   "headers": {
+    "X-Role": "admin",
+    "X-User": "alice"
+   },
+   "method": "POST",
+   "path": "/campaigns",
+   "response": {
+    "text": "{\"error\": \"label must be a non-empty string\"}"
+   },
+   "source": {
+    "file": "groups/marketing-sales-untiered/src/marketsales/service.py",
+    "kind": "drive",
+    "test": "exporter drive (CPython, launch/driver.py)"
+   },
+   "status": 400
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/audit",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_viewer_write_is_forbidden_and_audited"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/campaigns",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.seed_campaign"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/campaigns/cam-99",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_not_found_and_validation_errors"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/deliveries",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_suppression_gate"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/engagements",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_suppression_gate"
+   },
+   "status": 200
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/lists",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.seed_campaign"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/nope",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_not_found_and_validation_errors"
+   },
+   "status": 404
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "GET",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_authentication_and_role_match"
+   },
+   "status": 401
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/organizations",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.seed_campaign"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/segments",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.seed_campaign"
+   },
+   "status": 201
+  },
+  {
+   "body": null,
+   "headers": {},
+   "method": "POST",
+   "path": "/suppressions",
+   "response": {},
+   "source": {
+    "file": "groups/marketing-sales-untiered/tests/test_service.py",
+    "kind": "test",
+    "test": "ServiceTests.test_full_flow_with_suppression_gate"
+   },
+   "status": 200
+  }
+ ]
+}
