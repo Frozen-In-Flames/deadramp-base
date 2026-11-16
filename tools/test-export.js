@@ -422,6 +422,46 @@ check('cranes equal the district rule, re-derived (17 expected)',
 check('the surveyed lot carries no crane',
   cat.vendors.filter((v) => v.kind === 'lot').every((v) => !v.construction.crane));
 
+/* Gate signs: every vendor with pending offerings carries a sign
+ * record (certified count and offering total) for its per-building
+ * gate sign. Re-derived here from forks.json itself, grouped by
+ * vendor, so the sign data is pinned to the registry and not to the
+ * exporter's own arithmetic. */
+console.log('\n[phase 4: gate sign records]');
+{
+  const forksByVendor = new Map();
+  for (const f of forks) {
+    if (!forksByVendor.has(f.vendor)) forksByVendor.set(f.vendor, { cert: 0, total: 0 });
+    const rec = forksByVendor.get(f.vendor);
+    rec.total++;
+    if (f.authorization_status === 'FedRAMP Certified') rec.cert++;
+  }
+  const signed = cat.vendors.filter((v) => v.construction.sign);
+  check('gate sign: exactly the 228 vendors with pending offerings carry a sign record',
+    signed.length === 228
+    && signed.length === cat.vendors.filter((v) => v.construction.frac > 0).length
+    && cat.vendors.every((v) => (v.construction.frac > 0) === !!v.construction.sign),
+    `signed=${signed.length}`);
+  let signOk = true, agreeOk = true;
+  for (const v of cat.vendors) {
+    const exp = forksByVendor.get(v.name);
+    if (!exp) { signOk = false; continue; }
+    if (v.construction.sign
+      && (v.construction.sign.cert !== exp.cert || v.construction.sign.total !== exp.total)) signOk = false;
+    if (v.construction.sign
+      && Math.abs(exp.cert / exp.total - (1 - v.construction.frac)) > 0.0011) agreeOk = false;
+  }
+  check('gate sign: cert/total equal the forks.json recomputation for every vendor', signOk);
+  check('gate sign: certified share agrees with construction frac (1 - frac) within rounding', agreeOk);
+  const cisco = cat.vendors.find((v) => v.name === 'Cisco Systems Inc.');
+  check('gate sign pin: the mixed Cisco building reads 5 of 6',
+    !!cisco && !!cisco.construction.sign && cisco.construction.sign.cert === 5 && cisco.construction.sign.total === 6,
+    cisco && cisco.construction.sign ? `${cisco.construction.sign.cert}/${cisco.construction.sign.total}` : 'no sign');
+  const lot = cat.vendors.find((v) => v.kind === 'lot');
+  check('gate sign pin: the surveyed lot (TERIDA) carries a sign record reading 0 of 1',
+    !!lot && !!lot.construction.sign && lot.construction.sign.cert === 0 && lot.construction.sign.total === 1);
+}
+
 /* Negative control (data removal): the sparse tree has spec sheets
  * only — no UNION-SPEC.md in it, and its root has no GAPS.md or
  * PLATFORM-LAYER.md — so its catalog must carry zero merges and zero
@@ -471,6 +511,15 @@ console.log('\n[phase 4 controls: authorization status flip]');
     check('flip: the flipped vendor\u2019s construction goes 0 -> 1',
       target.construction.frac === 0 && flipVendor.construction.frac === 1,
       `${target.name}: ${target.construction.frac} -> ${flipVendor.construction.frac}`);
+    check('flip: the flipped vendor gains a gate sign reading 0 of 1',
+      !target.construction.sign
+      && !!flipVendor.construction.sign
+      && flipVendor.construction.sign.cert === 0 && flipVendor.construction.sign.total === 1,
+      JSON.stringify(flipVendor.construction.sign));
+    const signChanged = flipCat.vendors.filter((v, i) =>
+      JSON.stringify(v.construction.sign || null) !== JSON.stringify(cat.vendors[i].construction.sign || null)).map((v) => v.name);
+    check('flip: no other vendor\u2019s gate sign record changes',
+      JSON.stringify(signChanged) === JSON.stringify([target.name]), JSON.stringify(signChanged));
     const changed = flipCat.vendors.filter((v, i) =>
       JSON.stringify(v.construction) !== JSON.stringify(cat.vendors[i].construction)).map((v) => v.name);
     check('flip: no other vendor\u2019s construction record changes (cranes included)',

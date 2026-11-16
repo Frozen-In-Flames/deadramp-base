@@ -118,6 +118,38 @@ function textTexture(lines, { w = 512, h = 128, bg = '#10141d', fg = '#ffd9a0', 
   t.anisotropy = 4;
   return t;
 }
+/* The plaza kiosk's legend: how to read a building's state, stated
+ * once, at the directory where a visitor arrives. One vocabulary
+ * with the gate signs and the record cards. The swatch colours are
+ * the Base's own finishes: limestone, site orange, lot grey. */
+const KIOSK_LEGEND = [
+  ['#cfc9b8', 'Finished building · FedRAMP authorized'],
+  ['#c96a1e', 'Scaffold and sign · Authorization in process'],
+  ['#555a52', 'Empty lot · Unclassified in the record'],
+];
+function kioskTexture() {
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 460;
+  const x = c.getContext('2d');
+  x.fillStyle = '#10141d'; x.fillRect(0, 0, 1024, 460);
+  x.textBaseline = 'middle';
+  x.textAlign = 'center';
+  x.fillStyle = '#ffd9a0'; x.font = '700 64px sans-serif';
+  x.fillText('DEADRAMP BASE', 512, 58);
+  x.fillStyle = '#9fb0c3'; x.font = '34px sans-serif';
+  x.fillText('Directory', 512, 124);
+  x.fillStyle = '#ffb36b'; x.fillRect(212, 160, 600, 3);
+  x.textAlign = 'left';
+  KIOSK_LEGEND.forEach(([col, text], i) => {
+    const y = 218 + i * 76;
+    x.fillStyle = col; x.fillRect(92, y - 17, 34, 34);
+    x.fillStyle = '#e8e6df'; x.font = '36px sans-serif';
+    x.fillText(text, 152, y);
+  });
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 4;
+  return t;
+}
 function windowTexture() {
   const c = document.createElement('canvas'); c.width = 512; c.height = 1024;
   const x = c.getContext('2d');
@@ -214,7 +246,7 @@ const state = {
    * catalog.platformLayer, per-vendor construction records); nothing
    * about them is hardcoded per vendor. */
   bridgeMesh: null, segBridge: [], deckPickables: [],
-  phase4: { bridges: 0, bridgeSegments: 0, deckDecisions: 0, deckEntries: 0, constructionVendors: 0, siteworkInstances: 0, cranes: 0, netting: 0 },
+  phase4: { bridges: 0, bridgeSegments: 0, deckDecisions: 0, deckEntries: 0, constructionVendors: 0, siteworkInstances: 0, cranes: 0, netting: 0, signs: 0 },
   phase4Points: null,      // viewpoints of the three features, for verification
 };
 
@@ -294,10 +326,10 @@ function buildWorld(catalog) {
   const kioskAccent = new THREE.MeshLambertMaterial({ color: 0xffb36b });
   const base = new THREE.Mesh(new THREE.BoxGeometry(7, 3.4, 1.4), kioskMat); base.position.y = 1.7;
   const roof = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.35, 2.4), kioskAccent); roof.position.y = 3.6;
-  const sign = new THREE.Mesh(new THREE.PlaneGeometry(7.6, 1.7),
-    new THREE.MeshBasicMaterial({ map: textTexture(['DEADRAMP BASE', 'Directory · full kiosk in Phase 2']) }));
-  sign.position.set(0, 4.6, 0.2);
-  const legL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 1.1, 0.3), kioskMat); legL.position.set(-3.4, 4.05, 0);
+  const sign = new THREE.Mesh(new THREE.PlaneGeometry(7.6, 3.4),
+    new THREE.MeshBasicMaterial({ map: kioskTexture() }));
+  sign.position.set(0, 5.6, 0.2);
+  const legL = new THREE.Mesh(new THREE.BoxGeometry(0.3, 3.9, 0.3), kioskMat); legL.position.set(-3.4, 5.35, 0);
   const legR = legL.clone(); legR.position.x = 3.4;
   kiosk.add(base, roof, sign, legL, legR);
   kiosk.position.set(64, 0, 0);
@@ -394,8 +426,9 @@ function buildWorld(catalog) {
     slab.position.y = 0.18;
     const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 3.4, 8), new THREE.MeshLambertMaterial({ color: 0xb9c4d4 }));
     pole.position.set(0, 1.7, -4);
+    const lotSign = v.construction && v.construction.sign;
     const signM = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 1.35),
-      new THREE.MeshBasicMaterial({ map: textTexture(['SURVEYED LOT', v.name + ' · unclassified'], { bg: '#241a20', fg: '#f28ba8' }), side: THREE.DoubleSide }));
+      new THREE.MeshBasicMaterial({ map: textTexture(lotSign ? signLines('lot', lotSign.cert, lotSign.total) : ['SURVEYED LOT', v.name + ' · unclassified'], { bg: '#241a20', fg: '#f28ba8' }), side: THREE.DoubleSide }));
     signM.position.set(0, 3.1, -4);
     signM.rotation.y = v.rotationY + Math.PI;
     g.add(slab, pole, signM);
@@ -434,7 +467,9 @@ function buildWorld(catalog) {
  * extends it, it does not replace it). Cranes are district
  * equipment: the exporter flags the tallest fully-pipeline building
  * in each district with at least three of them. Signage is honest
- * and generic: UNDER CONSTRUCTION, no vendor artwork.
+ * and specific: each construction building's gate sign states that
+ * building's own certified count, from the exporter's sign record,
+ * never vendor artwork.
  *
  * Everything below is instanced or merged: one InstancedMesh for all
  * bridge segments, one for all sitework (scaffolds, barriers,
@@ -468,6 +503,17 @@ function instancedBoxes(list, material) {
   if (m.instanceColor) m.instanceColor.needsUpdate = true;
   m.frustumCulled = false;
   return m;
+}
+
+/* The three lines of a vendor's status sign, from the exporter's
+ * sign record (certified count and offering total, derived from the
+ * offerings' own statuses). One source for the gate boards, the
+ * surveyed lot's plaque, and the verification hook, so the surfaces
+ * can never drift apart. Status facts only, no vendor artwork. */
+function signLines(kind, cert, total) {
+  return kind === 'lot'
+    ? ['SURVEYED LOT', 'Unclassified in the record', `${cert} of ${total} offerings authorized`]
+    : ['UNDER CONSTRUCTION', 'Authorization in process', `${cert} of ${total} offerings authorized`];
 }
 
 function buildPhase4(catalog) {
@@ -575,22 +621,66 @@ function buildPhase4(catalog) {
     })));
   }
   if (signs.length) {
-    const tex = textTexture(['UNDER CONSTRUCTION', 'authorization in process'],
-      { w: 1024, h: 256, bg: '#2a1c08', fg: '#ffb36b', sub: '#e8d9b8' });
-    const sm = new THREE.InstancedMesh(new THREE.PlaneGeometry(6.4, 1.6),
-      new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }), signs.length);
-    const d = new THREE.Object3D();
-    signs.forEach((v, i) => {
-      const fx = Math.sin(v.rotationY), fz = Math.cos(v.rotationY);
-      d.position.set(v.position.x + fx * (v.size.d / 2 + 2.3), 2.6, v.position.z + fz * (v.size.d / 2 + 2.3));
-      d.quaternion.setFromAxisAngle(UP_V, v.rotationY);
-      d.scale.set(1, 1, 1);
-      d.updateMatrix();
-      sm.setMatrixAt(i, d.matrix);
+    /* Per-building gate signs: every board states its own building's
+     * count line, so the distinct texts are few (one per distinct
+     * certified/total pair in the catalog). One canvas atlas holds
+     * them all at the full 1024x256 resolution of the old shared
+     * board, and every board is one quad in a single merged geometry
+     * with per-board UVs into the atlas: one material, one draw
+     * call, exactly what the shared-texture instanced mesh cost. */
+    const slotOf = new Map();
+    const slotKeys = [];
+    for (const v of signs) {
+      const s = v.construction.sign;
+      const key = `${s.cert}/${s.total}`;
+      if (!slotOf.has(key)) { slotOf.set(key, slotKeys.length); slotKeys.push(s); }
+    }
+    const COLS = 3, ROWS = Math.ceil(slotKeys.length / COLS);
+    const atlas = document.createElement('canvas');
+    atlas.width = COLS * 1024; atlas.height = ROWS * 256;
+    const ax = atlas.getContext('2d');
+    ax.textAlign = 'center'; ax.textBaseline = 'middle';
+    slotKeys.forEach((s, i) => {
+      const ox = (i % COLS) * 1024, oy = Math.floor(i / COLS) * 256;
+      const lines = signLines('building', s.cert, s.total);
+      ax.fillStyle = '#2a1c08'; ax.fillRect(ox, oy, 1024, 256);
+      ax.fillStyle = '#ffb36b'; ax.font = '700 54px sans-serif';
+      ax.fillText(lines[0], ox + 512, oy + 50);
+      ax.fillStyle = '#e8d9b8'; ax.font = '32px sans-serif';
+      ax.fillText(lines[1], ox + 512, oy + 124);
+      ax.fillStyle = '#ffb36b'; ax.font = '700 42px sans-serif';
+      ax.fillText(lines[2], ox + 512, oy + 198);
     });
-    sm.instanceMatrix.needsUpdate = true;
+    const tex = new THREE.CanvasTexture(atlas);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    const pos = [], uv = [], idx = [];
+    signs.forEach((v, n) => {
+      const s = v.construction.sign;
+      const slot = slotOf.get(`${s.cert}/${s.total}`);
+      const col = slot % COLS, row = Math.floor(slot / COLS);
+      const u0 = col / COLS, u1 = (col + 1) / COLS;
+      const vTop = 1 - row / ROWS, vBot = 1 - (row + 1) / ROWS;
+      const fx = Math.sin(v.rotationY), fz = Math.cos(v.rotationY);
+      const cx = v.position.x + fx * (v.size.d / 2 + 2.3), cz = v.position.z + fz * (v.size.d / 2 + 2.3);
+      const rx = Math.cos(v.rotationY), rz = -Math.sin(v.rotationY);
+      const hw = 3.2, hh = 0.8, cy = 2.6;
+      pos.push(
+        cx - rx * hw, cy - hh, cz - rz * hw, cx + rx * hw, cy - hh, cz + rz * hw,
+        cx + rx * hw, cy + hh, cz + rz * hw, cx - rx * hw, cy + hh, cz - rz * hw);
+      uv.push(u0, vBot, u1, vBot, u1, vTop, u0, vTop);
+      const b = n * 4;
+      idx.push(b, b + 1, b + 2, b, b + 2, b + 3);
+    });
+    const sg = new THREE.BufferGeometry();
+    sg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    sg.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+    sg.setIndex(idx);
+    const sm = new THREE.Mesh(sg, new THREE.MeshBasicMaterial({ map: tex, side: THREE.DoubleSide }));
     sm.frustumCulled = false;
     worldGroup.add(sm);
+    P4.signs = signs.length;
+    state.signAtlas = { slots: slotKeys.length, cols: COLS, rows: ROWS, w: atlas.width, h: atlas.height };
   }
 
   buildPlatformDeck(catalog, byId);
@@ -795,6 +885,20 @@ const card = document.getElementById('card');
 const cardBody = document.getElementById('cardBody');
 document.getElementById('cardClose').addEventListener('click', () => { card.style.display = 'none'; state.selected = null; });
 const STATUS_TEXT = { certified: 'FedRAMP Certified', pipeline: 'In the pipeline', mixed: 'Mixed statuses' };
+/* The record card's status, in plain words with the building's own
+ * counts, in the same vocabulary as the gate signs: a vendor whose
+ * offerings the build holds unclassified is stated as such; every
+ * other vendor reads authorized in full or in process with its
+ * certified count, derived from the same offering statuses as the
+ * construction record, so card and sign always agree. */
+function statusLine(v) {
+  if (v.offerings.length && v.offerings.every((o) => o.unclassified)) return 'Unclassified in the record';
+  const cert = v.offerings.filter((o) => o.authorization_status === 'FedRAMP Certified').length;
+  const total = v.offerings.length;
+  return cert === total
+    ? `FedRAMP authorized, ${cert} of ${total} offerings authorized`
+    : `Authorization in process, ${cert} of ${total} offerings authorized`;
+}
 function showCard(v) {
   state.selected = v;
   const d = state.districts.find((x) => x.id === v.district);
@@ -811,7 +915,7 @@ function showCard(v) {
   cardBody.innerHTML =
     `<h3>${v.name}</h3>` +
     `<div class="meta">${d ? d.functionName + ' · ' + d.tier : ''} district · ${v.offeringCount} offering${v.offeringCount > 1 ? 's' : ''} · ` +
-    `<span class="status-${v.statusClass}">${STATUS_TEXT[v.statusClass]}</span></div>` +
+    `<span class="status-${v.statusClass}">${statusLine(v)}</span></div>` +
     brandLine +
     lotNote + `<ul>${rows}</ul>`;
   if (v.kind === 'building') {
@@ -1404,7 +1508,7 @@ function buildInterior(vendor) {
   const d0 = state.districts.find((x) => x.id === vendor.district);
   const lobbyLines = [
     `${d0 ? d0.functionName + ' · ' + d0.tier : ''} district · ${vendor.offeringCount} offering${vendor.offeringCount > 1 ? 's' : ''}`,
-    `Status: ${STATUS_TEXT[vendor.statusClass]}`,
+    `Status: ${statusLine(vendor)}`,
     '',
     'Rooms: one per offering, up the spiral ramp, one floor per room.',
     'The lobby door marked EXIT returns you to the boulevard.',
@@ -1781,11 +1885,13 @@ const HELP_COPY = {
     kb: 'WASD / arrows to walk, mouse to look (click the world to lock the mouse), Shift to move fast.<br>' +
       'Click a building for its record. Enter a building from its record card, or walk to its door and press <b>E</b>. ' +
       'Inside, one spiral ramp climbs past every service room; the lobby door marked EXIT (or <b>E</b> beside it) returns you to the boulevard. ' +
-      'Everything is one spiral away: follow the boulevard out from the plaza.',
+      'Everything is one spiral away: follow the boulevard out from the plaza. ' +
+      'Finished buildings are FedRAMP authorized. Scaffolded buildings are still in the authorization process.',
     touch: 'Left thumb stick to walk, drag right side to look. Tap a building for its record. ' +
       'Enter from its record card, or walk to its door and tap the door to go in. ' +
       'Inside, one spiral ramp climbs past every service room; tap the lobby door marked EXIT to return to the boulevard. ' +
-      'Everything is one spiral away: follow the boulevard out from the plaza.',
+      'Everything is one spiral away: follow the boulevard out from the plaza. ' +
+      'Finished buildings are FedRAMP authorized. Scaffolded buildings are still in the authorization process.',
     xr: XR_HELP_LINES.out.join(' '),
   },
   in: {
@@ -2570,7 +2676,7 @@ function drawXRCard(v) {
   const d = state.districts.find((x) => x.id === v.district);
   const lines = [
     `${d ? d.functionName + ' · ' + d.tier : ''} district · ${v.offeringCount} offering${v.offeringCount > 1 ? 's' : ''}`,
-    STATUS_TEXT[v.statusClass],
+    statusLine(v),
   ];
   for (const o of v.offerings.slice(0, 6)) lines.push('· ' + o.product);
   if (v.offerings.length > 6) lines.push(`… (+${v.offerings.length - 6} more on the full record)`);
@@ -3067,6 +3173,27 @@ window.__BASE__ = {
   stats: () => currentStats(),
   /* Phase 4: viewpoints of the three features + the feature records */
   phase4Points: () => state.phase4Points,
+  /* Per-building status signs: every frac > 0 vendor's sign record
+   * and its rendered lines (gate boards plus the surveyed lot), and
+   * the atlas geometry the boards share. */
+  constructionSigns: () => {
+    const out = [];
+    for (const v of [...state.buildings, ...state.lots]) {
+      const s = v.construction && v.construction.sign;
+      if (!s) continue;
+      out.push({ vendor: v.name, kind: v.kind, cert: s.cert, total: s.total, lines: signLines(v.kind, s.cert, s.total) });
+    }
+    return { signs: out, atlas: state.signAtlas || null, gateBoards: state.phase4.signs };
+  },
+  kioskLegend: () => KIOSK_LEGEND.map((e) => e[1]),
+  openCard: (name) => {
+    const v = state.buildings.find((b) => b.name === name) || state.lots.find((b) => b.name === name);
+    if (!v) return false;
+    showCard(v);
+    return true;
+  },
+  cardText: () => (card.style.display === 'block'
+    ? cardBody.textContent.replace(/\s+/g, ' ').trim() : null),
   phase4Pick: () => {
     const s = state.selected;
     if (!s || !s.feature) return null;

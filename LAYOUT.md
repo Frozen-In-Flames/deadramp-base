@@ -511,8 +511,15 @@ and lit, untouched. For any vendor with frac > 0 (227 buildings;
 - A fully pending tower (frac 1) is wrapped in a translucent
   construction-orange netting shell.
 - Three site barriers (orange, white, orange) close the front,
-  and an UNDER CONSTRUCTION sign stands at the door side. The
-  signage is generic construction vocabulary; no vendor artwork.
+  and a sign stands at the door side stating that building's own
+  state: UNDER CONSTRUCTION, Authorization in process, and its
+  certified count ("X of Y offerings authorized", from the sign
+  record the exporter derives beside frac). The boards are one
+  merged geometry whose UVs address a single canvas atlas holding
+  the distinct count lines (9 in the current catalog) at full
+  1024x256 sign resolution: one material, one draw call. The
+  surveyed lot's plaque reads SURVEYED LOT, Unclassified in the
+  record, with its own count line. No vendor artwork anywhere.
 - Cranes are district equipment, assigned in the exporter by one
   rule: in each district with at least three fully-pipeline
   buildings, the tallest such building (registry order breaks
@@ -598,3 +605,22 @@ change.
 - Recorded exchanges are ordered drive-first by exporter
   rule (stable sort by source kind after dedup), pinned by
   an export test over all 101 surfaces.
+
+## Status clarity (v0.4.1)
+
+- Every construction building's gate sign states that
+  building's own certified count, from the sign record the
+  exporter derives beside frac (see Construction states
+  above). Nothing about the construction treatment itself
+  changed: cages, netting, barriers, cranes, and the
+  weathered finish are exactly as they were.
+- The plaza directory kiosk carries the legend once:
+  finished building / FedRAMP authorized; scaffold and
+  sign / Authorization in process; empty lot /
+  Unclassified in the record. The kiosk board grew to hold
+  it (same five meshes, one canvas texture): draw calls
+  unchanged, spawn still 21.
+- The outdoor arrival help (keyboard and touch) states the
+  same legend in one sentence pair; the building record
+  card, flat and in-world, states each vendor's status in
+  plain words with its counts, once.

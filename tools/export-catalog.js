@@ -2847,6 +2847,10 @@ function main() {
   /* Construction state per vendor, from its offerings' own statuses:
    * frac is the share of the vendor's offerings not yet FedRAMP
    * Certified (1 = fully in the pipeline, 0 = fully certified).
+   * A vendor with anything pending also carries a sign record, the
+   * certified count and offering total its gate sign states, derived
+   * from the same statuses so the sign can never disagree with the
+   * scaffold: cert/total is exactly 1 - frac, before rounding.
    * Cranes are district equipment, assigned in the exporter so the
    * rule lives in exactly one place: in each district with at least
    * three fully-pipeline buildings, the tallest such building (ties:
@@ -2854,6 +2858,9 @@ function main() {
   for (const v of vendors) {
     const pending = v.offerings.filter((o) => o.authorization_status !== 'FedRAMP Certified').length;
     v.construction = { frac: r3(pending / v.offerings.length), crane: false };
+    if (pending > 0) {
+      v.construction.sign = { cert: v.offerings.length - pending, total: v.offerings.length };
+    }
   }
   const pipelineByDistrict = new Map();
   for (const v of vendors) {

@@ -31200,7 +31200,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1512.818,
@@ -31352,7 +31356,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1469.405,
@@ -31440,7 +31448,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -510.965,
@@ -32207,7 +32219,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 488.94,
@@ -32718,7 +32734,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 2
+    }
    },
    "position": {
     "x": 1247.125,
@@ -32798,7 +32818,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 420.425,
@@ -33188,7 +33212,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": -924.059,
@@ -33264,7 +33292,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 460.925,
@@ -33328,7 +33360,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 446.181,
@@ -33977,7 +34013,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -263.955,
@@ -34049,7 +34089,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -264.157,
@@ -34113,7 +34157,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -280.399,
@@ -34774,7 +34822,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -519.118,
@@ -34842,7 +34894,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 942.346,
@@ -34906,7 +34962,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1085.838,
@@ -35378,7 +35438,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -417.847,
@@ -35657,7 +35721,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 668.95,
@@ -35725,7 +35793,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1138.921,
@@ -36405,7 +36477,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": -552.154,
@@ -36813,7 +36889,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -309.519,
@@ -36877,7 +36957,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -282.472,
@@ -37009,7 +37093,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1817.338,
@@ -37372,7 +37460,11 @@
    ],
    "construction": {
     "frac": 0.667,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 3
+    }
    },
    "position": {
     "x": 1839.755,
@@ -37508,7 +37600,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 118.494,
@@ -37588,7 +37684,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -966.536,
@@ -37803,7 +37903,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 449.913,
@@ -38118,7 +38222,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1236.59,
@@ -38533,7 +38641,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 2
+    }
    },
    "position": {
     "x": 1824.677,
@@ -38661,7 +38773,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 445.805,
@@ -38801,7 +38917,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -392.674,
@@ -38865,7 +38985,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1487.962,
@@ -38929,7 +39053,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -251.867,
@@ -39095,7 +39223,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 722.503,
@@ -39432,7 +39564,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1510.649,
@@ -40660,7 +40796,11 @@
    ],
    "construction": {
     "frac": 0.167,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 5,
+     "total": 6
+    }
    },
    "position": {
     "x": 1790.952,
@@ -40891,7 +41031,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -60.127,
@@ -41107,7 +41251,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1250.218,
@@ -41166,7 +41314,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -456.343,
@@ -41250,7 +41402,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 726.104,
@@ -41334,7 +41490,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1833.878,
@@ -41465,7 +41625,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1234.635,
@@ -41692,7 +41856,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -863.26,
@@ -41751,7 +41919,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1291.018,
@@ -41895,7 +42067,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -395.356,
@@ -42257,7 +42433,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 1806.116,
@@ -42380,7 +42560,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -223.469,
@@ -42439,7 +42623,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 644.329,
@@ -42658,7 +42846,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1214.555,
@@ -42814,7 +43006,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -383.027,
@@ -43325,7 +43521,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 473.307,
@@ -43401,7 +43601,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 743.897,
@@ -43536,7 +43740,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1413.882,
@@ -44189,7 +44397,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1557.254,
@@ -44329,7 +44541,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -799.354,
@@ -44405,7 +44621,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -443.16,
@@ -44880,7 +45100,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -378.063,
@@ -45048,7 +45272,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 637.428,
@@ -45199,7 +45427,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -454.331,
@@ -45433,7 +45665,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 152.867,
@@ -45517,7 +45753,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 167.828,
@@ -45593,7 +45833,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1776.254,
@@ -45804,7 +46048,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1246.737,
@@ -46095,7 +46343,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1263.83,
@@ -46159,7 +46411,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1281.255,
@@ -46855,7 +47111,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -236.13,
@@ -47229,7 +47489,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 1648.527,
@@ -47481,7 +47745,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -475.882,
@@ -47936,7 +48204,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1450.208,
@@ -48000,7 +48272,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -784.7,
@@ -48523,7 +48799,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1228.928,
@@ -48962,7 +49242,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 617.141,
@@ -49034,7 +49318,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1042.865,
@@ -49309,7 +49597,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -513.03,
@@ -49521,7 +49813,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1073.125,
@@ -49605,7 +49901,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -713.725,
@@ -50217,7 +50517,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1772.319,
@@ -50276,7 +50580,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 666.101,
@@ -50335,7 +50643,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -187.752,
@@ -50700,7 +51012,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1742.375,
@@ -50848,7 +51164,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 539.663,
@@ -51266,7 +51586,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -207.604,
@@ -51325,7 +51649,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 567.636,
@@ -51609,7 +51937,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -608.672,
@@ -51869,7 +52201,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -330.647,
@@ -51945,7 +52281,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -468.097,
@@ -52176,7 +52516,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1765.581,
@@ -52264,7 +52608,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1095.172,
@@ -52518,7 +52866,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1481.065,
@@ -53540,7 +53892,11 @@
    ],
    "construction": {
     "frac": 0.1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 9,
+     "total": 10
+    }
    },
    "position": {
     "x": 1774.113,
@@ -53728,7 +54084,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -609.681,
@@ -54066,7 +54426,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 954.539,
@@ -54130,7 +54494,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 581.751,
@@ -54189,7 +54557,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1788.046,
@@ -54321,7 +54693,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -624.108,
@@ -54959,7 +55335,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 852.641,
@@ -55103,7 +55483,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 670.651,
@@ -55162,7 +55546,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 597.557,
@@ -55439,7 +55827,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -592.271,
@@ -55503,7 +55895,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1313.89,
@@ -55575,7 +55971,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 639.67,
@@ -56020,7 +56420,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 538.871,
@@ -56188,7 +56592,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1302.845,
@@ -56416,7 +56824,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 676.606,
@@ -56544,7 +56956,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 1203.412,
@@ -56756,7 +57172,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 1805.455,
@@ -56896,7 +57316,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 1184.031,
@@ -57251,7 +57675,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1798.006,
@@ -57666,7 +58094,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 642.052,
@@ -58029,7 +58461,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 458.658,
@@ -58121,7 +58557,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 434.826,
@@ -58185,7 +58625,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -889.572,
@@ -58261,7 +58705,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 694.578,
@@ -58320,7 +58768,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -260.398,
@@ -58922,7 +59374,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -344.436,
@@ -58981,7 +59437,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -882.997,
@@ -59040,7 +59500,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1801.397,
@@ -60022,7 +60486,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 19.37,
@@ -60437,7 +60905,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -238.367,
@@ -60651,7 +61123,11 @@
    ],
    "construction": {
     "frac": 0.2,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 4,
+     "total": 5
+    }
    },
    "position": {
     "x": 717.431,
@@ -60863,7 +61339,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1826.399,
@@ -61158,7 +61638,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 275.744,
@@ -61753,7 +62237,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 653.391,
@@ -61812,7 +62300,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1855.613,
@@ -61871,7 +62363,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 970.061,
@@ -62145,7 +62641,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1862.664,
@@ -62441,7 +62941,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1895.332,
@@ -62572,7 +63076,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 726.421,
@@ -62640,7 +63148,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1295.799,
@@ -62916,7 +63428,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 1161.246,
@@ -63011,7 +63527,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": -476.527,
@@ -63227,7 +63747,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 407.15,
@@ -63319,7 +63843,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 423.752,
@@ -63538,7 +64066,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -191.602,
@@ -63606,7 +64138,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 679.932,
@@ -64325,7 +64861,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -223.791,
@@ -64456,7 +64996,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1509.261,
@@ -64725,7 +65269,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1296.595,
@@ -64797,7 +65345,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1171.934,
@@ -65154,7 +65706,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 176.769,
@@ -66199,7 +66755,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": -724.573,
@@ -66258,7 +66818,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -229.18,
@@ -66334,7 +66898,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 570.635,
@@ -66393,7 +66961,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1264.808,
@@ -66465,7 +67037,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 10.93,
@@ -66816,7 +67392,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 5.642,
@@ -67256,7 +67836,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 607.749,
@@ -67315,7 +67899,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -259.191,
@@ -67383,7 +67971,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -282.495,
@@ -67510,7 +68102,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1516.498,
@@ -67642,7 +68238,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -299.542,
@@ -67990,7 +68590,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -325.899,
@@ -68277,7 +68881,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -220.936,
@@ -68476,7 +69084,11 @@
    ],
    "construction": {
     "frac": 0.333,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 2,
+     "total": 3
+    }
    },
    "position": {
     "x": -758.184,
@@ -68736,7 +69348,11 @@
    ],
    "construction": {
     "frac": 0.25,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 3,
+     "total": 4
+    }
    },
    "position": {
     "x": 1560.701,
@@ -68795,7 +69411,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -765.39,
@@ -68887,7 +69507,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -50.766,
@@ -69042,7 +69666,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 319.14,
@@ -69652,7 +70280,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 666.405,
@@ -70255,7 +70887,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -945.358,
@@ -70339,7 +70975,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -378.288,
@@ -70466,7 +71106,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1539.498,
@@ -70745,7 +71389,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1244.918,
@@ -70885,7 +71533,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -331.831,
@@ -71193,7 +71845,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -384.119,
@@ -71340,7 +71996,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -331.246,
@@ -71748,7 +72408,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1882.964,
@@ -71910,7 +72574,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 2
+    }
    },
    "position": {
     "x": -1060.627,
@@ -72014,7 +72682,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": -396.282,
@@ -72078,7 +72750,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 617.147,
@@ -72893,7 +73569,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1224.745,
@@ -72961,7 +73641,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -592.295,
@@ -73049,7 +73733,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 547.886,
@@ -73121,7 +73809,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1004.466,
@@ -73257,7 +73949,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 761.864,
@@ -73434,7 +74130,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1907.847,
@@ -73573,7 +74273,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 717.705,
@@ -73632,7 +74336,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 740.424,
@@ -73712,7 +74420,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 650.211,
@@ -73868,7 +74580,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 537.029,
@@ -73927,7 +74643,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -362.463,
@@ -74175,7 +74895,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 642.28,
@@ -74418,7 +75142,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 727.453,
@@ -74883,7 +75611,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1186.612,
@@ -75136,7 +75868,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": true
+    "crane": true,
+    "sign": {
+     "cert": 0,
+     "total": 2
+    }
    },
    "position": {
     "x": -343.785,
@@ -75805,7 +76541,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1881.078,
@@ -75881,7 +76621,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 488.829,
@@ -75945,7 +76689,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -357.862,
@@ -76009,7 +76757,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 710.126,
@@ -76152,7 +76904,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1571.557,
@@ -76220,7 +76976,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -367.145,
@@ -76279,7 +77039,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 707.908,
@@ -76743,7 +77507,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1193.253,
@@ -77066,7 +77834,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 677.547,
@@ -77125,7 +77897,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1903.754,
@@ -77184,7 +77960,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 388.578,
@@ -77328,7 +78108,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 72.554,
@@ -77719,7 +78503,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1891.174,
@@ -77791,7 +78579,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1191.325,
@@ -77927,7 +78719,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 617.292,
@@ -78046,7 +78842,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 2
+    }
    },
    "position": {
     "x": -1086.587,
@@ -78105,7 +78905,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -338.478,
@@ -78296,7 +79100,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 705.458,
@@ -78568,7 +79376,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1159.553,
@@ -78891,7 +79703,11 @@
    ],
    "construction": {
     "frac": 0.333,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 2,
+     "total": 3
+    }
    },
    "position": {
     "x": -947.065,
@@ -78959,7 +79775,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -64.352,
@@ -79166,7 +79986,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -714.581,
@@ -79293,7 +80117,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1175.448,
@@ -79851,7 +80679,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 299.662,
@@ -79919,7 +80751,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1152.858,
@@ -80690,7 +81526,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1851.565,
@@ -80778,7 +81618,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 41.628,
@@ -81535,7 +82379,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 264.851,
@@ -81623,7 +82471,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 270.247,
@@ -82003,7 +82855,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -30.572,
@@ -82075,7 +82931,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 222.205,
@@ -82134,7 +82994,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -476.301,
@@ -82193,7 +83057,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -1561.537,
@@ -82397,7 +83265,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -426.809,
@@ -82562,7 +83434,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": -382.409,
@@ -82634,7 +83510,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1002.338,
@@ -82733,7 +83613,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 610.238,
@@ -83200,7 +84084,11 @@
    ],
    "construction": {
     "frac": 0.5,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 1,
+     "total": 2
+    }
    },
    "position": {
     "x": 604.319,
@@ -83480,7 +84368,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1212.573,
@@ -83560,7 +84452,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 570.246,
@@ -83683,7 +84579,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 653.747,
@@ -83970,7 +84870,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 220.611,
@@ -84058,7 +84962,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 586.519,
@@ -84202,7 +85110,11 @@
    ],
    "construction": {
     "frac": 1,
-    "crane": false
+    "crane": false,
+    "sign": {
+     "cert": 0,
+     "total": 1
+    }
    },
    "position": {
     "x": 1821.145,

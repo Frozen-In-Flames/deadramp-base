@@ -52,6 +52,13 @@ function serve() {
     args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--autoplay-policy=no-user-gesture-required'],
   });
   const results = {};
+  /* Baseline for the draw-call growth check: the previous committed
+   * run's results file, read before this run overwrites it. */
+  let prevDrawCalls = null;
+  try {
+    const prev = JSON.parse(fs.readFileSync(path.join(__dirname, 'results.json'), 'utf8'));
+    if (prev.stats && typeof prev.stats.drawCalls === 'number') prevDrawCalls = prev.stats.drawCalls;
+  } catch (e) { /* no baseline on a first run */ }
   try {
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
@@ -135,6 +142,79 @@ function serve() {
     results.overviewPixels = opx;
     check('overview frame is not blank (non-background fraction above 0.10)', opx.nonBgFraction > 0.10, `nonBg=${opx.nonBgFraction.toFixed(3)}`);
     await page.screenshot({ path: path.join(__dirname, 'overview.png') });
+
+    /* ============ per-building status signs + plain-words cards ============
+     * Nov 16, 2026, the owner's ruling: buildings under construction
+     * stay, and each one gets a sign stating its own state, because
+     * they are at various levels of being done. The page reports its
+     * sign records through the hook; every record is compared here
+     * against a recomputation from the catalog's own offering
+     * statuses, the atlas is checked against the distinct count
+     * lines, and the record cards are opened and read for the
+     * plain-words status line, present exactly once each. */
+    const signData = await page.evaluate('window.__BASE__.constructionSigns()');
+    results.signs = { count: signData.signs.length, gateBoards: signData.gateBoards, atlas: signData.atlas };
+    const fracVendors = catalog.vendors.filter((v) => v.construction && v.construction.frac > 0);
+    check('signs: one status sign per construction vendor (228)',
+      signData.signs.length === fracVendors.length && fracVendors.length === 228,
+      `page=${signData.signs.length} catalog=${fracVendors.length}`);
+    check('signs: gate boards equal the construction buildings (the lot carries its own plaque)',
+      signData.gateBoards === catalog.vendors.filter((v) => v.kind === 'building' && v.construction.frac > 0).length,
+      `boards=${signData.gateBoards}`);
+    let signMatch = true;
+    for (const s of signData.signs) {
+      const v = catalog.vendors.find((x) => x.name === s.vendor);
+      if (!v || !v.construction.sign) { signMatch = false; break; }
+      const cert = v.offerings.filter((o) => o.authorization_status === 'FedRAMP Certified').length;
+      if (s.cert !== cert || s.total !== v.offerings.length
+        || s.cert !== v.construction.sign.cert || s.total !== v.construction.sign.total
+        || s.lines[2] !== `${cert} of ${v.offerings.length} offerings authorized`) signMatch = false;
+    }
+    check('signs: every sign cert/total and count line matches the catalog recomputation', signMatch);
+    const cog = signData.signs.find((s) => s.vendor === 'Cognition USG, Inc.');
+    check('signs: a fully pending building reads 0 of 1 (Cognition USG, Inc.)',
+      !!cog && JSON.stringify(cog.lines) === JSON.stringify(['UNDER CONSTRUCTION', 'Authorization in process', '0 of 1 offerings authorized']),
+      cog ? cog.lines.join(' / ') : 'missing');
+    const ciscoS = signData.signs.find((s) => s.vendor === 'Cisco Systems Inc.');
+    check('signs: a mixed building reads its partial count (Cisco Systems Inc., 5 of 6)',
+      !!ciscoS && ciscoS.lines[2] === '5 of 6 offerings authorized', ciscoS ? ciscoS.lines[2] : 'missing');
+    const lotS = signData.signs.find((s) => s.kind === 'lot');
+    check('signs: the surveyed lot reads as unclassified in the record',
+      !!lotS && JSON.stringify(lotS.lines) === JSON.stringify(['SURVEYED LOT', 'Unclassified in the record', '0 of 1 offerings authorized']),
+      lotS ? lotS.lines.join(' / ') : 'missing');
+    const pairSet = new Set(fracVendors.map((v) => `${v.construction.sign.cert}/${v.construction.sign.total}`));
+    check('signs: the atlas holds one slot per distinct count line, at full sign resolution',
+      !!signData.atlas && signData.atlas.slots === pairSet.size
+      && signData.atlas.w === signData.atlas.cols * 1024 && signData.atlas.h === signData.atlas.rows * 256,
+      signData.atlas ? `${signData.atlas.slots} slots, atlas ${signData.atlas.w}x${signData.atlas.h}` : 'no atlas');
+    check('signs: spawn draw calls grew by at most one over the previous committed run',
+      prevDrawCalls === null || stats.drawCalls <= prevDrawCalls + 1,
+      `before=${prevDrawCalls} after=${stats.drawCalls}`);
+    const legend = await page.evaluate('window.__BASE__.kioskLegend()');
+    results.kioskLegend = legend;
+    check('kiosk legend: three entries in the shared vocabulary',
+      Array.isArray(legend) && legend.length === 3
+      && /FedRAMP authorized/.test(legend[0]) && /Authorization in process/.test(legend[1]) && /Unclassified in the record/.test(legend[2]),
+      Array.isArray(legend) ? legend.join(' | ') : 'no hook');
+    const cardLineOf = async (name) => {
+      await page.evaluate(`window.__BASE__.openCard(${JSON.stringify(name)})`);
+      const t = await page.evaluate('window.__BASE__.cardText()');
+      await page.click('#cardClose');
+      return t;
+    };
+    const lineCount = (t, line) => (t ? t.split(line).length - 1 : 0);
+    const ciscoCard = await cardLineOf('Cisco Systems Inc.');
+    check('card: a mixed building states its counts in plain words, exactly once',
+      lineCount(ciscoCard, 'Authorization in process, 5 of 6 offerings authorized') === 1,
+      ciscoCard ? ciscoCard.slice(0, 110) + '…' : 'no card');
+    const certVendor = catalog.vendors.find((v) => v.kind === 'building' && v.statusClass === 'certified');
+    const certCard = await cardLineOf(certVendor.name);
+    const certLine = `FedRAMP authorized, ${certVendor.offerings.length} of ${certVendor.offerings.length} offerings authorized`;
+    check('card: a certified building states authorized in full, exactly once',
+      lineCount(certCard, certLine) === 1, `${certVendor.name}: ${certLine}`);
+    const lotCard = await cardLineOf(lotS.vendor);
+    check('card: the unclassified vendor reads Unclassified in the record, exactly once',
+      lineCount(lotCard, 'Unclassified in the record') === 1, lotS.vendor);
 
     /* ================= Phase 2: interiors ================= */
     const DEADRAMP = path.join(process.env.HOME, 'workspace', 'deadramp');

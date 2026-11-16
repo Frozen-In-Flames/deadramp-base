@@ -155,6 +155,9 @@ async function standAtExit(page) {
       check('desktop: input class detected as keyboard', h.isTouch === false, JSON.stringify(h.signals));
       check('desktop: help visible on arrival', h.visible === true);
       check('desktop: help carries the keyboard copy', /WASD/.test(h.text) && /press/.test(h.text) && /E/.test(h.text), h.text.slice(0, 60) + '…');
+      check('desktop: outdoor help states the construction legend verbatim',
+        h.text.includes('Finished buildings are FedRAMP authorized. Scaffolded buildings are still in the authorization process.'),
+        h.text.slice(-90));
       await sleep(DWELL_WAIT);
       h = await helpOpacity(page, (o) => o < 0.05);
       check('desktop: help faded after the dwell', h.faded === true && h.opacity < 0.05, `opacity=${h.opacity}`);
@@ -195,6 +198,9 @@ async function standAtExit(page) {
       check('touch: input class detected as touch', h.isTouch === true, JSON.stringify(h.signals));
       check('touch: help visible on arrival', h.visible === true);
       check('touch: help speaks tap language', /Tap/.test(h.text) && /thumb stick/.test(h.text), h.text.slice(0, 60) + '…');
+      check('touch: outdoor help states the construction legend verbatim',
+        h.text.includes('Finished buildings are FedRAMP authorized. Scaffolded buildings are still in the authorization process.'),
+        h.text.slice(-90));
       check('touch: help names no keyboard control',
         !/WASD|Shift|mouse|press/i.test(h.text) && !/\bE\b/.test(h.text.replace('EXIT', '').replace('Everything', '')),
         h.text.slice(0, 80) + '…');
