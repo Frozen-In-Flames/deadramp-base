@@ -39,16 +39,19 @@ it is not the brand product.
 | 0 | Catalog exporter (registry to base-catalog.json) with fidelity tests | Implemented, verified |
 | 1 | Spiral city exterior: districts, buildings, labels, picking, walking | Implemented, verified |
 | 2 | Interiors: lobby and service rooms, in-room panels from real build data | Implemented, verified |
-| 3 | WebXR: Quest Browser VR, controller locomotion, comfort settings | Planned, not built |
-| 4 | Full archetype coverage, merge skybridges, platform deck, construction states | Planned, not built |
+| 3 | WebXR: Quest Browser VR, controller locomotion, comfort settings | Implemented, released in v0.3.0 |
+| 4 | Full archetype coverage, merge skybridges, platform deck, construction states | Implemented, released in v0.4.0 |
 | 5 | Guided tours, multiplayer walkthroughs (WebRTC) | Planned, optional |
 
 Stated plainly, so the twin never overstates the repo: the platform
-layer deck is a Phase 4 item. The registry itself carries no platform
-field (the re-scoped platform entries are build-side state in the
-DeadRamp repo), so Phase 1 renders exactly what the registry holds.
-The full 674-vendor brand research pass is likewise a later, unhurried
-phase; see Brand palettes below for the current seeding state.
+layer deck is a Phase 4 item and shipped in v0.4.0. The registry itself
+carries no platform field (the re-scoped platform entries are build-side
+state in the DeadRamp repo), so Phase 1 renders exactly what the
+registry holds. The brand research pass is complete as of v0.4.0: 600 of
+674 vendors researched from citable public sources, with 74 held at the
+neutral federal finish on the record. Per-phase verification for
+Phases 3 and 4 is recorded in release-notes-v0.3.0.md,
+release-notes-v0.4.0.md, and release-notes-v0.5.0.md.
 
 ## Interiors (Phase 2)
 
