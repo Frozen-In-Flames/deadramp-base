@@ -1,0 +1,22 @@
+name: CI
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check out deadramp (the exporter test reads its registry)
+        run: |
+          mkdir -p "$HOME/workspace"
+          git clone -q --depth 1 https://github.com/Frozen-In-Flames/deadramp.git "$HOME/workspace/deadramp"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Catalog still exports (fidelity test against the registry)
+        run: node tools/test-export.js
+      - name: Static app loads (catalog parses, assets exist)
+        run: node tools/ci-static-check.js
