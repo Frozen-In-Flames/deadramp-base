@@ -14,7 +14,9 @@ function check(name, cond, detail) {
 }
 const cat = JSON.parse(fs.readFileSync(path.join(REPO, 'data', 'base-catalog.json'), 'utf8'));
 check('catalog parses and states its offering count', Number.isInteger(cat.meta.offerings), `offerings=${cat.meta.offerings}`);
-check('catalog offerings array matches stated count', Array.isArray(cat.offerings) && cat.offerings.length === cat.meta.offerings);
+check('catalog vendors array matches stated count', Array.isArray(cat.vendors) && cat.vendors.length === cat.meta.vendors, `vendors=${(cat.vendors || []).length}`);
+check('catalog districts array matches stated count', Array.isArray(cat.districts) && cat.districts.length === cat.meta.districts, `districts=${(cat.districts || []).length}`);
+check('catalog rooms equal stated offerings', cat.meta.rooms === cat.meta.offerings);
 const html = fs.readFileSync(path.join(REPO, 'index.html'), 'utf8');
 check('index.html references the application script', html.includes('./js/main.js'));
 for (const m of html.matchAll(/(?:src|href)="\.\/([^"]+)"/g)) {
