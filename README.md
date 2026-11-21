@@ -238,6 +238,25 @@ field).
   rendered and pixel-checked during the run, with the per-room
   fractions recorded in verify/results.json, phase2).
 
+## NIST conformance
+
+The Base is developed under the secure development practices of NIST
+SP 800-218, and its control posture is recorded in a tailored
+SP 800-53 control matrix at [docs/NIST-CONFORMANCE.md](docs/NIST-CONFORMANCE.md):
+the Low baseline, assessed control by control against the concrete
+facts of a static, client-side-only application with no server, no
+accounts, and no data collection. The matrix states which controls the
+build satisfies, which are inherited from the hosting platform, which
+are partially satisfied, and which do not apply, with the evidence for
+each, and it names the controls the present hosting arrangement cannot
+satisfy (custom security headers among them) together with the hosting
+change that would satisfy them. One of its controls is implemented in
+the application itself: every executable bundle file is verified
+against the SHA-256 hash recorded for it in the catalog before it is
+permitted to run, and a mismatch refuses the launch. DeadRamp Base is
+not a federal information system and claims no FedRAMP authorization;
+the matrix says so, in terms, in its own statement of status.
+
 ## Layout
 
 The layout mathematics (spiral law, constants, placement rules,

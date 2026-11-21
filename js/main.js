@@ -2398,7 +2398,7 @@ const PYODIDE_BASE = window.__BASE_PYODIDE_BASE__ || 'vendor/pyodide/';
 const term = {
   open: false, rr: null, session: null, transcript: [],
   pyodide: null, pyLoading: null, driverSrc: null,
-  staged: new Set(), recordedCache: new Map(),
+  staged: new Set(), recordedCache: new Map(), integrity: new Map(),
   xrRow: 0, xrMenu: [],
 };
 const HTTP_VERBS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
@@ -2487,15 +2487,41 @@ function drvCall(py, fn, args) {
   py.globals.set('__a', JSON.stringify(args));
   return JSON.parse(py.runPython('import json as _j; ' + fn + '(*_j.loads(__a))'));
 }
+async function sha256Hex(buf) {
+  const digest = await crypto.subtle.digest('SHA-256', buf);
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+/* Load-time integrity verification: the catalog records a SHA-256
+ * for every bundle file at export time, so before any of a build's
+ * code is staged for execution, each file is fetched as bytes and
+ * its hash compared against that record. A mismatch throws, the
+ * live launch is refused, and the caller falls back to the
+ * recorded surface with the failure stated in the transcript: a
+ * build whose served bytes differ from its catalogued bytes does
+ * not run. Where SubtleCrypto is unavailable (it is exposed only
+ * in secure contexts), the bundle loads without the check and the
+ * session states that verification was unavailable, rather than
+ * claiming a check that did not run. The verified bytes themselves
+ * are what get written into the runtime, so the code that executes
+ * is exactly the code that was hashed. */
 async function stageBundle(py, build) {
   const g = build.groupDir, bundle = build.launch.bundle;
   if (term.staged.has(g)) return;
+  const canVerify = !!(window.crypto && crypto.subtle && crypto.subtle.digest);
+  let checked = 0;
   for (const f of bundle.files) {
-    const text = await (await fetch(`launch/bundles/${g}/${f.path}`)).text();
+    const buf = await (await fetch(`launch/bundles/${g}/${f.path}`)).arrayBuffer();
+    if (canVerify) {
+      if (await sha256Hex(buf) !== f.sha256) {
+        throw new Error(`Integrity check failed: ${f.path} does not match the SHA-256 recorded in the catalog; this build will not run live`);
+      }
+      checked++;
+    }
     const target = `/bundles/${g}/${f.path}`;
     py.FS.mkdirTree(target.slice(0, target.lastIndexOf('/')));
-    py.FS.writeFile(target, text);
+    py.FS.writeFile(target, new Uint8Array(buf));
   }
+  term.integrity.set(g, { checked, unavailable: !canVerify });
   term.staged.add(g);
 }
 async function startLiveSession(rr) {
@@ -2530,6 +2556,12 @@ function printSessionIntro(session) {
   const o = term.rr.room.offering, build = term.rr.build, g = build.groupDir;
   if (session.mode === 'live') {
     termPrint(`Launched groups/${g} through its own make_server: handler ${session.handler}, store ${session.store}.`, 'ok');
+    const integ = term.integrity.get(g);
+    if (integ && integ.unavailable) {
+      termPrint('Load-time integrity verification is unavailable in this browser (SubtleCrypto is exposed only in secure contexts); this bundle was loaded without a hash check.', 'warn');
+    } else if (integ) {
+      termPrint(`Load-time integrity verification: ${integ.checked} bundle files match the SHA-256 hashes recorded in the catalog.`, 'ok');
+    }
     termPrint('Its routing, auth, store, and audit code are executing for real; state is held for your visit.');
   } else {
     const d = build.launch.recorded.fromDrive, t = build.launch.recorded.fromTests;

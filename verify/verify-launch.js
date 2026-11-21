@@ -24,6 +24,12 @@
  *   the live launch must still complete from the runtime vendored
  *   in the repo, because a visitor's phone owes the old CDN
  *   nothing.
+ *   INTEGRITY: a fourth session serves one bundle file with its
+ *   bytes altered after catalog generation. The catalog records a
+ *   SHA-256 for every bundle file; the load-time check must
+ *   refuse the live launch, fall back to the recorded surface,
+ *   and state the integrity failure in the transcript, while the
+ *   untampered LIVE session above states that its files verified.
  *   BUDGET: no bundle or runtime bytes move before the first launch
  *   (boot weight), and draw calls stay at the shipped counts.
  *
@@ -136,6 +142,9 @@ function serve() {
     check('live: Pyodide runtime loaded lazily for the launch', t.pyodideLoaded === true);
     check('live: acting as a demo user from the build\u2019s own source',
       !!t.user && t.transcript.some((l) => l.includes(`You are ${t.user}`)), `user=${t.user}`);
+    check('integrity: the live session states its bundle files verified against the catalogued SHA-256 record',
+      t.transcript.some((l) => l.includes(`Load-time integrity verification: ${aiBuild.launch.bundle.files.length} bundle files match the SHA-256 hashes recorded in the catalog`)),
+      t.transcript.filter((l) => l.includes('integrity')).join(' | ').slice(0, 160));
 
     let lines = await page.evaluate(`window.__BASE__.termRun('GET /health')`);
     check('live: GET /health is answered by the build itself (200, its own body)',
@@ -269,6 +278,54 @@ function serve() {
       lines.slice(-3).join(' | ').slice(0, 160));
     check('vendored: zero JS errors through the blocked-CDN session', errors3.length === 0, errors3.slice(0, 2).join(' | '));
     await page3.close();
+
+    /* ---------- INTEGRITY session (one bundle file tampered) ----------
+     * The catalog's bundle manifest carries the SHA-256 of every
+     * file recorded at export time. Serve the first ai-l2 bundle
+     * file with bytes altered after catalog generation: the
+     * load-time check must refuse the live launch, the session
+     * must fall back to the recorded surface, and the transcript
+     * must state the integrity failure, naming the file. The
+     * recorded surface must still answer from its recordings. */
+    const page4 = await browser.newPage();
+    await page4.setViewport({ width: 1280, height: 800 });
+    const errors4 = [];
+    page4.on('pageerror', (e) => errors4.push('pageerror: ' + String(e)));
+    page4.on('console', (m) => { if (m.type() === 'error') errors4.push('console: ' + m.text()); });
+    const targetFile = aiBuild.launch.bundle.files[0];
+    const targetUrlPart = `launch/bundles/ai-l2/${targetFile.path}`;
+    let tamperedServed = 0;
+    await page4.setRequestInterception(true);
+    page4.on('request', (req) => {
+      if (req.url().includes(targetUrlPart)) {
+        tamperedServed++;
+        const real = fs.readFileSync(path.join(REPO, targetUrlPart));
+        req.respond({ status: 200, contentType: 'text/plain',
+          body: Buffer.concat([real, Buffer.from('\n# altered after catalog generation\n')]) });
+      } else req.continue();
+    });
+    await page4.goto(`http://127.0.0.1:${PORT}/`, { waitUntil: 'load', timeout: 120000 });
+    await page4.waitForFunction('window.__BASE_READY__ === true', { timeout: 120000 });
+    await page4.evaluate(`window.__BASE__.enterBuilding(${JSON.stringify(vendor.name)})`);
+    await sleep(500);
+    const opened4 = await page4.evaluate(`window.__BASE__.openTerminalFor(${JSON.stringify(product)})`);
+    check('integrity: the terminal opens with a tampered bundle file served', opened4 === true);
+    await sleep(300);
+    t = await page4.evaluate('window.__BASE__.terminal()');
+    results.integrity = { tamperedServed, sessionMode: t.sessionMode, fallback: t.fallback };
+    check('integrity: the tampered bytes were actually served', tamperedServed >= 1, `served=${tamperedServed}`);
+    check('integrity: the live launch is refused and the session falls back to the recorded surface',
+      t.sessionMode === 'recorded' && t.fallback === true,
+      `session=${t.sessionMode} fallback=${t.fallback}`);
+    check('integrity: the failure is stated plainly in the transcript, naming the file',
+      t.transcript.some((l) => l.includes('Integrity check failed') && l.includes(targetFile.path)),
+      t.transcript.filter((l) => l.includes('Integrity')).join(' | ').slice(0, 220));
+    lines = await page4.evaluate(`window.__BASE__.termRun('GET /health')`);
+    check('integrity: the recorded surface still answers after the refusal',
+      lines.some((l) => l.startsWith('← 200')) && lines.some((l) => l.includes('"status": "ok"')),
+      lines.slice(-3).join(' | ').slice(0, 160));
+    check('integrity: zero JS errors through the tampered session', errors4.length === 0, errors4.slice(0, 2).join(' | '));
+    await page4.close();
   } finally {
     await browser.close();
     srv.close();
